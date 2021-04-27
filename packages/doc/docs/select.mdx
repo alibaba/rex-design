@@ -1,0 +1,49 @@
+---
+id: select
+title: Select 选择器
+---
+
+import { SingleSelect, MultiSelect, Select } from '@rexd/core';
+import * as stories from 'story/src/select/select.stories';
+
+## 使用场景
+
+代替原生 select 元素。
+
+### 使用说明
+
+- 单选： `<Select multiple={false} />` 或 `<SingleSelect />`
+- 多选： `<Select multiple={true} />` 或 `<MultiSelect />`
+- 在 TypeScript 项目中推荐使用 SingleSelect/MultiSelect，value 的类型更加明确
+
+## 示例
+
+### 基本示例
+
+<Story fn={stories.Basic} />
+
+### 轻量选择
+
+<Story fn={stories.Minimum} />
+
+### 搜索
+
+<Story fn={stories.Search} />
+
+### 大数据量
+
+<Story fn={stories.BigData} />
+
+### 错误状态
+
+<Story fn={stories.Status} />
+
+### 多选
+
+<Story fn={stories.Multiple} />
+
+## API
+
+`SingleSelect` 与 `MultiSelect` 的区别仅在于 `value` 的类型不同（`defaultValue`, `onChange` 的类型也有相应的区别），其他 props 都相同。
+
+<PropsTable component={Select} />

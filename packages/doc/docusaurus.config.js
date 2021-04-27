@@ -1,0 +1,95 @@
+const path = require('path');
+const corePkg = require('../core/package.json');
+
+module.exports = {
+  title: 'rex-design',
+  tagline: 'rex-design',
+  url: 'https://github.com/rex-design/rex-design',
+  baseUrl: '/',
+  onBrokenLinks: 'warn',
+  favicon: 'img/favicon.png',
+  organizationName: 'rex-design',
+  projectName: 'rex-design',
+
+  themeConfig: {
+    prism: {
+      theme: require('prism-react-renderer/themes/vsLight'),
+      darkTheme: require('prism-react-renderer/themes/vsDark'),
+    },
+    navbar: {
+      logo: {
+        alt: 'rex design Logo',
+        src: 'https://img.alicdn.com/imgextra/i4/O1CN01iZY8c61ixQeIcbbCE_!!6000000004479-55-tps-244-21.svg',
+      },
+      hideOnScroll: true,
+      items: [
+        { to: 'docs', activeBasePath: 'docs', label: '组件', position: 'left' },
+        { to: 'design', activeBasePath: 'design', label: '设计', position: 'left' },
+        { to: 'blog', label: '博客', position: 'left' },
+        { href: 'https://github.com/rex-design/rex-design', label: 'GitHub', position: 'right' },
+      ],
+    },
+    footer: {
+      style: 'dark',
+      links: [
+        {
+          title: '文档',
+          items: [{ label: '更新日志', to: 'docs/changelog' }],
+        },
+        {
+          title: '更多',
+          items: [
+            { label: 'Blog', to: 'blog' },
+            { label: 'docusaurus', href: 'https://github.com/facebook/docusaurus' },
+          ],
+        },
+      ],
+      copyright: `Copyright © ${new Date().getFullYear()} Alibaba Inc. Built with ❤️ by hema-FE.`,
+    },
+
+    // algolia: {
+    //   // todo 等开源发布后替换 algolia apiKey
+    //   apiKey: '10375f97d074db729b52cd376905287c',
+    //   indexName: 'ali-react-table',
+    // },
+  },
+
+  presets: [
+    [
+      '@docusaurus/preset-classic',
+      {
+        docs: {
+          sidebarPath: require.resolve('./sidebars.js'),
+          editUrl: 'https://github.com/rex-design/rex-design/edit/main/packages/docs/',
+        },
+        blog: {
+          showReadingTime: true,
+        },
+        theme: {
+          customCss: [require.resolve('./src/css/custom.scss')],
+        },
+      },
+    ],
+  ],
+  themes: ['@docusaurus/theme-live-codeblock'],
+  plugins: [
+    require.resolve('./tools/configureWebpack.js'),
+    [
+      require.resolve('./tools/components-source-location.js'),
+      {
+        srcDir: path.join(__dirname, '../core/src'),
+      },
+    ],
+    'docusaurus-plugin-sass',
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'design-docs',
+        path: 'design-docs',
+        routeBasePath: 'design',
+        // editUrl: 'https://github.com/alibaba/ali-react-table/edit/master/packages/website/',
+        sidebarPath: require.resolve('./design-sidebars.js'),
+      },
+    ],
+  ],
+};

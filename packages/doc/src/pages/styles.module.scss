@@ -1,0 +1,351 @@
+$max-section-width: 1332px;
+
+@mixin small {
+  @media (max-width: 1000px) {
+    @content;
+  }
+}
+
+@mixin large {
+  @media (min-width: 1440px) {
+    @content;
+  }
+}
+
+@mixin titleBase {
+  word-break: keep-all;
+  color: var(--rex-colors-text-body);
+  font-weight: 500;
+  margin-bottom: 0.45em;
+}
+
+@mixin subtitleFont {
+  @include titleBase;
+  font-size: 42px;
+
+  @include small {
+    font-size: 24px;
+  }
+}
+
+@mixin bodyFont {
+  color: var(--rex-colors-emphasis-70);
+  font-size: 14px;
+  line-height: 1.714;
+}
+
+@mixin sectionBase {
+  margin: 0 auto;
+  padding-left: 4rem;
+  padding-right: 4rem;
+  max-width: $max-section-width;
+  display: flex;
+
+  @include small {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+.docsLinkGroup {
+  display: flex;
+
+  .docsLink {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    width: 150px;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    margin-left: 16px;
+    text-decoration: none;
+
+    border: none;
+    background: var(--rex-colors-primary-50);
+    color: white;
+
+    transition: background-color var(--ifm-transition-fast) var(--ifm-transition-timing-default),
+      color var(--ifm-transition-fast) var(--ifm-transition-timing-default);
+
+    &:hover {
+      background: var(--rex-colors-primary-60);
+    }
+
+    @include small {
+      width: 120px;
+      height: 40px;
+      font-size: 14px;
+    }
+
+    &:first-child {
+      margin-left: 0;
+    }
+
+    &.designDocsLink {
+      background: var(--rex-colors-emphais-0);
+      border: 2px #46cf9f solid;
+      color: var(--rex-colors-secondary-50);
+
+      &:hover {
+        background: var(--rex-colors-secondary-50);
+        color: white;
+      }
+    }
+  }
+}
+
+.primarySection {
+  @include sectionBase;
+  margin-top: 4rem;
+
+  .right {
+    margin-left: 2rem;
+  }
+
+  @include small {
+    .right {
+      margin-left: 0;
+      margin-bottom: 2rem;
+    }
+    flex-flow: column-reverse;
+  }
+
+  .left {
+    flex: 1 1 50%;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+
+    > h1 {
+      @include titleBase;
+      margin-top: 0;
+      font-size: 56px;
+
+      @include small {
+        font-size: 28px;
+      }
+    }
+
+    > p {
+      margin-bottom: 3rem;
+      @include bodyFont;
+    }
+  }
+
+  .right {
+    flex: 1 1 50%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    @include small {
+      justify-content: center;
+    }
+
+    > img {
+      max-height: 400px;
+      margin-bottom: -24px;
+
+      @include small {
+        margin-bottom: -12px;
+      }
+    }
+  }
+}
+
+.videoSectionWrapper {
+  background: linear-gradient(transparent var(--bgrate, 0%), #3862cf var(--bgrate, 0%));
+
+  @include small {
+    background: #3862cf;
+  }
+
+  .videoSection {
+    @include sectionBase;
+    margin-top: 2rem;
+    padding: 40px 2rem;
+
+    @include small {
+      margin-top: 4rem;
+      padding: 2rem;
+    }
+
+    .videoWrapper {
+      flex: auto;
+      box-shadow: var(--rex-shadows-lowDown);
+      border-radius: 8px;
+
+      video {
+        max-width: 100%;
+        border-radius: 8px;
+        display: block;
+      }
+    }
+  }
+}
+
+.universeSection {
+  @include sectionBase;
+  align-items: center;
+  margin-top: 4rem;
+
+  .right {
+    margin-left: 2rem;
+  }
+
+  @include small {
+    align-items: stretch;
+    flex-flow: column-reverse;
+    .right {
+      margin-left: 0;
+      margin-bottom: 1rem;
+    }
+  }
+
+  .left {
+    flex: 2 2 0;
+    margin-bottom: 2rem;
+    @include small {
+      margin-bottom: 0;
+    }
+
+    > h2 {
+      @include subtitleFont;
+    }
+
+    > p {
+      @include bodyFont;
+      margin-bottom: 1.5em;
+    }
+
+    > a {
+      font-size: 14px;
+      color: var(--rex-colors-primary-50);
+      &:hover {
+        color: var(--rex-colors-primary-60);
+      }
+    }
+  }
+
+  .right {
+    flex: 3 3 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    @include small {
+      justify-content: center;
+    }
+
+    > img {
+      max-height: 450px;
+    }
+  }
+}
+
+.danmakuSection {
+  margin-top: 6rem;
+
+  ::selection {
+    color: var(--rex-colors-emphasis-10);
+    background: var(--rex-colors-emphasis-80);
+  }
+
+  .danmakuContainer {
+    position: relative;
+    width: 100%;
+    max-height: 100vh;
+    overflow: hidden;
+
+    .danmakuRow {
+      display: flex;
+      font-size: 48px;
+      padding: 20px 0;
+      will-change: transform;
+
+      @include small {
+        padding: 10px 0;
+      }
+    }
+
+    .danmakuItem {
+      flex: 0 0 500px;
+      color: var(--rex-colors-emphasis-80);
+      font-weight: bold;
+      word-break: keep-all;
+      font-size: 40px;
+
+      @include small {
+        flex: 0 0 166px;
+        font-size: 19px;
+      }
+    }
+
+    .stroke {
+      color: transparent;
+      text-shadow: none;
+      -webkit-text-stroke: 1px rgba(0, 0, 0, 0.2);
+
+      :root[data-theme='dark'] & {
+        -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
+      }
+    }
+  }
+}
+
+.assetsSection {
+  @include sectionBase;
+  align-items: center;
+  margin-top: 8rem;
+  margin-bottom: 6rem;
+
+  .right {
+    margin-left: 2rem;
+  }
+
+  @include small {
+    .right {
+      margin-left: 0;
+      margin-bottom: 2rem;
+    }
+    flex-flow: column-reverse;
+  }
+
+  .left {
+    flex: 1 1 50%;
+    margin-bottom: 10%;
+
+    > h2 {
+      @include subtitleFont;
+    }
+
+    > p {
+      @include bodyFont;
+      margin-bottom: 1.5em;
+    }
+
+    > a {
+      font-size: 14px;
+      text-decoration: none;
+      color: var(--rex-colors-primary-50);
+      &:hover {
+        color: var(--rex-colors-primary-60);
+      }
+    }
+  }
+
+  .right {
+    flex: 1 1 50%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    > img {
+      max-height: 350px;
+      user-select: none;
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "ES2015",
+    "module": "esnext",
+    "declaration": true,
+    "sourceMap": true,
+    "moduleResolution": "node",
+    "skipLibCheck": true,
+    "strict": true,
+    "noFallthroughCasesInSwitch": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "allowSyntheticDefaultImports": true,
+    "strictNullChecks": false,
+    "jsx": "react",
+    "esModuleInterop": true,
+    "baseUrl": ".",
+    "paths": {
+      "@rexd/core": ["packages/core/src/index.ts"],
+      "@rexd/one": ["packages/one/src/index.ts"],
+      "@rexd/icon": ["packages/icon/src/index.ts"],
+      "@rexd/form": ["packages/form/src/index.ts"],
+      "@rexd/xform": ["packages/xform/src/index.ts"]
+    }
+  }
+}

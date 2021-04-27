@@ -1,0 +1,21 @@
+{
+  "name": "@rexd/xform",
+  "private": true,
+  "version": "0.1.0",
+  "description": "一个基于 mobx 的极简表单方案",
+  "license": "ISC",
+  "dependencies": {
+    "constate": "^3.2.0",
+    "mobx": "^6.1.7",
+    "mobx-react-lite": "^3.2.0",
+    "invariant": "^2.2.4"
+  },
+  "peerDependencies": {
+    "react": "^16.8.6 || ^17.0.1",
+    "react-dom": "^16.8.6 || ^17.0.1"
+  },
+  "devDependencies": {
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0"
+  }
+}

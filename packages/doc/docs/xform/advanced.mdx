@@ -1,0 +1,160 @@
+---
+id: advanced
+title: xform 进阶
+---
+
+import * as advancedExamples from 'story/src/xform/advanced-examples.stories';
+
+本页主要介绍 xform 的一些进阶用法，包括嵌套的表单数据结构（对象或数组），分形与对应的 model/field API 等。
+
+## `Form.Object`
+
+`<Form.Object name={name} />` 以当前 model 为基础，为其子节点提供一个新的 sub model，并将子节点中的表单值收集到当前 model 中 `name` 对应的位置。
+
+示例： 在下面的家庭信息登记表中，「个人信息」、「父亲」等部分的表单是完全相同的，此时我们可以将这些相同部分抽取到 PersonForm 中，并用 Form.Object 来指定其在上层 model 中的数据字段。
+
+```jsx
+function PersonForm({ name, label }) {
+  return (
+    <div>
+      <p>{label}</p>
+      <Form.Object name={name}>
+        <FormItem name="name" label="姓名" />
+        <FormItem name="age" label="年龄" />
+        <FormItem name="gender" label="性别" items={['男', '女']} />
+      </Form.Object>
+    </div>
+  );
+}
+
+function FamilyForm() {
+  return (
+    <div>
+      <PersonForm name="me" label="个人信息" />
+      <PersonForm name="father" label="父亲" />
+      <PersonForm name="mother" label="母亲" />
+      <PersonForm name="urgency" label="其他紧急联系人" />
+    </div>
+  );
+}
+```
+
+<Story fn={advancedExamples.ObjectExample} />
+
+:::tip
+为 Form.Object 设置 `name="&"`， 可以将当前 model 透传至子节点（相当于没写 Form.Object）。
+:::
+
+## `Form.Array`
+
+API: `<Form.Array name={name} itemFactory={itemFactory} layout={layout} />`
+
+`<Form.Array name={name} />`： 以当前 model 为基础，为其子节点提供一个新的 sub model，并将子节点中的表单值收集到当前 model 中 `{name}.{itemIndex}` 对应的位置。
+
+:::note
+Form.Array 与 Form.Object 非常类似，但用于处理数组。
+
+注意 Form.Array 为其子节点提供的 sub model 包含两层下标 `{name}.{itemIndex}`： `name` 表示数组所在的字段名称， `itemIndex` 表示数组元素下标。
+:::
+
+Form.Array 其他参数：
+
+- `layout` 控制表单如何对数组进行布局，包括数组中每一个元素的布局 以及 相关的操作按钮（添加、删除、上移、下移等）
+  - xform 提供一些内置的数组布局，如果不满足你的需求，你也可以在上层实现新的数组布局
+- `itemFactory` 用于设置数组中新增元素的初始值
+
+示例： 在下面的「客户满意度调查列表」中，我们用 Form.Array 包裹了多个 FormItem。
+
+```jsx
+<Form.Array name="tickets" layout={arrayCard({ showItemOrder: true })}>
+  <FormItem label="客户名称" name="name" />
+  <FormItem label="购买日期" name="date" />
+  <FormItem label="品牌" name="brand" />
+  {/* 调查结果表单内容 */}
+</Form.Array>
+```
+
+<Story fn={advancedExamples.ArrayExample} />
+
+## 分形
+
+所谓分形，指的就是 ~~表单套娃~~ `Form.Object` 与 `Form.Array` 相互嵌套。
+
+**视图分形**： 每个 `Form.Object`，`Form.Array`，`FormItem` 中 name 属性描述「相对于上层 model 的数据索引」。
+
+**模型分形**： 模型的数据结构和 API 可以满足分形视图的需求。详见下方。
+
+## Model
+
+Model 用来表示「一个对象或数组对应的表单模型部分」。
+
+与分形视图类似，整个 model 的结构也是分形的。所有的 model 都是从 RootModel 开始的，RootModel 一般由上层开发者手动创建。
+
+### `model.getSubModel(name): Model`
+
+获取一个子模型。 注意：
+
+- **即使 name 对应的子模型尚不存在，该方法也总是会返回一个 Model 对象。**
+- 这个方法会对 mobx observable 进行读取，请在 mobx reaction/computed 中调用该方法
+  - 如果一个 React 组件的 render 中调用了该方法，请确保组件被 observer 所包裹
+
+所有对 subModel.values 的读写都会变为对 parentModel.values 的读写，这样我们可以确保 `rootModel.values` 是整个表单 values 的唯一可信来源。
+
+例如， `me = familyModel.getSubModel('me')` 可以获取到 familyModel 中 me 对应的子模型， 对 me.values 的修改会转变为 familyModel.values 的修改。
+
+### `model.getSubArray(name)`
+
+获取一个子模型，但获取的子模型的数据格式为数组。
+
+例如对于「客户满意度调查列表」中的 `tickets`，我们应该使用 `familyModel.getSubArray('tickets')`，而不是使用 getSubModel.
+
+### model 中的其他属性/方法
+
+- `model.root: RootModel` 指向 RootModel
+- `model.path: string[]` 从 RootModel 到当前 model 的数据路径
+- `model.parent: IModel` 指向上一级的 model
+  - 例如：如果 `model` 的路径为 `['a', 'b', 'c']`，则 `model.parent` 的路径为 `['a', 'b']`
+  - 注意，如果 `subModel = model.getSubModel('a.b')`，那么 `subModel.parent.parent == model` 成立
+- `model.values` 模型上的数据
+  - 对 values 的读写其实是对 `model.parent.values` 的读写
+- `model.getValue(name, defaultValue)` 以当前模型为起始路径，读取 name 处的数据
+- `model.setValue(name, value)` 以当前模型为起始路径，修改 name 处的数据
+- `model.state` 模型级别的状态，这是一个 mobx observable 对象，默认为 `{}`，一般用来管理一些表单的 UI 状态。
+  - 每个 Model 都有独立的 state
+  - 更新 parentModel.state 不会影响 subModel.state
+  - 更新 subModel.state 也不会影响 parentModel.state
+- `model.id: string` 模型在所属表单内的唯一 id
+
+## Field
+
+field 用来表示「一个 视图控件 对应的表单模型部分」。model.values 一般为一个数组或一个对象，而 field.value 则往往比较简单，一般只是一个字符串或数字。
+
+field 对象需要从 model 中获取： `field = model.getField(name)` 获取 model 中 name 对应的字段对象；name 可以是像 `.foo` 这样的简单标识符，也可以是 `.cart.items.0.sku` 这样的一个嵌套索引。
+
+注意：
+
+- **即使 name 对应的字段尚不存在，该方法也总是会返回一个 Field 对象**。
+- 这个方法会对 mobx observable 进行读取，请在 mobx reaction/computed 中调用该方法
+  - 如果一个 React 组件的 render 中调用了该方法，请确保组件被 observer 所包裹
+
+获取 Field 对象后我们使用下列方法操作字段：
+
+`field.value` 读取或设置字段的值。 Field 对象本身不会记录 value，所有对 field.value 的读写都会变为对 model.values 的读写，这样我们可以确保 `rootModel.values` 是整个表单 values 的唯一可信来源。
+
+`field.state` 字段状态，这是一个 mobx observable 对象，默认为 `{}`。目前，我们约定了 `field.state.error` 作为该字段上的错误状态，当 state.error 有值时，页面中就会展示对应的出错提示。
+
+`field.config` 字段配置信息，反映该字段对应的控件最近一次被渲染时 React Element 上的 props，包含 config, required, defaultValue 等属性。
+
+其他不常用的属性：
+
+- `field.id: string` 字段在所属表单内的唯一 id
+- `field.mountCount: number` 字段对应的控件的加载数量
+  - 一般为 0 或 1，表示字段对应的控件是否渲染在视图中
+  - 多个指向同一个字段的控件被同时渲染时， mountCount 会大于 1
+- `field.path: string[]` 从 RootModel 到该字段的完整路径
+- `field.parent: IModel` 指向上一级的 model
+  - 例如：如果 `field` 的路径为 `['a', 'b', 'c']`，则 `field.parent` 的路径为 `['a', 'b']`
+
+## modelUtils & fieldUtils
+
+WIP

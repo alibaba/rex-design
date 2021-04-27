@@ -1,0 +1,139 @@
+---
+id: overlay
+title: Overlay 通用浮层
+---
+
+import { Overlay, Button, Popup } from '@rexd/core';
+
+## 使用场景
+
+通用的浮层组件。`<Overlay />` 是一个较为底层的组件，一般不会单独进行使用。
+
+Overlay 提供了 [对话框](dialog)、[抽屉](drawer)、[弹层](popup) 等上层组件所需的**共同能力**，包括：
+
+- [浮层容器](#浮层容器) `usePortal` & `portalContainer`
+- [出现消失动画](#出现消失动画) `animation`
+- [浮层生命周期](#浮层生命周期) `beforeOpen` & `onOpen` ...
+- [关闭操作与安全节点](#关闭操作与安全节点) `canCloseBy*` & `safeNodes`
+- [禁止容器滚动](#禁止容器滚动) `disableScroll`
+- [背景层](#背景层) `hasBackdrop`
+
+很多上层组件（例如对话框）继承了来自 Overlay 的 props 和相应功能，所以本页下方的特性介绍也适用这些上层组件。
+
+注意 Overlay 并没有提供 **定位** 的能力。
+
+## 特性介绍
+
+### 浮层容器
+
+浮层组件默认会使用 [React Portal](https://reactjs.org/docs/portals.html) 并配合 absolute 或 fix 定位方式将内容渲染到 `document.body` 中。如果指定了 `props.portalContainer`，组件会将内容渲染到对应的容器中。rexd 组件库也提供了 [`OverlayBehaviorContext`](app-context) 用于设置浮层默认挂载节点。
+
+在一些特殊情况下，例如「上层元素的 overflow=hidden 需要作用于浮层内容」，此时可以设置 `usePortal={false}` 来禁用 React Portal，组件会用常规方式来渲染浮层内容。
+
+### 出现消失动画
+
+Overlay 封装了内容出现和消失的动画，默认动画如下：
+
+```jsx
+<Overlay
+  animation={{
+    in: Overlay.animations.fadeIn,
+    out: Overlay.animations.fadeOut,
+  }}
+/>
+```
+
+`Overlay.animations` 提供了 Overlay 默认支持的动画效果，例如 `Overlay.animations.fadeIn`。完整列表可以在 <ComponentSourceLink componentName="Overlay" /> 进行查看。rexd 中的动画效果与 [animate.css](https://animate.style/) 相兼容，你也可以**引入 animate.css**，然后使用 animate.css 提供的动画效果。例如：
+
+```jsx
+<Overlay animation={{ in: 'backInLeft', out: 'fadeOuztDown' }} />
+```
+
+你可以使用与 animate.css 相同的方式来指定动画的时长和延迟：
+
+```jsx
+<Overlay
+  style={{
+    '--animate-duration': '1s',
+    '--animate-delay': '300ms',
+  }}
+  animation={{
+    in: Overlay.animations.fadeIn,
+    out: Overlay.animations.fadeOut,
+  }}
+/>
+```
+
+如果不需要使用动画，可以设置 `animation={false}`。
+
+### 浮层生命周期
+
+围绕浮层的打开和关闭，Overlay 提供了以下六个声明周期回调：
+
+- `beforeOpen` 浮层即将被打开时的回调
+  - 该回调函数可以返回一个类型为 `{ animation: { in: xx, out: yy } }` 的 **Promise** 来设置「本次打开所使用的动画效果」
+  - 如果函数没有返回值，则使用 `props.animation.in` 作为「本次打开所使用的动画效果」
+- `onOpen` 浮层打开时的回调，此时相关 DOM 元素中已经设置了 CSS animation，动画即将开始
+- `afterOpen` 浮层打开后的回调，此时动画效果已经结束
+- `beforeClose` 浮层即将被关闭时的回调
+  - 该回调函数可以返回一个类型为 `{ animation: { in: xx, out: yy } }` 的 **普通对象** 来设置「本次关闭所使用的动画效果」
+  - 如果函数没有返回值，则使用 `props.animation.out` 作为「本次关闭所使用的动画效果」
+- `onClose` 浮层关闭时的回调，此时相关 DOM 元素中已经设置了 CSS animation，动画即将开始
+- `afterClose` 浮层关闭后的回调，此时动画效果已经结束
+  - 如果浮层组件在打开状态下发生了[卸载(unmount)](https://reactjs.org/docs/react-component.html#unmounting)，afterClose 将不被调用
+
+```tsx title="浮层生命周期相关 TS 类型"
+interface IOverlayLifecycles {
+  beforeOpen?(state?: any): undefined | Promise<IOverlayOpenInstruction>;
+  onOpen?(): void;
+  afterOpen?(): void;
+
+  beforeClose?(): undefined | IOverlayCloseInstruction;
+  onClose?(): void;
+  afterClose?(): void;
+}
+```
+
+### 关闭操作与安全节点
+
+除了在上层主动控制浮层的显示或隐藏之外，浮层也提供了以下额外的关闭操作：
+
+- 设置 `canCloseByEsc={true}` 后，按下 ESC 键关闭最近打开的浮层
+- 设置 `canCloseByOutSideClick={true}` 后，点击浮层外节点关闭最近打开的浮层
+  - 如果想让某个节点点击后不关闭浮层弹层（如：触发浮层打开的按钮），请将该节点加入到 `safeNodes` 中。
+
+注意:
+
+- canClose\* 需要配合 onRequestClose 才能关闭弹层
+- canClose\* 一次只能关闭一个浮层，同时关闭多个浮层需要通过其他方式
+
+### 禁止容器滚动
+
+设置了 `disableScroll={true}` 的浮层被打开后，会给 `portalContainer` 追加额外的样式来禁用容器上的滚动。
+
+多个浮层被同时打开时，只要有一个浮层设置了 `disableScroll={true}`，容器的滚动就会被禁止。
+
+如果容器没有按照预期禁用滚动，可以设置 `disableScroll="force"`，此时组件将为容器附加 `overflow: hidden !important;` 的 CSS 样式。
+
+<Popup trigger={<Button>点我测试</Button>} triggerType="click" disableScroll="force" hasBackdrop>
+  <div style={{ background: 'var(--ifm-background-surface-color)', padding: 20 }}>浮层内容</div>
+</Popup>
+
+### 背景层
+
+设置了 `hasBackdrop={true}` 的浮层被打开后，会在 `portalContainer` 上渲染传一个额外的背景层。
+
+所有浮层的「背景层」和「浮层内容」的 z-index 默认值均为 1000，多个浮层被同时打开时，新打开的浮层会展示在已有浮层之上。
+
+<Popup trigger={<Button>点我测试</Button>} triggerType="click" hasBackdrop>
+  <div style={{ background: 'var(--ifm-background-surface-color)', padding: 20 }}>
+    浮层内容
+    <Popup trigger={<Button>点我打开嵌套浮层</Button>} triggerType="click" hasBackdrop>
+      <div style={{ background: 'var(--ifm-background-surface-color)', padding: 20 }}>嵌套浮层中的内容</div>
+    </Popup>
+  </div>
+</Popup>
+
+## API
+
+<PropsTable component={Overlay} />

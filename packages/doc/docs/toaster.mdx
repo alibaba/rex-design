@@ -1,0 +1,73 @@
+---
+id: toaster
+title: Toaster 吐司提示
+---
+
+import { Toaster } from '@rexd/core';
+import * as stories from 'story/src/overlays/toast.stories';
+
+吐司提示，用于全局展示通知、提醒信息。
+
+## 使用场景
+
+~~在系统四个角显示通知提醒信息。经常用于以下情况：~~
+
+- ~~较为复杂的通知内容。~~
+- ~~带有交互的通知，给出用户下一步的行动点。~~
+- ~~系统主动推送。~~
+
+## 使用方式
+
+### 全局用法
+
+<Story fn={stories.BasicDetached} />
+
+### hooks 用法
+
+注意 contextHolder 需要插入到子节点中。
+
+<Story fn={stories.Basic} />
+
+## 示例
+
+### 多个 toast 容器
+
+<Story fn={stories.MultipleToaster} />
+
+## API
+
+### 快捷调用
+
+#### `Toaster.show(config): string`
+
+根据 `config` 打开一个快捷对话框，`config.title` 作为对话框的标题， `config.content` 作为对话框的内容，其他属性详见 [Dialog Props](#dialog-props)
+
+返回一个字符串 key 表示该对话框实例，调用 `Dialog.close(key)` 可以主动关闭该对话框。
+
+#### `Toaster.close(key)`
+
+关闭一个提示信息。
+
+#### `Toaster.closeAll()`
+
+关闭所有提示信息。
+
+### Dialog.useDialog()
+
+当你需要使用 Context 时，可以通过 Dialog.useDialog 创建一个 contextHolder 插入子节点中。通过 hooks 创建的临时 Dialog 将会得到 contextHolder 所在位置的所有上下文。创建的 dialog 对象拥有与 Dialog.method 相同的创建通知方法。
+
+```jsx
+const [dialog, contextHolder] = Dialog.useDialog();
+
+React.useEffect(() => {
+  dialog.confirm({
+    // ...
+  });
+}, []);
+
+return <div>{contextHolder}</div>;
+```
+
+### Toaster Props
+
+<PropsTable component={Toaster} />

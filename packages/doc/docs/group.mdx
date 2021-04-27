@@ -1,0 +1,33 @@
+---
+id: group
+title: Group 组合
+---
+
+import { Group } from '@rexd/core';
+import * as stories from 'story/src/layout/group.stories';
+
+## 使用场景
+
+## 示例
+
+### 基本示例
+
+普通组合
+
+<Story fn={stories.Basic} />
+
+### 吸附在一起
+
+用于将多个组件组合在一起，注意，子元素的圆角和边框必须在子元素的根节点上。
+
+<Story fn={stories.Attached} />
+
+### 任意组合
+
+任意组合组件
+
+<Story fn={stories.More} />
+
+## API
+
+<PropsTable component={Group} />

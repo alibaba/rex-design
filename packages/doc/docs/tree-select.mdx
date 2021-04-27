@@ -1,0 +1,47 @@
+---
+id: tree-select
+title: TreeSelect 树形选择
+---
+
+import { SingleTreeSelect } from '@rexd/core';
+import * as stories from 'story/src/select/tree-select.stories.tsx';
+
+## 使用场景
+
+树形结构的选择器，常用于盒马门店选择（一般是三层结构：商家、子公司、门店），盒马商品类目选择（一级类目、二级类目、三级类目）等场景。
+
+- 单选： `<SingleTreeSelect />`
+  - value 的类型总是为 `string`
+- 多选： `<MultiTreeSelect />`
+  - value 的类型为 `string[]`
+
+### 使用说明
+
+## 示例
+
+### 基本示例
+
+<Story fn={stories.Basic} />
+
+### 搜索用法
+
+<Story fn={stories.ShowSearch} />
+
+## 实践
+
+### 盒马类目搜索
+
+<Story fn={stories.HippoCategoryTree} />
+
+### 盒马类目多选
+
+<Story fn={stories.MultiHippoCategoryTree} />
+
+## API
+
+`MultiTreeSelect` 和 `SingleTreeSelect` 的区别：
+
+- `value` 的类型不同，`defaultValue`, `onChange` 的类型也有相应的区别
+- 多选额外支持 `checkStrictly` 和 `checkedStrategy`，这两个 props 含义详见 [Tree 组件文档](tree#api)
+
+<PropsTable component={SingleTreeSelect} />

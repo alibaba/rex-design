@@ -1,0 +1,197 @@
+---
+id: core
+title: xform core
+---
+
+xform 表单方案核心部分。
+
+## 动机
+
+mobx 是一个非常优秀的状态管理工具。一是它采用了 Proxy 魔法劫持了所有的状态读取和更新，允许我们用熟悉的 plain Object/Array 方式使用和更新状态；二是 mobx 基于依赖收集实现了组件的精确更新，大部分情况下，即便不进行性能优化，我们也能写出高性能的 React 应用，非常适合中后台大表单场景 —— 渲染组件数量大，但用户一次往往只更新一小部分的表单。
+
+**盒马微应用采用了 mobx 作为应用层的状态管理方案，提供一个能够无缝对接 mobx 模型的表单方案，能够显著提升微应用的研发效率。**
+
+另一方面，大而全的表单方案，其开发成本、维护成本、答疑成本非常高，rex design 作为以组件库为主的技术产品，不应该、也不需要提供过于复杂的表单方案。我们需要一个拥抱 mobx 的、高性能的、较为精简的表单方案。
+
+所以，xform 作为 rex design 中全新的表单方哦，其核心部分的设计思路如下：
+
+- 拥抱 mobx
+  - 表单内核采用 mobx 提供的数据结构，无缝对接 mobx 生态（例如 mobx-utils）
+  - 精确渲染（只渲染那些必须要渲染的组件），能够承载大表单场景
+- 上手成本要低一些
+  - 避免那些解释起来费劲的概念或用法
+  - 即使开发者不熟悉 mobx，也能使用该表单方案的大部分功能
+  - 表单代码（JSX）、表单视图、表单数据 三者结构相同/相似，缩小「所见」与「所得」的差异
+- 分形
+  - 提升表单代码的可复用性
+  - ~~有谁不喜欢表单套娃呢？~~
+- 无头 (headless) 内核
+  - 内核不渲染额外的 UI 元素，由上层控制布局
+
+## 编程模型
+
+### 双向绑定
+
+通过 `new RootModel(values)` 创建 model，并将 model 传递给视图后，「模型与视图」就会进行双向绑定：
+
+- 视图总是反映模型中的最新值
+- 视图上的操作会实时更新模型
+
+用户在表单上的交互可以看做是对 model.values 的修改：
+
+```jsx
+const model = new RootModel(values);
+
+// 用户在 <input name="foo" /> 中输入了 'abc'
+model.values.foo = 'abc';
+
+// 用户在购物车(cart) 中添加了 2瓶快乐水
+model.values.cart.items = [];
+model.values.cart.items.push({ sku: '快乐水', count: 2 });
+```
+
+因为空值的存在，`.cart.items` 这样的用法很容易报错，所以 model 提供了 getValue 和 setValue 的方法：
+
+- `model.getValue('foo.bar')` 等价于 `model.values.foo.bar`，但会处理空值情况
+- `model.setValue('foo.bar', buzz)` 等价于 `model.values.foo.bar = buzz`，但会处理空值情况
+
+### 主动更新模型
+
+我们可以主动对 model.values 进行更新，values 变化后视图会自动更新。
+
+```jsx
+// 更新所有状态
+model.values = {
+  foo: { bar: 'abc' },
+  buzz: [{ foo: 123 }],
+};
+
+// 更好的方式是调用 model.setValue 来进行更新
+model.setValue('foo.bar', buzz);
+```
+
+采用这种更新方式，我们可以很方便的实现一个「重置表单」的按钮：
+
+```jsx
+import { action } from 'mobx';
+
+<Button
+  // 对模型的更新，或者说对 mobx observable 数据的修改，需要放在 mobx action 内
+  onClick={action(() => {
+    model.values = {};
+  })}
+>
+  重置表单
+</Button>;
+```
+
+### 监听变化
+
+监听变化的能力主要由 [mobx reactions](https://mobx.js.org/reactions.html) 提供。因为 `model.values` 采用了 mobx observable 数据结构，所以你可以监听任意粒度数据的变化。
+
+xform 提供了一个适用于简单联动场景的组件：`<Form.Effect watch={watch} effect={effect} />`。
+
+渲染该组件后，当 watch 对应的字段值发生变化时，effect 会被调用一次。
+
+```jsx
+<Form>
+  <Form.Effect
+    watch="subsidiary"
+    effect={(value, { model }) => {
+      model.setValue('shops', []);
+    }}
+  />
+  <FormItem name="subsidiary" />
+  <FormItem name="shops" />
+</Form>
+```
+
+### 字段模型
+
+model.values 只记录了表单内各个字段的值，但在实际使用过程中，每个字段还包含许多状态：
+
+- error 字段上的错误信息
+- disabled 字段是否被禁用
+- visible 字段是否可见
+- dataSource 字段的数据源
+  - 例如使用下拉选择器作为一个字段的控件时，字段中往往需要维护一份数据源列表
+- ...
+
+不同的 UI 控件会带来不同的状态，我们很难在内核中枚举出所有可能的状态。其他的表单方案往往会给出一套预先定义好的状态（例如 [formily](https://github.com/alibaba/formily/blob/d772523574bda50a9ecf42e92ca6f17a0f4a6422/packages/core/src/models/Field.ts#L121-L146)），来满足 95.2871% 的情况。
+
+而 xform core 采用了另一种方式：**xform core 不定义预设的状态，而是只提供状态的容器**，容器内具体放什么状态由上层决定（一般是在组件库对接 xform core 的时候进行决定）。 所以 xform core 的字段模型对象仅包含一些针对字段本身的描述和方法，整个模型非常轻量，学习成本很低 🤓。
+
+## 分形
+
+~~优雅的表单套娃。~~
+
+一些表单场景中往往会出现这样的需求：将一个小的表单嵌入到一个大表单中，再将大表单嵌入到更大的表单中；或是对字段进行分组，然后再对不同分组进行编排。
+
+在这样的场景下，一个「分形」的表单系统可以极大提升代码的可复用性。「分形」包括「视图分形」和「模型分形」两部分。
+
+### 视图分形
+
+「视图分形」主要指视图代码中，每个 FormItem 中 name 属性描述的是「相对于上层 model 的数据索引」，多个 FormItem 能被 Form.Object 或 Form.Array 使用，组合形成一个独立的子表单，并能被更上层的 Form.Object 或 Form.Array 所使用。
+
+例如下面的 `PersonForm` 描述了一个简易的用户信息表单：
+
+```jsx
+function PersonForm() {
+  return (
+    <>
+      <FormItem name="name" />
+      <FormItem name="age" />
+      <FormItem name="gender" />
+      <FormItem name="contact" />
+      <FormItem name="address.city" />
+      <FormItem name="address.detail" />
+    </>
+  );
+}
+
+// PersonForm 产出的数据：
+model.values = {
+  name: '小河马',
+  age: 5,
+  gender: null,
+  address: { city: '上海', detail: '长宁King88' },
+};
+```
+
+因为每个 FormItem 描述的都是相对数据索引，所以我们可以很容易地使用 PersonForm 组合出一个 FamilyForm：
+
+```jsx
+// prettier-ignore
+function FamilyForm() {
+  return (
+    <>
+      <Form.Object name="me"> <PersonForm /> </Form.Object>
+      <Form.Object name="parent"> <PersonForm /> </Form.Object>
+      <Form.Array name="siblings"> <PersonForm /> </Form.Array>
+      <Form.Array name="children"> <PersonForm /> </Form.Array>
+    </>
+  );
+}
+
+// FamilyForm 产出的数据：
+model.values = {
+  me: { name: '小河马', age: 5, ...more },
+  father: { name: '阿里巴巴', ...more },
+  siblings: [...more],
+  children: [...more],
+};
+```
+
+### 模型分形
+
+「模型分形」指模型的数据结构和 API 是分形的。
+
+在 API 层面，目前我们提供了 `model.getSubModel(name)` 的方法，该方法会返回一个子模型。 **子模型与父模型具有相同的 API**。这意味着……
+
+- 对 model 的操作不需要关心 model 所处的层级
+  - [即使子表单存在联动或校验，也可以直接嵌入到大表单](biz#数组元素内部联动)
+- 复杂表单的拆分与合并变得更为容易
+- 像 `model.getSubModel().getSubModel()...` 这样的调用，可以不断地延长
+  - 通过内部数据结构的优化，`model.getSubModel(name)` 总是可以返回一个有效的 model 对象，方便代码书写
+
+（未完待续）

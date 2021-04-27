@@ -1,0 +1,33 @@
+---
+id: steps
+title: Steps 步骤条
+---
+
+import { Steps, Step } from '@rexd/core';
+import * as stories from 'story/src/steps.stories';
+
+## 使用场景
+
+## 示例
+
+### 基本示例
+
+Steps 为受控组件，用户可以通过 `step={number}` 进行控制
+
+<Story fn={stories.Basic} />
+
+### 状态
+
+<Story fn={stories.Status} />
+
+### 垂直方向
+
+通过 `direction="column"` 设置 Steps 为水平方向
+
+<Story fn={stories.Column} />
+
+## API
+
+### Step
+
+<PropsTable component={Steps} />

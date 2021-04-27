@@ -1,0 +1,39 @@
+---
+id: drawer
+title: Drawer 抽屉
+---
+
+import { Drawer } from '@rexd/core';
+import * as stories from 'story/src/overlays/drawer.stories';
+
+## 使用场景
+
+在不离开主路径的情况下，为用户提供快速执行操作、确认信息或反馈提示的辅助窗口。
+
+## 示例
+
+### 基本用法
+
+<Story fn={stories.Basic} />
+
+### 弹出方向
+
+<Story fn={stories.Placements} style={{ overflow: 'auto' }} />
+
+### 嵌套抽屉
+
+<Story fn={stories.Nested} />
+
+### 全屏抽屉
+
+<Story fn={stories.Fullscreen} />
+
+### 极简样式
+
+设置 `minimal={true}` 后，抽屉只会保留最基本的样式，其余内容完全由上层进行控制。此时 title 和 footer 属性无效。
+
+<Story fn={stories.Minimal} />
+
+## API
+
+<PropsTable component={Drawer} />

@@ -1,0 +1,133 @@
+---
+id: dialog
+title: Dialog 对话框
+---
+
+import { Dialog } from '@rexd/core';
+import { PlacementDiagram } from 'story/src/overlays/position.stories';
+import * as stories from 'story/src/overlays/dialog.stories';
+
+对话框。
+
+## 使用场景
+
+需要用户处理事务，又不希望跳转页面以致打断工作流程时，可以使用 Dialog 在当前页面正中打开一个浮层，承载相应的操作。
+
+另外当需要一个简洁的确认框询问用户时，可以使用 `Dialog.confirm()` 等快捷调用方法。
+
+## 特性介绍
+
+### 对话框定位
+
+通过 `placement` 可以指定对话框在容器内的位置。对话框提供以下 9 种定位方式，默认为 `<Dialog placement="center" />`
+
+<PlacementDiagram />
+
+在 `placement` 的基础上，可以通过 `offset={[offsetX, offsetY]}` 设置对话框的偏移量。
+
+### 组件内部结构
+
+组件提供了一个简单的对话框结构，分为 header / main / footer 三个部分，每个部分都支持在上层进行覆盖。
+
+```jsx
+<Dialog title={title}>
+ {children}
+</Dialog>
+
+// 对应的 DOM 结构如下
+
+<div className="rex-dialog">
+  <div className="rex-dialog-header">{title}</div>
+  <div className="rex-dialog-body">{children}</div>
+  <div className="rex-dialog-footer">
+    <button>取消</button>
+    <button>确认</button>
+  </div>
+</div>
+```
+
+## 代码示例
+
+### 基本对话框
+
+作为普通组件使用时，对话框是否展示由 `visible` 进行控制。
+
+<Story fn={stories.Basic} />
+
+### 非模态对话框
+
+对于一些非必选/不紧急的对话框，我们建议设置 `canCloseByEsc={true}` 和 `canCloseByOutSideClick={true}` 来使用非模态对话框。
+
+<Story fn={stories.NonModal} />
+
+### 快捷调用
+
+<Story fn={stories.QuickTools} />
+
+<br />
+
+:::tip
+`Dialog.alert(...)` 与 `Dialog.confirm(...)` 会返回一个 Promise，该 Promise 会 resolve 一个布尔值，表示用户进行了「确认」或「取消」.
+:::
+
+### 嵌套对话框
+
+<Story fn={stories.Nested} />
+
+### 动态尺寸与方位
+
+通过 `placement` 来控制对话框的方位，组件内部内置了 [`ResizeObserver`](https://developer.mozilla.org/zh-CN/docs/Web/API/ResizeObserver)，当对话框内的尺寸发生变化时，组件会自动调整位置。
+
+<Story fn={stories.DynamicSizeAndPlacements} />
+
+### 极简样式
+
+设置 `minimal={true}` 后，对话框只会保留最基本的定位功能与背景色，其余内容完全由上层进行控制。此时 title 和 footer 属性无效。
+
+<Story fn={stories.Minimal} />
+
+## API
+
+### 快捷调用
+
+#### `Dialog.show(config): string`
+
+根据 `config` 打开一个快捷对话框，`config.title` 作为对话框的标题， `config.content` 作为对话框的内容，其他属性详见 [Dialog Props](#dialog-props)
+
+返回一个字符串 key 表示该对话框实例，调用 `Dialog.close(key)` 可以主动关闭该对话框。
+
+#### `Dialog.confirm(config)`
+
+根据 `config` 打开一个快捷「确认」对话框，返回 `Promise<boolean>` 表示用户进行了「确认」或「取消」。
+
+#### `Dialog.alert(config)`
+
+根据 `config` 打开一个快捷「警告」对话框，返回 `Promise<true>` 表示用户进行了「确认」。
+
+#### `Dialog.close(key)`
+
+关闭一个对话框。
+
+#### `Dialog.closeAll()`
+
+关闭所有对话框。
+
+### Dialog.useDialog()
+
+当你需要使用 Context 时，可以通过 Dialog.useDialog 创建一个 contextHolder 插入子节点中。通过 hooks 创建的临时 Dialog 将会得到 contextHolder 所在位置的所有上下文。创建的 dialog 对象拥有与 Dialog.method 相同的创建通知方法。
+
+```jsx
+const [dialog, contextHolder] = Dialog.useDialog();
+
+React.useEffect(() => {
+  dialog.confirm({
+    // ...
+  });
+}, []);
+
+return <div>{contextHolder}</div>;
+```
+
+### Dialog Props
+
+<PropsTable component={Dialog} />

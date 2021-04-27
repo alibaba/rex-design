@@ -1,0 +1,100 @@
+---
+id: file-picker
+title: FilePicker 文件选择器
+---
+
+import { FilePicker, MediaPicker } from '@rexd/core';
+import * as stories from 'story/src/file-picker.stories';
+
+## 使用场景
+
+### 请求库接入示例
+
+```jsx
+<FilePicker
+  request={(options: any) =>
+    axios({
+      method: 'post',
+      url: 'http://127.0.0.1:7001/api/upload',
+      transformResponse: [].concat(
+        axios.defaults.transformResponse,
+        (data: any) => {
+          return {
+            url: data.data,
+            message: data.message,
+          };
+        }
+      ),
+      ...options,
+    }).then((ret) => {
+      return ret.data;
+    })
+  }
+  onChange={console.log}
+/>
+```
+
+需要将后端返回的数据转换为
+
+```json
+{
+  "url": "foo.bar",
+  "message": "message body"
+}
+```
+
+### 上传文件示例
+
+```
+FormData
+- id: file_1
+- name: test.png
+- type: image/png
+- file: (binary)
+```
+
+### 服务端接收示例
+
+以 Egg 框架为例
+
+```js
+const stream = await ctx.getFileStream();
+const filename = stream.filename || stream.name;
+const ret = await ctx.service.file.uploadStream(stream, filename);
+```
+
+## 示例
+
+### 基本示例
+
+<Story fn={stories.Basic} />
+
+### 多媒体
+
+<Story fn={stories.Media} />
+
+### 拖拽上传
+
+<Story fn={stories.DragFile} />
+
+### 文件上传状态
+
+<Story fn={stories.Status} />
+
+### 文件类型
+
+<Story fn={stories.FileTypes} />
+
+### 文件多选
+
+<Story fn={stories.Multiple} />
+
+## API
+
+### FilePicker
+
+<PropsTable component={FilePicker} />
+
+### MediaPicker
+
+<PropsTable component={MediaPicker} />

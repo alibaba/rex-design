@@ -1,0 +1,22 @@
+{
+  "name": "@rexd/one",
+  "version": "0.1.0",
+  "description": "atom components",
+  "main": "lib/cjs/index.js",
+  "module": "lib/esm/index.js",
+  "types": "lib/types/index.d.ts",
+  "typings": "lib/types/index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "jingzhuang.sww",
+  "license": "ISC",
+  "peerDependencies": {
+    "react": "^16.8.6 || ^17.0.1",
+    "react-dom": "^16.8.6 || ^17.0.1"
+  },
+  "devDependencies": {
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0"
+  }
+}

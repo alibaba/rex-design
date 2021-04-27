@@ -1,0 +1,57 @@
+---
+id: input
+title: Input 输入框
+---
+
+import { Input } from '@rexd/core';
+import * as stories from 'story/src/input.stories';
+
+## 使用场景
+
+## 示例
+
+### 基本示例
+
+<Story fn={stories.Basic} />
+
+### 受控
+
+<Story fn={stories.Controlled} />
+
+### 密码
+
+<Story fn={stories.Password} />
+
+### 关闭自动填充
+
+可以通过 autoComplete="off" 属性关闭文本框的自动填充，但由于[某些原因](https://developer.mozilla.org/zh-CN/docs/Web/Security/Securing_your_site/Turning_off_form_autocompletion#%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85%E5%B1%9E%E6%80%A7%E5%92%8C%E7%99%BB%E5%BD%95)，现代浏览器大多不支持该设置。如果设置不生效，建议参考[该文档](https://developer.mozilla.org/zh-CN/docs/Web/Security/Securing_your_site/Turning_off_form_autocompletion)。
+
+<Story fn={stories.AutoCompleteOff} />
+
+### 尺寸
+
+<Story fn={stories.Size} />
+
+### 简单输入框
+
+<Story fn={stories.Simple} />
+
+### 形态
+
+<Story fn={stories.Shape} />
+
+### 清空
+
+<Story fn={stories.HasClear} />
+
+### 扩展
+
+<Story fn={stories.Addons} />
+
+### 元素
+
+<Story fn={stories.Elements} />
+
+## API
+
+<PropsTable component={Input} />

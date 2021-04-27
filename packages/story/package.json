@@ -1,0 +1,31 @@
+{
+  "name": "story",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "start": "rimraf node_modules/.cache/storybook && start-storybook -p 6006",
+    "build": "rimraf dist/ && build-storybook -c .storybook -o dist/"
+  },
+  "dependencies": {
+    "@storybook/addon-knobs": "^6.2.8",
+    "@types/lodash": "^4.14.168",
+    "@types/lodash.merge": "^4.6.6",
+    "@types/lodash.omit": "^4.5.6",
+    "@types/react": "^16.9.49",
+    "axios": "^0.21.1",
+    "lodash": "^4.17.20",
+    "lodash.merge": "^4.6.2",
+    "lodash.omit": "^4.5.0",
+    "mobx": "^6.1.7",
+    "mobx-react-lite": "^3.2.0",
+    "react": "^16.14.0",
+    "react-color": "^2.19.3",
+    "react-json-view": "^1.21.3"
+  },
+  "devDependencies": {
+    "@storybook/addon-essentials": "6.1.21",
+    "@storybook/addons": "6.1.21",
+    "@storybook/react": "6.1.21",
+    "@storybook/theming": "6.1.21"
+  }
+}

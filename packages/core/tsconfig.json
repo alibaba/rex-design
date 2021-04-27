@@ -1,0 +1,11 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@rexd/one": ["../one/src/index.ts"],
+      "@rexd/icon": ["../icon/src/index.ts"]
+    }
+  },
+  "include": ["./src"]
+}

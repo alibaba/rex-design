@@ -1,0 +1,257 @@
+---
+id: api
+title: API
+---
+
+import { Form, FormItem } from '@rexd/xform';
+
+{🚀} 表示进阶 API。
+
+## 组件
+
+### `Form`
+
+表单组件，渲染一个 div 并创建表单所需的上下文，包括以下 React Context：
+
+- FormEnvProvider：表单的环境变量，子组件可以通过 [`useFormEnv`](#useformenv) 获取这些环境变量
+- ModelProvider：模型对象，子组件可以通过 [`useModel`](#usemodel) 获取模型对象
+- FormLayout： 来自 `@rexd/core` 的表单布局能力
+
+<PropsTable component={Form} />
+
+### `FormItem`
+
+表单项 组件，渲染一个 FormControl，包含项目标签（label）、错误信息、可选的帮助信息，以及具体的控件实例（例如一个输入框）。
+
+<PropsTable
+  props={[
+    { name: 'component', required: true, type: 'string', description: '组件类型' },
+    { name: 'name', required: true, type: 'string', description: '字段数据索引' },
+    { name: 'label', required: true, description: '字段的显示名称' },
+    { name: 'defaultValue', description: '默认值' },
+    { name: 'componentProps', description: '组件的 props' },
+    { category: '校验', name: 'validate', type: '(value: any) => any', description: '校验方法' },
+    { category: '校验', name: 'required', description: '字段是否必填' },
+    { name: 'dataSource', description: '数据源' },
+    { category: '{🚀}', name: 'value', description: '覆盖表单项默认的 value' },
+    { category: '{🚀}', name: 'onChange', description: '覆盖表单项默认的 onChange' },
+    { category: '{🚀}', name: 'onBlur', description: '覆盖表单项默认的 onBlur' },
+    { category: '{🚀}', name: 'items', description: '测试用，即将被移除，勿使用' },
+  ]}
+/>
+
+### `Form.Submit`
+
+表单提交[按钮](../button)，点击时...
+
+- 触发所有字段的校验
+- 如果校验通过，则调用 `onSubmit(submitValues, model)`
+- 如果发生错误，则调用 `onSubmit(erros, model)`
+
+### `Form.Reset`
+
+表单重置[按钮](../button)，点击时将清空 values 与校验错误，然后触发 `onReset`。
+
+### `Form.Effect`
+
+`<Form.Effect watch={watch} effect={effect} />`
+
+创建表单联动，每当 watch 对应的值发生变化时，effect 都会被调用。
+
+effect 被调用时，可以获取到两个参数：
+
+- `value: any` 新的值
+- `detail: { prev: any, model: IModel, next: any }` 一个对象，包含旧的值，新的值，以及当前模型
+
+### `Form.Array`
+
+[{🚀} 用法](advanced#formarray)。 以当前 model 为基础，为其子节点提供一个新的 sub model，并将子节点中的表单值收集到当前 model 中 `{name}.{itemIndex}` 对应的位置。
+
+<PropsTable
+  props={[
+    { name: 'name', type: 'string', required: true, description: '字段索引' },
+    {
+      name: 'layout',
+      type: '(input: XFormArrayLayoutInput) => React.ReactElement',
+      required: true,
+      description:
+        '数组布局，控制表单如何对数组进行布局，包括数组中每一个元素的布局 以及 相关的操作按钮（添加、删除、上移、下移等）',
+    },
+    {
+      name: 'itemFactory',
+      type: '(arrayModel: Model) => any',
+      defaultValue: '() => ({})',
+      description: '数组中新增元素的初始值, 默认为一个总是返回一个新的空对象的函数',
+    },
+  ]}
+/>
+
+### `Form.Object`
+
+[{🚀} 用法](advanced#formobject)。 以当前 model 为基础，为其子节点提供一个新的 sub model，并将子节点中的表单值收集到当前 model 中 name 对应的位置
+
+<PropsTable props={[{ name: 'name', type: 'string', required: true, description: '字段索引' }]} />
+
+### `Form.Field`
+
+{🚀} 用于创建自定义的表单项组件。
+
+TODO 用法介绍
+
+## contexts & hooks
+
+### `useModel`
+
+获取当前层级的模型对象。
+
+### `Form.ModelConsumer`
+
+ModelContext 的 [`Consumer`](https://zh-hans.reactjs.org/docs/context.html#contextconsumer)，可用于订阅当前层级的 model。
+
+该组件已经被包裹在 [observer](https://mobx.js.org/react-integration.html) 中，所以你可以在 [render prop](https://zh-hans.reactjs.org/docs/render-props.html) 中读取 mobx observable 对象。
+
+```jsx
+<Form.ModelConsumer>
+  {(model) => {
+    const person = model.getSubModel('person');
+    return <span>姓名： {person.getValue('name')}</span>;
+  }}
+</Form.ModelConsumer>
+```
+
+获取当前层级的模型对象。
+
+### `useFormEnv`
+
+{🚀} 获取当前层级的环境变量。
+
+### `FormEnvProvider`
+
+{🚀} 在指定的层级覆盖表单的环境变量。
+
+`<Form />` 渲染时会自动设置环境变量，一般不需要单独使用 `<FormEnvProvider />`。 目前默认支持设置 `isPreview`：
+
+```jsx
+<Form>
+  <FormItem name="aaa" />
+  <FormItem name="bbb" />
+
+  <FormEnvProvider isPreview>
+    {/* ccc 和 ddd 总是会处于预览态 */}
+    <FormItem name="ccc" />
+    <FormItem name="ddd" />
+  </FormEnvProvider>
+</Form>
+```
+
+FormEnvProvider 接受任意的 props，设置后子组件可以通过 `useFormEnv()` 获取到这些环境变量（注意 TypeScript 类型信息要进行相应的拓展）。
+
+设置 FormEnvProvider 时，新的环境变量会与上层的环境变量进行合并，然后传递给子组件。
+
+## 数组布局 {🚀}
+
+需要配合 `Form.Array` 使用
+
+### `arrayCard`
+
+{🚀} 卡片布局
+
+```tsx
+interface ArrayCardOptions {
+  title?: string;
+  showItemCount?: boolean;
+  showItemOrder?: boolean;
+  style?: React.CSSProperties;
+}
+```
+
+### `arrayTable`
+
+{🚀} 表格布局
+
+```tsx
+interface ArrayTableOptions {
+  defaultColumnWidth?: number;
+  operationColumn?: Partial<Column>;
+  orderColumn?: Partial<Column>;
+  style?: React.CSSProperties;
+  className?: string;
+}
+```
+
+```
+<PropsTable
+  props={[
+    { name: 'defaultColumnWidth', type: 'number' },
+    { name: 'operationColumn', type: 'Partial<Column>' },
+    { name: 'orderColumn', type: 'Partial<Column>' },
+    { name: 'style', type: 'React.CSSProperties' },
+    { name: 'className', type: 'string' },
+  ]}
+/>
+```
+
+## 模型与工具
+
+### `Model`
+
+Model 表示「一个对象或数组对应的表单模型部分」。
+
+- `model.getSubModel(name): Model` 获取一个子模型
+- `model.getSubArray(name): Model` 获取一个子模型，但获取的子模型的数据格式为数组
+- `model.getField(name): Field` 获取 name 对应的字段对象
+- `model.root: RootModel` 指向 RootModel
+- `model.path: string[]` 从 RootModel 到当前 model 的数据路径
+- `model.parent: IModel` 指向上一级的 model
+- `model.values` 模型上的数据，这是一个 mobx computed 字段
+- `model.getValue(name, defaultValue)` 以当前模型为起始路径，读取 name 处的数据
+- `model.setValue(name, value)` 以当前模型为起始路径，修改 name 处的数据
+- `model.state` 模型级别的状态，这是一个 mobx observable 对象，默认为 `{}`，一般用来管理一些表单的 UI 状态。
+- `model.id: string` 模型在所属 RootModel 内的唯一 id
+
+### `Field`
+
+Field 用来表示「一个 视图控件 对应的表单模型部分」。
+
+- `field.value` 读取或设置字段的值，这是一个 mobx computed 字段
+- `field.state` 字段状态，这是一个 mobx observable 对象，默认为 `{}`。
+  - 目前，我们约定了 `field.state.error` 作为该字段上的错误状态，当 state.error 有值时，页面中就会展示对应的出错提示。
+- `field.config` 字段配置信息，反映该字段对应的控件最近一次被渲染时 React Element 上的 props
+- `field.id: string` 字段在所属表单内的唯一 id
+- `field.mountCount: number` 字段对应的控件的加载数量
+- `field.path: string[]` 从 RootModel 到该字段的完整路径
+- `field.parent: IModel` 指向上一级的 model
+
+### `modelUtils.clearError`
+
+`modelUtils.clearError(model : IModel): void`
+
+mobx action. 清除 model 上所有的错误信息
+
+### `modelUtils.validateAll`
+
+`modelUtils.validateAll(model: IModel): { hasError: boolean, errors: any }`
+
+mobx action. 执行 model 上所有的校验，并返回所有的报错信息
+
+### `fieldUtils.validate`
+
+`fieldUtils.validate(field: Field): any`
+
+mobx action. 执行指定字段上的校验，返回报错信息。
+
+### `fieldUtils.handleBlur`
+
+{🚀} `fieldUtils.handleBlur(field: Field): void`
+
+mobx action. blur 事件处理函数，一般在创建自定义的表单项组件时使用。
+
+### `fieldUtils.handleChange`
+
+{🚀} `fieldUtils.handleChange(field: Field, nextValue: any): void`
+
+mobx action. change 事件处理函数，一般在创建自定义的表单项组件时使用。
+
+### `makeAsyncValue`
+
+{🚀} 开发中

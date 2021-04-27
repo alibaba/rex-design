@@ -1,0 +1,33 @@
+---
+id: notice
+title: Notice 提示框
+---
+
+import { Notice } from '@rexd/core';
+import * as stories from 'story/src/notice.stories';
+
+## 使用场景
+
+用于展示系统状态，或页面功能。
+
+## 示例
+
+### 基本用法
+
+<Story fn={stories.Basic} />
+
+### 右侧包含执行动作
+
+<Story fn={stories.Extra} />
+
+### 可关闭
+
+<Story fn={stories.Closeable} />
+
+### 状态
+
+<Story fn={stories.Status} />
+
+## API
+
+<PropsTable component={Notice} />

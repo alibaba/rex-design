@@ -1,0 +1,65 @@
+:root {
+  --ifm-color-primary: #3858cf;
+  --ifm-color-primary-dark: #2e4dbf;
+  --ifm-color-primary-darker: #2b48b4;
+  --ifm-color-primary-darkest: #243c94;
+  --ifm-color-primary-light: #4d6ad4;
+  --ifm-color-primary-lighter: #5873d7;
+  --ifm-color-primary-lightest: #788dde;
+
+  --ifm-code-font-size: 95%;
+}
+
+// 默认样式复写
+:root {
+  line-height: 1.65;
+
+  b,
+  strong {
+    font-weight: bold;
+  }
+
+  *[class^='docMainContainer'] {
+    isolation: isolate;
+  }
+
+  *[class^='mdxCodeBlock'] {
+    border: 1px solid var(--ifm-color-emphasis-300);
+    font-size: 14px;
+  }
+
+  *[class^='codeBlockTitle'] {
+    font-size: 16px;
+  }
+
+  *[class^='codeBlockLines'] {
+    padding: 10px;
+  }
+
+  .navbar__brand,
+  *[class^='sidebarLogo'] > img {
+    height: 1.1rem;
+  }
+}
+
+.docusaurus-highlight-code-line {
+  background-color: rgb(72, 77, 91);
+  display: block;
+  margin: 0 calc(-1 * var(--ifm-pre-padding));
+  padding: 0 var(--ifm-pre-padding);
+}
+
+.rex-date-picker {
+  table {
+    margin-bottom: 0;
+    display: table;
+
+    tr,
+    th,
+    td {
+      border: none;
+      background: inherit;
+      color: inherit;
+    }
+  }
+}

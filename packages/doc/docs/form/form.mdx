@@ -1,0 +1,36 @@
+---
+id: form
+title: Form 经典表单
+---
+
+import { Form, FormItem } from '@rexd/form';
+import * as stories from 'story/src/form/legacy-form.stories';
+
+## 使用场景
+
+### 表单组件接入
+
+经典表单通过完全受控表单组件实现对表单状态的管理，适用于常见的简单表单场景，在对于性能有一定要求的大型表单页面，不推荐使用。
+
+1. 表单组件受控的基本逻辑是借助 `value` 和 `onChange` 属性实现组合受控。
+2. 表单组件需要支持传入 `value={null}` 实现对组件进行清空操作。
+
+## 示例
+
+### 基本用法
+
+<Story fn={stories.Basic} />
+
+### 预览态
+
+<Story fn={stories.Preview} />
+
+## API
+
+### Form
+
+<PropsTable component={Form} />
+
+### FormItem
+
+<PropsTable component={FormItem} />

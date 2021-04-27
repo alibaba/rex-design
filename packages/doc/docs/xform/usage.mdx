@@ -1,0 +1,128 @@
+---
+id: usage
+title: xform
+---
+
+import { Form, FormItem } from '@rexd/xform';
+import * as basicExamples from 'story/src/xform/basic-examples.stories';
+
+`@rexd/xform`： 一个基于 mobx 的表单方案。
+
+## 特点
+
+- 上手简单，搭配 mobx 可以进行快速开发
+- 精确渲染，轻松应对大表单场景
+- **重度依赖 [mobx](https://mobx.js.org/)，继承 mobx 的优缺点**
+  - 表单内核采用 mobx 提供的数据结构，无缝对接 mobx 生态
+- 概念较少，学习成本低
+
+### 字段限制
+
+- 字段名称不能包含 `.`
+- 字段名称不能为 `&`
+
+## 开始使用
+
+在使用表单之前，我们需要先创建一个 Model 对象，然后将其传递给 Form 组件的 props.model。
+
+```jsx
+import { Form, FormItem, RootModel } from '@rexd/xform';
+
+// step1 创建表单模型
+const model = new RootModel({
+  name: '小河马',
+  phone: '188-8888-8888',
+  address: '杭州市余杭区文一西路969号',
+});
+
+// step2 使用
+export function Basic() {
+  return (
+    <Form model={model}>
+      <FormItem component="input" label="姓名" name="name" required />
+      <FormItem component="input" label="电话" name="phone" required />
+      <FormItem component="input" label="地址" name="address" />
+    </Form>
+  );
+}
+```
+
+如果你使用 mobx 管理应用状态，那么可以在 store 中创建 model 对象：
+
+```jsx
+import { observable, computed, makeObservable } from 'mobx';
+import { RootModel } from '@rexd/xform';
+
+class Store {
+  @observable
+  model = new RootModel({
+    name: '小河马',
+    phone: '188-8888-8888',
+    address: '杭州市余杭区文一西路969号',
+  });
+
+  @computed
+  get formValues() {
+    return model.values;
+  }
+
+  constructor() {
+    makeObservable(this);
+  }
+}
+```
+
+## 示例
+
+### 基本示例
+
+<Story fn={basicExamples.Basic} />
+
+### 非受控用法
+
+xform 支持非受控用法，此时我们用 `defaultValue` 来设置表单的初始值，并配合 `<Form.Submit />` 和 `onSubmit()` 回调来实现表单逻辑。
+
+<Story fn={basicExamples.BasicUncontrolled} />
+
+### 嵌套字段
+
+支持使用 `name="foo.bar.buzz"` 的形式来声明使用嵌套的对象。
+
+<Story fn={basicExamples.NestedField} />
+
+### 字段校验
+
+支持使用 `validate={ value => error }` 进行简单的校验。
+
+<Story fn={basicExamples.Validation} />
+
+### 联动
+
+使用 `<Form.Effect watch={watch} effect={effect} />` 后，每当 `watch` 对应的值发生变化时，effect 都会被调用，你可以由此来创建简单的联动。
+
+`effect()` 被调用时，可以获取到两个参数：
+
+- `value: any`: 新的值
+- `detail: { prev: any, model: IModel, next: any }` 包含旧的值，新的值，以及当前模型的一个对象
+
+<Story fn={basicExamples.BasicEffect} />
+
+### 自定义布局
+
+FormItem 与普通元素（div，p，span）一起使用，实现自定义的表单内布局。
+
+<Story fn={basicExamples.InnerLayout} />
+
+### 对表单进行操作
+
+modelUtils 提供了一些针对 model 的工具方法，例如 批量校验 `validateAll`，清除错误 `clearError` 等。
+
+fieldUtils 提供了一些针对 field 的工具，例如 validate 等。 具体 API 详见 [xform API](api).
+
+引入方式： `import { modelUtils, fieldUtils } from '@rexd/xform';`
+
+<Story fn={basicExamples.WithActions} />
+
+## API
+
+详见 [xform API](api).

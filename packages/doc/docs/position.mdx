@@ -1,0 +1,17 @@
+---
+id: position
+title: Position 定位
+---
+
+import { Position } from '@rexd/core';
+import { PlacementDiagram } from 'story/src/overlays/position.stories';
+
+## 使用场景
+
+容器内定位组件。`<Position />` 是一个较为底层的组件，一般不会单独进行使用。
+
+Position 提供了 [对话框](dialog)、[吐司提示](toast) 等上层组件所需的**容器内部定位能力**。
+
+<Story fn={PlacementDiagram} />
+
+<PropsTable component={Position} />
