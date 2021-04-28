@@ -1,7 +1,9 @@
 import React, { useState, useRef } from 'react';
 import { PageHeader, Panel, Box, BaseTable, ActionList, Toolbar, Search } from '@rexd/core';
-import { SearchForm, FormItem } from '@rexd/form';
+// import { SearchForm, FormItem } from '@rexd/form';
 import { listData } from './dataset';
+
+// todo 在 xform 中添加对 SearchForm 的支持
 
 export default {
   title: 'Template/List',
@@ -12,7 +14,7 @@ export default {
 
 export function SearchList() {
   const [loading, setLoading] = useState(false);
-  const timeout = useRef();
+  const timeout = useRef<any>();
   const columns = [
     { code: 'warehouseName', name: '仓名称', width: 100 },
     { code: 'deptName', name: '部门', width: 100 },
@@ -80,22 +82,22 @@ export function SearchList() {
       <PageHeader title="B2C库存信息检索" />
       <Box p="xl">
         <Panel p={0}>
-          <SearchForm onSubmit={onSearch} isCollapsible>
-            <FormItem label="仓名称" name="warehouseName" component="input" />
-            <FormItem label="部门" name="deptName" component="input" />
-            <FormItem label="商品编码" name="skuCode" component="input" />
-            <FormItem label="商品名称" name="skuName" component="input" />
-            <FormItem
-              label="库存类型"
-              name="inventoryType"
-              component="select"
-              dataSource={[
-                { label: '在库', value: 'in' },
-                { label: '不在库', value: 'unin' },
-              ]}
-            />
-            <FormItem label="日期" name="date" component="datePicker" />
-          </SearchForm>
+          {/*<SearchForm onSubmit={onSearch} isCollapsible>*/}
+          {/*  <FormItem label="仓名称" name="warehouseName" component="input" />*/}
+          {/*  <FormItem label="部门" name="deptName" component="input" />*/}
+          {/*  <FormItem label="商品编码" name="skuCode" component="input" />*/}
+          {/*  <FormItem label="商品名称" name="skuName" component="input" />*/}
+          {/*  <FormItem*/}
+          {/*    label="库存类型"*/}
+          {/*    name="inventoryType"*/}
+          {/*    component="select"*/}
+          {/*    dataSource={[*/}
+          {/*      { label: '在库', value: 'in' },*/}
+          {/*      { label: '不在库', value: 'unin' },*/}
+          {/*    ]}*/}
+          {/*  />*/}
+          {/*  <FormItem label="日期" name="date" component="datePicker" />*/}
+          {/*</SearchForm>*/}
         </Panel>
         <Panel mt="l">
           <Toolbar actions={actions} mb="m" />

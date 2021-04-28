@@ -125,19 +125,6 @@
     "@algolia/logger-common" "4.9.1"
     "@algolia/requester-common" "4.9.1"
 
-"@alifd/field@^1.5.0":
-  version "1.5.1"
-  resolved "https://registry.nlark.com/@alifd/field/download/@alifd/field-1.5.1.tgz#2f034d832e61b6ad92a9da374a75df5ccc567c7f"
-  integrity sha1-LwNNgy5htq2Sqdo3SnXfXMxWfH8=
-  dependencies:
-    "@alifd/validate" "^1.2.0"
-    prop-types "^15.5.8"
-
-"@alifd/validate@^1.2.0":
-  version "1.2.3"
-  resolved "https://registry.nlark.com/@alifd/validate/download/@alifd/validate-1.2.3.tgz?cache=0&sync_timestamp=1619172518886&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40alifd%2Fvalidate%2Fdownload%2F%40alifd%2Fvalidate-1.2.3.tgz#3b7f880a1a955470b303fddce5afa42a9f2d9ff2"
-  integrity sha1-O3+IChqVVHCzA/3c5a+kKp8tn/I=
-
 "@babel/code-frame@7.10.4":
   version "7.10.4"
   resolved "https://registry.nlark.com/@babel/code-frame/download/@babel/code-frame-7.10.4.tgz#168da1a36e90da68ae8d49c0f1b48c7c6249213a"
@@ -6852,7 +6839,7 @@ class-utils@^0.3.5:
     isobject "^3.0.0"
     static-extend "^0.1.1"
 
-classnames@*, classnames@^2.2.5, classnames@^2.2.6, classnames@^2.3.1:
+classnames@*, classnames@^2.2.5, classnames@^2.2.6:
   version "2.3.1"
   resolved "https://registry.nlark.com/classnames/download/classnames-2.3.1.tgz?cache=0&sync_timestamp=1618846966125&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fclassnames%2Fdownload%2Fclassnames-2.3.1.tgz#dfcfa3891e306ec1dad105d0e88f4417b8535e8e"
   integrity sha1-38+jiR4wbsHa0QXQ6I9EF7hTXo4=
@@ -18059,7 +18046,7 @@ style-to-object@0.3.0, style-to-object@^0.3.0:
   dependencies:
     inline-style-parser "0.1.1"
 
-"styled-components@^3.4.10 || ^5.0.1", styled-components@^5.2.0, styled-components@^5.2.3:
+"styled-components@^3.4.10 || ^5.0.1", styled-components@^5.2.0:
   version "5.2.3"
   resolved "https://registry.npm.taobao.org/styled-components/download/styled-components-5.2.3.tgz?cache=0&sync_timestamp=1617200865101&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fstyled-components%2Fdownload%2Fstyled-components-5.2.3.tgz#752669fd694aac10de814d96efc287dde0d11385"
   integrity sha1-dSZp/WlKrBDegU2W78KH3eDRE4U=

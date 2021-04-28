@@ -21,6 +21,9 @@
   "files": [
     "dist/"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "@popperjs/core": "^2.6.0",
     "@rexd/icon": "^0.2.0",

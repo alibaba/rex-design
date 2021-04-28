@@ -67,12 +67,6 @@ module.exports = {
     },
     {
       type: 'category',
-      label: '@rexd/form',
-      collapsed: false,
-      items: ['form/form'],
-    },
-    {
-      type: 'category',
       label: '@rexd/xform',
       collapsed: false,
       items: ['xform/usage', 'xform/advanced', 'xform/biz', 'xform/core', 'xform/api'],

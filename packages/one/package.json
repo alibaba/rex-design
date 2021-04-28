@@ -17,6 +17,9 @@
   "files": [
     "dist/"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "author": "jingzhuang.sww",
   "license": "MIT",
   "peerDependencies": {
