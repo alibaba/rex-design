@@ -10,10 +10,14 @@ try {
   console.warn('WARN [design-docs-config.js] 没有找到 ~/.rex-design-oss.config.json 配置文件');
 }
 
+if (process.env.YUQUE_TOKEN == null) {
+  throw new Error('同步设计文档时需要通过 process.env.YUQUE_TOKEN 提供语雀 token');
+}
+
 module.exports = {
   namespace: 'hema-fe/rex-design',
   // 这里 token 只做测试用，实际运行脚本时可能需要替换为正确的 token
-  yuqueToken: '****************************************',
+  yuqueToken: process.env.YUQUE_TOKEN,
   output: {
     // 设计文档输出目录
     docs: 'design-docs/',

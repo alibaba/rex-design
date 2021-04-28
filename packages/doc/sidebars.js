@@ -45,7 +45,6 @@ module.exports = {
             'range',
             'switch',
             'textarea',
-            'form',
             'select',
             'tree-select',
             'search',

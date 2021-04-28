@@ -9,7 +9,6 @@
     "build:core": "yarn workspace @rexd/core build",
     "build:story": "yarn workspace story build",
     "build:doc": "yarn workspace doc build",
-    "build": "yarn build:story && rimraf dist/ && copyfiles --up=3 \"packages/story/dist/**/*\" dist/",
     "test:core": "yarn workspace @rexd/core test",
     "test:watch": "yarn workspace @rexd/core test:watch",
     "postinstall": "is-ci || husky install"

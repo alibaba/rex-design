@@ -4,11 +4,11 @@ const corePkg = require('../core/package.json');
 module.exports = {
   title: 'rex-design',
   tagline: 'rex-design',
-  url: 'https://github.com/rex-design/rex-design',
-  baseUrl: '/',
+  url: 'https://github.com/alibaba/rex-design',
+  baseUrl: '/rex-design/',
   onBrokenLinks: 'warn',
   favicon: 'img/favicon.png',
-  organizationName: 'rex-design',
+  organizationName: 'alibaba',
   projectName: 'rex-design',
 
   themeConfig: {
@@ -26,7 +26,7 @@ module.exports = {
         { to: 'docs', activeBasePath: 'docs', label: '组件', position: 'left' },
         { to: 'design', activeBasePath: 'design', label: '设计', position: 'left' },
         { to: 'blog', label: '博客', position: 'left' },
-        { href: 'https://github.com/rex-design/rex-design', label: 'GitHub', position: 'right' },
+        { href: 'https://github.com/alibaba/rex-design', label: 'GitHub', position: 'right' },
       ],
     },
     footer: {
@@ -60,7 +60,7 @@ module.exports = {
       {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
-          editUrl: 'https://github.com/rex-design/rex-design/edit/main/packages/docs/',
+          editUrl: 'https://github.com/alibaba/rex-design/edit/main/packages/doc/',
         },
         blog: {
           showReadingTime: true,

@@ -6,9 +6,6 @@ const config = require('./design-docs-config');
 const processYuqueMarkdown = require('./utils/processYuqueMarkdown');
 const generateSidebarJS = require('./utils/generateSidebarJS');
 
-// TODO 用 typescript 来实现该文件，不然时间久了容易忘记…
-// TODO 优化日志输出
-
 const baseDir = path.resolve(__dirname, '..');
 
 if (process.cwd() !== baseDir) {
