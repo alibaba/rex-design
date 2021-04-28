@@ -17,7 +17,7 @@ yarn
 运行示例
 
 ```bash
-yarn start
+yarn start:story
 ```
 
 ## 提交代码

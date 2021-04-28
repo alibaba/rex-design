@@ -1,17 +1,23 @@
 {
   "name": "@rexd/icon",
-  "version": "0.1.0",
-  "description": "simple icons",
-  "main": "lib/cjs/index.js",
-  "module": "lib/esm/index.js",
-  "types": "lib/types/index.d.ts",
-  "typings": "lib/types/index.d.ts",
+  "version": "0.2.0",
+  "description": "Icons for rex design.",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/esm/index.d.ts",
   "scripts": {
-    "write:svg": "node ./scripts/index.js",
-    "write:comp": "rm -rf src/components/* && svgr -d src/components assets --template scripts/svgr-tmpl.js --index-template scripts/svgr-index-tmpl.js --ref --typescript"
+    "clean": "rimraf dist",
+    "preversion": "echo skip test && yarn build",
+    "prepublishOnly": "yarn build",
+    "build": "yarn build:esm",
+    "build:esm": "tsc --project tsconfig.production.json --outDir dist/esm/ --module ES2015",
+    "build:cjs": "tsc --project tsconfig.production.json --outDir dist/cjs/ --module CommonJS"
   },
   "author": "jingzhuang.sww",
   "license": "MIT",
+  "files": [
+    "dist/"
+  ],
   "peerDependencies": {
     "react": "^16.8.6 || ^17.0.1",
     "react-dom": "^16.8.6 || ^17.0.1"
@@ -21,7 +27,9 @@
     "axios": "^0.21.1",
     "js-yaml": "^4.1.0",
     "node-yaml": "^4.0.1",
+    "npm-run-all": "^4.1.5",
     "react": "^16.14.0",
-    "react-dom": "^16.14.0"
+    "react-dom": "^16.14.0",
+    "rimraf": "^3.0.2"
   }
 }

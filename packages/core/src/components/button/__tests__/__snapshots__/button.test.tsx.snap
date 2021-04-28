@@ -22,7 +22,6 @@ exports[`ui 1`] = `
   -ms-user-select: none;
   user-select: none;
   cursor: pointer;
-  outline-offset: 3px;
   border-radius: var(--rex-radii-m);
   border: var(--rex-borders-solid);
 }

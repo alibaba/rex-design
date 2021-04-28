@@ -30,6 +30,7 @@ export const Flex = React.forwardRef<HTMLDivElement, FlexProps>((props, ref) => 
   const { direction = 'row', align, justify, wrap, flex, basis, grow, shrink, ...rest } = props;
 
   return (
+    // @ts-ignore
     <StyledFlex
       ref={ref}
       display="flex"

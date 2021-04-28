@@ -68,6 +68,7 @@ export function DateRangePicker(props: DateRangePickerProps) {
     defaultValue,
     onChange = noop,
     getDisabledDate,
+    // @ts-ignore
     className,
     ...rest
   } = props;

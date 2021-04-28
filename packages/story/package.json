@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
+    "clean": "rimraf dist",
     "start": "rimraf node_modules/.cache/storybook && start-storybook -p 6006",
     "build": "rimraf dist/ && build-storybook -c .storybook -o dist/"
   },
@@ -26,6 +27,8 @@
     "@storybook/addon-essentials": "6.1.21",
     "@storybook/addons": "6.1.21",
     "@storybook/react": "6.1.21",
-    "@storybook/theming": "6.1.21"
+    "@storybook/theming": "6.1.21",
+    "npm-run-all": "^4.1.5",
+    "rimraf": "^3.0.2"
   }
 }

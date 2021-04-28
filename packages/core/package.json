@@ -1,22 +1,30 @@
 {
   "name": "@rexd/core",
-  "private": true,
-  "version": "0.1.7",
-  "description": "view",
+  "version": "0.2.0",
+  "description": "A responsive and adaptive components library, with ability to config theme and color mode.",
   "main": "lib/cjs/index.js",
-  "module": "lib/esm/index.js",
-  "types": "lib/types/index.d.ts",
-  "typings": "lib/types/index.d.ts",
+  "module": "dist/esm/index.js",
+  "types": "dist/esm/index.d.ts",
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "build:mini": "gulp",
-    "build:theme": "node ./scripts/generate-theme.js"
+    "preversion": "yarn test && yarn build",
+    "prepublishOnly": "yarn build",
+    "clean": "rimraf dist/",
+    "build": "yarn build:esm",
+    "build:esm": "tsc --project tsconfig.production.json --outDir dist/esm/ --module ES2015",
+    "build:cjs": "tsc --project tsconfig.production.json --outDir dist/cjs/ --module CommonJS",
+    "build-theme": "node ./scripts/generate-theme.js"
   },
-  "license": "ISC",
+  "license": "MIT",
+  "files": [
+    "dist/"
+  ],
   "dependencies": {
     "@popperjs/core": "^2.6.0",
+    "@rexd/icon": "^0.2.0",
+    "@rexd/one": "^0.2.0",
     "@styled-system/css": "^5.1.5",
     "@types/react": "^16.9.56",
     "@types/react-dom": "^16.9.9",
@@ -45,13 +53,12 @@
     "@testing-library/react": "^11.2.6",
     "@testing-library/user-event": "^13.1.3",
     "@types/jest": "^26.0.22",
-    "gulp": "^4.0.2",
-    "gulp-clean": "^0.4.0",
-    "gulp-rename": "^2.0.0",
-    "gulp-replace": "^1.0.0",
+    "babel-jest": "^26.6.3",
     "jest-styled-components": "^7.0.3",
+    "npm-run-all": "^4.1.5",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
+    "rimraf": "^3.0.2",
     "styled-components": "^5.2.0",
     "ts-jest": "^26.5.5"
   }

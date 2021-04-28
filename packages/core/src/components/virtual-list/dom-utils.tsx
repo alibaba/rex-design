@@ -146,7 +146,7 @@ function fromResizeEvent(element: HTMLElement | Window): Observable<Event | Resi
   }
 
   return new Observable((subscriber) => {
-    const resizeObserver = new ResizeObserver((entries) => {
+    const resizeObserver = new ResizeObserver((entries: any[]) => {
       subscriber.next(entries);
     });
     resizeObserver.observe(element as HTMLElement);

@@ -33,7 +33,7 @@ function useWebTouch<T>({
   const timers = React.useRef<number[]>([]);
 
   function executeTimeout(callback: () => void, time?: number) {
-    const timer = setTimeout(() => {
+    const timer: any = setTimeout(() => {
       callback();
       timers.current.filter((t) => t !== timer);
     }, time);

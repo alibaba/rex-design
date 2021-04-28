@@ -1,11 +1,18 @@
 import { BaseTable, Button, Column } from '@rexd/core';
-import _ from 'lodash';
 import { action } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { arrayHelpers, XFormArrayLayoutInput } from './core';
 import { XFormObject } from './core/components';
 import { FormItem } from './form-item';
+
+const range = (n: number) => {
+  const result: number[] = [];
+  for (let i = 0; i < n; i++) {
+    result.push(i);
+  }
+  return result;
+};
 
 export const arrayCard = ({
   title,
@@ -44,7 +51,7 @@ export const arrayCard = ({
         )}
 
         <div className="xform-array-items">
-          {_.range(itemCount).map((itemIndex) => (
+          {range(itemCount).map((itemIndex) => (
             <div
               key={arrayHelpers.getKey(arrayModel, itemIndex)}
               className="xform-array-item"
@@ -174,7 +181,7 @@ export const arrayTable = ({
           className="bordered"
           primaryKey="rowKey"
           defaultColumnWidth={defaultColumnWidth}
-          dataSource={_.range(itemCount).map((itemIndex) => ({
+          dataSource={range(itemCount).map((itemIndex) => ({
             rowKey: arrayHelpers.getKey(arrayModel, itemIndex),
             itemIndex,
           }))}

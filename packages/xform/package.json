@@ -1,21 +1,33 @@
 {
   "name": "@rexd/xform",
-  "private": true,
-  "version": "0.1.0",
-  "description": "一个基于 mobx 的极简表单方案",
-  "license": "ISC",
-  "dependencies": {
-    "constate": "^3.2.0",
-    "mobx": "^6.1.7",
-    "mobx-react-lite": "^3.2.0",
-    "invariant": "^2.2.4"
+  "version": "0.2.0",
+  "description": "一个基于 mobx 和 @rexd/core 的表单方案",
+  "license": "MIT",
+  "scripts": {
+    "preversion": "echo skip test && yarn build",
+    "prepublishOnly": "yarn build",
+    "clean": "rimraf dist/",
+    "build": "yarn build:esm",
+    "build:esm": "tsc --project tsconfig.production.json --outDir dist/esm/ --module ES2015"
   },
+  "dependencies": {
+    "@rexd/core": "^0.2.0",
+    "invariant": "^2.2.4",
+    "@types/invariant": "^2.2.34",
+    "mobx": "^6.1.7",
+    "mobx-react-lite": "^3.2.0"
+  },
+  "files": [
+    "dist/"
+  ],
   "peerDependencies": {
     "react": "^16.8.6 || ^17.0.1",
     "react-dom": "^16.8.6 || ^17.0.1"
   },
   "devDependencies": {
+    "npm-run-all": "^4.1.5",
     "react": "^16.14.0",
-    "react-dom": "^16.14.0"
+    "react-dom": "^16.14.0",
+    "rimraf": "^3.0.2"
   }
 }

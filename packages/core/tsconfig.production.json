@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "importHelpers": true,
+    "sourceMap": false,
+    "module": "ES2015",
+    "outDir": "dist/",
+    "baseUrl": ".",
+    "paths": {}
+  },
+  "include": ["./src"],
+  "exclude": ["**/__tests__/**/*"]
+}
