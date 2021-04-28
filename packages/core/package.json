@@ -1,6 +1,6 @@
 {
   "name": "@rexd/core",
-  "version": "0.2.0",
+  "version": "0.3.0-alpha.0",
   "description": "A responsive and adaptive components library, with ability to config theme and color mode.",
   "main": "lib/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -26,8 +26,8 @@
   },
   "dependencies": {
     "@popperjs/core": "^2.6.0",
-    "@rexd/icon": "^0.2.0",
-    "@rexd/one": "^0.2.0",
+    "@rexd/icon": "^0.3.0-alpha.0",
+    "@rexd/one": "^0.3.0-alpha.0",
     "@styled-system/css": "^5.1.5",
     "@types/react": "^16.9.56",
     "@types/react-dom": "^16.9.9",

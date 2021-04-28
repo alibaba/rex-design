@@ -1,6 +1,6 @@
 {
   "name": "@rexd/xform",
-  "version": "0.2.0",
+  "version": "0.3.0-alpha.0",
   "description": "一个基于 mobx 和 @rexd/core 的表单方案",
   "license": "MIT",
   "scripts": {
@@ -11,9 +11,9 @@
     "build:esm": "tsc --project tsconfig.production.json --outDir dist/esm/ --module ES2015"
   },
   "dependencies": {
-    "@rexd/core": "^0.2.0",
-    "invariant": "^2.2.4",
+    "@rexd/core": "^0.3.0-alpha.0",
     "@types/invariant": "^2.2.34",
+    "invariant": "^2.2.4",
     "mobx": "^6.1.7",
     "mobx-react-lite": "^3.2.0"
   },
