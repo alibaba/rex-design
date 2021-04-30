@@ -3,7 +3,7 @@ import { arrayCard, Form, FormItem, RootModel } from '@rexd/xform';
 import React, { useState } from 'react';
 import { ValuePreview } from './helpers';
 
-export default { title: 'XForm / Advanced Examples' };
+export default { title: 'XForm / 进阶示例' };
 
 function PersonForm({
   name,

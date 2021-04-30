@@ -34,6 +34,7 @@ const RexCheckbox = styled(Label)<Dict<any>>`
 
   /* label 基础样式 */
   > .rex-checkbox-label {
+    font-size: var(--rex-fontSizes-body);
     margin-left: var(--rex-space-s);
     margin-right: var(--rex-space-l);
     color: var(--rex-colors-text-body);
@@ -71,6 +72,7 @@ const RexCheckbox = styled(Label)<Dict<any>>`
     }
 
     > .rex-checkbox-label {
+      font-size: var(--rex-fontSizes-body);
       color: var(--rex-colors-text-disabled);
     }
   }

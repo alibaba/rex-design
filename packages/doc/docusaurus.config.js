@@ -17,7 +17,7 @@ module.exports = {
       isCloseable: false,
       backgroundColor: '#fffae6',
       textColor: '#5c3b0d',
-      content: 'ReX Design alpha 版本迭代中，敬请期待。alpha 版本请勿用于将生产环境。',
+      content: 'ReX Design alpha 版本迭代中，敬请期待。请勿将 alpha 版本用于生产环境。',
     },
     prism: {
       theme: require('prism-react-renderer/themes/vsLight'),
@@ -33,7 +33,14 @@ module.exports = {
         { to: 'docs', activeBasePath: 'docs', label: '组件', position: 'left' },
         { to: 'design', activeBasePath: 'design', label: '设计', position: 'left' },
         { to: 'blog', label: '博客', position: 'left' },
-        { href: 'https://github.com/alibaba/rex-design', label: 'GitHub', position: 'right' },
+        // { href: 'https://github.com/alibaba/rex-design', label: '<span />', position: 'right' },
+
+        {
+          href: 'https://github.com/alibaba/rex-design',
+          position: 'right',
+          className: 'header-github-link',
+          'aria-label': 'GitHub repository',
+        },
       ],
     },
     footer: {

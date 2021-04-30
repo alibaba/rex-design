@@ -11,7 +11,7 @@ export interface FieldConfig {
   validate?: (value: any) => any;
   required?: boolean;
   defaultValue?: any;
-  isEmpty(value: any): boolean;
+  isEmpty?(value: any): boolean;
 
   // TODO 还有什么其他字段可以加的吗？
   //  requiredMessage?

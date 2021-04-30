@@ -4,7 +4,7 @@ import { action } from 'mobx';
 import React from 'react';
 import { ValuePreview } from './helpers';
 
-export default { title: 'XForm / Basic Examples' };
+export default { title: 'XForm / 基本示例' };
 
 const simpleFormModel = new RootModel({
   name: '小河马',
