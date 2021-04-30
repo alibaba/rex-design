@@ -2,14 +2,12 @@
   "name": "@rexd/one",
   "version": "0.3.0-alpha.0",
   "description": "atom components",
-  "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
   "scripts": {
     "clean": "rimraf dist",
-    "test": "echo @rexd/one skip test",
     "prepublishOnly": "yarn build",
-    "preversion": "yarn test && yarn build",
+    "preversion": "yarn build",
     "build": "yarn build:esm",
     "build:esm": "tsc --project tsconfig.production.json --outDir dist/esm/ --module ES2015",
     "build:cjs": "tsc --project tsconfig.production.json --outDir dist/cjs/ --module CommonJS"
@@ -27,7 +25,6 @@
     "react-dom": "^16.8.6 || ^17.0.1"
   },
   "devDependencies": {
-    "npm-run-all": "^4.1.5",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
     "rimraf": "^3.0.2"

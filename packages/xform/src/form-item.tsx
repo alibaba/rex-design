@@ -49,27 +49,20 @@ import { FieldConfig, useFormEnv } from './core';
 import { XFormField } from './core/components';
 import { fieldUtils } from './utils';
 
-function ErrorMessage({ children }: { children?: React.ReactNode }) {
-  return (
-    <div
-      style={{
-        border: '1px dashed var(--rex-colors-error-hover)',
-        fontSize: 14,
-        padding: 4,
-        color: 'var(--rex-colors-error-normal)',
-      }}
-    >
-      {children}
-    </div>
-  );
-}
-
 function defaultPreviewRender(props: any) {
   return props.value ?? props.defaultValue;
 }
 
-function defaultIsEmpty(value: any) {
+function isFalsy(value: any) {
   return !value;
+}
+
+function isNullOrUndefined(value: any) {
+  return value == null;
+}
+
+function isNullOrEmptyArray(value: any) {
+  return value == null || (Array.isArray(value) && value.length === 0);
 }
 
 const componentDict: any = {};
@@ -146,7 +139,7 @@ register(Switch, {
     return value ? '是' : '否';
   },
   fallbackValue: false,
-  isEmpty: defaultIsEmpty,
+  isEmpty: isFalsy,
 });
 
 interface CheckboxGroupFormItemProps extends FieldConfig {
@@ -187,7 +180,7 @@ register(RadioGroup, {
     const item = list.getItem(value);
     return item ? item.label : value;
   },
-  isEmpty: defaultIsEmpty,
+  isEmpty: isFalsy,
 });
 
 interface DatePickerFormItemProps extends FieldConfig {
@@ -199,7 +192,7 @@ register(DatePicker, {
   name: 'datePicker',
   previewRender: defaultPreviewRender,
   fallbackValue: null,
-  isEmpty: defaultIsEmpty,
+  isEmpty: isFalsy,
 });
 
 interface DateRangePickerFormItemProps extends FieldConfig {
@@ -215,7 +208,7 @@ register(DateRangePicker, {
   },
   fallbackValue: ['', ''],
   // TODO 优化 isEmpty
-  isEmpty: defaultIsEmpty,
+  isEmpty: isFalsy,
 });
 
 interface TimePickerFormItemProps extends FieldConfig {
@@ -227,7 +220,7 @@ register(TimePicker, {
   name: 'timePicker',
   previewRender: defaultPreviewRender,
   fallbackValue: '',
-  isEmpty: defaultIsEmpty,
+  isEmpty: isFalsy,
 });
 
 interface FilePickerFormItemProps extends FieldConfig {
@@ -250,8 +243,7 @@ register(FilePicker, {
     );
   },
   fallbackValue: [],
-  // TODO 优化 isEmpty
-  isEmpty: defaultIsEmpty,
+  isEmpty: isNullOrEmptyArray,
 });
 
 interface MediaPickerFormItemProps extends FieldConfig {
@@ -273,8 +265,7 @@ register(MediaPicker, {
     );
   },
   fallbackValue: [],
-  // TODO 优化 isEmpty
-  isEmpty: defaultIsEmpty,
+  isEmpty: isNullOrEmptyArray,
 });
 
 interface InputFormItemProps extends FieldConfig {
@@ -286,7 +277,7 @@ register(Input, {
   name: 'input',
   previewRender: defaultPreviewRender,
   fallbackValue: '',
-  isEmpty: defaultIsEmpty,
+  isEmpty: isFalsy,
 });
 
 interface TextareaFormItemProps extends FieldConfig {
@@ -298,7 +289,7 @@ register(Textarea, {
   name: 'textarea',
   previewRender: defaultPreviewRender,
   fallbackValue: '',
-  isEmpty: defaultIsEmpty,
+  isEmpty: isFalsy,
 });
 
 interface NumberInputFormItemProps extends FieldConfig {
@@ -311,8 +302,7 @@ register(NumberInput, {
   // TODO: preview with format
   previewRender: defaultPreviewRender,
   fallbackValue: null,
-  // TODO 优化 isEmpty
-  isEmpty: defaultIsEmpty,
+  isEmpty: isNullOrUndefined,
 });
 
 interface RangeFormItemProps extends FieldConfig {
@@ -325,8 +315,7 @@ register(Range, {
   name: 'range',
   previewRender: defaultPreviewRender,
   fallbackValue: 0,
-  // TODO 优化 isEmpty
-  isEmpty: defaultIsEmpty,
+  isEmpty: isNullOrUndefined,
 });
 
 interface SelectFormItemProps extends FieldConfig {
@@ -338,9 +327,8 @@ interface SelectFormItemProps extends FieldConfig {
 register(Select, {
   name: 'select',
   previewRender: defaultPreviewRender,
-  // TODO 优化 isEmpty
-  isEmpty: defaultIsEmpty,
   fallbackValue: null,
+  isEmpty: isNullOrUndefined,
 });
 
 interface SingleSelectFormItemProps extends FieldConfig {
@@ -352,8 +340,7 @@ register(SingleSelect, {
   name: 'singleSelect',
   previewRender: defaultPreviewRender,
   fallbackValue: null,
-  // TODO 优化 isEmpty
-  isEmpty: defaultIsEmpty,
+  isEmpty: isFalsy,
 });
 
 interface MultiSelectFormItemProps extends FieldConfig {
@@ -366,9 +353,7 @@ register(MultiSelect, {
   name: 'multiSelect',
   previewRender: defaultPreviewRender,
   fallbackValue: [],
-  isEmpty(value: string[]): boolean {
-    return value == null || value.length === 0;
-  },
+  isEmpty: isNullOrEmptyArray,
 });
 
 interface TreeSelectFormItemProps extends FieldConfig {
@@ -381,8 +366,7 @@ register(TreeSelect, {
   name: 'treeSelect',
   previewRender: defaultPreviewRender,
   fallbackValue: null,
-  // TODO 优化 isEmpty
-  isEmpty: defaultIsEmpty,
+  isEmpty: isNullOrEmptyArray,
 });
 
 interface SingleTreeSelectFormItemProps extends FieldConfig {
@@ -395,7 +379,7 @@ register(SingleTreeSelect, {
   name: 'singleTreeSelect',
   previewRender: defaultPreviewRender,
   fallbackValue: null,
-  isEmpty: defaultIsEmpty,
+  isEmpty: isFalsy,
 });
 
 interface MultiTreeSelectFormItemProps extends FieldConfig {
@@ -408,9 +392,7 @@ register(MultiTreeSelect, {
   name: 'multiTreeSelect',
   previewRender: defaultPreviewRender,
   fallbackValue: [],
-  isEmpty(value: string[]): boolean {
-    return value == null || value.length === 0;
-  },
+  isEmpty: isNullOrEmptyArray,
 });
 
 //#region 用于测试的组件类型
@@ -443,7 +425,7 @@ register(TestButtonGroup, {
   name: 'testButtonGroup',
   fallbackValue: '',
   previewRender: defaultPreviewRender,
-  isEmpty: defaultIsEmpty,
+  isEmpty: isFalsy,
 });
 //#endregion
 
@@ -473,9 +455,16 @@ export function FormItem({ component, ...props }: FormItemProps) {
   if (Comp == null) {
     return (
       <FormControl>
-        <ErrorMessage>
+        <div
+          style={{
+            border: '1px dashed var(--rex-colors-error-hover)',
+            fontSize: 14,
+            padding: 4,
+            color: 'var(--rex-colors-error-normal)',
+          }}
+        >
           <code>&lt;FormItem component='{component}' /&gt;</code> 没有找到对应组件，请检查组件名称是否拼写正确
-        </ErrorMessage>
+        </div>
       </FormControl>
     );
   }

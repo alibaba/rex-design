@@ -4106,10 +4106,22 @@
   resolved "https://registry.npm.taobao.org/@types/color-name/download/@types/color-name-1.1.1.tgz?cache=0&sync_timestamp=1613378695462&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fcolor-name%2Fdownload%2F%40types%2Fcolor-name-1.1.1.tgz#1c1261bbeaa10a8055bbc5d8ab84b7b2afc846a0"
   integrity sha1-HBJhu+qhCoBVu8XYq4S3sq/IRqA=
 
+"@types/d3-array@*":
+  version "2.9.0"
+  resolved "https://registry.npm.alibaba-inc.com/@types/d3-array/download/@types/d3-array-2.9.0.tgz#fb6c3d7d7640259e68771cd90cc5db5ac1a1a012"
+  integrity sha1-+2w9fXZAJZ5odxzZDMXbWsGhoBI=
+
 "@types/d3-array@^1":
   version "1.2.8"
   resolved "https://registry.nlark.com/@types/d3-array/download/@types/d3-array-1.2.8.tgz#b852381cb68e31e46bfa23ee70a383cbc6d62146"
   integrity sha1-uFI4HLaOMeRr+iPucKODy8bWIUY=
+
+"@types/d3-axis@*":
+  version "2.0.0"
+  resolved "https://registry.npm.alibaba-inc.com/@types/d3-axis/download/@types/d3-axis-2.0.0.tgz#a3e7534d3c399c20ba42ec3093dd2a385659366e"
+  integrity sha1-o+dTTTw5nCC6Quwwk90qOFZZNm4=
+  dependencies:
+    "@types/d3-selection" "*"
 
 "@types/d3-axis@^1":
   version "1.0.14"
@@ -4118,12 +4130,24 @@
   dependencies:
     "@types/d3-selection" "^1"
 
+"@types/d3-brush@*":
+  version "2.1.0"
+  resolved "https://registry.npm.alibaba-inc.com/@types/d3-brush/download/@types/d3-brush-2.1.0.tgz#c51ad1ab93887b23be7637d2100540f1df0dac00"
+  integrity sha1-xRrRq5OIeyO+djfSEAVA8d8NrAA=
+  dependencies:
+    "@types/d3-selection" "*"
+
 "@types/d3-brush@^1":
   version "1.1.4"
   resolved "https://registry.npm.taobao.org/@types/d3-brush/download/@types/d3-brush-1.1.4.tgz?cache=0&sync_timestamp=1613386252300&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fd3-brush%2Fdownload%2F%40types%2Fd3-brush-1.1.4.tgz#0b5cc9c57476d0144b991228b44664e08494b7f3"
   integrity sha1-C1zJxXR20BRLmRIotEZk4ISUt/M=
   dependencies:
     "@types/d3-selection" "^1"
+
+"@types/d3-chord@*":
+  version "2.0.1"
+  resolved "https://registry.npm.alibaba-inc.com/@types/d3-chord/download/@types/d3-chord-2.0.1.tgz#45c72b28c9686eb4b02c8a1bb0fe174723053890"
+  integrity sha1-RccrKMlobrSwLIobsP4XRyMFOJA=
 
 "@types/d3-chord@^1":
   version "1.0.10"
@@ -4135,10 +4159,23 @@
   resolved "https://registry.npm.taobao.org/@types/d3-collection/download/@types/d3-collection-1.0.10.tgz#bca161e336156968f267c077f7f2bfa8ff224e58"
   integrity sha1-vKFh4zYVaWjyZ8B39/K/qP8iTlg=
 
+"@types/d3-color@*":
+  version "2.0.1"
+  resolved "https://registry.npm.alibaba-inc.com/@types/d3-color/download/@types/d3-color-2.0.1.tgz#570ea7f8b853461301804efa52bd790a640a26db"
+  integrity sha1-Vw6n+LhTRhMBgE76Ur15CmQKJts=
+
 "@types/d3-color@^1":
   version "1.4.1"
   resolved "https://registry.nlark.com/@types/d3-color/download/@types/d3-color-1.4.1.tgz#0d9746c84dfef28807b2989eed4f37b2575e1f33"
   integrity sha1-DZdGyE3+8ogHspie7U83sldeHzM=
+
+"@types/d3-contour@*":
+  version "2.0.0"
+  resolved "https://registry.npm.alibaba-inc.com/@types/d3-contour/download/@types/d3-contour-2.0.0.tgz#6e079f281b29a8df3fcbd3ec193f2cf1d0b4a584"
+  integrity sha1-bgefKBspqN8/y9PsGT8s8dC0pYQ=
+  dependencies:
+    "@types/d3-array" "*"
+    "@types/geojson" "*"
 
 "@types/d3-contour@^1":
   version "1.3.1"
@@ -4148,10 +4185,27 @@
     "@types/d3-array" "^1"
     "@types/geojson" "*"
 
+"@types/d3-delaunay@*":
+  version "5.3.0"
+  resolved "https://registry.npm.alibaba-inc.com/@types/d3-delaunay/download/@types/d3-delaunay-5.3.0.tgz#416169bb5c67a510c87b55d092a404fcab49def3"
+  integrity sha1-QWFpu1xnpRDIe1XQkqQE/KtJ3vM=
+
+"@types/d3-dispatch@*":
+  version "2.0.0"
+  resolved "https://registry.npm.alibaba-inc.com/@types/d3-dispatch/download/@types/d3-dispatch-2.0.0.tgz#1f8803041b73b81f2c751e026b7bb63dd5f24ce0"
+  integrity sha1-H4gDBBtzuB8sdR4Ca3u2PdXyTOA=
+
 "@types/d3-dispatch@^1":
   version "1.0.9"
   resolved "https://registry.nlark.com/@types/d3-dispatch/download/@types/d3-dispatch-1.0.9.tgz#c5a180f1e251de853b399cfbfbb6dd7f8bf842ae"
   integrity sha1-xaGA8eJR3oU7OZz7+7bdf4v4Qq4=
+
+"@types/d3-drag@*":
+  version "2.0.0"
+  resolved "https://registry.npm.alibaba-inc.com/@types/d3-drag/download/@types/d3-drag-2.0.0.tgz#ef66acc422576fbe10b8bd66af45a9fb8525199a"
+  integrity sha1-72asxCJXb74QuL1mr0Wp+4UlGZo=
+  dependencies:
+    "@types/d3-selection" "*"
 
 "@types/d3-drag@^1":
   version "1.2.5"
@@ -4160,15 +4214,32 @@
   dependencies:
     "@types/d3-selection" "^1"
 
+"@types/d3-dsv@*":
+  version "2.0.1"
+  resolved "https://registry.npm.alibaba-inc.com/@types/d3-dsv/download/@types/d3-dsv-2.0.1.tgz#44ce09b025cf365d27cbe11fc13cd10954369627"
+  integrity sha1-RM4JsCXPNl0ny+EfwTzRCVQ2lic=
+
 "@types/d3-dsv@^1":
   version "1.2.1"
   resolved "https://registry.npm.taobao.org/@types/d3-dsv/download/@types/d3-dsv-1.2.1.tgz#1524fee9f19d689c2f76aa0e24e230762bf96994"
   integrity sha1-FST+6fGdaJwvdqoOJOIwdiv5aZQ=
 
+"@types/d3-ease@*":
+  version "2.0.0"
+  resolved "https://registry.npm.alibaba-inc.com/@types/d3-ease/download/@types/d3-ease-2.0.0.tgz#798cbd9908d26cfe9f1a295a3a75164da9a3666e"
+  integrity sha1-eYy9mQjSbP6fGilaOnUWTamjZm4=
+
 "@types/d3-ease@^1":
   version "1.0.10"
   resolved "https://registry.npm.taobao.org/@types/d3-ease/download/@types/d3-ease-1.0.10.tgz#09910e8558439b6038a7ed620650e510394ffa6d"
   integrity sha1-CZEOhVhDm2A4p+1iBlDlEDlP+m0=
+
+"@types/d3-fetch@*":
+  version "2.0.0"
+  resolved "https://registry.npm.alibaba-inc.com/@types/d3-fetch/download/@types/d3-fetch-2.0.0.tgz#580846256ed0011b36a08ebb36924e0dff70e27e"
+  integrity sha1-WAhGJW7QARs2oI67NpJODf9w4n4=
+  dependencies:
+    "@types/d3-dsv" "*"
 
 "@types/d3-fetch@^1":
   version "1.2.2"
@@ -4177,15 +4248,32 @@
   dependencies:
     "@types/d3-dsv" "^1"
 
+"@types/d3-force@*":
+  version "2.1.1"
+  resolved "https://registry.npm.alibaba-inc.com/@types/d3-force/download/@types/d3-force-2.1.1.tgz#a18b6f029d056eb0f8f84a09471e6228e4469b14"
+  integrity sha1-oYtvAp0FbrD4+EoJRx5iKORGmxQ=
+
 "@types/d3-force@^1":
   version "1.2.2"
   resolved "https://registry.nlark.com/@types/d3-force/download/@types/d3-force-1.2.2.tgz#6337a146dbdf2781f5dde5bb491a646fd03d7bc4"
   integrity sha1-YzehRtvfJ4H13eW7SRpkb9A9e8Q=
 
+"@types/d3-format@*":
+  version "2.0.0"
+  resolved "https://registry.npm.alibaba-inc.com/@types/d3-format/download/@types/d3-format-2.0.0.tgz#607d261cb268f0a027f100575491031539a40ee6"
+  integrity sha1-YH0mHLJo8KAn8QBXVJEDFTmkDuY=
+
 "@types/d3-format@^1":
   version "1.4.1"
   resolved "https://registry.npm.taobao.org/@types/d3-format/download/@types/d3-format-1.4.1.tgz?cache=0&sync_timestamp=1613379663360&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fd3-format%2Fdownload%2F%40types%2Fd3-format-1.4.1.tgz#1e657a219e4b1e3931508a610d570bdec8ecdd9d"
   integrity sha1-HmV6IZ5LHjkxUIphDVcL3sjs3Z0=
+
+"@types/d3-geo@*":
+  version "2.0.0"
+  resolved "https://registry.npm.alibaba-inc.com/@types/d3-geo/download/@types/d3-geo-2.0.0.tgz#6f179512343c2d30e06acde190abfacf44b2d264"
+  integrity sha1-bxeVEjQ8LTDgas3hkKv6z0Sy0mQ=
+  dependencies:
+    "@types/geojson" "*"
 
 "@types/d3-geo@^1":
   version "1.12.1"
@@ -4194,10 +4282,22 @@
   dependencies:
     "@types/geojson" "*"
 
+"@types/d3-hierarchy@*":
+  version "2.0.0"
+  resolved "https://registry.npm.alibaba-inc.com/@types/d3-hierarchy/download/@types/d3-hierarchy-2.0.0.tgz#92079d9dbcec1dfe2736fb050a8bf916e5850a1c"
+  integrity sha1-kgednbzsHf4nNvsFCov5FuWFChw=
+
 "@types/d3-hierarchy@^1":
   version "1.1.7"
   resolved "https://registry.nlark.com/@types/d3-hierarchy/download/@types/d3-hierarchy-1.1.7.tgz#14a57b0539f8929015f8ad96490de50a16211040"
   integrity sha1-FKV7BTn4kpAV+K2WSQ3lChYhEEA=
+
+"@types/d3-interpolate@*":
+  version "2.0.0"
+  resolved "https://registry.npm.alibaba-inc.com/@types/d3-interpolate/download/@types/d3-interpolate-2.0.0.tgz#325029216dc722c1c68c33ccda759f1209d35823"
+  integrity sha1-MlApIW3HIsHGjDPM2nWfEgnTWCM=
+  dependencies:
+    "@types/d3-color" "*"
 
 "@types/d3-interpolate@^1":
   version "1.4.2"
@@ -4206,30 +4306,62 @@
   dependencies:
     "@types/d3-color" "^1"
 
+"@types/d3-path@*":
+  version "2.0.0"
+  resolved "https://registry.npm.alibaba-inc.com/@types/d3-path/download/@types/d3-path-2.0.0.tgz#dcc7f5ecadf52b0c0c39f6c1def3733195e4b199"
+  integrity sha1-3Mf17K31KwwMOfbB3vNzMZXksZk=
+
 "@types/d3-path@^1":
   version "1.0.9"
   resolved "https://registry.npm.taobao.org/@types/d3-path/download/@types/d3-path-1.0.9.tgz#73526b150d14cd96e701597cbf346cfd1fd4a58c"
   integrity sha1-c1JrFQ0UzZbnAVl8vzRs/R/UpYw=
+
+"@types/d3-polygon@*":
+  version "2.0.0"
+  resolved "https://registry.npm.alibaba-inc.com/@types/d3-polygon/download/@types/d3-polygon-2.0.0.tgz#8b1df0a1358016e62c4961b01e8dc8e5ab4c64e5"
+  integrity sha1-ix3woTWAFuYsSWGwHo3I5atMZOU=
 
 "@types/d3-polygon@^1":
   version "1.0.8"
   resolved "https://registry.npm.taobao.org/@types/d3-polygon/download/@types/d3-polygon-1.0.8.tgz?cache=0&sync_timestamp=1613386254025&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fd3-polygon%2Fdownload%2F%40types%2Fd3-polygon-1.0.8.tgz#127ee83fccda5bf57384011da90f31367fea1530"
   integrity sha1-En7oP8zaW/VzhAEdqQ8xNn/qFTA=
 
+"@types/d3-quadtree@*":
+  version "2.0.0"
+  resolved "https://registry.npm.alibaba-inc.com/@types/d3-quadtree/download/@types/d3-quadtree-2.0.0.tgz#b17e953dc061e083966075bba0d3a9a259812150"
+  integrity sha1-sX6VPcBh4IOWYHW7oNOpolmBIVA=
+
 "@types/d3-quadtree@^1":
   version "1.0.8"
   resolved "https://registry.nlark.com/@types/d3-quadtree/download/@types/d3-quadtree-1.0.8.tgz#980998eb20d5e1c1494089ad9a8466a0e98825a7"
   integrity sha1-mAmY6yDV4cFJQImtmoRmoOmIJac=
+
+"@types/d3-random@*":
+  version "2.2.0"
+  resolved "https://registry.npm.alibaba-inc.com/@types/d3-random/download/@types/d3-random-2.2.0.tgz#fc44cabb966917459490b758f31f5359adeabe5b"
+  integrity sha1-/ETKu5ZpF0WUkLdY8x9TWa3qvls=
 
 "@types/d3-random@^1":
   version "1.1.3"
   resolved "https://registry.npm.taobao.org/@types/d3-random/download/@types/d3-random-1.1.3.tgz?cache=0&sync_timestamp=1613386254425&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fd3-random%2Fdownload%2F%40types%2Fd3-random-1.1.3.tgz#8f7fdc23f92d1561e0694eb49567e8ab50537a19"
   integrity sha1-j3/cI/ktFWHgaU60lWfoq1BTehk=
 
+"@types/d3-scale-chromatic@*":
+  version "2.0.0"
+  resolved "https://registry.npm.alibaba-inc.com/@types/d3-scale-chromatic/download/@types/d3-scale-chromatic-2.0.0.tgz#8d4a6f07cbbf2a9f2a4bec9c9476c27ed76a96ea"
+  integrity sha1-jUpvB8u/Kp8qS+yclHbCftdqluo=
+
 "@types/d3-scale-chromatic@^1":
   version "1.5.1"
   resolved "https://registry.npm.taobao.org/@types/d3-scale-chromatic/download/@types/d3-scale-chromatic-1.5.1.tgz?cache=0&sync_timestamp=1613386254226&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fd3-scale-chromatic%2Fdownload%2F%40types%2Fd3-scale-chromatic-1.5.1.tgz#e2b7c3401e5c13809f831911eb820e444f4fc67a"
   integrity sha1-4rfDQB5cE4CfgxkR64IORE9Pxno=
+
+"@types/d3-scale@*":
+  version "3.2.2"
+  resolved "https://registry.npm.alibaba-inc.com/@types/d3-scale/download/@types/d3-scale-3.2.2.tgz#5e28d0b1c599328aaec6094219f10a2570be6d74"
+  integrity sha1-XijQscWZMoquxglCGfEKJXC+bXQ=
+  dependencies:
+    "@types/d3-time" "*"
 
 "@types/d3-scale@^2":
   version "2.2.4"
@@ -4238,10 +4370,22 @@
   dependencies:
     "@types/d3-time" "^1"
 
+"@types/d3-selection@*":
+  version "2.0.0"
+  resolved "https://registry.npm.alibaba-inc.com/@types/d3-selection/download/@types/d3-selection-2.0.0.tgz#59df94a8e47ed1050a337d4ffb4d4d213aa590a8"
+  integrity sha1-Wd+UqOR+0QUKM31P+01NITqlkKg=
+
 "@types/d3-selection@^1":
   version "1.4.3"
   resolved "https://registry.npm.taobao.org/@types/d3-selection/download/@types/d3-selection-1.4.3.tgz#36928bbe64eb8e0bbcbaa01fb05c21ff6c71fa93"
   integrity sha1-NpKLvmTrjgu8uqAfsFwh/2xx+pM=
+
+"@types/d3-shape@*":
+  version "2.0.0"
+  resolved "https://registry.npm.alibaba-inc.com/@types/d3-shape/download/@types/d3-shape-2.0.0.tgz#61aa065726f3c2641aedc59c3603475ab11aeb2f"
+  integrity sha1-YaoGVybzwmQa7cWcNgNHWrEa6y8=
+  dependencies:
+    "@types/d3-path" "^1"
 
 "@types/d3-shape@^1":
   version "1.3.5"
@@ -4250,20 +4394,42 @@
   dependencies:
     "@types/d3-path" "^1"
 
+"@types/d3-time-format@*":
+  version "3.0.0"
+  resolved "https://registry.npm.alibaba-inc.com/@types/d3-time-format/download/@types/d3-time-format-3.0.0.tgz#913e984362a59792dc8d8b122dd17625991eade2"
+  integrity sha1-kT6YQ2Kll5LcjYsSLdF2JZkereI=
+
 "@types/d3-time-format@^2":
   version "2.3.1"
   resolved "https://registry.npm.taobao.org/@types/d3-time-format/download/@types/d3-time-format-2.3.1.tgz?cache=0&sync_timestamp=1613386255018&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fd3-time-format%2Fdownload%2F%40types%2Fd3-time-format-2.3.1.tgz#87a30e4513b9d1d53b920327a361f87255bf3372"
   integrity sha1-h6MORRO50dU7kgMno2H4clW/M3I=
+
+"@types/d3-time@*":
+  version "2.0.0"
+  resolved "https://registry.npm.alibaba-inc.com/@types/d3-time/download/@types/d3-time-2.0.0.tgz#831dd093db91f16b83ba980e194bb8e4bcef44d6"
+  integrity sha1-gx3Qk9uR8WuDupgOGUu45LzvRNY=
 
 "@types/d3-time@^1":
   version "1.1.1"
   resolved "https://registry.npm.taobao.org/@types/d3-time/download/@types/d3-time-1.1.1.tgz?cache=0&sync_timestamp=1613386254707&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fd3-time%2Fdownload%2F%40types%2Fd3-time-1.1.1.tgz#6cf3a4242c3bbac00440dfb8ba7884f16bedfcbf"
   integrity sha1-bPOkJCw7usAEQN+4uniE8Wvt/L8=
 
+"@types/d3-timer@*":
+  version "2.0.0"
+  resolved "https://registry.npm.alibaba-inc.com/@types/d3-timer/download/@types/d3-timer-2.0.0.tgz#9901bb02af38798764674df17d66b07329705632"
+  integrity sha1-mQG7Aq84eYdkZ03xfWawcylwVjI=
+
 "@types/d3-timer@^1":
   version "1.0.10"
   resolved "https://registry.nlark.com/@types/d3-timer/download/@types/d3-timer-1.0.10.tgz#329c51c2c931f44ed0acff78b8c84571acf0ed21"
   integrity sha1-MpxRwskx9E7QrP94uMhFcazw7SE=
+
+"@types/d3-transition@*":
+  version "2.0.0"
+  resolved "https://registry.npm.alibaba-inc.com/@types/d3-transition/download/@types/d3-transition-2.0.0.tgz#6f073f0b567c13b7a3dcd1d54214c89f48c5a873"
+  integrity sha1-bwc/C1Z8E7ej3NHVQhTIn0jFqHM=
+  dependencies:
+    "@types/d3-selection" "*"
 
 "@types/d3-transition@^1":
   version "1.3.1"
@@ -4276,6 +4442,14 @@
   version "1.1.9"
   resolved "https://registry.npm.taobao.org/@types/d3-voronoi/download/@types/d3-voronoi-1.1.9.tgz#7bbc210818a3a5c5e0bafb051420df206617c9e5"
   integrity sha1-e7whCBijpcXguvsFFCDfIGYXyeU=
+
+"@types/d3-zoom@*":
+  version "2.0.0"
+  resolved "https://registry.npm.alibaba-inc.com/@types/d3-zoom/download/@types/d3-zoom-2.0.0.tgz#ef8b87464e8ebc7c66b70f6383d1ae841e78e7fc"
+  integrity sha1-74uHRk6OvHxmtw9jg9GuhB545/w=
+  dependencies:
+    "@types/d3-interpolate" "*"
+    "@types/d3-selection" "*"
 
 "@types/d3-zoom@^1":
   version "1.8.2"
@@ -4321,6 +4495,42 @@
     "@types/d3-transition" "^1"
     "@types/d3-voronoi" "*"
     "@types/d3-zoom" "^1"
+
+"@types/d3@^6.3.0":
+  version "6.3.0"
+  resolved "https://registry.npm.alibaba-inc.com/@types/d3/download/@types/d3-6.3.0.tgz#28d1bfd4e5ef6a38535d8ef0884d452192719528"
+  integrity sha1-KNG/1OXvajhTXY7wiE1FIZJxlSg=
+  dependencies:
+    "@types/d3-array" "*"
+    "@types/d3-axis" "*"
+    "@types/d3-brush" "*"
+    "@types/d3-chord" "*"
+    "@types/d3-color" "*"
+    "@types/d3-contour" "*"
+    "@types/d3-delaunay" "*"
+    "@types/d3-dispatch" "*"
+    "@types/d3-drag" "*"
+    "@types/d3-dsv" "*"
+    "@types/d3-ease" "*"
+    "@types/d3-fetch" "*"
+    "@types/d3-force" "*"
+    "@types/d3-format" "*"
+    "@types/d3-geo" "*"
+    "@types/d3-hierarchy" "*"
+    "@types/d3-interpolate" "*"
+    "@types/d3-path" "*"
+    "@types/d3-polygon" "*"
+    "@types/d3-quadtree" "*"
+    "@types/d3-random" "*"
+    "@types/d3-scale" "*"
+    "@types/d3-scale-chromatic" "*"
+    "@types/d3-selection" "*"
+    "@types/d3-shape" "*"
+    "@types/d3-time" "*"
+    "@types/d3-time-format" "*"
+    "@types/d3-timer" "*"
+    "@types/d3-transition" "*"
+    "@types/d3-zoom" "*"
 
 "@types/doctrine@^0.0.3":
   version "0.0.3"
@@ -4411,7 +4621,7 @@
   dependencies:
     "@types/istanbul-lib-report" "*"
 
-"@types/jest@*", "@types/jest@^26.0.13", "@types/jest@^26.0.22":
+"@types/jest@*", "@types/jest@^26.0.13":
   version "26.0.23"
   resolved "https://registry.nlark.com/@types/jest/download/@types/jest-26.0.23.tgz#a1b7eab3c503b80451d019efb588ec63522ee4e7"
   integrity sha1-obfqs8UDuARR0BnvtYjsY1Iu5Oc=
@@ -4659,13 +4869,6 @@
   version "5.1.11"
   resolved "https://registry.npm.taobao.org/@types/styled-system/download/@types/styled-system-5.1.11.tgz#158849f3b14cdf8bf27a10f0cf87a2c3a89eb680"
   integrity sha1-FYhJ87FM34vyehDwz4eiw6ietoA=
-  dependencies:
-    csstype "^3.0.2"
-
-"@types/styled-system__css@^5.0.14":
-  version "5.0.15"
-  resolved "https://registry.npm.taobao.org/@types/styled-system__css/download/@types/styled-system__css-5.0.15.tgz#f6f896e33393f8b3763f275afaa84261dae77a54"
-  integrity sha1-9viW4zOT+LN2Pyda+qhCYdrnelQ=
   dependencies:
     csstype "^3.0.2"
 
@@ -7615,7 +7818,7 @@ cross-spawn@^3.0.0:
     lru-cache "^4.0.1"
     which "^1.2.9"
 
-cross-spawn@^6.0.0, cross-spawn@^6.0.5:
+cross-spawn@^6.0.0:
   version "6.0.5"
   resolved "https://registry.npm.taobao.org/cross-spawn/download/cross-spawn-6.0.5.tgz#4a5ec7c64dfae22c3a14124dbacdee846d80cbc4"
   integrity sha1-Sl7Hxk364iw6FBJNus3uhG2Ay8Q=
@@ -8141,9 +8344,9 @@ d3-zoom@2:
     d3-selection "2"
     d3-transition "2"
 
-d3@^6.2.0:
+d3@^6.2.0, d3@^6.7.0:
   version "6.7.0"
-  resolved "https://registry.npm.taobao.org/d3/download/d3-6.7.0.tgz?cache=0&sync_timestamp=1618532669843&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fd3%2Fdownload%2Fd3-6.7.0.tgz#adac458597b4a2cafe8e08cf30948af0c95cd61f"
+  resolved "https://registry.npm.alibaba-inc.com/d3/download/d3-6.7.0.tgz#adac458597b4a2cafe8e08cf30948af0c95cd61f"
   integrity sha1-raxFhZe0osr+jgjPMJSK8Mlc1h8=
   dependencies:
     d3-array "2"
@@ -12785,7 +12988,7 @@ lodash.merge@^4.4.0, lodash.merge@^4.6.2:
 
 lodash.omit@^4.5.0:
   version "4.5.0"
-  resolved "https://registry.npm.taobao.org/lodash.omit/download/lodash.omit-4.5.0.tgz#6eb19ae5a1ee1dd9df0b969e66ce0b7fa30b5e60"
+  resolved "https://registry.npm.alibaba-inc.com/lodash.omit/download/lodash.omit-4.5.0.tgz#6eb19ae5a1ee1dd9df0b969e66ce0b7fa30b5e60"
   integrity sha1-brGa5aHuHdnfC5aeZs4Lf6MLXmA=
 
 lodash.pick@^4.2.1:
@@ -13190,11 +13393,6 @@ memory-fs@^0.5.0:
   dependencies:
     errno "^0.1.3"
     readable-stream "^2.0.1"
-
-memorystream@^0.3.1:
-  version "0.3.1"
-  resolved "https://registry.nlark.com/memorystream/download/memorystream-0.3.1.tgz#86d7090b30ce455d63fbae12dda51a47ddcaf9b2"
-  integrity sha1-htcJCzDORV1j+64S3aUaR93K+bI=
 
 meow@^3.3.0, meow@^3.7.0:
   version "3.7.0"
@@ -14055,21 +14253,6 @@ npm-registry-fetch@^9.0.0:
     minizlib "^2.0.0"
     npm-package-arg "^8.0.0"
 
-npm-run-all@^4.1.5:
-  version "4.1.5"
-  resolved "https://registry.nlark.com/npm-run-all/download/npm-run-all-4.1.5.tgz?cache=0&sync_timestamp=1618847007508&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fnpm-run-all%2Fdownload%2Fnpm-run-all-4.1.5.tgz#04476202a15ee0e2e214080861bff12a51d98fba"
-  integrity sha1-BEdiAqFe4OLiFAgIYb/xKlHZj7o=
-  dependencies:
-    ansi-styles "^3.2.1"
-    chalk "^2.4.1"
-    cross-spawn "^6.0.5"
-    memorystream "^0.3.1"
-    minimatch "^3.0.4"
-    pidtree "^0.3.0"
-    read-pkg "^3.0.0"
-    shell-quote "^1.6.1"
-    string.prototype.padend "^3.0.0"
-
 npm-run-path@^2.0.0:
   version "2.0.2"
   resolved "https://registry.npm.taobao.org/npm-run-path/download/npm-run-path-2.0.2.tgz#35a9232dfa35d7067b4cb2ddf2357b1871536c5f"
@@ -14874,11 +15057,6 @@ picomatch@^2.0.4, picomatch@^2.2.1, picomatch@^2.2.3:
   version "2.2.3"
   resolved "https://registry.npm.taobao.org/picomatch/download/picomatch-2.2.3.tgz?cache=0&sync_timestamp=1618050023150&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fpicomatch%2Fdownload%2Fpicomatch-2.2.3.tgz#465547f359ccc206d3c48e46a1bcb89bf7ee619d"
   integrity sha1-RlVH81nMwgbTxI5Goby4m/fuYZ0=
-
-pidtree@^0.3.0:
-  version "0.3.1"
-  resolved "https://registry.nlark.com/pidtree/download/pidtree-0.3.1.tgz?cache=0&sync_timestamp=1618847032806&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fpidtree%2Fdownload%2Fpidtree-0.3.1.tgz#ef09ac2cc0533df1f3250ccf2c4d366b0d12114a"
-  integrity sha1-7wmsLMBTPfHzJQzPLE02aw0SEUo=
 
 pify@^2.0.0, pify@^2.3.0:
   version "2.3.0"
@@ -17314,7 +17492,7 @@ shebang-regex@^3.0.0:
   resolved "https://registry.nlark.com/shebang-regex/download/shebang-regex-3.0.0.tgz#ae16f1644d873ecad843b0307b143362d4c42172"
   integrity sha1-rhbxZE2HPsrYQ7AwexQzYtTEIXI=
 
-shell-quote@1.7.2, shell-quote@^1.6.1:
+shell-quote@1.7.2:
   version "1.7.2"
   resolved "https://registry.npm.taobao.org/shell-quote/download/shell-quote-1.7.2.tgz#67a7d02c76c9da24f99d20808fcaded0e0e04be2"
   integrity sha1-Z6fQLHbJ2iT5nSCAj8re0ODgS+I=

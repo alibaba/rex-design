@@ -12,6 +12,13 @@ module.exports = {
   projectName: 'rex-design',
 
   themeConfig: {
+    announcementBar: {
+      // id: 'alpha.0',
+      isCloseable: false,
+      backgroundColor: '#fffae6',
+      textColor: '#5c3b0d',
+      content: 'ReX Design alpha 版本迭代中，敬请期待。alpha 版本请勿用于将生产环境。',
+    },
     prism: {
       theme: require('prism-react-renderer/themes/vsLight'),
       darkTheme: require('prism-react-renderer/themes/vsDark'),

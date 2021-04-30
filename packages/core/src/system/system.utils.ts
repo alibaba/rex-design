@@ -1,5 +1,3 @@
-// import css from '@styled-system/css';
-// import { camelToKebab } from '../utils';
 import { UnionStringArray } from '../types';
 
 const pseudoSelectors = {
