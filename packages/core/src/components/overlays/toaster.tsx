@@ -2,7 +2,7 @@ import _ from 'lodash';
 import memoizeOne from 'memoize-one';
 import React, { useRef } from 'react';
 import styled from 'styled-components';
-import { OverlayBehaviorContext, OverlayBehaviorContextType } from '../../system';
+import { OverlayBehaviorContext, OverlayBehaviorContextType } from '../../providers';
 import { mergeRefs, noop, pick } from '../../utils';
 import { IOverlayAnimationProps, IOverlayPortalProps, Overlay, OverlayProps } from './overlay';
 import { makeDetachedRenderContainer, RenderContainer } from './overlay-utils/render-containers';

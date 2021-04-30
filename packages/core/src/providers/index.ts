@@ -8,4 +8,5 @@ export {
   OverlayBehaviorContextType,
   OverlayBehaviorContext,
   OverlayBehaviorProvider,
-} from '../system/web/overlay-behavior';
+  DOCUMENT_BODY,
+} from './overlay-behavior';

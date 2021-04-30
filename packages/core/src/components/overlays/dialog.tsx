@@ -1,7 +1,7 @@
 import { Icon } from '@rexd/icon';
 import React, { useMemo } from 'react';
 import styled, { css } from 'styled-components';
-import { useOverlayBehavior } from '../../system';
+import { useOverlayBehavior } from '../../providers';
 import { noop, useMemoizedMergeRefs } from '../../utils';
 import { Button, ButtonProps } from '../button';
 import { makeDialogQuickTools } from './dialog-quick-tools';

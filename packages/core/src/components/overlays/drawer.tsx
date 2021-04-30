@@ -1,7 +1,7 @@
 import { Icon } from '@rexd/icon';
 import React from 'react';
 import styled, { css } from 'styled-components';
-import { useOverlayBehavior } from '../../system';
+import { useOverlayBehavior } from '../../providers';
 import {
   IOverlayAnimationProps,
   IOverlayBackdropProps,

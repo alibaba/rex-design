@@ -1,8 +1,8 @@
 import { Icon } from '@rexd/icon';
 import React from 'react';
-import { css, system, SystemProps } from '../../system';
+import styled from 'styled-components';
 
-export interface TagProps extends SystemProps {
+export interface TagProps {
   /**
    * 是否可交互, 若为是, 在 hover 以及 click 时改变样式
    */
@@ -37,69 +37,66 @@ export interface TagProps extends SystemProps {
   children: React.ReactNode;
 }
 
-const RexTag = system(
-  'span',
-  css`
-    display: inline-flex;
+const RexTag = styled.span`
+  display: inline-flex;
+  align-items: center;
+  padding: 0 var(--rex-space-m);
+  border-radius: var(--rex-radii-m);
+  color: var(--rex-colors-text-body);
+
+  > .rex-tag-icon {
+    display: flex;
     align-items: center;
-    padding: 0 var(--rex-space-m);
-    border-radius: var(--rex-radii-m);
-    color: var(--rex-colors-text-body);
+    margin-right: var(--rex-space-s);
+  }
 
-    > .rex-tag-icon {
-      display: flex;
-      align-items: center;
-      margin-right: var(--rex-space-s);
-    }
+  > .rex-tag-close-icon {
+    margin-left: var(--rex-space-m);
+    display: flex;
+    align-items: center;
 
-    > .rex-tag-close-icon {
-      margin-left: var(--rex-space-m);
-      display: flex;
-      align-items: center;
-
-      &:hover {
-        cursor: pointer;
-        // TODO colors.text.hover
-        color: var(--rex-colors-text-body);
-      }
-    }
-
-    &[data-size='small'] {
-      height: var(--rex-sizes-s5);
-      font-size: var(--rex-fontSizes-note);
-    }
-
-    &[data-size='medium'] {
-      height: var(--rex-sizes-s6);
-      font-size: var(--rex-fontSizes-body);
-    }
-
-    &[data-size='lagre'] {
-      height: var(--rex-sizes-s8);
-      font-size: var(--rex-fontSizes-title);
-    }
-
-    &[data-shape='outline'] {
-      border: var(--rex-borders-solid) var(--rex-colors-line-border);
-    }
-
-    &[data-shape='solid'] {
-      background-color: var(--rex-colors-fill-layer2);
-    }
-
-    /* 可交互 hover  */
-    &[data-interactive='true']:hover {
+    &:hover {
       cursor: pointer;
-      background-color: var(--rex-colors-fill-layer1);
+      // TODO colors.text.hover
+      color: var(--rex-colors-text-body);
     }
-  `,
-);
+  }
+
+  &[data-size='small'] {
+    height: var(--rex-sizes-s5);
+    font-size: var(--rex-fontSizes-note);
+  }
+
+  &[data-size='medium'] {
+    height: var(--rex-sizes-s6);
+    font-size: var(--rex-fontSizes-body);
+  }
+
+  &[data-size='lagre'] {
+    height: var(--rex-sizes-s8);
+    font-size: var(--rex-fontSizes-title);
+  }
+
+  &[data-shape='outline'] {
+    border: var(--rex-borders-solid) var(--rex-colors-line-border);
+  }
+
+  &[data-shape='solid'] {
+    background-color: var(--rex-colors-fill-layer2);
+  }
+
+  /* 可交互 hover  */
+  &[data-interactive='true']:hover {
+    cursor: pointer;
+    background-color: var(--rex-colors-fill-layer1);
+  }
+`;
 
 /**
  * 已废弃
  * @deprecated
  */
-export const Tag = React.forwardRef<'span', TagProps>((props, ref) => {
+export const Tag = React.forwardRef<HTMLSpanElement, TagProps>((props, ref) => {
   const {
     isCloseable = false,
     size = 'medium',

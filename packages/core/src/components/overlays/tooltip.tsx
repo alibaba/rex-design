@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Overlay } from './overlay';
 import { Popup, PopupProps } from './popup';
 
+// TODO 改为白色背景
 const TooltipDiv = styled.div.withConfig({ componentId: 'rex-tooltip' })`
   --rex-popup-bgcolor: #353535;
   font-size: var(--rex-fontSizes-body);
