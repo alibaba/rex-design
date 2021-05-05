@@ -3,6 +3,7 @@ const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const ReactDocgenTypescriptPlugin = require('react-docgen-typescript-plugin').default;
 const FilterWarningsPlugin = require('webpack-filter-warnings-plugin');
 const micromatch = require('micromatch');
+// const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
 
 module.exports = function () {
   return {
@@ -40,9 +41,12 @@ module.exports = function () {
               return !isFromNodeModules;
             },
           }),
+          // TODO 换成 webpack5 option
           new FilterWarningsPlugin({
             exclude: /Attempted import error/,
           }),
+          // TODO webpack5 需要使用
+          // new NodePolyfillPlugin(),
         ],
         resolve: {
           plugins: [new TsconfigPathsPlugin()],
