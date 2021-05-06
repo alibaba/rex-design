@@ -98,8 +98,8 @@ export function DateRangePicker(props: DateRangePickerProps) {
         visible={startVisible}
         onRequestOpen={onStartOpen}
         onRequestClose={onStartClose}
-        triggerType="click"
-        renderTrigger={(pass: any) => (
+        interactionKind="click"
+        renderTarget={(pass: any) => (
           <Input
             {...pass}
             placeholder={placeholder[0]}
@@ -142,8 +142,8 @@ export function DateRangePicker(props: DateRangePickerProps) {
         visible={endVisible}
         onRequestClose={onEndClose}
         onRequestOpen={onEndOpen}
-        triggerType="click"
-        renderTrigger={(pass: any) => (
+        interactionKind="click"
+        renderTarget={(pass: any) => (
           <Input
             {...pass}
             placeholder={placeholder[1]}

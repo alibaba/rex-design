@@ -97,7 +97,3 @@ export function sortCompatibleWithDataIndex(opts: SortCompatibleWithDataIndexFea
     onChangeSorts,
   });
 }
-
-export function TableHeaderTipsTooltip(props: any) {
-  return <Tooltip children={props.title} trigger={props.children} />;
-}

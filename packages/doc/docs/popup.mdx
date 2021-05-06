@@ -17,13 +17,21 @@ Popup 弹层用于在某个参照元素的指定方向弹出一个[浮层](overl
 - 弹层 / popup：「弹层」一词在本页文档中有两个含义。不同含义可能会混用，注意根据上下文进行区分。
   - 指「弹层组件」，包括触发元素，弹出内容，以及弹出交互与定位同步等逻辑
   - 指「弹层组件的浮层」
-- trigger：触发弹层打开的元素。非受控用法下，点击 trigger 或鼠标移入 trigger 将触发弹层打开。
-- reference：弹层定位的参照元素。
-  - 一般情况下，reference 与 trigger 指向同一个元素，但弹层组件也支持使用自定义的 reference。
+- target：触发弹层打开的元素，点击 target 或鼠标移入 target 将触发弹层打开（触发方式取决于 interactionKind）。
+- reference：弹层定位的参照元素。一般情况下，reference 与 target 指向同一个元素，很多地方我们不区分两者。
 - content：浮层内的自定义内容。弹层打开后，content 与 reference 的位置总是保持同步。
   - 弹层内部使用了 [popper.js](https://popper.js.org/) 作为定位引擎，弹层被打开后，组件内部会监听相关的 scroll 和 resize 事件，使得浮层与参考元素的位置总是保持同步。
+- interactionKind：弹层交互类型
+  - `'click'` 点击 target 打开弹层
+  - `'hover'` 鼠标悬停在 target 或者 content 上打开弹层；鼠标离开 target 或 content 关闭弹层
+  - `'hover-target'` 鼠标悬停在 target 上打开弹层；鼠标离开 target 关闭弹层
+  - 除了以上交互，Popup 还支持以下选项控制弹层交互：
+    - `canOpenByFocus`
+    - `canCloseByBlur`
+    - `canCloseByEsc`
+    - `canCloseByOutSideClick`
 - placement：偏好的弹层方向，默认为 `'bottom-start'`。
-  - 支持来自 [popper.js](https://popper.js.org/docs/v2/constructors/#placement) 的 12 个方向以及 `'auto' | 'auto-start' | 'auto-end'` 这 3 个关键字。
+  - 支持来自 [popper.js](https://popper.js.org/docs/v2/constructors/#options) 的 12 个方向以及 `'auto' | 'auto-start' | 'auto-end'` 这 3 个关键字。
 
 <stories.Placements />
 
@@ -55,9 +63,19 @@ Popup 弹层用于在某个参照元素的指定方向弹出一个[浮层](overl
 
 <Story fn={stories.Arrow} />
 
+### 交互微调
+
+- interactionKind：弹层交互类型
+- `'click'` 点击 target 打开弹层
+- `'hover'` 鼠标悬停在 target 上打开弹层；鼠标离开 target 或 content 关闭弹层
+- `'hover-target'` 鼠标悬停在 target 上打开弹层；鼠标离开 target 关闭弹层
+- 除了以上交互，Popup 还支持以下选项控制弹层交互： `canOpenByFocus`, `canCloseByEsc`, `canCloseByBlur`, `canCloseByOutSideClick`
+
+<Story fn={stories.InteractionKind} />
+
 ## 进阶用法
 
-### 为不同方向的弹层设置不同的动画
+### 弹层方向与动画
 
 通过 `props.animationDict` 可以为 12 个不同的方向设置不同的弹层动画。 animationDict 中不需要设置所有方向的动画，缺失特定方向时会使用 `props.animation`。
 
@@ -70,18 +88,9 @@ Popup.defaultAnimation = {
 };
 
 Popup.defaultAnimationDict = {
-  top: {
-    in: animations.expandInUp,
-    out: animations.expandOutDown,
-  },
-  'top-start': {
-    in: animations.expandInUp,
-    out: animations.expandOutDown,
-  },
-  'top-end': {
-    in: animations.expandInUp,
-    out: animations.expandOutDown,
-  },
+  top: { in: animations.expandInUp, out: animations.expandOutDown },
+  'top-start': { in: animations.expandInUp, out: animations.expandOutDown },
+  'top-end': { in: animations.expandInUp, out: animations.expandOutDown },
 };
 ```
 
@@ -95,11 +104,11 @@ Popup.defaultAnimationDict = {
 
 受控用法下，弹层是否打开由 `props.visible` 决定，上层代码可以选择主动打开或关闭弹层。
 
-如果设置了 `canCloseByEsc` 或 `canCloseByOutsideClick`（两者的默认值均为 true，[继承自 Overlay](overlay#关闭操作与安全节点)），onRequestClose 会在相应的时机被调用，上层代码可以在此回调中选择将 visible 设置为 false 以关闭弹层。
+如果设置了 `canCloseBy*`，onRequestClose 会在相应的时机被调用，上层代码可以在此回调中选择将 visible 设置为 false 以关闭弹层。同理，设置 `canOpenBy*` 后，openRequestOpen 会在特定时机被调用。
 
-弹层支持「点击打开」时，即 `triggerType='click'` 或 `triggerType=['click', 'hover']`，鼠标点击 trigger 会调用 onRequestOpen 或 onRequestClose。 上层代码可以选择在 onRequestOpen 中将 visible 设置为 true，也可以选择覆盖 trigger 上的 onClick 回调。
+弹层支持「点击打开」时，即 `interactionKind='click'`，鼠标点击 target 会调用 onRequestOpen 或 onRequestClose。 上层代码可以选择在 onRequestOpen 中将 visible 设置为 true，也可以选择覆盖 target 上的 onClick 回调。
 
-弹层支持「鼠标悬停」打开时，即 `triggerType='hover'` 或 `triggerType=['click', 'hover']`，鼠标在 trigger 上停留时长超过 hoverDelay （默认为 150ms）后，onRequestOpen 将被调用。类似的，鼠标离开 trigger 或 content 超过 hoverDelay 后，onRequestClose 将被调用。
+弹层支持「鼠标悬停」打开时，即 `interactionKind='hover'` 或 `interactionKind='hover-target'`，鼠标在 target 上停留时长超过 hoverDelay（默认 120ms）后，onRequestOpen 将被调用。类似的，鼠标离开 target 或 content 超过 hoverDelay（默认 120ms）后，onRequestClose 将被调用。
 
 #### 非受控用法
 
@@ -107,33 +116,34 @@ Popup.defaultAnimationDict = {
 
 ### 精简 DOM 结构
 
-使用 `<Popup trigger={someButton}>...</Popup>` 时，组件会在 trigger 外层额外包一个 div 元素。该 div 用于设置相关事件监听器并进行定位。此时，对应的 DOM 结构大致如下：
+使用 `<Popup target={someButton}>...</Popup>` 时，组件会在 target 外层额外包一个 span 元素。该 span 用于设置相关事件监听器并进行定位。此时，对应的 DOM 结构大致如下：
 
 ```js
-// 这个 div 元素是 Popup 组件内部自动添加的
-<div
-  // display: 'inline-block' 是 div 的内置样式，无法修改
-  style={{ display: 'inline-block' }}
-  // triggerRef 由 Popup 组件内部管理，用于获取 DOM 元素进行定位
-  ref={triggerRef}
-  // onClick/onMouseEnter/onMouseLeave 由 Popup 组件内部提供，用于实现弹层交互
+// 这个 span 元素是 Popup 组件内部自动添加的
+<span
+  // span.rex-popup-target 将匹配以下样式： display=inline-block
+  className="rex-popup-target"
+  // targetRef 与 onClick 等回调函数由 Popup 组件内部提供，用于实现弹层交互
+  ref={targetRef}
   onClick={onClick}
   onMouseEnter={onMouseEnter}
   onMouseLeave={onMouseLeave}
+  onFocus={onFocus}
+  onBlur={onBlur}
 >
-  {someButton}
-</div>
+  {target}
+</span>
 ```
 
-在一些情况下，这个额外的 div 可能会导致页面布局出现问题（例如使用了 CSS Gird 布局），此时可以使用 `renderTrigger` 代替 `trigger` 来精简 DOM 结构。
+设置 `targetTagName='div'` 可以使用 div 来代替 span，实现块级元素布局；`targetStyle` 可以设置 div/span 的内联样式。
+
+如果不想要这个额外的 div/span（例如 CSS Gird 布局下额外的 div/span 会导致页面布局失效），可以使用 `renderTarget` 代替 `target` 来精简 DOM 结构。
 
 ```jsx
 <Popup
-  renderTrigger={(args) => (
-    // args 是一个包含 ref/onClick/onMouseEnter/onMouseLeave 字段的对象
-    <Button ref={args.ref} onClick={args.onClick}>
-      点击打开弹层
-    </Button>
+  renderTarget={(arg) => (
+    // arg 是一个包含 ref/onClick/onMouseEnter/onMouseLeave/onFocus/onBlur 字段的对象
+    <Button {...arg}>点击打开弹层</Button>
   )}
 >
   弹层内容

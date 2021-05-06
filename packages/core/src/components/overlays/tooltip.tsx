@@ -16,10 +16,10 @@ const animation = {
   out: Overlay.animations.linearZoomOut,
 };
 
-interface TooltipProps
+export interface TooltipProps
   extends Pick<
       PopupProps,
-      'triggerType' | 'flip' | 'placement' | 'renderTrigger' | 'visible' | 'onRequestOpen' | 'onRequestClose'
+      'interactionKind' | 'flip' | 'placement' | 'renderTarget' | 'visible' | 'onRequestOpen' | 'onRequestClose'
     >,
     IOverlayLifecycles {
   /** 提示内容 */
@@ -29,17 +29,24 @@ interface TooltipProps
   children?: React.ReactNode;
 }
 
-export function Tooltip({ children, title, flip, triggerType = 'hover', placement = 'top', ...others }: TooltipProps) {
+export function Tooltip({
+  children,
+  title,
+  flip,
+  interactionKind = 'hover',
+  placement = 'top',
+  ...others
+}: TooltipProps) {
   return (
     <Popup
       animation={animation}
       animationDuration="100ms"
       hasArrow
       flip={flip}
-      triggerType={triggerType}
+      interactionKind={interactionKind}
       placement={placement}
       hoverDelay={60}
-      trigger={children}
+      target={children}
       {...others}
       renderChildren={({ ref, arrow }) => (
         <TooltipDiv ref={ref as React.RefObject<HTMLDivElement>}>

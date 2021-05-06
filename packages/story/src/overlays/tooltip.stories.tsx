@@ -36,13 +36,13 @@ export function Placements() {
       <Tooltip
         key={placement}
         flip={false}
-        renderTrigger={(pass) => (
+        renderTarget={(pass) => (
           <Button {...pass} style={getStyle(index)}>
             {placement}
           </Button>
         )}
         placement={placement}
-        title={<div style={{ width: 150, height: 75 }}>tooltip content</div>}
+        title={<div style={{ width: 150, height: 60 }}>tooltip content</div>}
       />
     ));
   };
@@ -78,7 +78,7 @@ export function Controlled() {
   return (
     <Tooltip
       visible={visible}
-      triggerType="click"
+      interactionKind="click"
       onRequestClose={() => setVisible(false)}
       title={<div style={{ width: 200, height: 100 }}>tooltip content</div>}
     >

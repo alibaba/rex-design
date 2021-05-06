@@ -71,7 +71,7 @@ export function TimePicker(props: TimePickerProps) {
   return (
     <AdaptivePopup
       {...popupProps}
-      renderTrigger={(pass: any) => (
+      renderTarget={(pass: any) => (
         <Input
           {...pass}
           {...triggerProps}

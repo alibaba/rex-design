@@ -45,12 +45,12 @@ export function ActionItem(props: ActionItemProps) {
         visible={visible}
         onRequestOpen={() => setVisible(true)}
         onRequestClose={() => setVisible(false)}
-        renderTrigger={(pass) => (
+        renderTarget={(pass) => (
           <Button {...pass} {...shared}>
             {label}
           </Button>
         )}
-        triggerType="click"
+        interactionKind="click"
       >
         <Box minWidth="140px">
           <Box mb="m">你确定吗?</Box>

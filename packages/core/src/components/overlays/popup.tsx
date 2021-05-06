@@ -4,16 +4,17 @@ import React from 'react';
 import styled from 'styled-components';
 import { composeHandlers, pick } from '../../utils';
 import {
+  IOverlayAnimationProps,
+  IOverlayBackdropProps,
   IOverlayCloseActions,
   IOverlayLifecycles,
-  IOverlayBackdropProps,
+  IOverlayPortalProps,
   Overlay,
   OverlayProps,
-  IOverlayAnimationProps,
 } from './overlay';
 import { animations } from './overlay-utils/animations';
 import { batchedUpdates } from './overlay-utils/batchUpdate';
-import { HoverManager } from './overlay-utils/HoverManager';
+import { PopupInteractionManager } from './overlay-utils/PopupInteractionManager';
 
 export type PopupPlacement = Popper.Placement;
 
@@ -21,12 +22,16 @@ const ARROW_SIZE = 10;
 const ARROW_PADDING = 10;
 const ARROW_OFFSET = 12;
 
-// popup 触发元素的默认渲染方法（inline-block div）
-const defaultRenderTrigger: PopupProps['renderTrigger'] = ({ trigger, triggerType, ...props }) => {
-  return (
-    <div {...props} style={{ display: 'inline-block' }}>
-      {trigger}
-    </div>
+const defaultRenderTarget: PopupProps['renderTarget'] = (htmlProps, { target, targetStyle, targetTagName }) => {
+  return React.createElement(
+    targetTagName,
+    {
+      ...htmlProps,
+      style: targetStyle,
+      // rex-popup-target will set display=inline-block
+      className: 'rex-popup-target',
+    },
+    target,
   );
 };
 
@@ -137,31 +142,32 @@ const StyledOverlay = styled(Overlay)`
   }
 `;
 
-export interface PopupChildrenRenderArgs {
+export interface PopupChildrenRenderArg {
   ref: React.RefObject<Element>;
   children: React.ReactNode;
   arrow?: React.ReactNode;
 }
 
-export interface PopupTriggerRenderParams {
-  ref: React.RefObject<any>;
-  onClick(e: React.MouseEvent): void;
-  onMouseEnter(e: React.MouseEvent): void;
-  onMouseLeave(e: React.MouseEvent): void;
+export type PopupTargetRenderArgs = [
+  {
+    ref: React.RefObject<any>;
+    onClick(e: React.MouseEvent): void;
+    onMouseEnter(e: React.MouseEvent): void;
+    onMouseLeave(e: React.MouseEvent): void;
+    onFocus(e: React.FocusEvent): void;
+    onBlur(e: React.FocusEvent): void;
+  },
+  Pick<PopupProps, 'target' | 'targetStyle' | 'targetTagName'>,
+];
 
-  trigger?: React.ReactNode;
-  triggerType?: PopupProps['triggerType'];
-  // todo triggerStyle, triggerElement, triggerProps
-}
-
-// TODO 需要添加 clickTargetOnly / hoverTargetOnly 类型
-export type PopupTriggerType = 'hover' | 'click' | Array<'hover' | 'click'>;
+export type PopupInteractionKind = 'hover' | 'click' | 'hover-target';
 
 export interface PopupProps
   extends IOverlayCloseActions,
     IOverlayLifecycles,
     IOverlayBackdropProps,
-    IOverlayAnimationProps {
+    IOverlayAnimationProps,
+    IOverlayPortalProps {
   /** 是否显示弹层 */
   visible?: boolean;
 
@@ -177,22 +183,41 @@ export interface PopupProps
   /** 弹层方向 */
   placement?: PopupPlacement;
 
-  renderTrigger?(params: PopupTriggerRenderParams): React.ReactNode;
+  /** 弹层目标元素中的内容 */
+  target?: React.ReactNode;
 
-  /** 触发弹层显示或者隐藏的元素 */
-  trigger?: React.ReactNode;
+  /** 弹层目标元素的标签名称。默认为 span，适用于内联文本。设置为 div 用于块级元素。 */
+  targetTagName?: 'div' | 'span';
 
-  /** 触发弹层显示或隐藏的操作类型，可以是 'click'，'hover'，或者它们组成的数组，如 ['hover', 'click'] */
-  triggerType?: PopupTriggerType;
+  /** 弹层目标元素的样式 */
+  targetStyle?: React.CSSProperties;
+
+  /**
+   * 目标元素获取焦点时，是否自动打开弹层
+   * @category 浮层交互
+   * */
+  canOpenByFocus?: boolean;
+
+  /**
+   * 目标元素失去焦点时，是否自动关闭弹层
+   * @category 浮层交互
+   * */
+  canCloseByBlur?: boolean;
+
+  /**
+   * 渲染目标元素的自定义方法。 该属性将覆盖 target/targetTagName/targetStyle
+   * @displayType (htmlProps, partialPopupProps) => React.ReactNode
+   * */
+  renderTarget?(...params: PopupTargetRenderArgs): React.ReactNode;
+
+  /**
+   * 触发弹层显示或隐藏的操作类型，可以是 click', 'hover', 'hover-target'
+   * @category 浮层交互
+   */
+  interactionKind?: PopupInteractionKind;
 
   /** 鼠标悬停触发弹层显示或隐藏的超时时间 */
   hoverDelay?: number;
-
-  /** 是否使用 portal 来渲染弹层内容 */
-  usePortal?: boolean;
-
-  /** 渲染组件的容器 */
-  portalContainer?: HTMLElement;
 
   /** 弹层的根节点的样式类 */
   wrapperClassName?: string;
@@ -209,27 +234,32 @@ export interface PopupProps
   children?: React.ReactNode;
 
   /** 使用 render prop 的形式指定弹层内容，用于精确控制 DOM 结构 */
-  renderChildren?(pass: PopupChildrenRenderArgs): React.ReactNode;
+  renderChildren?(arg: PopupChildrenRenderArg): React.ReactNode;
 
   /** 弹层翻转 是否允许弹层翻转 */
   flip?: boolean;
 
-  /** 弹层相对于 trigger 位置的偏移量 */
+  /** 弹层相对于 target 位置的偏移量 */
   offset?: [skidding: number, distance: number];
 
-  /** 将弹层的最小宽度设置为 trigger 的宽度 */
+  /** 将弹层的最小宽度设置为 target 的宽度 */
   autoWidth?: boolean;
 
-  /** 将弹层的最小高度设置为 trigger 的高度 */
+  /** 将弹层的最小高度设置为 target 的高度 */
   autoHeight?: boolean;
 
-  /** 为不同的方向设置不同的弹层打开动画 */
+  /**
+   * 为不同的方向设置不同的弹层打开动画
+   * @category 浮层动画
+   * @displayType Partial<{ [placement in PopupPlacement]: OverlayProps['animation'] }>
+   * */
   animationDict?: Partial<{ [placement in PopupPlacement]: OverlayProps['animation'] }>;
 
-  /** 弹层的打开方向（如果 animationDict 中缺少当前方向的打开方向的话，则会使用该 prop 指定的动画） */
+  /**
+   * 弹层的打开方向（如果 animationDict 中缺少当前方向的打开方向的话，则会使用该 prop 指定的动画）
+   * @category 浮层动画
+   * */
   animation?: OverlayProps['animation'];
-
-  disableScroll?: boolean | 'force';
 }
 
 interface PopupState {
@@ -237,13 +267,13 @@ interface PopupState {
 }
 
 /**
- * 弹层组件，根据 placement/strategy/flip/offset 等配置，将 content 放置在 trigger 的旁边。
+ * 弹层组件，根据 placement/strategy/flip/offset 等配置，将 content 放置在 target 的旁边。
  *
  * ```
- *  <Popup trigger={trigger} placement="bottom" offset={[0, 16]}>{content}</Popup>：
+ *  <Popup target={target} placement="bottom" offset={[0, 16]}>{content}</Popup>：
  *
  *      ┌─────────────────────┐
- *      │                     │ <┄┄┄ trigger
+ *      │                     │ <┄┄┄ target
  *      └─────────────────────┘
  *  ╔═════════════════════════════╗
  *  ║                             ║
@@ -253,29 +283,17 @@ interface PopupState {
  * ```
  */
 export class Popup extends React.Component<PopupProps, PopupState> {
-  static defaultRenderTrigger = defaultRenderTrigger;
+  static defaultRenderTarget = defaultRenderTarget;
 
   static defaultRenderChildren = defaultRenderChildren;
 
-  static defaultAnimation: PopupProps['animation'] = {
-    in: animations.expandInDown,
-    out: animations.expandOutUp,
-  };
-
-  static defaultAnimationDict: PopupProps['animationDict'] = {
-    top: {
-      in: animations.expandInUp,
-      out: animations.expandOutDown,
-    },
-    'top-start': {
-      in: animations.expandInUp,
-      out: animations.expandOutDown,
-    },
-    'top-end': {
-      in: animations.expandInUp,
-      out: animations.expandOutDown,
-    },
-  };
+  static getDefaultAnimation(placement: PopupPlacement) {
+    if (placement.includes('top')) {
+      return { in: animations.expandInUp, out: animations.expandOutDown };
+    } else {
+      return { in: animations.expandInDown, out: animations.expandOutUp };
+    }
+  }
 
   static defaultProps = {
     placement: 'bottom-start',
@@ -286,23 +304,27 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     usePortal: true,
     canCloseByEsc: true,
     canCloseByOutSideClick: true,
+    canOpenByFocus: false,
+    canCloseByBlur: false,
     offset: [0, 0],
-    triggerType: 'click',
+    interactionKind: 'click',
     hoverDelay: 120,
-    renderTrigger: Popup.defaultRenderTrigger,
+    renderTarget: Popup.defaultRenderTarget,
     renderChildren: Popup.defaultRenderChildren,
-    animation: Popup.defaultAnimation,
-    animationDict: Popup.defaultAnimationDict,
+    targetTagName: 'span',
+    // 为了区分用户是否真的传递了 animation 与 animationDict，这里不设置默认值
+    // animation: Popup.defaultAnimation,
+    // animationDict: Popup.defaultAnimationDict,
   };
 
   private popper: Popper.Instance | null = null;
 
   private contentRef = React.createRef<HTMLElement>();
 
-  private referenceRef = React.createRef<Element>();
+  private targetRef = React.createRef<Element>();
 
   /** 上次使用的定位参考元素，用于判断参照元素是否发生了变化，发生变化时需要重新创建 popper 实例 */
-  private lastReference: Element = null;
+  private lastTarget: Element = null;
 
   constructor(props: PopupProps) {
     super(props);
@@ -311,7 +333,13 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       visible: props.visible ?? props.defaultVisible,
     };
 
-    this.setupHoverInteraction();
+    this.interactionManager.action$.subscribe((action) => {
+      if (action.type === 'open') {
+        this.onRequestOpen(action.reason);
+      } else {
+        this.onRequestClose(action.reason);
+      }
+    });
   }
 
   static getDerivedStateFromProps(props: PopupProps, state: PopupState) {
@@ -321,33 +349,6 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     return null;
   }
 
-  // 是否支持 非受控的鼠标悬停交互
-  private supportsHover() {
-    const { triggerType } = this.props;
-    return typeof triggerType === 'string' ? triggerType === 'hover' : triggerType.includes('hover');
-  }
-
-  // 是否支持 非受控的鼠标点击交互
-  private supportsClick() {
-    const { triggerType } = this.props;
-    return typeof triggerType === 'string' ? triggerType === 'click' : triggerType.includes('click');
-  }
-
-  private setupHoverInteraction() {
-    this.hoverManager.enterToShow$.subscribe(() => {
-      if (this.supportsHover() && !this.state.visible) {
-        this.onRequestOpen('enter-to-show');
-      }
-    });
-
-    this.hoverManager.leaveToHide$.subscribe(() => {
-      if (this.supportsHover() && this.state.visible) {
-        this.onRequestClose('leave-to-hide');
-      }
-    });
-  }
-
-  // todo 给 reason 添加更加详细的信息
   private onRequestClose = (reason: any) => {
     batchedUpdates(() => {
       this.setState({ visible: false });
@@ -355,7 +356,6 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     });
   };
 
-  // todo 给 reason 添加更加详细的信息
   private onRequestOpen = (reason: any) => {
     batchedUpdates(() => {
       this.setState({ visible: true });
@@ -369,7 +369,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       prevProps.autoWidth !== this.props.autoWidth ||
       prevProps.autoHeight !== this.props.autoHeight ||
       prevProps.flip !== this.props.flip ||
-      (this.lastReference != null && this.lastReference != this.referenceRef.current)
+      (this.lastTarget != null && this.lastTarget != this.targetRef.current)
     ) {
       if (this.state.visible) {
         this.reopenPopper();
@@ -382,15 +382,15 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
     this.closePopper();
 
-    const reference = this.referenceRef.current as HTMLElement;
-    this.lastReference = reference;
+    const target = this.targetRef.current as HTMLElement;
+    this.lastTarget = target;
 
-    if (reference == null) {
+    if (target == null) {
       return;
     }
-    reference.dataset.rexPopupOpen = 'true';
+    target.dataset.rexPopupOpen = 'true';
 
-    this.popper = Popper.createPopper(reference, this.contentRef.current, {
+    this.popper = Popper.createPopper(target, this.contentRef.current, {
       placement,
       modifiers: [
         { name: 'flip', enabled: flip },
@@ -413,9 +413,9 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     return this.popper.update();
   }
 
-  private clearTriggerDataset = () => {
-    const reference = this.referenceRef.current as HTMLElement;
-    delete reference?.dataset.rexPopupOpen;
+  private clearTargetDataset = () => {
+    const target = this.targetRef.current as HTMLElement;
+    delete target?.dataset.rexPopupOpen;
   };
 
   private closePopper = () => {
@@ -426,32 +426,29 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   };
 
   componentWillUnmount() {
-    this.clearTriggerDataset();
+    this.clearTargetDataset();
     this.closePopper();
-    this.hoverManager.complete();
+    this.interactionManager.complete();
   }
 
-  private onTriggerClick = () => {
-    const { visible } = this.state;
-    if (this.supportsClick()) {
-      if (visible) {
-        this.onRequestClose('click');
-      } else {
-        this.onRequestOpen('click');
-      }
-    }
-  };
-
-  private hoverManager = new HoverManager(this.props.hoverDelay);
+  private interactionManager = new PopupInteractionManager(
+    {
+      hoverDelay: this.props.hoverDelay,
+      interactionKind: this.props.interactionKind,
+      canOpenByFocus: this.props.canOpenByFocus,
+      canCloseByBlur: this.props.canCloseByBlur,
+    },
+    () => this.state.visible,
+  );
 
   private beforeOverlayOpen = () => {
     const { beforeOpen, animationDict, animation } = this.props;
 
     return this.reopenPopper().then((state) => {
       beforeOpen?.();
+      const animationFromProps = animationDict?.[state.placement] ?? animation;
       return {
-        // FIXME 用户传的 animation 会被 animationDict 覆盖
-        animation: animationDict[state.placement] ?? animation,
+        animation: animationFromProps ?? Popup.getDefaultAnimation(state.placement),
       };
     });
   };
@@ -464,8 +461,10 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       return;
     }
     const placement = this.popper.state.placement;
+
+    const animationFromProps = animationDict?.[placement] ?? animation;
     return {
-      animation: animationDict[placement] ?? animation,
+      animation: animationFromProps ?? Popup.getDefaultAnimation(placement),
     };
   };
 
@@ -473,8 +472,10 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const {
       usePortal,
       portalContainer,
-      renderTrigger,
-      trigger,
+      renderTarget,
+      target,
+      targetStyle,
+      targetTagName,
       wrapperClassName,
       wrapperStyle,
       hasBackdrop,
@@ -485,7 +486,6 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       children,
       renderChildren,
       animation,
-      animationDict,
       animationDuration,
       hasArrow,
       canCloseByEsc,
@@ -504,19 +504,23 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
     const { visible } = this.state;
 
-    const renderedTrigger = renderTrigger({
-      ref: this.referenceRef,
-      onClick: this.onTriggerClick,
-      onMouseEnter: this.hoverManager.onTriggerMouseEnter,
-      onMouseLeave: this.hoverManager.onTriggerMouseLeave,
-      trigger,
-    });
+    const renderedTarget = renderTarget(
+      {
+        ref: this.targetRef,
+        onClick: this.interactionManager.onTargetClick,
+        onMouseEnter: this.interactionManager.onTargetMouseEnter,
+        onMouseLeave: this.interactionManager.onTargetMouseLeave,
+        onFocus: this.interactionManager.onTargetFocus,
+        onBlur: this.interactionManager.onTargetBlur,
+      },
+      { target, targetStyle, targetTagName },
+    );
 
     const arrow = hasArrow && <div className="rex-popup-arrow" data-popper-arrow="true" />;
 
     return (
       <>
-        {renderedTrigger}
+        {renderedTarget}
 
         <StyledOverlay
           className={wrapperClassName}
@@ -524,8 +528,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
           usePortal={usePortal}
           portalContainer={portalContainer}
           visible={visible}
-          // todo popup 是否需要支持让上层传递 safeNodes?
-          safeNodes={[() => this.referenceRef.current]}
+          safeNodes={[() => this.targetRef.current]}
           hasBackdrop={hasBackdrop}
           backdropStyle={backdropStyle}
           backdropClassName={backdropClassName}
@@ -539,16 +542,18 @@ export class Popup extends React.Component<PopupProps, PopupState> {
           onOpen={overlayLifecycles.onOpen}
           afterOpen={overlayLifecycles.afterOpen}
           beforeClose={this.beforeOverlayClose}
-          onClose={composeHandlers(this.clearTriggerDataset, overlayLifecycles.onClose)}
+          onClose={composeHandlers(this.clearTargetDataset, overlayLifecycles.onClose)}
           afterClose={composeHandlers(this.closePopper, overlayLifecycles.afterClose)}
           renderChildren={({ ref }) => (
             <div
+              // todo autoFocus 浮层打开时 自动获取焦点
+              // todo enforceFocus 浮层打开状态下，焦点始终在浮层内
               className={cx('rex-popup-content', className)}
               style={style}
               ref={this.contentRef as React.RefObject<HTMLDivElement>}
               // 注意这里注册的是 React 管理的回调，mouseEnter/mouseLeave 事件在冒泡时会按照 react portal 来进行
-              onMouseEnter={this.hoverManager.onContentMouseEnter}
-              onMouseLeave={this.hoverManager.onContentMouseLeave}
+              onMouseEnter={this.interactionManager.onContentMouseEnter}
+              onMouseLeave={this.interactionManager.onContentMouseLeave}
             >
               {renderChildren({ ref, children, arrow })}
             </div>

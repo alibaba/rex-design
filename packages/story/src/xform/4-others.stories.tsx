@@ -44,7 +44,7 @@ const Tools = observer(() => {
         重置表单
       </Button>
       <Tooltip
-        renderTrigger={(arg) => (
+        renderTarget={(arg) => (
           <Button
             {...arg}
             onClick={action(() => {

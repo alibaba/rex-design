@@ -12,21 +12,21 @@ export interface ActionSheetProps {
    */
   title?: string;
 
-  trigger: PopupProps['trigger'];
+  target: PopupProps['target'];
 
   dataSource?: MenuProps['dataSource'];
   onItemClick?: MenuProps['onItemClick'];
 }
 
 export function ActionSheet(props: ActionSheetProps) {
-  const { title, trigger, dataSource = [], onItemClick } = props;
+  const { title, target, dataSource = [], onItemClick } = props;
   const { device } = useDevice();
   const { visible, onClose, onOpen } = useVisible({
     defaultVisible: false,
   });
 
   return (
-    <AdaptivePopup hasArrow visible={visible} onRequestOpen={onOpen} onRequestClose={onClose} trigger={trigger}>
+    <AdaptivePopup hasArrow visible={visible} onRequestOpen={onOpen} onRequestClose={onClose} target={target}>
       <Box boxShadow="lowDown" width={device.alias === 's' ? '90vw' : '100px'}>
         {title && (
           <Box py="m" textAlign="center" fontSize="body">

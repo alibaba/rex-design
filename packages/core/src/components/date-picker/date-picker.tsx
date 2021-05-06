@@ -81,8 +81,8 @@ export function DatePicker(props: DatePickerProps) {
       visible={visible}
       onRequestClose={onClose}
       onRequestOpen={onOpen}
-      triggerType="click"
-      renderTrigger={(pass: any) => (
+      interactionKind="click"
+      renderTarget={(pass: any) => (
         <Input
           {...pass}
           {...triggerProps}

@@ -3,7 +3,7 @@ import cx from 'classnames';
 import React from 'react';
 import styled from 'styled-components';
 import { composeHandlers, useMemoizedMergeRefs } from '../../utils';
-import { PopupTriggerRenderParams } from '../overlays';
+import { PopupTargetRenderArgs } from '../overlays';
 import { CaretDownIcon, ClearIcon } from './icons';
 import { toggleValue } from './select-utils';
 import { ISelectAppearanceProps, SelectItem } from './types';
@@ -176,13 +176,13 @@ export interface SelectTriggerProps extends ISelectAppearanceProps {
 
   selectMode: 'single' | 'multiple';
 
-  popupTriggerRenderParams: PopupTriggerRenderParams;
+  popupTargetRenderArg: PopupTargetRenderArgs[0];
   getLabelByValue(value: string): React.ReactNode;
 }
 
 export const SelectTrigger = React.forwardRef<HTMLDivElement, SelectTriggerProps>((props, ref) => {
   const {
-    popupTriggerRenderParams: params,
+    popupTargetRenderArg,
     visible,
     value,
     dataSource,
@@ -209,7 +209,7 @@ export const SelectTrigger = React.forwardRef<HTMLDivElement, SelectTriggerProps
 
   return (
     <SelectTriggerDiv
-      ref={mergeRefs(params.ref, ref)}
+      ref={mergeRefs(popupTargetRenderArg.ref, ref)}
       {...containerProps}
       className={cx(
         {
@@ -221,7 +221,7 @@ export const SelectTrigger = React.forwardRef<HTMLDivElement, SelectTriggerProps
         className,
       )}
       style={style}
-      onClick={composeHandlers(params.onClick, containerProps?.onClick)}
+      onClick={composeHandlers(popupTargetRenderArg.onClick, containerProps?.onClick)}
       tabIndex={0}
     >
       {value.length === 0 ? (

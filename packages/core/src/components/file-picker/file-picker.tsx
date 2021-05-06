@@ -12,6 +12,7 @@ export const FileSelector = styled.label`
 `;
 
 export interface FilePickerProps extends UseFilePickerProps {
+  // todo 和 popup 那边保持一致？ 使用 interactionKind
   triggerType?: 'normal' | 'drag';
   triggerProps?: FilePickTriggerProps;
 }

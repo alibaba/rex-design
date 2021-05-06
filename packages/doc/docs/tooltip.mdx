@@ -14,10 +14,18 @@ import * as stories from 'story/src/overlays/tooltip.stories.tsx';
 
 ```jsx
 // 默认写法:
-<span title="文案解释，文案解释">正文, 正文, 正文</span>
+<span>
+  正文, 正文
+  <span title="文案解释，文案解释">被解释的文本</span>
+  正文, 正文
+</span>
 
 // 使用 Tooltip 进行优化:
-<Tooltip title="文案解释，文案解释">正文, 正文, 正文</Tooltip>
+<span>
+  正文, 正文
+  <Tooltip title="文案解释，文案解释">被解释的文本</Tooltip>
+  正文, 正文
+</span>
 ```
 
 ## 使用方式

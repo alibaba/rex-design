@@ -3,15 +3,15 @@ import React, { useState } from 'react';
 import { useDevice } from '../../providers';
 import { composeHandlers, composeState, pick } from '../../utils';
 import { Dialog, DialogProps } from './dialog';
-import { Popup, PopupProps } from './popup';
+import { Popup, PopupProps, PopupTargetRenderArgs } from './popup';
 
 export interface FullscreenPopupProps
   extends Omit<
       PopupProps,
-      | 'renderTrigger'
+      | 'renderTarget'
       | 'renderChildren'
       | 'placement'
-      | 'triggerType'
+      | 'interactionKind'
       | 'hoverDelay'
       | 'flip'
       | 'offset'
@@ -20,7 +20,7 @@ export interface FullscreenPopupProps
       | 'hasArrow'
     >,
     Pick<DialogProps, 'placement'> {
-  renderTrigger?(arg: { onClick(e: React.MouseEvent): void; trigger?: React.ReactNode }): React.ReactNode;
+  renderTarget?(arg0: Partial<PopupTargetRenderArgs[0]>, arg1: PopupTargetRenderArgs[1]): React.ReactNode;
   renderChildren?(arg: { children?: React.ReactNode }): React.ReactNode;
   style?: React.CSSProperties;
   className?: string;
@@ -41,8 +41,10 @@ export function FullscreenPopup(props: FullscreenPopupProps) {
   const onRequestOpen = composeHandlers(props.onRequestOpen, () => _setVisible(true));
 
   const {
-    trigger,
-    renderTrigger,
+    target,
+    targetTagName = 'div',
+    targetStyle,
+    renderTarget = Popup.defaultRenderTarget as never /* never 用于推断 TS 类型 */,
     renderChildren,
     children,
     canCloseByOutSideClick = true,
@@ -58,10 +60,7 @@ export function FullscreenPopup(props: FullscreenPopupProps) {
 
   const overlayLifecycles = pick(props, ['beforeOpen', 'onOpen', 'afterOpen', 'beforeClose', 'onClose', 'afterClose']);
 
-  const renderedTrigger = (renderTrigger ?? Popup.defaultRenderTrigger)(({
-    trigger,
-    onClick: onRequestOpen,
-  } as unknown) as any);
+  const renderedTarget = renderTarget({ onClick: onRequestOpen }, { target, targetTagName, targetStyle });
 
   const renderedChildren = (renderChildren ?? Popup.defaultRenderChildren)(({
     children,
@@ -69,7 +68,7 @@ export function FullscreenPopup(props: FullscreenPopupProps) {
 
   return (
     <>
-      {renderedTrigger}
+      {renderedTarget}
       <Dialog
         placement={placement}
         className={cx('rex-fullscreen-popup', props.className)}

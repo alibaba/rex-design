@@ -69,7 +69,7 @@ export function useActionList(props: UseActionListProps) {
         node = (
           <ActionSheet
             key={key}
-            trigger={<ActionItem {...pass} />}
+            target={<ActionItem {...pass} />}
             dataSource={children as any}
             onItemClick={onSelect}
           />

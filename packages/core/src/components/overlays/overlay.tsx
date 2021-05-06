@@ -10,24 +10,18 @@ import { animations } from './overlay-utils/animations';
 import { batchedUpdates } from './overlay-utils/batchUpdate';
 import { OverlayManager } from './overlay-utils/OverlayManager';
 
-export function isCustomPortalContainer(portalContainer?: HTMLElement | typeof DOCUMENT_BODY) {
-  return portalContainer != null && portalContainer !== 'DOCUMENT_BODY' && !domUtils.isBody(portalContainer);
-}
-
 export interface IOverlayCloseActions {
-  /** 是否支持 esc 按键关闭弹层 */
+  /**
+   * 是否支持 esc 按键关闭弹层
+   * @category 浮层交互
+   * */
   canCloseByEsc?: boolean;
 
-  /** 点击弹层外部区域是否关闭弹层（注意背景层也被认为是外部） */
+  /**
+   * 点击弹层外部区域是否关闭弹层（注意背景层也被认为是外部）
+   * @category 浮层交互
+   * */
   canCloseByOutSideClick?: boolean;
-}
-
-export interface IOverlayOpenInstruction extends IOverlayAnimationProps {
-  // 这里可以添加更多关于「单次 overlay 被打开的参数」
-}
-
-export interface IOverlayCloseInstruction extends IOverlayAnimationProps {
-  // 这里可以添加更多关于「单次 overlay 被关闭的参数」
 }
 
 // 浮层的相关生命周期定义
@@ -36,7 +30,7 @@ export interface IOverlayLifecycles {
    * 浮层即将被打开时的回调
    * @category 浮层生命周期
    */
-  beforeOpen?(state?: any): Promise<IOverlayOpenInstruction>;
+  beforeOpen?(state?: any): Promise<IOverlayAnimationProps>;
 
   /** 浮层打开时的回调
    * @category 浮层生命周期
@@ -52,7 +46,7 @@ export interface IOverlayLifecycles {
    * 浮层即将被关闭时的回调
    * @category 浮层生命周期
    */
-  beforeClose?(): IOverlayCloseInstruction;
+  beforeClose?(): IOverlayAnimationProps;
 
   /**
    * 浮层关闭时的回调
@@ -81,6 +75,11 @@ export interface IOverlayBackdropProps {
 }
 
 export interface IOverlayAnimationProps {
+  /**
+   * 动画持续时间（注意该 prop 会作为 CSS 变量的值，使用时要带上单位，例如 `'500ms'`)
+   * @category 浮层动画
+   * @default 200ms
+   */
   animationDuration?: string;
 
   /**
@@ -158,6 +157,10 @@ const defaultRenderChildren: OverlayProps['renderChildren'] = ({ ref, children }
 
 /** Overlay 注释文档 */
 export class Overlay extends React.Component<OverlayProps, OverlayState> {
+  static isCustomPortalContainer(portalContainer?: HTMLElement | typeof DOCUMENT_BODY) {
+    return portalContainer != null && portalContainer !== 'DOCUMENT_BODY' && !domUtils.isBody(portalContainer);
+  }
+
   static readonly contextType = OverlayBehaviorContext;
   context: OverlayBehaviorContextType;
 
@@ -176,6 +179,7 @@ export class Overlay extends React.Component<OverlayProps, OverlayState> {
     renderChildren: Overlay.defaultRenderChildren,
     disableScroll: false,
     attachOverlayManager: true,
+    animationDuration: '200ms',
   };
 
   static getDerivedStateFromProps(props: Readonly<OverlayProps>, state: Readonly<OverlayState>): Partial<OverlayState> {
@@ -402,7 +406,7 @@ export class Overlay extends React.Component<OverlayProps, OverlayState> {
                 : `${ANIMATE_PREFIX}${animations.fadeIn.getName()}`,
             )}
             style={{
-              position: isCustomPortalContainer(portalContainer) ? 'absolute' : undefined,
+              position: Overlay.isCustomPortalContainer(portalContainer) ? 'absolute' : undefined,
               ...this.props.backdropStyle,
             }}
           />

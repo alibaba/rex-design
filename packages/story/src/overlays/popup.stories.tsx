@@ -1,20 +1,20 @@
 import { Placement } from '@popperjs/core';
-import { Button, Popup } from '@rexd/core';
+import { Button, Group, Popup } from '@rexd/core';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
 export default { title: 'overlays / Popup' };
 
-const StyledDiv = styled.div`
+const ShadowedDiv = styled.div`
   min-width: 300px;
   min-height: 100px;
   padding: 10px;
   box-shadow: var(--rex-shadows-lowDown);
 `;
 
-function SomeContent() {
+function SomeText() {
   return (
-    <StyledDiv>
+    <>
       最近工作：高级经理｜招商银行丨杭州分行｜2009-07-01 至今
       <br />
       工作职责：巴拉巴拉小魔仙
@@ -24,14 +24,16 @@ function SomeContent() {
       教育经理：北京大学｜工商管理｜2007-09-01 至 2006-06-01
       <br />
       中央财经大学｜2004-09-01 至 2007-06-01
-    </StyledDiv>
+    </>
   );
 }
 
 export function Basic() {
   return (
-    <Popup trigger={<Button>点击查看详情</Button>}>
-      <SomeContent />
+    <Popup target={<Button>点击查看详情</Button>}>
+      <div style={{ border: '1px solid #999', padding: 8 }}>
+        <SomeText />
+      </div>
     </Popup>
   );
 }
@@ -45,37 +47,91 @@ export function Controlled() {
 
   return (
     <Popup
-      trigger={<Button onClick={() => setVisible(true)}>点击查看详情</Button>}
+      target={<Button onClick={() => setVisible(true)}>点击查看详情</Button>}
       visible={visible}
       onRequestClose={onClose}
     >
-      <StyledDiv>
+      <div style={{ border: '1px solid #999', padding: 8 }}>
         <Button onClick={onClose}>手动关闭</Button>
         <p>
-          最近工作：高级经理｜招商银行丨杭州分行｜2009-07-01 至今
-          <br />
-          工作职责：巴拉巴拉小魔仙
-          <br />
-          联系方式：67676767｜1212121@163.con
-          <br />
-          教育经理：北京大学｜工商管理｜2007-09-01 至 2006-06-01
-          <br />
-          中央财经大学｜2004-09-01 至 2007-06-01
+          <SomeText />
         </p>
-      </StyledDiv>
+      </div>
     </Popup>
   );
 }
 
-export function OpenByHover() {
+export function InteractionKind() {
   return (
-    <Popup triggerType="hover" trigger={<Button>鼠标悬停查看详情</Button>}>
-      <SomeContent />
-    </Popup>
+    <Group>
+      <Popup
+        interactionKind="hover-target"
+        target={
+          <Button>
+            <code>hover-target</code>
+          </Button>
+        }
+      >
+        <div style={{ border: '1px solid #999', padding: 8 }}>
+          <SomeText />
+        </div>
+      </Popup>
+      <Popup
+        interactionKind="hover"
+        target={
+          <Button>
+            <code>hover</code>
+          </Button>
+        }
+      >
+        <div style={{ border: '1px solid #999', padding: 8 }}>
+          <SomeText />
+        </div>
+      </Popup>
+      <Popup
+        interactionKind="hover"
+        canOpenByFocus
+        canCloseByBlur
+        target={
+          <Button>
+            <code>hover & focus & blur</code>
+          </Button>
+        }
+      >
+        <div style={{ border: '1px solid #999', padding: 8 }}>
+          <SomeText />
+        </div>
+      </Popup>
+      <Popup
+        interactionKind="click"
+        target={
+          <Button>
+            <code>click</code>
+          </Button>
+        }
+      >
+        <div style={{ border: '1px solid #999', padding: 8 }}>
+          <SomeText />
+        </div>
+      </Popup>
+      <Popup
+        interactionKind="click"
+        canCloseByOutSideClick={false}
+        target={
+          <Button>
+            <code>{`canCloseByOutSideClick={false}`}</code>
+          </Button>
+        }
+      >
+        <div style={{ border: '1px solid #999', padding: 8 }}>
+          <SomeText />
+        </div>
+      </Popup>
+    </Group>
   );
 }
 
-export function SwitchTriggerOnTheFly() {
+export function SwitchTargetOnTheFly() {
   const [visible, setVisible] = useState(true);
   const [reference, setReference] = useState('A');
 
@@ -92,14 +148,16 @@ export function SwitchTriggerOnTheFly() {
         hasArrow
         canCloseByOutSideClick={false}
         visible={visible}
-        renderTrigger={({ ref }) => (
+        renderTarget={({ ref }) => (
           <div style={{ display: 'flex', gap: 32, marginTop: 16 }}>
             <Button ref={reference === 'A' ? ref : null}>按钮A</Button>
             <Button ref={reference === 'B' ? ref : null}>按钮B</Button>
           </div>
         )}
       >
-        <SomeContent />
+        <ShadowedDiv>
+          <SomeText />
+        </ShadowedDiv>
       </Popup>
     </div>
   );
@@ -130,15 +188,17 @@ export function Placements() {
         key={placement}
         flip={false}
         hasArrow
-        renderTrigger={(pass) => (
+        renderTarget={(pass) => (
           <StyledButton {...pass} style={getStyle(index)}>
             {placement}
           </StyledButton>
         )}
         placement={placement}
-        triggerType={['click']}
+        interactionKind="click"
       >
-        <SomeContent />
+        <ShadowedDiv>
+          <SomeText />
+        </ShadowedDiv>
       </Popup>
     ));
   };
@@ -189,8 +249,10 @@ export function PopupInScrollContainer() {
           position: 'relative',
         }}
       >
-        <Popup usePortal={false} trigger={<Button>click me</Button>}>
-          <SomeContent />
+        <Popup usePortal={false} target={<Button>click me</Button>}>
+          <ShadowedDiv>
+            <SomeText />
+          </ShadowedDiv>
         </Popup>
       </div>
     </div>
@@ -200,7 +262,7 @@ export function PopupInScrollContainer() {
 export function SimplifiedDOMStructure() {
   return (
     <Popup
-      renderTrigger={(args) => (
+      renderTarget={(args) => (
         <Button ref={args.ref} onClick={args.onClick}>
           点击触发弹层
         </Button>
@@ -224,8 +286,8 @@ export function SimplifiedDOMStructure() {
 
 export function Nested() {
   return (
-    <Popup trigger={<Button>查看详情</Button>}>
-      <StyledDiv>
+    <Popup target={<Button>查看详情</Button>}>
+      <ShadowedDiv>
         <p>
           最近工作：高级经理｜招商银行丨杭州分行｜2009-07-01 至今
           <br />
@@ -234,14 +296,14 @@ export function Nested() {
           联系方式：67676767｜1212121@163.con
           <br />
         </p>
-        <Popup trigger={<Button>查看教育经历</Button>}>
-          <StyledDiv>
+        <Popup target={<Button>查看教育经历</Button>}>
+          <ShadowedDiv>
             1. 北京大学｜工商管理｜2007-09-01 至 2006-06-01
             <br />
             2. 中央财经大学｜2004-09-01 至 2007-06-01
-          </StyledDiv>
+          </ShadowedDiv>
         </Popup>
-      </StyledDiv>
+      </ShadowedDiv>
     </Popup>
   );
 }
@@ -252,12 +314,12 @@ export function NestedPopupInTallPage() {
       <div>tips: 按钮在页面下方，往下滚一段吧</div>
       <div style={{ height: '150vh' }} />
 
-      <Popup trigger={<Button size="large">打开外层弹框</Button>}>
+      <Popup target={<Button size="large">打开外层弹框</Button>}>
         <div style={{ padding: 8, width: 300, border: '1px solid #ccc' }}>
           <h1>外层弹框内容 </h1>
 
           <Popup
-            trigger={
+            target={
               <Button style={{ marginLeft: 50 }} size="large">
                 打开内层弹框
               </Button>
@@ -279,13 +341,8 @@ export function NestedPopupInTallPage() {
 
 export function Arrow() {
   return (
-    <Popup
-      trigger={<Button>点击查看详情</Button>}
-      hasArrow
-      wrapperStyle={{ '--rex-popup-bgcolor': '#333' } as any}
-      placement="bottom"
-    >
-      <div style={{ color: 'white', padding: 16 }}>
+    <Popup target={<Button>点击查看详情</Button>} hasArrow wrapperStyle={{ '--rex-popup-bgcolor': '#333' } as any}>
+      <div style={{ color: 'white', padding: 12, fontSize: 14 }}>
         最近工作：高级经理｜招商银行丨杭州分行｜2009-07-01 至今
         <br />
         工作职责：巴拉巴拉小魔仙

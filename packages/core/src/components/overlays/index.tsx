@@ -1,11 +1,19 @@
-export { Overlay, OverlayProps, IOverlayCloseActions } from './overlay';
+export {
+  Overlay,
+  OverlayProps,
+  IOverlayCloseActions,
+  IOverlayPortalProps,
+  IOverlayBackdropProps,
+  IOverlayAnimationProps,
+  IOverlayLifecycles,
+} from './overlay';
 export {
   Popup,
   PopupProps,
-  PopupTriggerType,
+  PopupInteractionKind,
   PopupPlacement,
-  PopupTriggerRenderParams,
-  PopupChildrenRenderArgs,
+  PopupTargetRenderArgs,
+  PopupChildrenRenderArg,
 } from './popup';
 export { FullscreenPopupProps, FullscreenPopup, AdaptivePopup } from './adaptive-popup';
 export { Tooltip, TooltipProps } from './tooltip';

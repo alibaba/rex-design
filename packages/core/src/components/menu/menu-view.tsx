@@ -3,7 +3,7 @@ import cx from 'classnames';
 import React from 'react';
 import styled from 'styled-components';
 import { composeHandlers } from '../../utils';
-import { Overlay, Popup, PopupTriggerType } from '../overlays';
+import { Overlay, Popup, PopupInteractionKind } from '../overlays';
 
 const MENU_VERTICAL_PADDING = 8;
 const MENU_POPUP_DISTANCE = -4;
@@ -99,7 +99,7 @@ export interface MenuViewProps {
   style?: React.CSSProperties;
 
   dataSource: MenuItem[];
-  triggerType?: PopupTriggerType;
+  interactionKind?: PopupInteractionKind;
 
   openKeys: string[];
   onOpen(
@@ -145,7 +145,7 @@ function flattenDataSource(items: MenuItem[]) {
 
 // 菜单视图组件（提供菜单视图，完全受控组件）
 export const MenuView = React.forwardRef<HTMLDivElement, MenuViewProps>(
-  ({ dataSource = [], triggerType = 'hover', openKeys, onOpen, ...others }, ref) => {
+  ({ dataSource = [], interactionKind = 'hover', openKeys, onOpen, ...others }, ref) => {
     const openPopup = (key: string) => {
       const nextOpenKeys = [...openKeys, key];
       onOpen(nextOpenKeys, {});
@@ -177,7 +177,7 @@ export const MenuView = React.forwardRef<HTMLDivElement, MenuViewProps>(
         return (
           <Popup
             key={item.key}
-            triggerType={triggerType}
+            interactionKind={interactionKind}
             placement="right-start"
             offset={[-MENU_VERTICAL_PADDING, MENU_POPUP_DISTANCE]}
             visible={openKeys.includes(item.key)}
@@ -188,7 +188,7 @@ export const MenuView = React.forwardRef<HTMLDivElement, MenuViewProps>(
               closePopup(item.key);
             }}
             animation={{ in: Overlay.animations.fadeIn, out: Overlay.animations.fadeOut }}
-            renderTrigger={(arg) => (
+            renderTarget={(arg) => (
               <MenuItemDiv
                 ref={arg.ref}
                 onMouseEnter={arg.onMouseEnter}
@@ -203,7 +203,7 @@ export const MenuView = React.forwardRef<HTMLDivElement, MenuViewProps>(
               <MenuView
                 ref={arg.ref as React.RefObject<HTMLDivElement>}
                 dataSource={item.children}
-                triggerType={triggerType}
+                interactionKind={interactionKind}
                 openKeys={openKeys}
                 onOpen={onOpen}
               />

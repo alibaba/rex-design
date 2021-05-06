@@ -7956,7 +7956,7 @@ d3-chord@2:
   dependencies:
     d3-path "1 - 2"
 
-"d3-color@1 - 2", d3-color@2:
+"d3-color@1 - 2", d3-color@2, d3-color@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npm.taobao.org/d3-color/download/d3-color-2.0.0.tgz#8d625cab42ed9b8f601a1760a389f7ea9189d62e"
   integrity sha1-jWJcq0Ltm49gGhdgo4n36pGJ1i4=
@@ -8134,7 +8134,7 @@ d3-zoom@2:
     d3-selection "2"
     d3-transition "2"
 
-d3@^6.2.0, d3@^6.7.0:
+d3@^6.2.0:
   version "6.7.0"
   resolved "https://registry.npm.taobao.org/d3/download/d3-6.7.0.tgz?cache=0&sync_timestamp=1618532669843&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fd3%2Fdownload%2Fd3-6.7.0.tgz#adac458597b4a2cafe8e08cf30948af0c95cd61f"
   integrity sha1-raxFhZe0osr+jgjPMJSK8Mlc1h8=

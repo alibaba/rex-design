@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { useDevice } from '../../providers';
 import { pick } from '../../utils';
 import { Input } from '../input';
-import { AdaptivePopup, PopupChildrenRenderArgs, PopupTriggerRenderParams } from '../overlays';
+import { AdaptivePopup, PopupChildrenRenderArg, PopupTargetRenderArgs } from '../overlays';
 import { VirtualList, VirtualListAlign } from '../virtual-list';
 import { TickIcon } from './icons';
 import { SelectTrigger } from './select-trigger';
@@ -150,7 +150,7 @@ export const SelectView = React.forwardRef<HTMLDivElement, SelectViewProps>((pro
       autoWidth={autoWidth}
       autoHeight={autoHeight}
       offset={[0, appearance.minimum ? -2 : 2]}
-      triggerType="click"
+      interactionKind="click"
       fullscreenProps={{
         style: { width: '90vw', height },
       }}
@@ -163,14 +163,14 @@ export const SelectView = React.forwardRef<HTMLDivElement, SelectViewProps>((pro
           }
         }
       }}
-      renderTrigger={(params: unknown) => (
+      renderTarget={(arg: unknown) => (
         <SelectTrigger
           ref={ref}
           visible={visible}
           value={value}
           dataSource={dataSource}
           onChange={onChange}
-          popupTriggerRenderParams={params as PopupTriggerRenderParams}
+          popupTargetRenderArg={arg as PopupTargetRenderArgs[0]}
           selectMode={selectMode}
           getLabelByValue={getLabelByValue}
           {...appearance}
@@ -181,7 +181,7 @@ export const SelectView = React.forwardRef<HTMLDivElement, SelectViewProps>((pro
     />
   );
 
-  function renderSelectPanel(arg: PopupChildrenRenderArgs) {
+  function renderSelectPanel(arg: PopupChildrenRenderArg) {
     return (
       <SelectPanelDiv ref={arg.ref as React.RefObject<HTMLDivElement>} className={cx({ restricted })}>
         {showSearch && (

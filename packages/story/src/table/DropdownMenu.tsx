@@ -2,11 +2,11 @@ import { AdaptivePopup, Menu, MenuProps } from '@rexd/core';
 import React, { useState } from 'react';
 
 export interface DropdownMenuProps {
-  trigger: React.ReactNode;
+  target: React.ReactNode;
   menuDataSource: MenuProps['dataSource'];
 }
 
-export function DropdownMenu({ trigger, menuDataSource }: DropdownMenuProps) {
+export function DropdownMenu({ target, menuDataSource }: DropdownMenuProps) {
   const [visible, setVisible] = useState(false);
   const onRequestClose = () => setVisible(false);
   const onRequestOpen = () => setVisible(true);
@@ -16,8 +16,8 @@ export function DropdownMenu({ trigger, menuDataSource }: DropdownMenuProps) {
       visible={visible}
       onRequestOpen={onRequestOpen}
       onRequestClose={onRequestClose}
-      trigger={trigger}
-      triggerType="click"
+      target={target}
+      interactionKind="click"
     >
       <Menu
         style={{

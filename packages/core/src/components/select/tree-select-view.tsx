@@ -117,7 +117,7 @@ export const TreeSelectView = React.forwardRef<HTMLDivElement, TreeSelectViewPro
       offset={[0, appearance.minimum ? -2 : 2]}
       autoWidth={autoWidth}
       autoHeight={autoHeight}
-      triggerType="click"
+      interactionKind="click"
       fullscreenProps={{
         style: { width: '90vw', height },
       }}
@@ -131,7 +131,7 @@ export const TreeSelectView = React.forwardRef<HTMLDivElement, TreeSelectViewPro
           }
         }
       }}
-      renderTrigger={(params: any) => (
+      renderTarget={(arg: any) => (
         <SelectTrigger
           ref={ref}
           visible={visible}
@@ -139,7 +139,7 @@ export const TreeSelectView = React.forwardRef<HTMLDivElement, TreeSelectViewPro
           dataSource={dataSource}
           onChange={onChange}
           selectMode={selectMode}
-          popupTriggerRenderParams={params}
+          popupTargetRenderArg={arg}
           getLabelByValue={getLabelByValue}
           {...appearance}
         />

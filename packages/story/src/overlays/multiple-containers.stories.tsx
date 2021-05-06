@@ -104,7 +104,9 @@ function MiniApp({ name, container }: { name: string; container: HTMLElement }) 
           我是 {name} 的嵌套抽屉
         </Drawer>
 
-        <Tooltip trigger={<Button onClick={() => setTallVisible(true)}>举高高</Button>}>点击进行举高高</Tooltip>
+        <Tooltip title="点击进行举高高">
+          <Button onClick={() => setTallVisible(true)}>举高高</Button>
+        </Tooltip>
         <Dialog
           title="举高高对话框"
           visible={tallVisible}
@@ -131,7 +133,7 @@ function MiniAppShape2({ name, container }: { name: string; container: HTMLEleme
       <div className="scroll-container">
         <h1>{name}</h1>
         <Button onClick={() => setVisible(true)}>打开drawer</Button>
-        <Popup triggerType="click" trigger={<Button>click me</Button>}>
+        <Popup interactionKind="click" target={<Button>click me</Button>}>
           <div style={{ padding: 8, background: '#f8dadd' }}>
             <Button onClick={() => setVisible(true)}>打开drawer</Button>
           </div>

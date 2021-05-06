@@ -14,6 +14,10 @@ const StyledTable = styled.table`
     font-weight: bold;
     padding: 0.75rem;
   }
+
+  .default-value {
+    color: var(--ifm-color-emphasis-700);
+  }
 `;
 
 const DEFAULT_CATEGORY = '@_@.default_category.@_@';
@@ -75,17 +79,15 @@ function PlainPropsTable({ props }: { props: PlainProp[] }) {
     for (const { defaultValue, name, description, type, required } of groups[categoryName]) {
       renderedRows.push(
         <tr key={name}>
-          <td>
+          <td style={{ verticalAlign: 'top' }}>
             {name}
             {required && <span style={{ color: 'red', marginLeft: 2 }}>*</span>}
           </td>
           <td>
-            {description}
-            {description && type && <br />}
             {type && <code>{type.replace('<unknown>', '')}</code>}
-          </td>
-          <td>
             <DefaultValue config={defaultValue} />
+            {type && description && <br />}
+            {description}
           </td>
         </tr>,
       );
@@ -98,7 +100,6 @@ function PlainPropsTable({ props }: { props: PlainProp[] }) {
         <tr>
           <th>字段</th>
           <th>描述</th>
-          <th>默认值</th>
         </tr>
         {renderedRows}
       </tbody>
@@ -129,7 +130,7 @@ export default function PropsTable({ component, props }: { component?: any; prop
   }
 
   return (
-    <div data-props-table={component.displayName ?? component.name}>
+    <div data-props-table={component.displayName ?? component.name} style={{ overflow: 'auto' }}>
       {process.env.NODE_ENV !== 'production' && (
         <p
           style={{
@@ -177,18 +178,18 @@ export default function PropsTable({ component, props }: { component?: any; prop
 
 function DefaultValue({ config }: { config: { value: any } | string }) {
   if (config == null) {
-    return <>-</>;
+    return null;
   }
 
   if (typeof config === 'string') {
-    return <span>{config}</span>;
+    return <i className="default-value"> = {config}</i>;
   }
 
   if (typeof config.value === 'string') {
     // 移除文档中不需要的类型强制转换
     // 例如 [] as OverlayProps['safeNodes']
-    return <span>{config.value.replace(/ as .*$/, '')}</span>;
+    return <i className="default-value"> = {config.value.replace(/ as .*$/, '')}</i>;
   }
 
-  return <span>{JSON.stringify(config.value)}</span>;
+  return <i className="default-value"> = {JSON.stringify(config.value)}</i>;
 }

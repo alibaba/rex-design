@@ -11,10 +11,9 @@ import styled from 'styled-components';
 import { useColorMode, useDevice } from '../../providers';
 import theme from '../../theme';
 import { Checkbox } from '../checkbox';
-
 import { Loading } from '../loading';
+import { Tooltip } from '../overlays';
 import { Radio } from '../radio';
-import { TableHeaderTipsTooltip } from './table-hacks';
 
 function HippoLoadingContentWrapper(props: LoadingContentWrapperProps) {
   const { visible, children } = props;
@@ -163,7 +162,7 @@ export const BaseTable = React.forwardRef<ArtBaseTable, BaseTableProps>((props, 
 });
 
 export const HIPPO_TABLE_PIPELINE_CTX = {
-  components: { Radio, Checkbox, Balloon: TableHeaderTipsTooltip },
+  components: { Radio, Checkbox, Tooltip },
   indents: { iconIndent: -8, iconGap: 16, iconWidth: 16, indentSize: 24 } as const,
 };
 

@@ -1,7 +1,6 @@
+import * as d3 from 'd3-color';
 import { createGlobalStyle, css } from 'styled-components';
 import { OverlayManager } from './OverlayManager';
-// TODO 将 d3 移除
-import * as d3 from 'd3';
 
 function alpha(input: string, alphaValue: number) {
   const c = d3.color(input);
@@ -80,6 +79,10 @@ export const OverlayGlobalStyles = createGlobalStyle`
 
   .${OverlayManager.REX_OVERFLOW_FORCE_HIDDEN_CLS} {
     overflow: hidden !important;
+  }
+
+  span.rex-popup-target {
+    display: inline-block;
   }
 
   // 禁用正在移除的浮层上的鼠标交互

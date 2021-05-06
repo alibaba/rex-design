@@ -60,7 +60,8 @@ function PlaygroundToolbar({ hint, showCopySuccess, showEditor, setShowEditor, s
 
       <Tooltip
         title={showCopySuccess ? '复制成功' : '复制代码'}
-        renderTrigger={(arg) => (
+        interactionKind="hover-target"
+        renderTarget={(arg) => (
           <Button
             {...arg}
             shape="text"
@@ -81,7 +82,8 @@ function PlaygroundToolbar({ hint, showCopySuccess, showEditor, setShowEditor, s
 
       <Tooltip
         title={showEditor ? '隐藏代码' : '显示代码'}
-        renderTrigger={(arg) => (
+        interactionKind="hover-target"
+        renderTarget={(arg) => (
           <Button
             {...arg}
             style={{ marginLeft: 4 }}

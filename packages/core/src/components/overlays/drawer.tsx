@@ -8,7 +8,6 @@ import {
   IOverlayCloseActions,
   IOverlayLifecycles,
   IOverlayPortalProps,
-  isCustomPortalContainer,
   Overlay,
 } from './overlay';
 import { animations } from './overlay-utils/animations';
@@ -216,7 +215,7 @@ export function Drawer({
 }: DrawerProps) {
   const overlayBehavior = useOverlayBehavior();
   const portalContainer = portalContainerProp ?? overlayBehavior.portalContainer;
-  const position = isCustomPortalContainer(portalContainer) ? 'absolute' : undefined;
+  const position = Overlay.isCustomPortalContainer(portalContainer) ? 'absolute' : undefined;
 
   return (
     <Overlay

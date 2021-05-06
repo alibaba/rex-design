@@ -18,7 +18,7 @@ export function MenuButton(props: MenuButtonProps) {
     defaultVisible: false,
   });
 
-  const renderTrigger = (pass: any) => {
+  const renderTarget = (pass: any) => {
     const icon = <Icon type={visible ? 'arrow-up-bold' : 'arrow-down-bold'} />;
     const shared = {
       ...pass,
@@ -33,7 +33,7 @@ export function MenuButton(props: MenuButtonProps) {
   };
 
   return (
-    <AdaptivePopup visible={visible} onRequestClose={onClose} onRequestOpen={onOpen} renderTrigger={renderTrigger}>
+    <AdaptivePopup visible={visible} onRequestClose={onClose} onRequestOpen={onOpen} renderTarget={renderTarget}>
       <Menu dataSource={dataSource} onItemClick={callAll(onClose, onItemClick)} />
     </AdaptivePopup>
   );

@@ -130,9 +130,9 @@ export function ColorPicker(props: any) {
 
   return (
     <Popup
-      triggerType="click"
+      interactionKind="click"
       offset={[0, 18]}
-      renderTrigger={(pass) => (
+      renderTarget={(pass) => (
         <Box {...pass} border="solid" borderColor="line.border" color="text.body">
           {value}
         </Box>
@@ -177,7 +177,7 @@ const MenuItem = styled(Box)`
 export function TokenPicker(props: any) {
   const { value, dataSource = [], onChange } = props;
 
-  const renderTrigger = (pass: any) => (
+  const renderTarget = (pass: any) => (
     <Box {...pass} border="solid" borderColor="line.border" color="text.body">
       {value}
     </Box>
@@ -191,7 +191,7 @@ export function TokenPicker(props: any) {
   };
 
   return (
-    <Popup triggerType="click" renderTrigger={renderTrigger}>
+    <Popup interactionKind="click" renderTarget={renderTarget}>
       <MenuBox as="ul">
         {dataSource.map((item: any) => (
           <MenuItem

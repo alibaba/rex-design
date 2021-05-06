@@ -66,7 +66,7 @@ function renderOptions() {
       <div className="sep" />
 
       <DropdownMenu
-        trigger={
+        target={
           <div className="item">
             更多
             <CaretDown style={{ color: '#A6A6A6' }} />
