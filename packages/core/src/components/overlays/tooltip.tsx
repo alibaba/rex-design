@@ -1,46 +1,50 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Overlay } from './overlay';
+import { IOverlayLifecycles, Overlay } from './overlay';
 import { Popup, PopupProps } from './popup';
 
-// TODO 改为白色背景
 const TooltipDiv = styled.div.withConfig({ componentId: 'rex-tooltip' })`
-  --rex-popup-bgcolor: #353535;
   font-size: var(--rex-fontSizes-body);
-  color: white;
   border-radius: 2px;
   padding: 8px;
   transform-origin: var(--rex-popup-arrow-position);
+  box-shadow: var(--rex-shadows-lowDown);
 `;
-
-export type TooltipProps = Omit<PopupProps, 'animation' | 'animationDict'>;
 
 const animation = {
   in: Overlay.animations.linearZoomIn,
   out: Overlay.animations.linearZoomOut,
 };
 
-export function Tooltip({
-  hasArrow = true,
-  triggerType = 'hover',
-  placement = 'top',
-  hoverDelay = 60,
-  animationDuration = '100ms',
-  ...others
-}: TooltipProps) {
+interface TooltipProps
+  extends Pick<
+      PopupProps,
+      'triggerType' | 'flip' | 'placement' | 'renderTrigger' | 'visible' | 'onRequestOpen' | 'onRequestClose'
+    >,
+    IOverlayLifecycles {
+  /** 提示内容 */
+  title?: React.ReactNode;
+
+  /** 正文内容 */
+  children?: React.ReactNode;
+}
+
+export function Tooltip({ children, title, flip, triggerType = 'hover', placement = 'top', ...others }: TooltipProps) {
   return (
     <Popup
-      {...others}
       animation={animation}
-      animationDuration={animationDuration}
-      hasArrow={hasArrow}
+      animationDuration="100ms"
+      hasArrow
+      flip={flip}
       triggerType={triggerType}
       placement={placement}
-      hoverDelay={hoverDelay}
-      renderChildren={({ children, ref, arrow }) => (
-        <TooltipDiv ref={ref as React.RefObject<HTMLDivElement>} /* todo style? className? */>
+      hoverDelay={60}
+      trigger={children}
+      {...others}
+      renderChildren={({ ref, arrow }) => (
+        <TooltipDiv ref={ref as React.RefObject<HTMLDivElement>}>
           {arrow}
-          {children}
+          {title}
         </TooltipDiv>
       )}
     />

@@ -6,11 +6,14 @@ export default { title: 'overlays / Tooltip' };
 
 export function Basic() {
   return (
-    <Tooltip trigger={<Button>hover me</Button>}>
-      <div style={{ maxWidth: 200 }}>
-        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Alias quas nisi maiores odio nihil modi accusantium
-        inventore minus est ipsa natus pariatur, cumque, facilis minima. Consequatur ratione voluptas earum eveniet!
-      </div>
+    <Tooltip
+      title={
+        <div style={{ width: 160 }}>
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Alias quas nisi maiores odio...
+        </div>
+      }
+    >
+      <Button>hover me</Button>
     </Tooltip>
   );
 }
@@ -23,8 +26,6 @@ const ButtonGrid = styled.div`
   justify-content: center;
   align-items: center;
 `;
-
-const TooltipContent = () => <div style={{ width: 200, height: 100 }}>tooltip content</div>;
 
 export function Placements() {
   const renderButtons = (
@@ -41,9 +42,8 @@ export function Placements() {
           </Button>
         )}
         placement={placement}
-      >
-        <TooltipContent />
-      </Tooltip>
+        title={<div style={{ width: 150, height: 75 }}>tooltip content</div>}
+      />
     ));
   };
 
@@ -80,9 +80,9 @@ export function Controlled() {
       visible={visible}
       triggerType="click"
       onRequestClose={() => setVisible(false)}
-      trigger={<Button onClick={() => setVisible(!visible)}>点击弹出提示信息</Button>}
+      title={<div style={{ width: 200, height: 100 }}>tooltip content</div>}
     >
-      <TooltipContent />
+      <Button onClick={() => setVisible(!visible)}>点击弹出提示信息</Button>
     </Tooltip>
   );
 }

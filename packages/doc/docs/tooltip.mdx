@@ -12,31 +12,41 @@ import * as stories from 'story/src/overlays/tooltip.stories.tsx';
 
 鼠标移入则显示提示，移出消失，文字提示不承载复杂文本和操作。可用来代替系统默认的 title 提示，提供一个 按钮/文字/操作 的文案解释。
 
+```jsx
+// 默认写法:
+<span title="文案解释，文案解释">正文, 正文, 正文</span>
+
+// 使用 Tooltip 进行优化:
+<Tooltip title="文案解释，文案解释">正文, 正文, 正文</Tooltip>
+```
+
 ## 使用方式
 
 文字提示覆盖了[弹层组件](popup)默认的样式和动画效果，其用法与弹层组件相同。
 
 ```jsx live
-function App() {
+function Example() {
   return (
-    <Tooltip trigger={<div style={{ border: '1px solid currentColor', padding: 4 }}>鼠标悬停查看详情</div>}>
-      最近工作：高级经理｜招商银行丨杭州分行｜2009-07-01 至今
-      <br />
-      工作职责：巴拉巴拉小魔仙
-      <br />
-      联系方式：67676767｜1212121@163.con
-      <br />
-      教育经理：北京大学｜工商管理｜2007-09-01 至 2006-06-01
-      <br />
-      中央财经大学｜2004-09-01 至 2007-06-01
+    <Tooltip
+      title={
+        <>
+          最近工作：高级经理｜招商银行丨杭州分行｜2009-07-01 至今
+          <br />
+          工作职责：巴拉巴拉小魔仙
+          <br />
+          联系方式：67676767｜1212121@163.con
+        </>
+      }
+    >
+      <span style={{ border: '1px solid currentColor', padding: 4, cursor: 'default' }}>鼠标悬停查看详情</span>
     </Tooltip>
   );
 }
 ```
 
-## 动画效果
+## 弹出方向
 
-文字提示组件的动画是固定的，目前不支持在上层指定。
+使用 `placement` 设置文字提示的弹出方向。
 
 <stories.Placements />
 

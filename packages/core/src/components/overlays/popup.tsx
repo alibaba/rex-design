@@ -151,8 +151,10 @@ export interface PopupTriggerRenderParams {
 
   trigger?: React.ReactNode;
   triggerType?: PopupProps['triggerType'];
+  // todo triggerStyle, triggerElement, triggerProps
 }
 
+// TODO 需要添加 clickTargetOnly / hoverTargetOnly 类型
 export type PopupTriggerType = 'hover' | 'click' | Array<'hover' | 'click'>;
 
 export interface PopupProps
@@ -182,7 +184,6 @@ export interface PopupProps
 
   /** 触发弹层显示或隐藏的操作类型，可以是 'click'，'hover'，或者它们组成的数组，如 ['hover', 'click'] */
   triggerType?: PopupTriggerType;
-  // TODO 需要添加 clickTargetOnly / hoverTargetOnly 类型
 
   /** 鼠标悬停触发弹层显示或隐藏的超时时间 */
   hoverDelay?: number;

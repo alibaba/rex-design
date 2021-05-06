@@ -59,6 +59,7 @@ function PlaygroundToolbar({ hint, showCopySuccess, showEditor, setShowEditor, s
       {hint.length > 0 && <span className="hint">{hint.join(' ')}</span>}
 
       <Tooltip
+        title={showCopySuccess ? '复制成功' : '复制代码'}
         renderTrigger={(arg) => (
           <Button
             {...arg}
@@ -76,11 +77,10 @@ function PlaygroundToolbar({ hint, showCopySuccess, showEditor, setShowEditor, s
         afterClose={() => {
           setShowCopySuccess(false);
         }}
-      >
-        {showCopySuccess ? '复制成功' : '复制代码'}
-      </Tooltip>
+      />
 
       <Tooltip
+        title={showEditor ? '隐藏代码' : '显示代码'}
         renderTrigger={(arg) => (
           <Button
             {...arg}
@@ -92,9 +92,7 @@ function PlaygroundToolbar({ hint, showCopySuccess, showEditor, setShowEditor, s
             <Icon style={{ fontSize: 16 }} type="code" />
           </Button>
         )}
-      >
-        {showEditor ? '隐藏代码' : '显示代码'}
-      </Tooltip>
+      />
     </PlaygroundToolbarDiv>
   );
 }
