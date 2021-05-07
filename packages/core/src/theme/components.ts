@@ -1,5 +1,13 @@
 const components = {
   Button: {
+    spx: '12px',
+    mpx: '12px',
+    lpx: '14px',
+
+    sFontSize: '12px',
+    mFontSize: '12px',
+    lFontSize: '14px',
+
     textPrimary: 'colors.emphasis.0',
     bgPrimary: 'colors.brand.normal',
     borderColorPrimary: 'colors.brand.normal',
@@ -17,24 +25,24 @@ const components = {
     borderColorSecondary: 'colors.brand.normal',
 
     textSecondaryHover: 'colors.emphasis.0',
-    bgSecondaryHover: 'colors.primary.40',
-    borderColorSecondaryHover: 'colors.primary.40',
+    bgSecondaryHover: 'colors.brand.normal',
+    borderColorSecondaryHover: 'colors.brand.normal',
 
     textSecondaryActive: 'colors.emphasis.0',
-    bgSecondaryActive: 'colors.brand.normal',
-    borderColorSecondaryActive: 'colors.brand.normal',
+    bgSecondaryActive: 'colors.primary.60',
+    borderColorSecondaryActive: 'colors.primary.60',
 
     textNormal: 'colors.text.body',
     bgNormal: 'colors.emphasis.0',
     borderColorNormal: 'colors.line.normal',
 
     textNormalHover: 'colors.emphasis.0',
-    bgNormalHover: 'colors.emphasis.50',
-    borderColorNormalHover: 'colors.emphasis.50',
+    bgNormalHover: 'colors.emphasis.70',
+    borderColorNormalHover: 'colors.emphasis.70',
 
     textNormalActive: 'colors.emphasis.0',
-    bgNormalActive: 'colors.emphasis.70',
-    borderColorNormalActive: 'colors.emphasis.70',
+    bgNormalActive: 'colors.emphasis.80',
+    borderColorNormalActive: 'colors.emphasis.80',
 
     /**
      * @label 禁用文本色

@@ -1,107 +1,103 @@
 import React, { useState } from 'react';
-import { Badge, Button, Group, DemoDivider, DemoGroup, IconButton, NumberInput } from '@rexd/core';
+import { Box, Button, Group, DemoGroup, IconButton } from '@rexd/core';
 import { Icon } from '@rexd/icon';
 
 export default { title: 'Button' };
 
-export const basic = () => <Button>hello world</Button>;
+export function Basic() {
+  return (
+    <Box>
+      <Group>
+        <Button type="normal">普通按钮</Button>
+        <Button type="primary">焦点按钮</Button>
+        <Button type="secondary">次级按钮</Button>
+        <Button disabled>禁用按钮</Button>
+      </Group>
+      <Group mt="l">
+        <Button shape="warning" type="normal">
+          普通警告按钮
+        </Button>
+        <Button shape="warning" type="primary">
+          焦点警告按钮
+        </Button>
+      </Group>
+      <Group mt="l">
+        <Button shape="text" type="normal">
+          普通文本按钮
+        </Button>
+        <Button shape="text" type="primary">
+          焦点链接按钮
+        </Button>
+        <Button shape="text" type="primary" disabled>
+          焦点链接按钮
+        </Button>
+      </Group>
+    </Box>
+  );
+}
 
-export const fullWidth = () => (
+/**
+ * 与文本按钮相比，链接型按钮没有内间距
+ */
+export function LinkButton() {
+  return (
+    <Group>
+      <Button shape="link" type="normal">
+        普通链接按钮
+      </Button>
+      <Button shape="link" type="primary">
+        焦点链接按钮
+      </Button>
+    </Group>
+  );
+}
+
+export function Size() {
+  return (
+    <Group>
+      <Button size="small">小尺寸按钮</Button>
+      <Button size="medium">中尺寸按钮</Button>
+      <Button size="large">大尺寸按钮</Button>
+    </Group>
+  );
+}
+
+export const FullWidth = () => (
   <Button type="primary" isFullWidth>
     整行按钮
   </Button>
 );
 
-export const size = () => (
-  <DemoGroup>
-    <Button size="small">small</Button>
-    <Button size="medium">medium</Button>
-    <Button size="large">large</Button>
-  </DemoGroup>
-);
-
-export const addIcon = () => (
-  <DemoGroup>
+export const AddIcon = () => (
+  <Group>
     <Button leftElement={<Icon type="email" />} type="primary">
       邮箱
     </Button>
-    <Button leftElement={<Icon type="arrow-right" />}>点击了解更多</Button>
-  </DemoGroup>
+    <Button rightElement={<Icon type="arrow-right" />}>点击了解更多</Button>
+
+    <Button shape="text" leftElement={<Icon type="add" />}>
+      新建
+    </Button>
+  </Group>
 );
 
-export const AddBadge = () => {
-  const [count, setCount] = useState(9);
-  return (
-    <DemoGroup>
-      <Button
-        rightElement={
-          <Badge status="error" isPill>
-            {count}
-          </Badge>
-        }
-      >
-        带徽标的按钮
-      </Button>
-      <NumberInput defaultValue={count} onChange={(val) => setCount(val)} />
-    </DemoGroup>
-  );
-};
-
+/**
+ * 仅图标的按钮
+ */
 export const OnlyIcon = () => (
   <DemoGroup>
     <IconButton icon="close" />
   </DemoGroup>
 );
 
-export const loading = () => (
+export const Loading = () => (
   <DemoGroup>
     <Button loading />
     <Button loading>提交中</Button>
   </DemoGroup>
 );
 
-export const shape = () => (
-  <DemoGroup>
-    <Button shape="solid" type="primary">
-      主要按钮
-    </Button>
-    <Button shape="solid" type="secondary">
-      次要按钮
-    </Button>
-    <Button shape="solid" type="normal">
-      普通按钮
-    </Button>
-    <Button shape="solid" disabled>
-      禁用按钮
-    </Button>
-    <DemoDivider />
-    <Button shape="text" type="primary">
-      主要文本按钮
-    </Button>
-    <Button shape="text">普通文本按钮</Button>
-    <Button shape="text" disabled>
-      禁用文本按钮
-    </Button>
-    <DemoDivider />
-    <Button shape="link" type="primary">
-      主要链接按钮
-    </Button>
-    <Button shape="link">普通链接按钮</Button>
-    <Button shape="link" disabled>
-      禁用链接按钮
-    </Button>
-    <DemoDivider />
-    <Button shape="warning" type="primary">
-      主要警告按钮
-    </Button>
-    <Button shape="warning">普通警告按钮</Button>
-    <Button shape="warning" disabled>
-      禁用警告按钮
-    </Button>
-  </DemoGroup>
-);
-
-export const group = () => (
+export const ButtonGroup = () => (
   <DemoGroup>
     <Group isAttached>
       <Button>Left Button</Button>

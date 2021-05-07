@@ -51,7 +51,7 @@ const buttonType = (
   `;
 };
 
-const SystemButton = styled(OneButton)<Dict<any>>`
+const SystemButton = styled(OneButton)<any>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -60,7 +60,7 @@ const SystemButton = styled(OneButton)<Dict<any>>`
   vertical-align: middle;
   user-select: none;
   cursor: pointer;
-  width: ${(props: Dict) => (props.$isFullWidth ? '100%' : null)};
+  width: ${(props: any) => (props.$isFullWidth ? '100%' : null)};
   border-radius: var(--rex-radii-m);
   border: var(--rex-borders-solid);
 
@@ -69,15 +69,15 @@ const SystemButton = styled(OneButton)<Dict<any>>`
   }
 
   &.rex-btn-small {
-    ${buttonSize('var(--rex-sizes-formHeights-s)', 'var(--rex-space-l)', 'var(--rex-fontSizes-body)')}
+    ${buttonSize('var(--rex-sizes-formHeights-s)', getToken('Button.spx'), getToken('Button.sFontSize'))}
   }
 
   &.rex-btn-medium {
-    ${buttonSize('var(--rex-sizes-formHeights-m)', 'var(--rex-space-xl)', 'var(--rex-fontSizes-body)')}
+    ${buttonSize('var(--rex-sizes-formHeights-m)', getToken('Button.mpx'), getToken('Button.mFontSize'))}
   }
 
   &.rex-btn-large {
-    ${buttonSize('var(--rex-sizes-formHeights-l)', 'var(--rex-space-xxl)', 'var(--rex-fontSizes-title)')}
+    ${buttonSize('var(--rex-sizes-formHeights-l)', getToken('Button.lpx'), getToken('Button.lFontSize'))}
   }
 
   &.rex-btn-link {

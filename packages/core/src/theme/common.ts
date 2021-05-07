@@ -8,7 +8,7 @@ const common = {
       20: '#a4bbed',
       30: '#7f9be3',
       40: '#5b7ad9',
-      50: '#3858cf', // base
+      50: '#3862cf', // base
       60: '#273ea8',
       70: '#182985',
       80: '#0f1963',
@@ -270,10 +270,9 @@ const common = {
     s20: '80px',
 
     formHeights: {
-      s: '24px',
-      m: '32px',
-      l: '40px',
-      xl: '48px',
+      s: '26px',
+      m: '34px',
+      l: '41px',
     },
   },
 
