@@ -83,7 +83,7 @@ export interface IOverlayAnimationProps {
   animationDuration?: string;
 
   /**
-   * 弹层的出现和消失的动画，可以用 Overlay.animations.xxx 来引用弹层组件内置的动画效果
+   * 弹层的出现和消失的动画，可以用 Overlay.animations.{name} 来引用弹层组件内置的动画效果
    * @category 浮层动画
    * */
   animation?:

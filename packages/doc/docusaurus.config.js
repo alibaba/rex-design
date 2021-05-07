@@ -32,7 +32,6 @@ module.exports = {
       items: [
         { to: 'docs', activeBasePath: 'docs', label: '组件', position: 'left' },
         { to: 'design', activeBasePath: 'design', label: '设计', position: 'left' },
-        { to: 'blog', label: '博客', position: 'left' },
         {
           href: 'https://github.com/alibaba/rex-design',
           position: 'right',
@@ -40,23 +39,6 @@ module.exports = {
           'aria-label': 'GitHub repository',
         },
       ],
-    },
-    footer: {
-      style: 'dark',
-      links: [
-        {
-          title: '文档',
-          items: [{ label: '更新日志', to: 'docs/changelog' }],
-        },
-        {
-          title: '更多',
-          items: [
-            { label: 'Blog', to: 'blog' },
-            { label: 'docusaurus', href: 'https://github.com/facebook/docusaurus' },
-          ],
-        },
-      ],
-      copyright: `Copyright © ${new Date().getFullYear()} Alibaba Inc. Built with ❤️ by hema-FE.`,
     },
 
     // algolia: {
@@ -99,7 +81,7 @@ module.exports = {
         id: 'design-docs',
         path: 'design-docs',
         routeBasePath: 'design',
-        // editUrl: 'https://github.com/alibaba/ali-react-table/edit/master/packages/website/',
+        editUrl: 'https://github.com/alibaba/rex-design/edit/main/packages/doc/',
         sidebarPath: require.resolve('./design-sidebars.js'),
       },
     ],

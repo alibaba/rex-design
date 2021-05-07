@@ -14,23 +14,15 @@ import * as stories from 'story/src/overlays/tooltip.stories.tsx';
 
 ```jsx
 // 默认写法:
-<span>
-  正文, 正文
-  <span title="文案解释，文案解释">被解释的文本</span>
-  正文, 正文
-</span>
+<span title="文案解释，文案解释">被解释的文本</span>
 
 // 使用 Tooltip 进行优化:
-<span>
-  正文, 正文
-  <Tooltip title="文案解释，文案解释">被解释的文本</Tooltip>
-  正文, 正文
-</span>
+<Tooltip title="文案解释，文案解释">被解释的文本</Tooltip>
 ```
 
-## 使用方式
+## 示例
 
-文字提示覆盖了[弹层组件](popup)默认的样式和动画效果，其用法与弹层组件相同。
+### 基本示例
 
 ```jsx live
 function Example() {
@@ -52,7 +44,7 @@ function Example() {
 }
 ```
 
-## 弹出方向
+### 弹出方向
 
 使用 `placement` 设置文字提示的弹出方向。
 
