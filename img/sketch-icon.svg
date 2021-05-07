@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="64px" height="64px" viewBox="0 0 64 64" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>sketch</title>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="PC" transform="translate(-228.000000, -1733.000000)" fill-rule="nonzero">
+            <g id="sketch" transform="translate(228.000000, 1733.000000)">
+                <rect id="矩形" fill="#000000" opacity="0" x="0" y="0" width="64" height="64"></rect>
+                <polygon id="路径" fill="#FFAE00" points="32 59.392 1.792 24.256 14.848 6.464 32 4.608 49.152 6.464 62.208 24.256"></polygon>
+                <polygon id="路径" fill="#EC6C00" points="32 59.392 1.792 24.256 62.208 24.256"></polygon>
+                <polygon id="路径" fill="#FFAE00" points="32 59.392 14.016 24.256 49.984 24.256"></polygon>
+                <polygon id="路径" fill="#FFEFB4" points="32 4.608 14.016 24.256 49.984 24.256"></polygon>
+                <path d="M14.848,6.464 L8.128,15.424 L1.792,24.256 L14.144,24.256 L14.848,6.464 Z M49.152,6.464 L55.872,15.424 L62.208,24.256 L49.856,24.256 L49.152,6.464 Z" id="形状" fill="#FFAE00"></path>
+                <path d="M14.848,6.464 L14.016,24.256 L32,4.608 L14.848,6.464 Z M49.152,6.464 L49.984,24.256 L32,4.608 L49.152,6.464 Z" id="形状" fill="#FED305"></path>
+            </g>
+        </g>
+    </g>
+</svg>
