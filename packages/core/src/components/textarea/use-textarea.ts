@@ -1,4 +1,3 @@
-import { useCallback } from 'react';
 import cx from 'classnames';
 import { useControllableState } from '../../hooks';
 import { FormValidateStatusType } from '../../types';
@@ -33,22 +32,20 @@ export function useTextarea(props: UseTextareaProps) {
     className,
   );
 
-  const getInputProps = useCallback(
-    (props, ref) => {
-      return {
-        placeholder: '请输入',
-        ...htmlProps,
-        ...props,
-        className: clazz,
-        ref,
-        value,
-        onChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
-          updateValue(e?.target.value);
-        },
-      };
-    },
-    [updateValue, value, clazz, htmlProps],
-  );
+  const getInputProps = (props, ref) => {
+    return {
+      placeholder: '请输入',
+      ...htmlProps,
+      ...props,
+      className: clazz,
+      ref,
+      value,
+      disabled,
+      onChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
+        updateValue(e?.target.value);
+      },
+    };
+  };
 
   return {
     getInputProps,

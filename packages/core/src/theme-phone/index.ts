@@ -13,10 +13,9 @@ export default extendTheme({
 
   sizes: {
     formHeights: {
-      s: '32px',
-      m: '40px',
+      s: '30px',
+      m: '41px',
       l: '48px',
-      xl: '52px',
     },
   },
 

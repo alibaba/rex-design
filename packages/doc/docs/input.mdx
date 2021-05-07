@@ -8,19 +8,37 @@ import * as stories from 'story/src/input.stories';
 
 ## 使用场景
 
+输入框，可以用来输入剪短的文本内容。
+
 ## 示例
 
 ### 基本示例
 
 <Story fn={stories.Basic} />
 
-### 受控
+### 校验状态
 
-<Story fn={stories.Controlled} />
+通过 status 传入输入框的校验状态
 
-### 密码
+<Story fn={stories.Status} />
 
-<Story fn={stories.Password} />
+### 清空
+
+通过 hasClear 设置是否显示输入框清空按钮
+
+<Story fn={stories.HasClear} />
+
+### 无边框的输入框
+
+通过 shape 设置简洁输入框，没有边框
+
+<Story fn={stories.NoBorder} />
+
+### 内部元素
+
+使用 leftElement, rightElement 传入内部的扩展内容
+
+<Story fn={stories.Elements} />
 
 ### 关闭自动填充
 
@@ -28,29 +46,11 @@ import * as stories from 'story/src/input.stories';
 
 <Story fn={stories.AutoCompleteOff} />
 
-### 尺寸
+### 输入框组合
 
-<Story fn={stories.Size} />
-
-### 简单输入框
-
-<Story fn={stories.Simple} />
-
-### 形态
-
-<Story fn={stories.Shape} />
-
-### 清空
-
-<Story fn={stories.HasClear} />
-
-### 扩展
+将输入框和其他元素进行组合
 
 <Story fn={stories.Addons} />
-
-### 元素
-
-<Story fn={stories.Elements} />
 
 ## API
 

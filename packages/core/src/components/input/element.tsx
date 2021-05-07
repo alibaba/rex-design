@@ -7,7 +7,7 @@ export const InputElement = React.forwardRef<HTMLInputElement, InputElementProps
   const { children, ...others } = props;
 
   return (
-    <Box ref={ref} display="flex" alignItems="center" fontSize="note" {...others}>
+    <Box ref={ref} display="flex" alignItems="center" fontSize="body" {...others}>
       {children}
     </Box>
   );

@@ -15,7 +15,7 @@ export interface UseInputProps {
   onClear?: () => void;
   hasClear?: boolean;
   shape?: 'solid' | 'simple';
-  status?: 'error' | 'success';
+  status?: 'error' | 'success' | 'warning';
   readOnly?: boolean;
   disabled?: boolean;
   placeholder?: string;

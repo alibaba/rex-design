@@ -6,11 +6,42 @@ export default { title: 'Input' };
 
 export function Basic() {
   return (
-    <DemoGroup>
+    <Flex spacing="l" direction="column">
       <Input onChange={console.log} />
       <Input defaultValue="默认值" onChange={console.log} />
       <Input defaultValue="只读输入框" onChange={console.log} readOnly />
-    </DemoGroup>
+      <Input defaultValue="只读输入框" onChange={console.log} disabled />
+    </Flex>
+  );
+}
+
+export function Status() {
+  return (
+    <Flex spacing="l" direction="column">
+      <Input defaultValue="hippo" status="error" />
+      <Input defaultValue="hippo" status="success" />
+      <Input defaultValue="hippo" status="warning" />
+    </Flex>
+  );
+}
+
+export function HasClear() {
+  return <Input hasClear defaultValue="点击右侧图标清空当前文本" onChange={console.log} />;
+}
+
+export function NoBorder() {
+  return <Input shape="simple" placeholder="简单输入框" />;
+}
+
+export function Elements() {
+  return (
+    <Flex spacing="l" direction="column">
+      <Input
+        leftElement={<Icon type="search" style={{ marginLeft: '8px' }} />}
+        rightElement={<Icon type="browse" style={{ marginRight: '8px' }} />}
+        defaultValue="default value"
+      />
+    </Flex>
   );
 }
 
@@ -34,66 +65,13 @@ export function AutoCompleteOff() {
   );
 }
 
-export function Status() {
-  return (
-    <Flex spacing="l" direction="column">
-      <Input defaultValue="hippo" status="error" />
-      <Input defaultValue="hippo" status="success" />
-      <Input defaultValue="hippo" />
-    </Flex>
-  );
-}
-
-export function Simple() {
-  return <Input shape="simple" placeholder="简单输入框" />;
-}
-
-export function HasClear() {
-  return <Input hasClear defaultValue="点击右侧图标清空当前文本" onChange={console.log} />;
-}
-
-export function Elements() {
-  return (
-    <Flex spacing="l" direction="column">
-      <Input
-        leftElement={<Icon type="search" style={{ marginLeft: '8px' }} />}
-        rightElement={<Icon type="arrow-down" style={{ marginRight: '8px' }} />}
-        hasClear
-        defaultValue="default value"
-      />
-    </Flex>
-  );
-}
-
-export function Disabled() {
-  return (
-    <DemoGroup>
-      <Input
-        leftElement={<Icon type="search" />}
-        rightElement={<Icon type="arrow-down" />}
-        hasClear
-        value="hello world"
-        disabled
-      />
-      <Input
-        shape="simple"
-        leftElement={<Icon type="search" />}
-        rightElement={<Icon type="arrow-down" />}
-        hasClear
-        value="hello world"
-        disabled
-      />
-    </DemoGroup>
-  );
-}
-
 export function Addons() {
   return (
     <Flex spacing="l" direction="column">
       <Group isAttached>
         <InputAddon>https://</InputAddon>
-        <Input placeholder="https://alibaba.github.io/rex-design/" />
-        <InputAddon>.com</InputAddon>
+        <Input placeholder="alibaba.github" />
+        <InputAddon>.io</InputAddon>
       </Group>
 
       <Group isAttached>

@@ -44,6 +44,14 @@ const InputWrapper = styled(Box)`
     &.rex-error {
       border-color: ${getToken('Input.borderColorError')};
     }
+
+    &.rex-warning {
+      border-color: ${getToken('Input.borderColorWarning')};
+    }
+
+    &.rex-success {
+      border-color: ${getToken('Input.borderColorSuccess')};
+    }
   }
 
   &.rex-simple {

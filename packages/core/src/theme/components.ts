@@ -115,16 +115,17 @@ const components = {
     textColorHover: 'colors.emphasis.90',
   },
 
-  FormControl: {},
-
   Input: {
     width: '240px',
 
     borderColor: 'colors.line.border',
-    borderColorHover: 'colors.brand.normal',
+    borderColorHover: 'colors.brand.hover',
     borderColorFocus: 'colors.brand.normal',
-    borderColorDisabled: 'colors.line.disabled',
+    borderColorDisabled: 'colors.fill.disabled',
+
     borderColorError: 'colors.error.normal',
+    borderColorWarning: 'colors.warning.normal',
+    borderColorSuccess: 'colors.success.normal',
 
     textColor: 'colors.text.body',
     textColorDisabled: 'colors.text.disabled',
