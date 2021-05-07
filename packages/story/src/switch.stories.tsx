@@ -16,3 +16,24 @@ export function Basic() {
     </DemoGroup>
   );
 }
+
+export function HasLabel() {
+  return (
+    <DemoGroup>
+      <Switch hasLabel onChange={console.log} />
+      <Switch hasLabel defaultChecked onChange={console.log} />
+    </DemoGroup>
+  );
+}
+
+export function Size() {
+  return (
+    <DemoGroup>
+      <Switch size="small" onChange={console.log} />
+      <Switch size="small" defaultChecked onChange={console.log} />
+
+      <Switch size="medium" onChange={console.log} />
+      <Switch size="medium" defaultChecked onChange={console.log} />
+    </DemoGroup>
+  );
+}

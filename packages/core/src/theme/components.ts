@@ -175,11 +175,21 @@ const components = {
   },
 
   Switch: {
-    width: '30px', // height * 2 - 2
-    height: '16px',
+    small: {
+      width: '32px',
+      height: '18px',
+      trackHeight: '14px',
+      sliderOffsetTop: '2px',
+      sliderCheckedTransform: 'translateX(15px)',
+    },
 
-    sliderSize: '16px',
-    sliderCheckedTransform: 'translateX(14px)', // size - 2
+    medium: {
+      width: '48px',
+      height: '26px',
+      trackHeight: '20px',
+      sliderOffsetTop: '3px', // (height - trackHeight)/2
+      sliderCheckedTransform: 'translateX(22px)',
+    },
   },
 
   Tree: {

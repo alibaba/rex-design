@@ -60,11 +60,21 @@ export default extendTheme({
     },
 
     Switch: {
-      width: '42px',
-      height: '22px',
+      small: {
+        width: '44px',
+        height: '24px',
+        trackHeight: '14px',
+        sliderOffsetTop: '5px',
+        sliderCheckedTransform: 'translateX(20px)',
+      },
 
-      sliderSize: '22px',
-      sliderCheckedTransform: 'translateX(20px)',
+      medium: {
+        width: '60px',
+        height: '32px',
+        trackHeight: '20px',
+        sliderOffsetTop: '6px', // (height - trackHeight)/2
+        sliderCheckedTransform: 'translateX(28px)',
+      },
     },
 
     Tree: {
