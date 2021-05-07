@@ -1,9 +1,20 @@
 $transitionConfig: var(--ifm-transition-fast) var(--ifm-transition-timing-default);
 
+@mixin small {
+  @media (max-width: 1000px) {
+    @content;
+  }
+}
+
+@mixin maxWidth($size) {
+  @media (max-width: $size) {
+    @content;
+  }
+}
+
 .homePage {
   color: white;
   background: #1f222f;
-  min-width: 900px;
 }
 
 .headerWrapper {
@@ -21,7 +32,18 @@ $transitionConfig: var(--ifm-transition-fast) var(--ifm-transition-timing-defaul
     align-items: center;
     height: 64px;
 
+    @include small {
+      padding: 0 16px;
+    }
+
     .left {
+      .logo {
+        display: block;
+
+        @include small {
+          width: 186px;
+        }
+      }
     }
 
     .right {
@@ -39,6 +61,10 @@ $transitionConfig: var(--ifm-transition-fast) var(--ifm-transition-timing-defaul
         &:hover {
           color: #ffffff;
         }
+
+        @include small {
+          margin-right: 16px;
+        }
       }
     }
   }
@@ -50,15 +76,22 @@ $transitionConfig: var(--ifm-transition-fast) var(--ifm-transition-timing-defaul
   flex-flow: column;
   align-items: center;
   width: 100%;
-  height: 709px;
+  height: 712px;
   background-position: center;
   background-size: cover;
+
+  @include small {
+    height: 512px;
+  }
 
   .logo {
     width: 80%;
     max-width: 488px;
     height: 38px;
     margin-top: 220px;
+    @include small {
+      margin-top: 150px;
+    }
   }
 
   .description {
@@ -94,11 +127,14 @@ $transitionConfig: var(--ifm-transition-fast) var(--ifm-transition-timing-defaul
 
 .featuresSection {
   margin: 0 auto;
-  display: flex;
-  justify-content: center;
+  display: grid;
+  grid: auto-flow / repeat(4, auto);
+
+  @include maxWidth(1200px) {
+    grid-template-columns: repeat(2, auto);
+  }
 
   .feature {
-    flex: 360px 1 1;
     height: 720px;
     padding-top: 40px;
     padding-right: 32px;
@@ -107,12 +143,38 @@ $transitionConfig: var(--ifm-transition-fast) var(--ifm-transition-timing-defaul
     background-position: center 72%;
     background-size: cover;
 
+    .featuresDesc {
+      margin-top: 20px;
+    }
+
+    > h2 {
+      font-size: 32px;
+      margin: 0 0 4px;
+    }
+
     > p {
       font-size: 14px;
     }
 
     > a {
       color: #3862cf;
+    }
+  }
+
+  @include maxWidth(650px) {
+    grid-template-columns: repeat(1, auto);
+
+    .feature {
+      height: 480px;
+      padding: 24px;
+
+      > p {
+        font-size: 14px;
+      }
+
+      > a {
+        color: #3862cf;
+      }
     }
   }
 }
@@ -125,11 +187,23 @@ $transitionConfig: var(--ifm-transition-fast) var(--ifm-transition-timing-defaul
   padding-top: 130px;
   padding-bottom: 128px;
 
+  > h2 {
+    font-weight: normal;
+    margin: 0;
+    font-size: 32px;
+  }
+
   .resourcesGroup {
-    display: flex;
-    margin-top: 40px;
-    flex-wrap: wrap;
-    margin-left: -20px;
+    display: grid;
+    grid: auto-flow / repeat(4, auto);
+    gap: 20px;
+    grid-gap: 20px;
+    margin-top: 56px;
+
+    @include maxWidth(1250px) {
+      grid: auto-flow / repeat(2, auto);
+      gap: 68px;
+    }
 
     .resource {
       width: 287px;
@@ -142,14 +216,12 @@ $transitionConfig: var(--ifm-transition-fast) var(--ifm-transition-timing-defaul
       font-size: 24px;
       border-radius: 8px;
       cursor: pointer;
-      margin-left: 20px;
-      margin-top: 20px;
       transition: background-color 200ms;
 
       &:hover {
         background: rgba(255, 255, 255, 0.16);
 
-        > .download {
+        .download {
           cursor: inherit;
           opacity: 1;
         }
@@ -159,10 +231,30 @@ $transitionConfig: var(--ifm-transition-fast) var(--ifm-transition-timing-defaul
         margin-top: 44px;
       }
 
-      > .download {
+      .download {
         transition: opacity 200ms;
         margin-top: 50px;
         opacity: 0;
+      }
+
+      @include maxWidth(1250px) {
+        padding: 4px;
+        width: 128px;
+        height: 114px;
+        font-size: 16px;
+
+        .resourceLogo {
+          width: 52px;
+          height: 52px;
+        }
+
+        .download {
+          display: none;
+        }
+
+        > .name {
+          margin-top: auto;
+        }
       }
 
       > button {

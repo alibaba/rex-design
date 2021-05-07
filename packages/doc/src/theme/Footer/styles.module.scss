@@ -1,3 +1,9 @@
+@mixin small {
+  @media (max-width: 1000px) {
+    @content;
+  }
+}
+
 .footerSection {
   display: flex;
   flex-flow: column;
@@ -10,13 +16,32 @@
     max-width: 100%;
     display: flex;
     padding: 0 116px;
+
+    @include small {
+      flex-flow: column;
+      padding: 0 32px;
+
+      .footerLinkColumnGroup {
+        margin-top: 72px;
+        margin-bottom: 48px;
+      }
+    }
   }
 
-  .footerLinksGroup {
+  .footerLinkColumnGroup {
+    display: flex;
+  }
+
+  .footerLinkColumn {
     display: flex;
     flex-flow: column;
     font-size: 16px;
     color: #666666;
+    margin-right: 16px;
+
+    &:last-child {
+      margin-right: 0;
+    }
 
     > a {
       margin-top: 12px;
@@ -47,5 +72,18 @@
     font-size: 14px;
     height: 54px;
     color: #a8acb9;
+    text-align: center;
+
+    @include small {
+      margin: 0 16px 16px;
+    }
+
+    .mobileBreak {
+      display: none;
+
+      @include small {
+        display: inline-block;
+      }
+    }
   }
 }

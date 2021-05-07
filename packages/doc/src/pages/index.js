@@ -24,7 +24,7 @@ export default function Home() {
         <div className={styles.headerWrapper}>
           <div className={styles.header}>
             <div className={styles.left}>
-              <FooterLogo />
+              <FooterLogo className={styles.logo} />
             </div>
             <div className={styles.right}>
               <Link className={styles.linkItem} to={useBaseUrl('docs')}>
@@ -55,8 +55,7 @@ export default function Home() {
           <div className={styles.feature} style={{ backgroundImage: `url(${HumanFactorBackground})`, color: '#666' }}>
             <h2 style={{ color: 'black' }}>人因</h2>
             <p>HUMAN - FACTOR</p>
-            <br />
-            <p>
+            <p className={styles.featuresDesc}>
               新零售业态下，诞生出了大量创新终端，在保证高效跨端体验的同时，如何最大化提升产研效能？
               <br />
               实现真正的一码多端
@@ -66,8 +65,7 @@ export default function Home() {
           <div className={styles.feature} style={{ backgroundImage: `url(${DeviceFactorBackground})` }}>
             <h2>机因</h2>
             <p>DEVICE - FACTOR</p>
-            <br />
-            <p>
+            <p className={styles.featuresDesc}>
               新零售业态下，诞生出了大量创新终端，在保证高效跨端体验的同时，如何最大化提升产研效能？
               <br />
               实现真正的一码多端
@@ -77,8 +75,7 @@ export default function Home() {
           <div className={styles.feature} style={{ backgroundImage: `url(${TaskFactorBackground})` }}>
             <h2>环因</h2>
             <p>TASK - FACTOR</p>
-            <br />
-            <p>
+            <p className={styles.featuresDesc}>
               新零售业态下，诞生出了大量创新终端，在保证高效跨端体验的同时，如何最大化提升产研效能？
               <br />
               实现真正的一码多端
@@ -88,8 +85,7 @@ export default function Home() {
           <div className={styles.feature} style={{ backgroundImage: `url(${EnvironmentFactorBackground})` }}>
             <h2>法因</h2>
             <p>ENVIRONMENT - FACTOR</p>
-            <br />
-            <p>
+            <p className={styles.featuresDesc}>
               新零售业态下，诞生出了大量创新终端，在保证高效跨端体验的同时，如何最大化提升产研效能？
               <br />
               实现真正的一码多端
@@ -99,25 +95,25 @@ export default function Home() {
         </section>
 
         <section className={styles.resourcesSection}>
-          <h1>工具和资源</h1>
+          <h2>工具和资源</h2>
           <div className={styles.resourcesGroup}>
             <div className={styles.resource}>
-              <SketchIcon />
+              <SketchIcon className={styles.resourceLogo} />
               <span className={styles.name}>Sketch资源包</span>
               <button className={styles.download}>立即下载</button>
             </div>
             <div className={styles.resource}>
-              <AxureIcon />
+              <AxureIcon className={styles.resourceLogo} />
               <span className={styles.name}>Axure资源包</span>
               <button className={styles.download}>立即下载</button>
             </div>
             <div className={styles.resource}>
-              <KitchenIcon />
+              <KitchenIcon className={styles.resourceLogo} />
               <span className={styles.name}>Kitchen</span>
               <button className={styles.download}>立即下载</button>
             </div>
             <div className={styles.resource}>
-              <IconFontIcon />
+              <IconFontIcon className={styles.resourceLogo} />
               <span className={styles.name}>Iconfont</span>
               <button className={styles.download}>立即下载</button>
             </div>
