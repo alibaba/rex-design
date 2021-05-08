@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import cx from 'classnames';
 import dayjs, { Dayjs } from '../../dayjs';
+import { Box } from '../layout';
 import { Input } from '../input';
 import { AdaptivePopup } from '../overlays';
 import { TimePanel, TimePanelGetItemsProps } from './time-panel';
@@ -13,6 +14,8 @@ import { FormControlOnChangeHandler } from '../../types';
 const PanelWrapper = styled.div`
   box-shadow: var(--rex-shadows-lowDown);
   width: ${getToken('TimePicker.panelWidth')};
+  border-radius: var(--rex-radii-m);
+  background-color: var(--rex-colors-emphasis-0);
 `;
 
 export interface TimePickerProps extends TimePanelGetItemsProps {
@@ -70,6 +73,7 @@ export function TimePicker(props: TimePickerProps) {
 
   return (
     <AdaptivePopup
+      offset={[0, 4]}
       {...popupProps}
       renderTarget={(pass: any) => (
         <Input

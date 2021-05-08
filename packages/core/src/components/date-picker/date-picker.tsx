@@ -78,7 +78,8 @@ export function DatePicker(props: DatePickerProps) {
   return (
     <AdaptivePopup
       {...popupProps}
-      visible={visible}
+      // visible={visible}
+      visible
       onRequestClose={onClose}
       onRequestOpen={onOpen}
       interactionKind="click"

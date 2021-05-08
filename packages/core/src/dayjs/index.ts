@@ -1,6 +1,7 @@
 import 'dayjs/locale/zh-cn';
 import dayjs from 'dayjs';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import weekday from 'dayjs/plugin/weekday';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
@@ -9,6 +10,7 @@ import localeData from 'dayjs/plugin/localeData';
 dayjs.locale('zh-cn');
 
 dayjs.extend(isSameOrBefore);
+dayjs.extend(isSameOrAfter);
 dayjs.extend(weekday);
 dayjs.extend(weekOfYear);
 dayjs.extend(customParseFormat);

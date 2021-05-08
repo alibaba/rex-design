@@ -3,7 +3,7 @@ import cx from 'classnames';
 import { Dayjs } from '../../dayjs';
 import { Box, Flex } from '../layout';
 import { useDateTableContext } from './date-context';
-import { DateList, DateLinkButton } from './styled';
+import { DateList, DateLinkButton, StyledCell, StyledCellContent } from './styled';
 import { DateLocale } from './date-types';
 
 interface MonthTableProps {
@@ -15,7 +15,7 @@ export function MonthTable(props: MonthTableProps) {
   const { visibleMonth, locale } = props;
 
   return (
-    <Box>
+    <Box p="l">
       <Flex justify="center">
         <DateLinkButton>{visibleMonth.year()}</DateLinkButton>
       </Flex>

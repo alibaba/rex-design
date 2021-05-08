@@ -30,7 +30,7 @@ export function YearTable(props: YearTableProps) {
   }, [visibleMonth]);
 
   return (
-    <Box>
+    <Box p="l">
       <DateList>
         {yearList.map((item: Dayjs) => {
           const display = item.format('YYYY');

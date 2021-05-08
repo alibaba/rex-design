@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import styled from 'styled-components';
 import dayjs, { Dayjs } from '../../dayjs';
 import { Box } from '../layout';
+import { Button } from '../button';
 import { DateTable } from './date-table';
 import { MonthTable } from './month-table';
 import { YearTable } from './year-table';
@@ -21,13 +22,6 @@ const Card = styled.div`
 const DateBox = styled(Box)<any>`
   flex: 1;
   width: ${getToken('DatePicker.dateCardWidth')};
-  border-right: ${(props) => (props.$hasTime ? getToken('datePicker.dateCardBorderRight') : undefined)};
-  padding: var(--rex-space-m);
-`;
-
-const TimeBox = styled(Box)`
-  padding: var(--rex-space-m);
-  width: ${getToken('DatePicker.timeCardWidth')};
 `;
 
 interface GetVisibleMonthOption {
@@ -161,15 +155,15 @@ export function DateCard(props: DateCardProps) {
     getDisabledDate,
   };
 
-  let timeRows = 6;
-  let renderTimeHeader = () => <TimePanelHeader />;
+  let timeRows = 8;
   let hasClose = false;
 
   if (device.alias === 's') {
     timeRows = 3;
-    renderTimeHeader = () => null;
     hasClose = true;
   }
+
+  // TODO: 快捷调用
 
   return (
     <DateTableProvider value={context}>
@@ -182,11 +176,29 @@ export function DateCard(props: DateCardProps) {
           {mode === 'year' && <YearTable visibleMonth={visibleMonth} />}
         </DateBox>
         {hasTime && (
-          <TimeBox>
-            <TimePanel rows={timeRows} value={timeValue} renderHeader={renderTimeHeader} mode="simple" {...timeProps} />
-          </TimeBox>
+          <Box width={getToken('DatePicker.timeCardWidth')} py="l">
+            <TimePanel rows={timeRows} value={timeValue} mode="simple" renderHeader={() => null} {...timeProps} />
+          </Box>
         )}
       </Card>
+      {hasTime && <DatePanelFooter />}
     </DateTableProvider>
+  );
+}
+
+interface DatePanelFooterProps {
+  // leftElement?: React.ReactNode;
+  onOk?: React.MouseEventHandler<HTMLButtonElement>;
+}
+
+function DatePanelFooter(props: DatePanelFooterProps) {
+  const { onOk } = props;
+  const { device } = useDevice();
+  return (
+    <Box px="m" pb="m" textAlign="right">
+      <Button isFullWidth={device.alias === 's'} size="small" type="primary" onClick={onOk}>
+        确认
+      </Button>
+    </Box>
   );
 }

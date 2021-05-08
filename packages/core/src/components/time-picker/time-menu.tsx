@@ -10,7 +10,6 @@ const Wrapper = styled(Box)`
   text-align: center;
   user-select: none;
   color: var(--rex-colors-text-body);
-  background-color: var(--rex-colors-emphasis-0);
 `;
 
 const List = styled(Box)<any>`
@@ -30,11 +29,11 @@ const ListItem = styled(Box)`
   line-height: ${getToken('TimePicker.panelMenuItemHeight')};
 
   &:hover {
-    background-color: var(--rex-colors-emphasis-20);
+    background-color: var(--rex-colors-emphasis-10);
   }
 
   &.rex-selected {
-    background-color: var(--rex-colors-emphasis-30);
+    color: var(--rex-colors-brand-normal);
   }
 `;
 
@@ -93,8 +92,8 @@ export function TimeMenu(props: TimeMenuProps) {
     getItemKey = defaultGetItemKey,
     getItemLabel = defaultGetItemLabel,
     onSelect = noop,
-    renderHeader = nullRender,
-    renderFooter = nullRender,
+    renderHeader,
+    renderFooter,
   } = props;
 
   const menu = useRef<HTMLUListElement>();
@@ -106,9 +105,11 @@ export function TimeMenu(props: TimeMenuProps) {
 
   return (
     <Wrapper>
-      <Box py="s" fontSize="body" bg="fill.layer1" fontWeight="bold">
-        {renderHeader()}
-      </Box>
+      {typeof renderHeader === 'function' && (
+        <Box py="s" fontSize="body" bg="fill.layer1" fontWeight="bold">
+          {renderHeader()}
+        </Box>
+      )}
       <List as="ul" ref={menu} $rows={rows}>
         {items.map((item) => {
           const key = getItemKey(item);
@@ -128,7 +129,7 @@ export function TimeMenu(props: TimeMenuProps) {
           );
         })}
       </List>
-      <Box fontSize="body">{renderFooter()}</Box>
+      {typeof renderFooter === 'function' && <Box fontSize="body">{renderFooter()}</Box>}
     </Wrapper>
   );
 }

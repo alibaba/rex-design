@@ -47,9 +47,9 @@ export interface TimePanelProps extends TimePanelGetItemsProps {
 }
 
 export function TimePanel(props: TimePanelProps) {
-  const { mode } = props;
+  const { mode, ...rest } = props;
   const Panel = mode === 'simple' ? SimpleTimePanel : FullTimePanel;
-  return <Panel {...props} />;
+  return <Panel {...rest} />;
 }
 
 function FullTimePanel(props: TimePanelProps) {
@@ -181,7 +181,6 @@ function SimpleTimePanel(props: TimePanelProps) {
       {renderHeader({ value, format })}
       <TimeMenu
         rows={rows}
-        renderHeader={() => '时间'}
         items={timeItems}
         selectedKey={value ? value.format('HH:mm') : undefined}
         onSelect={handleSelect}

@@ -151,7 +151,6 @@ const components = {
     dateCardWidth: '280px',
     timeCardWidth: '200px',
     dateCellHeight: '28px',
-    dateCardBorderRight: '1px solid var(--rex-colors-line-border)',
   },
 
   DateRangePicker: {
