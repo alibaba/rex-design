@@ -1,14 +1,10 @@
 import React from 'react';
+import cx from 'classnames';
 import { AppProvider } from '@rexd/core';
 import Footer from '@theme/Footer';
 import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import PrimaryLogo from '../../static/img/primary-logo.svg';
-import PrimaryBackground from '../../static/img/primary-background.png';
-import HumanFactorBackground from '../../static/img/human-factor-background.png';
-import DeviceFactorBackground from '../../static/img/device-factor-background.png';
-import TaskFactorBackground from '../../static/img/task-factor-background.png';
-import EnvironmentFactorBackground from '../../static/img/environment-factor-background.png';
 import SketchIcon from '../../static/img/sketch-icon.svg';
 import AxureIcon from '../../static/img/axure-icon.svg';
 import KitchenIcon from '../../static/img/kitchen-icon.svg';
@@ -37,7 +33,7 @@ export default function Home() {
           </div>
         </div>
 
-        <section className={styles.primarySection} style={{ backgroundImage: `url(${PrimaryBackground})` }}>
+        <section className={styles.primarySection}>
           <PrimaryLogo className={styles.logo} />
           <div className={styles.description}>
             <p align="center">
@@ -52,7 +48,7 @@ export default function Home() {
         </section>
 
         <section className={styles.featuresSection}>
-          <div className={styles.feature} style={{ backgroundImage: `url(${HumanFactorBackground})`, color: '#666' }}>
+          <div className={cx(styles.feature, styles.featureHumanFactor)} style={{ color: '#666' }}>
             <h2 style={{ color: 'black' }}>人因</h2>
             <p>HUMAN - FACTOR</p>
             <p className={styles.featuresDesc}>
@@ -62,7 +58,7 @@ export default function Home() {
             </p>
             <Link>了解更多</Link>
           </div>
-          <div className={styles.feature} style={{ backgroundImage: `url(${DeviceFactorBackground})` }}>
+          <div className={cx(styles.feature, styles.featureDeviceFactor)}>
             <h2>机因</h2>
             <p>DEVICE - FACTOR</p>
             <p className={styles.featuresDesc}>
@@ -72,9 +68,9 @@ export default function Home() {
             </p>
             <Link>了解更多</Link>
           </div>
-          <div className={styles.feature} style={{ backgroundImage: `url(${TaskFactorBackground})` }}>
+          <div className={cx(styles.feature, styles.featureEnvironmentFactor)}>
             <h2>环因</h2>
-            <p>TASK - FACTOR</p>
+            <p>ENVIRONMENT - FACTOR</p>
             <p className={styles.featuresDesc}>
               新零售业态下，诞生出了大量创新终端，在保证高效跨端体验的同时，如何最大化提升产研效能？
               <br />
@@ -82,9 +78,9 @@ export default function Home() {
             </p>
             <Link>了解更多</Link>
           </div>
-          <div className={styles.feature} style={{ backgroundImage: `url(${EnvironmentFactorBackground})` }}>
+          <div className={cx(styles.feature, styles.featureTaskFactor)}>
             <h2>法因</h2>
-            <p>ENVIRONMENT - FACTOR</p>
+            <p>TASK - FACTOR</p>
             <p className={styles.featuresDesc}>
               新零售业态下，诞生出了大量创新终端，在保证高效跨端体验的同时，如何最大化提升产研效能？
               <br />

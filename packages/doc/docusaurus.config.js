@@ -19,6 +19,10 @@ module.exports = {
       textColor: '#5c3b0d',
       content: 'ReX Design alpha 版本迭代中，敬请期待。请勿将 alpha 版本用于生产环境。',
     },
+    colorMode: {
+      defaultMode: 'light',
+      disableSwitch: true,
+    },
     prism: {
       theme: require('prism-react-renderer/themes/vsLight'),
       darkTheme: require('prism-react-renderer/themes/vsDark'),

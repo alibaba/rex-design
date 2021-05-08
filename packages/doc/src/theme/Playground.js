@@ -22,6 +22,19 @@ const PlaygroundPreviewDiv = styled.div.withConfig({ componentId: 'playground-pr
   }
 `;
 
+const EditorWrapperDiv = styled.div`
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-top: none;
+  font-size: 14px;
+  margin-bottom: var(--ifm-leading);
+
+  .playground-live-error {
+    padding: 0.5rem;
+    margin: 0 0.75rem 0.75rem;
+    color: var(--ifm-color-danger-dark);
+  }
+`;
+
 const PlaygroundToolbarDiv = styled.div`
   position: relative;
   height: 40px;
@@ -43,14 +56,6 @@ const PlaygroundToolbarDiv = styled.div`
     right: 8px;
     color: var(--ifm-color-emphasis-500);
   }
-`;
-
-const StyledLiveEditor = styled(LiveEditor)`
-  font-size: 12px;
-  font-family: var(--ifm-font-family-monospace) !important;
-  border: 1px solid var(--ifm-color-emphasis-300);
-  border-top: none;
-  margin-bottom: var(--ifm-leading);
 `;
 
 function PlaygroundToolbar({ hint, showCopySuccess, showEditor, setShowEditor, setShowCopySuccess, code }) {
@@ -134,7 +139,6 @@ export default function Playground({
     >
       <PlaygroundPreviewDiv className={previewClassName} style={previewStyle} {...storyDataset}>
         <LivePreview className="playground-live-preview" />
-        <LiveError className="playground-live-error" />
       </PlaygroundPreviewDiv>
 
       <PlaygroundToolbar
@@ -145,7 +149,13 @@ export default function Playground({
         showCopySuccess={showCopySuccess}
         setShowCopySuccess={setShowCopySuccess}
       />
-      <StyledLiveEditor style={{ display: showEditor ? undefined : 'none' }} />
+      <EditorWrapperDiv className="playground-editor-wrapper" style={{ display: showEditor ? undefined : 'none' }}>
+        <LiveEditor
+          className="playground-editor"
+          style={{ fontSize: 12, fontFamily: 'var(--ifm-font-family-monospace)' }}
+        />
+        <LiveError className="playground-live-error" />
+      </EditorWrapperDiv>
     </LiveProvider>
   );
 }

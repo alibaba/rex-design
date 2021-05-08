@@ -70,6 +70,7 @@ $transitionConfig: var(--ifm-transition-fast) var(--ifm-transition-timing-defaul
   }
 }
 
+//noinspection CssUnknownTarget
 .primarySection {
   display: flex;
   color: white;
@@ -79,9 +80,14 @@ $transitionConfig: var(--ifm-transition-fast) var(--ifm-transition-timing-defaul
   height: 712px;
   background-position: center;
   background-size: cover;
+  background-image: url(https://img.alicdn.com/imgextra/i4/O1CN01bN3diE1uVHhnlD6FE_!!6000000006042-2-tps-3016-1582.png);
 
   @include small {
     height: 512px;
+  }
+
+  @include maxWidth(650px) {
+    background-image: url(https://img.alicdn.com/imgextra/i3/O1CN01iW3F591qrwqM1Xwri_!!6000000005550-2-tps-750-1024.png);
   }
 
   .logo {
@@ -125,6 +131,7 @@ $transitionConfig: var(--ifm-transition-fast) var(--ifm-transition-timing-defaul
   }
 }
 
+//noinspection CssUnknownTarget
 .featuresSection {
   margin: 0 auto;
   display: grid;
@@ -140,6 +147,7 @@ $transitionConfig: var(--ifm-transition-fast) var(--ifm-transition-timing-defaul
     padding-right: 32px;
     padding-left: 50px;
     color: white;
+    background-image: var(--image);
     background-position: center 72%;
     background-size: cover;
 
@@ -161,18 +169,44 @@ $transitionConfig: var(--ifm-transition-fast) var(--ifm-transition-timing-defaul
     }
   }
 
+  .featureHumanFactor {
+    --image: url(https://img.alicdn.com/imgextra/i4/O1CN01u1MWlc25kMWJ4Rmhn_!!6000000007564-2-tps-720-1440.png);
+    --image-mobile: url(https://img.alicdn.com/imgextra/i1/O1CN01mcNz3v1XJcSKsFNqE_!!6000000002903-2-tps-750-960.png);
+  }
+
+  .featureDeviceFactor {
+    --image: url(https://img.alicdn.com/imgextra/i4/O1CN01pSYBib1GKfty1qktB_!!6000000000604-2-tps-720-1440.png);
+    --image-mobile: url(https://img.alicdn.com/imgextra/i2/O1CN01KacIWk27TXCS5Kyci_!!6000000007798-2-tps-750-960.png);
+  }
+
+  .featureEnvironmentFactor {
+    --image: url(https://img.alicdn.com/imgextra/i1/O1CN011dKyRP1b0cUEdW6m3_!!6000000003403-2-tps-720-1440.png);
+    --image-mobile: url(https://img.alicdn.com/imgextra/i3/O1CN01tTpwXI23cSS1YS3Vx_!!6000000007276-2-tps-750-960.png);
+  }
+
+  .featureTaskFactor {
+    --image: url(https://img.alicdn.com/imgextra/i3/O1CN019PlR2C1Zkl9rQJUS2_!!6000000003233-2-tps-720-1440.png);
+    --image-mobile: url(https://img.alicdn.com/imgextra/i2/O1CN01cH3RLT1yhQfo9qvFj_!!6000000006610-2-tps-750-962.png);
+  }
+
   @include maxWidth(650px) {
     grid-template-columns: repeat(1, auto);
 
     .feature {
       height: 480px;
       padding: 24px;
+      background-image: var(--image-mobile);
+
+      > h2 {
+        font-size: 20px;
+      }
 
       > p {
         font-size: 14px;
       }
 
       > a {
+        font-size: 14px;
         color: #3862cf;
       }
     }
@@ -232,6 +266,17 @@ $transitionConfig: var(--ifm-transition-fast) var(--ifm-transition-timing-defaul
       }
 
       .download {
+        display: flex;
+        flex-flow: column;
+        justify-content: center;
+        align-items: center;
+        width: 150px;
+        height: 48px;
+        font-size: 16px;
+        border-radius: 4px;
+        border: 1px white solid;
+        color: white;
+        background: transparent;
         transition: opacity 200ms;
         margin-top: 50px;
         opacity: 0;
@@ -255,19 +300,6 @@ $transitionConfig: var(--ifm-transition-fast) var(--ifm-transition-timing-defaul
         > .name {
           margin-top: auto;
         }
-      }
-
-      > button {
-        display: flex;
-        flex-flow: column;
-        justify-content: center;
-        align-items: center;
-        width: 150px;
-        height: 48px;
-        font-size: 16px;
-        color: #1f222f;
-        border-radius: 4px;
-        border: 1px white solid;
       }
     }
   }
