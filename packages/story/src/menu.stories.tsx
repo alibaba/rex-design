@@ -119,13 +119,23 @@ export function UncontrolledSingleSelect() {
 }
 
 export function DropdownMenu() {
+  // TODO 允许 menu 能够在组件内部直接关闭 popup
+  const [visible, setVisible] = useState(false);
+
   return (
-    <Popup trigger={<Button>更多操作</Button>} hasArrow>
+    <Popup
+      target={<Button>更多操作</Button>}
+      interactionKind="hover"
+      hasArrow
+      visible={visible}
+      onRequestOpen={() => setVisible(true)}
+      onRequestClose={() => setVisible(false)}
+    >
       <Menu
-        style={{ width: 200 }}
         dataSource={groupAndSubMenuDataSource}
-        onItemClick={(key, detail) => {
-          console.log('onItemClick', key, detail);
+        onItemClick={(key) => {
+          console.log('onItemClick', key);
+          setVisible(false);
         }}
       />
     </Popup>

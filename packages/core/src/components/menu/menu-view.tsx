@@ -4,9 +4,9 @@ import React from 'react';
 import styled from 'styled-components';
 import { composeHandlers } from '../../utils';
 import { Overlay, Popup, PopupInteractionKind } from '../overlays';
+import { TickIcon } from '../select/icons';
 
 const MENU_VERTICAL_PADDING = 8;
-const MENU_POPUP_DISTANCE = -4;
 
 export interface MenuItem {
   key: string;
@@ -28,12 +28,14 @@ export interface MenuItem {
 
 const MenuDiv = styled.div.withConfig({ componentId: 'rex-menu' })`
   list-style: none;
-  padding: ${MENU_VERTICAL_PADDING}px 0;
+  padding: ${MENU_VERTICAL_PADDING}px 4px;
   margin: 0;
+  min-width: 180px;
 
   :not(.minimal) {
     border-radius: var(--rex-radii-m);
     box-shadow: var(--rex-shadows-lowDown);
+    background: var(--rex-overlay-depth-m);
   }
 
   .rex-menu-divider {
@@ -57,13 +59,16 @@ const MenuItemDiv = styled.div.withConfig({ componentId: 'rex-menu-item' })`
   font-size: 12px;
   line-height: 32px;
   overflow: hidden;
-  padding: 0 24px 0 20px;
+  padding: 0 20px;
+  border-radius: 2px;
 
   &:hover:not(.disabled),
-  &.active,
   &[data-rex-popup-open='true'] {
-    color: var(--rex-colors-brand-normal);
-    background: var(--rex-colors-primary-10);
+    background: var(--rex-colors-emphasis-10);
+  }
+
+  &.active {
+    font-weight: 500;
   }
 
   &.disabled {
@@ -99,21 +104,22 @@ export interface MenuViewProps {
   style?: React.CSSProperties;
 
   dataSource: MenuItem[];
+
+  /**
+   * 打开子菜单的交互方式
+   * @default 'hover'
+   * @category 子菜单
+   * */
   interactionKind?: PopupInteractionKind;
 
   openKeys: string[];
-  onOpen(
-    nextOpenKeys: string[],
-    detail: {
-      // todo 参数待定
-    },
-  ): void;
+  onOpen(nextOpenKeys: string[]): void;
 }
 
 function renderItemInner(item: MenuItem, { hasArrow, hasSelect }: { hasArrow?: boolean; hasSelect?: boolean }) {
   return (
     <div key={item.key} className="rex-menu-item-inner">
-      {hasSelect && <Icon fontSize={14} type="select" className="rex-menu-icon-left" />}
+      {hasSelect && <TickIcon stroke="currentColor" className="rex-menu-icon-left" />}
 
       <span className={'rex-menu-item-text'}>{item.label}</span>
       {item.helper && <span className="rex-menu-item-helper">{item.helper}</span>}
@@ -148,11 +154,11 @@ export const MenuView = React.forwardRef<HTMLDivElement, MenuViewProps>(
   ({ dataSource = [], interactionKind = 'hover', openKeys, onOpen, ...others }, ref) => {
     const openPopup = (key: string) => {
       const nextOpenKeys = [...openKeys, key];
-      onOpen(nextOpenKeys, {});
+      onOpen(nextOpenKeys);
     };
     const closePopup = (key: string) => {
       const nextOpenKeys = openKeys.filter((k) => k !== key);
-      onOpen(nextOpenKeys, {});
+      onOpen(nextOpenKeys);
     };
 
     function renderItem(item: MenuItem): React.ReactElement {
@@ -179,7 +185,7 @@ export const MenuView = React.forwardRef<HTMLDivElement, MenuViewProps>(
             key={item.key}
             interactionKind={interactionKind}
             placement="right-start"
-            offset={[-MENU_VERTICAL_PADDING, MENU_POPUP_DISTANCE]}
+            offset={[-MENU_VERTICAL_PADDING, 0]}
             visible={openKeys.includes(item.key)}
             onRequestOpen={(reason) => {
               openPopup(item.key);

@@ -27,7 +27,7 @@ export function ActionSheet(props: ActionSheetProps) {
 
   return (
     <AdaptivePopup hasArrow visible={visible} onRequestOpen={onOpen} onRequestClose={onClose} target={target}>
-      <Box boxShadow="lowDown" width={device.alias === 's' ? '90vw' : '100px'}>
+      <Box boxShadow="lowDown" width={device.alias === 's' ? '90vw' : undefined}>
         {title && (
           <Box py="m" textAlign="center" fontSize="body">
             {title}

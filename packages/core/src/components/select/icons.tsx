@@ -10,11 +10,11 @@ export interface IconProps extends React.SVGProps<SVGElement> {
   ref?: any;
 }
 
-export const TickIcon = React.memo((props: IconProps) => (
+export const TickIcon = React.memo(({ stroke = '#3862CF', ...props }: IconProps & { stroke?: string }) => (
   <svg width="14" height="14" {...props}>
     <path
       fill="none"
-      stroke="#3862CF"
+      stroke={stroke}
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth="2"

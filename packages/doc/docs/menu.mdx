@@ -3,10 +3,12 @@ id: menu
 title: Menu 菜单
 ---
 
-import { Steps, Menu } from '@rexd/core';
+import { Menu } from '@rexd/core';
 import * as stories from 'story/src/menu.stories';
 
 ## 使用场景
+
+为页面或区块提供上下文菜单，或是收纳操作元素。
 
 ## 示例
 
@@ -22,13 +24,13 @@ import * as stories from 'story/src/menu.stories';
 
 <Story fn={stories.MultiSelect} />
 
-### 非受控状态
+### 非受控单选
 
-<Story fn={stories.Uncontrolled} />
+<Story fn={stories.UncontrolledSingleSelect} />
 
-### 五十个菜单项
+### 下拉菜单
 
-<Story fn={stories.FiftyItems} />
+<Story fn={stories.DropdownMenu} />
 
 ## API
 

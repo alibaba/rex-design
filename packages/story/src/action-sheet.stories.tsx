@@ -13,7 +13,7 @@ const dataSource = [
 export function Basic() {
   return (
     <ActionSheet
-      trigger={<Button>选择操作</Button>}
+      target={<Button>选择操作</Button>}
       title="选择你的操作"
       dataSource={dataSource}
       onItemClick={console.log}

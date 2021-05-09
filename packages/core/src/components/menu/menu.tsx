@@ -5,12 +5,16 @@ import { MenuItem, MenuView, MenuViewProps } from './menu-view';
 
 function processMenuDataSource(
   input: MenuItem[],
-  { selectedKeys, onItemClick, onSelect }: Pick<MenuProps, 'selectedKeys' | 'onItemClick' | 'onSelect'>,
+  {
+    selectedKeys,
+    onItemClick,
+    onSelect,
+    autoCloseSubmenus,
+    onOpen,
+  }: Pick<MenuProps, 'selectedKeys' | 'onItemClick' | 'onSelect' | 'autoCloseSubmenus' | 'onOpen'>,
 ) {
   const selectedKeySet = new Set(selectedKeys);
 
-  // todo 先偷偷用一下 ali-react-table 中已有的函数，因为都是自己写的
-  //  后面需要看看是否在 @rexd/core 再/定义一份
   const mapper = makeRecursiveMapper<MenuItem>((item) => {
     const result = Object.assign({}, item);
     if (selectedKeySet.has(item.key)) {
@@ -19,7 +23,11 @@ function processMenuDataSource(
     result.onClick = composeHandlers(
       result.onClick,
       (event) => {
-        if (onItemClick != null && !item.disabled && item.type !== 'submenu') {
+        const isEnabledMenuItem = !item.disabled && item.type !== 'submenu';
+        if (autoCloseSubmenus && isEnabledMenuItem) {
+          onOpen([]);
+        }
+        if (onItemClick != null && isEnabledMenuItem) {
           onItemClick(item.key, { item, event });
         }
       },
@@ -37,10 +45,30 @@ function processMenuDataSource(
 }
 
 export interface MenuProps extends Omit<MenuViewProps, 'openKeys' | 'onOpen'> {
+  /** 菜单项列表 */
+  dataSource: MenuItem[];
+
+  /**
+   * 当前打开的子菜单
+   * @category 子菜单
+   * */
   openKeys?: string[];
-  onOpen?(nextOpenKeys: string[], detail: {}): void;
+  /**
+   * 子菜单打开或关闭的回调函数
+   * @category 子菜单
+   * */
+  onOpen?(nextOpenKeys: string[]): void;
+  /** 默认打开的子菜单 */
   defaultOpenKeys?: string[];
 
+  /**
+   * 点击菜单项时，是否自动关闭当前所有已打开的子菜单
+   * @default true
+   * @category 子菜单
+   * */
+  autoCloseSubmenus?: boolean;
+
+  /** 菜单项点击回调 */
   onItemClick?(
     key: string,
     detail: {
@@ -49,9 +77,21 @@ export interface MenuProps extends Omit<MenuViewProps, 'openKeys' | 'onOpen'> {
     },
   ): void;
 
-  selectMode?: 'none' | 'single' | 'multiple'; // TODO radio? checkbox?
+  /**
+   * 菜单项选择模式
+   * @category 选择
+   * @default 'none'
+   * */
+  selectMode?: 'none' | 'single' | 'multiple';
+  /**
+   * 选中的菜单项
+   * @category 选择
+   */
   selectedKeys?: string[];
-  defaultSelectedKeys?: string[];
+  /**
+   * 选择菜单项的回调
+   * @category 选择
+   * */
   onSelect?(
     nextKeys: string[],
     detail: {
@@ -59,6 +99,11 @@ export interface MenuProps extends Omit<MenuViewProps, 'openKeys' | 'onOpen'> {
       event: React.MouseEvent<HTMLDivElement>;
     },
   ): void;
+  /**
+   * 默认选中的菜单项
+   * @category 选择
+   * */
+  defaultSelectedKeys?: string[];
 }
 
 export const Menu = React.forwardRef<HTMLDivElement, MenuProps>((props, ref) => {
@@ -72,6 +117,7 @@ export const Menu = React.forwardRef<HTMLDivElement, MenuProps>((props, ref) => 
     onSelect: onSelectProp,
     onItemClick,
     selectMode = 'none',
+    autoCloseSubmenus = true,
     ...others
   } = props;
 
@@ -97,6 +143,8 @@ export const Menu = React.forwardRef<HTMLDivElement, MenuProps>((props, ref) => 
     selectedKeys,
     onItemClick,
     onSelect,
+    autoCloseSubmenus,
+    onOpen,
   });
 
   return <MenuView ref={ref} dataSource={dataSource} {...others} openKeys={openKeys} onOpen={onOpen} />;

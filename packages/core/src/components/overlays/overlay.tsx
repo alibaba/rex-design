@@ -337,6 +337,7 @@ export class Overlay extends React.Component<OverlayProps, OverlayState> {
     if (this.props.visible) {
       this.doCloseOverlay(true);
     }
+    this.overlayAnimateInst?.dispose();
   }
 
   private composedWrapperRef = mergeRefs(this._wrapperRef, this.props.wrapperRef);

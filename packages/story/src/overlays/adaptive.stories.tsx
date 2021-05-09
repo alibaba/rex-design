@@ -1,7 +1,6 @@
-import { AdaptivePopup, Button, FullscreenPopup, Overlay } from '@rexd/core';
+import { AdaptiveDialog, AdaptivePopup, Button } from '@rexd/core';
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { AdaptiveDialog } from '../../../core/src/components/overlays/adaptive-dialog';
 
 export default { title: 'overlays / Adaptive' };
 
@@ -31,7 +30,7 @@ function BalaBala() {
 
 export function BasicAdaptivePopup() {
   return (
-    <AdaptivePopup trigger={<Button>尝试在不同端打开试试</Button>} style={{ maxWidth: '92%' }}>
+    <AdaptivePopup target={<Button>尝试在不同端打开试试</Button>} style={{ maxWidth: '92%' }}>
       <StyledDiv>
         <BalaBala />
       </StyledDiv>
@@ -41,11 +40,11 @@ export function BasicAdaptivePopup() {
 
 export function NestedAdaptivePopup() {
   return (
-    <AdaptivePopup trigger={<Button>查看详情</Button>} style={{ maxWidth: '92%' }}>
+    <AdaptivePopup target={<Button>查看详情</Button>} style={{ maxWidth: '92%' }}>
       <StyledDiv>
         <BalaBala />
 
-        <AdaptivePopup trigger={<Button>查看教育经历</Button>} style={{ maxWidth: '92%' }}>
+        <AdaptivePopup target={<Button>查看教育经历</Button>} style={{ maxWidth: '92%' }}>
           <StyledDiv>
             1. 北京大学｜工商管理｜2007-09-01 至 2006-06-01
             <br />
