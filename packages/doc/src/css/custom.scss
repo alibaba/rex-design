@@ -30,6 +30,10 @@ html[data-theme='dark'] .header-github-link:before {
 
 // 默认样式复写
 :root {
+  --ifm-navbar-shadow: 0 2px 8px 0 rgba(240, 242, 246, 0.8);
+  --ifm-menu-color: #314659;
+
+  font-size: 14px;
   line-height: 1.65;
 
   b,
@@ -37,8 +41,17 @@ html[data-theme='dark'] .header-github-link:before {
     font-weight: bold;
   }
 
+  *[class^='docSidebarContainer'],
+  .table-of-contents__left-border {
+    border-color: #ebedf0;
+  }
+
   *[class^='docMainContainer'] {
     isolation: isolate;
+
+    > .container {
+      max-width: unset;
+    }
   }
 
   *[class^='mdxCodeBlock'],
@@ -58,6 +71,10 @@ html[data-theme='dark'] .header-github-link:before {
   .navbar__brand,
   *[class^='sidebarLogo'] > img {
     height: 1.1rem;
+  }
+
+  .menu__link--sublist:after {
+    background-size: 20px 20px;
   }
 }
 
@@ -80,5 +97,38 @@ html[data-theme='dark'] .header-github-link:before {
       background: inherit;
       color: inherit;
     }
+  }
+}
+
+// markdown 样式覆盖
+.markdown {
+  color: #314659;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: #0d1a26;
+  }
+
+  > h2 {
+    font-size: 24px;
+    line-height: 32px;
+    margin-top: 40px;
+    margin-bottom: 20px;
+  }
+
+  > h3 {
+    font-size: 20px;
+  }
+
+  p {
+    line-height: 28px;
+  }
+
+  img {
+    max-width: min(100%, 874px);
   }
 }

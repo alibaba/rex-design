@@ -782,7 +782,7 @@ export function WithPagination() {
   return (
     <ProTable
       style={{ maxHeight: 350, overflow: 'auto' }}
-      dataSource={repeat(dataSource1, 10).map((row, i) => ({
+      dataSource={repeat(dataSource1, 2).map((row, i) => ({
         ...row,
         order: i + 1,
       }))}

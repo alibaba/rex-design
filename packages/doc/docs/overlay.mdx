@@ -115,7 +115,7 @@ interface IOverlayLifecycles {
 
 如果容器没有按照预期禁用滚动，可以设置 `disableScroll="force"`，此时组件将为容器附加 `overflow: hidden !important;` 的 CSS 样式。
 
-<Popup trigger={<Button>点我测试</Button>} interactionKind="click" disableScroll="force" hasBackdrop>
+<Popup target={<Button>点我测试</Button>} interactionKind="click" disableScroll="force" hasBackdrop>
   <div style={{ background: 'var(--ifm-background-surface-color)', padding: 20 }}>浮层内容</div>
 </Popup>
 
@@ -125,10 +125,10 @@ interface IOverlayLifecycles {
 
 所有浮层的「背景层」和「浮层内容」的 z-index 默认值均为 1000，多个浮层被同时打开时，新打开的浮层会展示在已有浮层之上。
 
-<Popup trigger={<Button>点我测试</Button>} interactionKind="click" hasBackdrop>
+<Popup target={<Button>点我测试</Button>} interactionKind="click" hasBackdrop>
   <div style={{ background: 'var(--ifm-background-surface-color)', padding: 20 }}>
     浮层内容
-    <Popup trigger={<Button>点我打开嵌套浮层</Button>} interactionKind="click" hasBackdrop>
+    <Popup target={<Button>点我打开嵌套浮层</Button>} interactionKind="click" hasBackdrop>
       <div style={{ background: 'var(--ifm-background-surface-color)', padding: 20 }}>嵌套浮层中的内容</div>
     </Popup>
   </div>

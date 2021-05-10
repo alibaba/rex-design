@@ -251,7 +251,12 @@ export class ProTable extends React.Component<ProTableProps, ProTableState> {
     return (
       <ProTableWrapperDiv {...wrapperProps} className={cx('rex-table-wrapper', wrapperClassName)} style={wrapperStyle}>
         {this.renderToolbar()}
-        <BaseTable {...omit(others, featureNames)} className={cx(className, 'rex-table')} {...pipeline.getProps()} />
+        <BaseTable
+          {...omit(others, featureNames)}
+          style={style}
+          className={cx(className, 'rex-table')}
+          {...pipeline.getProps()}
+        />
         {this.renderFooter()}
       </ProTableWrapperDiv>
     );

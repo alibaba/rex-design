@@ -1,0 +1,214 @@
+---
+title: MFDT 多因子设计
+---
+
+<!--
+  这个文件是从语雀文档同步生成的，请不要手动修改
+  语雀文档地址 https://www.yuque.com/hema-fe/rex-design/mfdt
+  同步时间：2021-05-11 15:44:05
+-->
+
+随着新零售的快速发展，新的端源源不断的出现，小二每天要面对大量的设备，PC、Pad、POS、Phone、RF、Watch、TV... 每个端因为分辨率、屏幕精度、使用场景等条件等不同，为了保持每个端更好的体验，设计师都需要分别设计一套组件和定义一套设计规范，开发者的维护成本也越来越高。
+
+在日常多端界面设计中，我们经常会听到以下这些声音：
+
+- 我觉得这里用 44 像素，视觉效果有点奇怪；
+- 这个设备是挂式的，大家都站比较远看，字能不能再大一点？
+- 仓里面作业的人员，他们都是一边小跑一边看，字可以大一些么？
+- 作业场景需要沉浸式，这个颜色能用暗色吗？
+- 我们这个业务需要在界面上放的东西比较多，整体组件摆放可以紧凑一些的吧？
+- …
+
+因此，有必要建立有规律可循且灵活的设计系统，以广泛满足多交互、跨场景的设计需要。
+
+MFDT（Muti-Factor Design Token）诞生了，对于 Design Tokens 已经是老生常谈了，早在 16 年的时候就有许多设计师提倡使用，它是一种设计师和开发人员都能够清晰明了的设计系统。「Tokens」意思是「令牌」，也是一种计算机术语，与 Design 连在一起有设计变量的意思。具体来说，Design Tokens 是一种将视觉原子化的设计系统，它将视觉原子控件与界面属性重新梳理、归纳进行语义化，带来的益处从设计师层面，方便统一管理&扩展，最大程度的保证产品的一致性；从开发者层面，语义化的命名替代了前端代码中复杂的代码（如：十六进制的颜色代码），提升产研效率。
+
+Design Tokens 就是解决问题的核心。
+
+Design tokens are the visual design atoms of the design system.
+
+## MFDT 多因子
+
+Design Tokens 已经能够解决一致性的问题，Muti-Factor Design Token 和这个有什么区别呢？
+
+「Muti-Factor」意思是「多因子」，具体来说，一套设计系统的统一性不止是需要保持静态基础样式的一致，在一个多因子模型框架内，模型会受到人因（human factor)、机因(device factor)、法因(task factor)、环因(environment factor)的影响，发生多维度的组合型变化，所以多因子设计将公式和算法用于现有业务场景和应对未知的“X”设备，而真正未知的“X”则更关注参差部分，多因子其建模公式的逻辑起点都是从变动(variant)中寻找不变(invariant)。
+
+凡此种种，不一而足。
+
+![image.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/71136e1c.png)
+
+##
+
+## 回归本质
+
+文字是用户获取信息、采取行动的主要表达，绝大多数对信息端表达取决于文字的大小，所以设计系统里组件的设计需要回归到文字本身，最基础的字号、行高、字宽、字重、字体等因素决定一个文字的表达，在近 5 年的零售操作系统演进中，我们定义了一套基础的新零售文字标准并将其进行“数字化”。
+
+![文字定义.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/c47e3a61.png)
+
+## 五维变量
+
+文字的大小会受视距的远近、屏幕精度、色彩对比度、观看角度以及移动速度这五个维度的影响。
+
+####
+
+### 视距 & 屏幕精度对文字大小的影响
+
+![按钮备份.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/2c892c2a.png)
+
+我们从日常生活中比较重要的一些识别场景出发研究，发现界面/物料的字体大小与观看距离有很大的关系，初步的得出结论字体大小与距离有一定的关系，如以下我们在机场、车站、高速路上的场景
+
+![视距.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/19b4e6e1.png)
+
+####
+
+### 色彩对比度对文字的影响
+
+我们设计的物料或者屏幕页面会使用一些颜色和字体；放置在环境空间场中光照射在物料上然后光线传播到我们的眼睛，我们眼睛能感应不同颜色的强弱，这种光线强弱对物体的识别有一定的影响
+
+![色彩对比度.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/c2439376.png)
+
+####
+
+### 转动角度对文字大小的影响
+
+我们人在正常情况下有一个舒适区域，比如：左右摇头，前后点头和抬头在一定区域是舒适的，转身 360 度如果脚不转动就会不太舒适；我们先来普及一下一个普通人常规人舒适的尺寸和角度。
+
+![观看角度.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/734375cf.png)
+
+####
+
+### 移动速度对文字大小的影响
+
+通常进入到具体的业务场景，我们会区分出人在作业时的状态是移动或静止，从而匹配不同的设计策略。
+
+![移动速度.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/40f460cc.png)
+
+## 按钮推衍
+
+基于对文字的变量因子研究，我们以一个「按钮」来举例展示多因子组件设计的推演过程。按钮的尺寸取决于容器内文字的大小以及内容和容器的间距决定。
+
+**按钮 = 内容（文字、图标） + 容器（不同大小、不同圆角）**
+
+**按钮尺寸**
+
+我们通过把文字数字化，按钮宽度 = 字宽 + 2*左右 padding，按钮高度 = 行高 + 2*上下 padding
+
+为方便下文解释，我们设按钮的宽、高分别为 W、H，设文字的字号为 T(单位为 px)；在此我们将行高定为字号的 1.5 倍，即行高 = 1.5T
+
+在字距为 0 的条件下，单个文字的字宽 = T，单行若排列有 n 个文字，则字宽 = nT
+
+![进步规则备份 6.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/f029406f.png)
+
+### 基准按钮
+
+为方便后续公式的推导和演示，我们定义一个基准按钮，由基准文字区域和文字区域与容器的上下左右 padding 组成
+
+设基准按钮的左右 padding 为 q，上下 padding 为 s
+
+在这里我们推荐左右 padding 为字号的 0.25 ～ 1 倍，上下 padding 为的 0.15 ～ 1 倍
+
+即：
+
+\*\*q=αT \*\*
+
+0.25 ≤ α ≤ 1
+
+\*\*s=βT \*\*
+
+0.15 ≤ β ≤ 1
+
+因此基准按钮的尺寸可以这样计算：
+
+![进步规则备份 7.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/28446ed6.png)
+
+根据 W3C 标准，12px 为浏览器最小字体，因此我们此次以 12px 为基准文字，即 T=12
+
+取 α=1，β=0.66
+
+以 4 个字符作为按钮文字最小单位
+
+有如下计算：
+
+**W=4*12+2*1\*12=72**
+
+n=4
+
+T=12
+
+α=1
+
+**H=1.5*12+2*0.66\*12=34**
+
+T=12
+
+β=0.66
+
+#### ![01.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/85c53314.png)
+
+### 按钮推算
+
+按钮的整体尺寸与文字区域呈正相关，因此整体尺寸以文字区域大小为基准向外扩展，已知视距和屏幕显示精度，我们可以通过以下计算得出最佳可视字体大小。
+
+![进步规则备份 9.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/2ad1f76c.png)
+
+结合色彩对比度和设备移动速度，可得出一个 T 的最佳值
+
+T 必须为偶数，若不是偶数则增加 1 作为 T
+
+我们规定以「基准按钮」的文字字号为基准，每增大 2 个字号，则上下 padding 增加 2，左右 padding 增加 2
+
+可以得到如下计算公式：
+
+![02.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/f3286985.png)![进步规则备份 11.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/d6883def.png)
+
+### 操作方式因子
+
+![进步规则备份 12.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/d5215013.png)
+
+可视范围内，键鼠操作一般没有限制，所以我们暂定合理的可视尺寸即为鼠标操作的合适区域
+
+而同等视距和信息密度的情形下下，触控操作较之键鼠操作则要求更大的区域，也要求更为疏松的间距
+
+因此我们规定，在同等视距和信息密度的情况下，增加触控因子，则按钮的宽、高 padding 分别增加 k 和 z
+
+可以得到如下计算公式：
+
+![进步规则备份 13.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/abc01079.png)
+
+![进步规则备份 14.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/74df9d37.png)
+
+### 举例
+
+以视距为 45cm，屏幕尺寸为 10.2 英寸，分辨率为 810\*1080 的触控场景为例，推导一个合适的按钮
+
+1.设定基准按钮：T=12，取 α=1，β=0.66
+
+**W=4*12+2*1\*12=72**
+
+**H=1.5*12+2*0.66\*12=34**
+
+![image.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/09449284.png)
+
+2.由视距、屏幕显示精度、色彩对比度、设备移动状态等可得出该场景下字体大小的推荐范围为 17 ～ 43px，则取 T=18
+
+![01备份 2.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/dc2514a9.png)
+
+3.以「基准按钮」的大小为基准，通过 T=18，可推导出在该视距和屏幕尺寸下一个较为合理的按钮大小
+
+**W=4*18+2*12+2\*2(18-12)/2=108**
+
+**H=1.5*18+2*8+2\*2(18-12)/2=55**
+
+![01备份 3.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/845106eb.png)
+
+4.基于当前条件，我们变为触控操作，考虑到该场景与 pad 端类似，我们选取 pad 端的横纵总量
+
+![01备份 4.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/2ce3607d.png)
+
+**W=4*18+2*12+2*2(18-12)/2+2*4=116**
+
+**H=1.5*18+2*8+2*2(18-12)/2+2*2=59**
+
+![01备份 5.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/e0a1bdfa.png)
+
+![01备份 6.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/b4d6fa95.png)

@@ -2,20 +2,14 @@
 module.exports = {
   docs: [
     'values',
-    'proposition',
     'principles',
+    'mfdt',
     {
       type: 'category',
       label: '设计基础规范',
       collapsed: false,
-      items: ['colors', 'font', 'radius', 'elevation', 'icons', 'dark'],
+      items: ['colors', 'grid', 'font', 'elevation', 'icons', 'dark'],
     },
-    { type: 'category', label: '框架与布局', collapsed: false, items: ['layout', 'framework'] },
-    {
-      type: 'category',
-      label: '可视化设计',
-      collapsed: false,
-      items: ['visual-principles', 'visual-colors', 'visual-graphics', 'visual-text'],
-    },
+    'kitchen',
   ],
 };

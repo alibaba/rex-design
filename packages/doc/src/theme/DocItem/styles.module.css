@@ -1,0 +1,17 @@
+.docTitle {
+  font-size: 30px;
+  line-height: 38px;
+  margin-top: 20px;
+  margin-bottom: 32px;
+}
+
+.docItemContainer {
+  margin: 0 auto;
+  padding: 0 26px;
+}
+
+@media only screen and (max-width: 996px) {
+  .docItemContainer {
+    padding: 0 4px;
+  }
+}
