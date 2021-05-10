@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import cx from 'classnames';
 import dayjs, { Dayjs } from '../../dayjs';
-import { Box } from '../layout';
 import { Input } from '../input';
 import { AdaptivePopup } from '../overlays';
 import { TimePanel, TimePanelGetItemsProps } from './time-panel';
@@ -11,9 +10,9 @@ import { getToken, noop, pickStyleAndDataAndEventProps } from '../../utils';
 import { PopupProps } from '../overlays';
 import { FormControlOnChangeHandler } from '../../types';
 
-const PanelWrapper = styled.div`
+const PanelWrapper = styled.div<any>`
   box-shadow: var(--rex-shadows-lowDown);
-  width: ${getToken('TimePicker.panelWidth')};
+  width: ${(props) => props.$width};
   border-radius: var(--rex-radii-m);
   background-color: var(--rex-colors-emphasis-0);
 `;
@@ -71,6 +70,9 @@ export function TimePicker(props: TimePickerProps) {
 
   const inputValue = value ? value.format(format) : '';
 
+  const panelWidth =
+    mode === 'simple' ? getToken('TimePicker.simplePanelWidth') : getToken('TimePicker.normalPanelWidth');
+
   return (
     <AdaptivePopup
       offset={[0, 4]}
@@ -88,7 +90,7 @@ export function TimePicker(props: TimePickerProps) {
         />
       )}
     >
-      <PanelWrapper>
+      <PanelWrapper $width={panelWidth}>
         <TimePanel value={value} onChange={(value: Dayjs) => updateValue(value)} mode={mode} {...restProps} />
       </PanelWrapper>
     </AdaptivePopup>

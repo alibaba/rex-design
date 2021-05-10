@@ -1,7 +1,9 @@
 import React from 'react';
+import styled from 'styled-components';
+import { Icon } from '@rexd/icon';
 import { ListNode } from '../../types';
 import dayjs from '../../dayjs';
-import { isFunction, noop } from '../../utils';
+import { getToken, isFunction, noop } from '../../utils';
 import { useDateTableContext } from '../date-picker/date-context';
 import { Box } from '../layout';
 import { TimeMenu } from './time-menu';
@@ -50,6 +52,20 @@ export function TimePanel(props: TimePanelProps) {
   const { mode, ...rest } = props;
   const Panel = mode === 'simple' ? SimpleTimePanel : FullTimePanel;
   return <Panel {...rest} />;
+}
+
+const NormalTimeItemBox = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:hover {
+    background-color: var(--rex-colors-emphasis-10);
+  }
+`;
+
+function renderNormalItemLabel(label: React.ReactNode) {
+  return <NormalTimeItemBox>{label}</NormalTimeItemBox>;
 }
 
 function FullTimePanel(props: TimePanelProps) {
@@ -111,6 +127,7 @@ function FullTimePanel(props: TimePanelProps) {
           <TimeMenu
             rows={rows}
             renderHeader={() => '时'}
+            renderItemLabel={renderNormalItemLabel}
             items={hours}
             selectedKey={value ? value.hour() : undefined}
             onSelect={handleHourSelect}
@@ -120,6 +137,7 @@ function FullTimePanel(props: TimePanelProps) {
           <TimeMenu
             rows={rows}
             renderHeader={() => '分'}
+            renderItemLabel={renderNormalItemLabel}
             items={minutes}
             selectedKey={value ? value.minute() : undefined}
             onSelect={handleMinuteSelect}
@@ -129,6 +147,7 @@ function FullTimePanel(props: TimePanelProps) {
           <TimeMenu
             rows={rows}
             renderHeader={() => '秒'}
+            renderItemLabel={renderNormalItemLabel}
             items={seconds}
             selectedKey={value ? value.second() : undefined}
             onSelect={handleSecondSelect}
@@ -154,6 +173,30 @@ const getQuickTimeItems = () => {
   return items;
 };
 
+const SimpleTimeItemBox = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: var(--rex-space-l);
+  padding-right: var(--rex-space-l);
+  margin-left: var(--rex-space-l);
+  margin-right: var(--rex-space-l);
+
+  &:hover {
+    border-radius: var(--rex-radii-s);
+    background-color: var(--rex-colors-emphasis-10);
+  }
+`;
+
+function renderSimpleItemLabel(label: React.ReactNode, detail: any) {
+  return (
+    <SimpleTimeItemBox>
+      {label}
+      {detail.isSelected ? <Icon type="select-bold" /> : null}
+    </SimpleTimeItemBox>
+  );
+}
+
 function SimpleTimePanel(props: TimePanelProps) {
   const {
     rows = 6,
@@ -177,13 +220,14 @@ function SimpleTimePanel(props: TimePanelProps) {
   };
 
   return (
-    <Box>
+    <Box position="relative">
       {renderHeader({ value, format })}
       <TimeMenu
         rows={rows}
         items={timeItems}
         selectedKey={value ? value.format('HH:mm') : undefined}
         onSelect={handleSelect}
+        renderItemLabel={renderSimpleItemLabel}
       />
     </Box>
   );

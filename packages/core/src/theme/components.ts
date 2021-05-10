@@ -141,7 +141,8 @@ const components = {
 
   TimePicker: {
     triggerWidth: '180px',
-    panelWidth: '200px',
+    normalPanelWidth: '200px',
+    simplePanelWidth: '180px',
     panelMenuItemHeight: '28px', // 需要保持和日期组件的格子一样大
   },
 
@@ -149,7 +150,7 @@ const components = {
     triggerWidth: '180px',
     direction: 'row',
     dateCardWidth: '280px',
-    timeCardWidth: '200px',
+    timeCardWidth: '180px',
     dateCellHeight: '28px',
   },
 
