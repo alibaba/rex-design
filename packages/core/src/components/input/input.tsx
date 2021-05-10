@@ -23,8 +23,8 @@ const InputWrapper = styled(Box)`
     height: 100%;
     width: 100%;
     padding: 0;
-    margin-left: var(--rex-space-m);
-    margin-right: var(--rex-space-m);
+    margin-left: var(--rex-space-l);
+    margin-right: var(--rex-space-l);
     background: transparent;
     color: inherit;
   }
@@ -67,21 +67,31 @@ const InputWrapper = styled(Box)`
   }
 `;
 
+const Center = styled(Box)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--rex-fontSizes-body);
+`;
+
 export interface InputProps extends UseInputProps {
   leftElement?: React.ReactNode;
   rightElement?: React.ReactNode;
+  renderRightElement?: () => React.ReactNode;
   hasClear?: boolean;
   inputRef?: React.RefObject<HTMLInputElement>;
 }
 
 export const Input = React.forwardRef<HTMLDivElement, InputProps>((props, ref) => {
-  const { leftElement, rightElement, ...rest } = props;
+  const { leftElement, rightElement, renderRightElement, ...rest } = props;
   const { hasClear, getRootProps, getInputProps, getClearButtonProps } = useInput(rest);
   const rootProps = getRootProps();
   const inputProps = getInputProps();
   const clearProps = getClearButtonProps();
 
-  const hasRightElement = rightElement || hasClear;
+  const hasRightElement = rightElement || renderRightElement || hasClear;
+  const renderRight =
+    typeof renderRightElement === 'function' ? renderRightElement : () => <Center mr="l">{rightElement}</Center>;
 
   return (
     <InputWrapper ref={ref} {...rootProps}>
@@ -90,7 +100,7 @@ export const Input = React.forwardRef<HTMLDivElement, InputProps>((props, ref) =
       {hasRightElement ? (
         <InputElement>
           {hasClear && <ClearButton {...clearProps} />}
-          {rightElement}
+          {renderRight()}
         </InputElement>
       ) : null}
     </InputWrapper>

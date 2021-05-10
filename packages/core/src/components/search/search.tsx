@@ -57,11 +57,11 @@ function SimpleSearch(props: SearchProps) {
     <Input
       {...htmlProps}
       {...inputProps}
-      rightElement={
+      renderRightElement={() => (
         <SimpleSearchButton {...submitProps}>
           <Icon type="search" />
         </SimpleSearchButton>
-      }
+      )}
     />
   );
 }
