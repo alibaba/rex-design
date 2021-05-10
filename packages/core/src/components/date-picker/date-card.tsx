@@ -97,6 +97,10 @@ export interface DateCardProps {
    * 点击关闭按钮时的回调
    */
   onClose?: () => void;
+  /**
+   * 点击确认按钮时的回调
+   */
+  onOk?: () => void;
 }
 
 export function DateCard(props: DateCardProps) {
@@ -111,6 +115,7 @@ export function DateCard(props: DateCardProps) {
     getDisabledDate = defaultGetDisabledDate,
     onSelect,
     onClose,
+    onOk,
   } = props;
   const { device } = useDevice();
   const [mode, setMode] = useState('date'); // date, month, year
@@ -155,7 +160,7 @@ export function DateCard(props: DateCardProps) {
     getDisabledDate,
   };
 
-  let timeRows = 8;
+  let timeRows = 9;
   let hasClose = false;
 
   if (device.alias === 's') {
@@ -181,7 +186,7 @@ export function DateCard(props: DateCardProps) {
           </Box>
         )}
       </Card>
-      {hasTime && <DatePanelFooter />}
+      {hasTime && <DatePanelFooter onOk={onOk} />}
     </DateTableProvider>
   );
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 import styled from 'styled-components';
+import { Icon } from '@rexd/icon';
 import dayjs, { Dayjs } from '../../dayjs';
 import { AdaptivePopup } from '../overlays';
 import { Input } from '../input';
@@ -150,6 +151,7 @@ export function DateRangePicker(props: DateRangePickerProps) {
             shape="simple"
             value={endValue ? endValue.format(format) : ''}
             readOnly
+            rightElement={<Icon type="calendar" />}
           />
         )}
       >

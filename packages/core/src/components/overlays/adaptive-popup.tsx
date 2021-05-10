@@ -75,6 +75,7 @@ export function FullscreenPopup(props: FullscreenPopupProps) {
         style={{
           minWidth: '60%',
           maxWidth: '90%',
+          background: 'transparent',
           ...props.style,
         }}
         minimal

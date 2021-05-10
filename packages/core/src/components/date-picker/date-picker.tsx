@@ -1,5 +1,6 @@
 import React from 'react';
 import cx from 'classnames';
+import { Icon } from '@rexd/icon';
 import dayjs, { Dayjs } from '../../dayjs';
 import { AdaptivePopup } from '../overlays';
 import { Input } from '../input';
@@ -78,8 +79,7 @@ export function DatePicker(props: DatePickerProps) {
   return (
     <AdaptivePopup
       {...popupProps}
-      // visible={visible}
-      visible
+      visible={visible}
       onRequestClose={onClose}
       onRequestOpen={onOpen}
       interactionKind="click"
@@ -93,6 +93,7 @@ export function DatePicker(props: DatePickerProps) {
           value={display}
           status={status}
           readOnly
+          rightElement={<Icon type="calendar" />}
         />
       )}
     >
