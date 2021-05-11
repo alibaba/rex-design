@@ -8,6 +8,10 @@ const components = {
     mFontSize: '12px',
     lFontSize: '14px',
 
+    sIconSize: '18px',
+    mIconSize: '18px',
+    lIconSize: '20px',
+
     textPrimary: 'colors.emphasis.0',
     bgPrimary: 'colors.brand.normal',
     borderColorPrimary: 'colors.brand.normal',
@@ -51,11 +55,11 @@ const components = {
     /**
      * @label 禁用背景色
      */
-    bgDisabled: 'colors.fill.disabled',
+    bgDisabled: 'colors.emphasis.10',
     /**
      * @label 禁用边框色
      */
-    borderColorDisabled: 'colors.line.disabled',
+    borderColorDisabled: 'colors.emphasis.10',
   },
 
   TextButton: {

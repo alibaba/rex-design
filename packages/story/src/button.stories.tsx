@@ -55,9 +55,15 @@ export function LinkButton() {
 export function Size() {
   return (
     <Group>
-      <Button size="small">小尺寸按钮</Button>
-      <Button size="medium">中尺寸按钮</Button>
-      <Button size="large">大尺寸按钮</Button>
+      <Button size="small" leftElement={<Icon type="email" />}>
+        小尺寸按钮
+      </Button>
+      <Button size="medium" leftElement={<Icon type="email" />}>
+        中尺寸按钮
+      </Button>
+      <Button size="large" leftElement={<Icon type="email" />}>
+        大尺寸按钮
+      </Button>
     </Group>
   );
 }
@@ -86,16 +92,25 @@ export const AddIcon = () => (
  */
 export const OnlyIcon = () => (
   <DemoGroup>
-    <IconButton icon="close" />
+    <Button>
+      <Icon type="calendar" />
+    </Button>
   </DemoGroup>
 );
 
-export const Loading = () => (
-  <DemoGroup>
-    <Button loading />
-    <Button loading>提交中</Button>
-  </DemoGroup>
-);
+export const Loading = () => {
+  const [loading, setLoading] = useState(false);
+  return (
+    <DemoGroup>
+      <Button loading={loading} onClick={() => setLoading(!loading)}>
+        点击切换加载状态
+      </Button>
+      <Button type="primary" loading={loading} onClick={() => setLoading(!loading)}>
+        点击切换加载状态
+      </Button>
+    </DemoGroup>
+  );
+};
 
 export const ButtonGroup = () => (
   <DemoGroup>

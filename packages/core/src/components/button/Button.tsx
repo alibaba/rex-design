@@ -6,12 +6,16 @@ import { Dict } from '../../types';
 import { space, getToken } from '../../utils';
 import { Loading } from '../loading';
 
-const buttonSize = (height?: string, px?: string, fontSize?: string) => {
+const buttonSize = (height?: string, px?: string, fontSize?: string, iconSize?: string) => {
   return `
     font-size: ${fontSize};
     height: ${height};
     padding-left: ${px};
     padding-right: ${px};
+
+    svg {
+      font-size: ${iconSize};
+    }
   `;
 };
 
@@ -39,10 +43,6 @@ const buttonType = (
       border-color: ${hoverBorderColor};
     }
 
-    &:focus {
-      outline: 2px auto ${selectedBorderColor};
-    }
-
     &.rex-selected {
       color: ${selectedColor};
       background-color: ${selectedBg};
@@ -51,7 +51,7 @@ const buttonType = (
   `;
 };
 
-const SystemButton = styled(OneButton)<any>`
+const StyledButton = styled(OneButton)<any>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -68,16 +68,36 @@ const SystemButton = styled(OneButton)<any>`
     vertical-align: middle;
   }
 
+  .rext-btn-children {
+    display: flex;
+    align-items: center;
+  }
+
   &.rex-btn-small {
-    ${buttonSize('var(--rex-sizes-formHeights-s)', getToken('Button.spx'), getToken('Button.sFontSize'))}
+    ${buttonSize(
+      'var(--rex-sizes-formHeights-s)',
+      getToken('Button.spx'),
+      getToken('Button.sFontSize'),
+      getToken('Button.sIconSize'),
+    )}
   }
 
   &.rex-btn-medium {
-    ${buttonSize('var(--rex-sizes-formHeights-m)', getToken('Button.mpx'), getToken('Button.mFontSize'))}
+    ${buttonSize(
+      'var(--rex-sizes-formHeights-m)',
+      getToken('Button.mpx'),
+      getToken('Button.mFontSize'),
+      getToken('Button.mIconSize'),
+    )}
   }
 
   &.rex-btn-large {
-    ${buttonSize('var(--rex-sizes-formHeights-l)', getToken('Button.lpx'), getToken('Button.lFontSize'))}
+    ${buttonSize(
+      'var(--rex-sizes-formHeights-l)',
+      getToken('Button.lpx'),
+      getToken('Button.lFontSize'),
+      getToken('Button.lIconSize'),
+    )}
   }
 
   &.rex-btn-link {
@@ -87,8 +107,17 @@ const SystemButton = styled(OneButton)<any>`
     background: transparent;
   }
 
+  &.rex-btn-loading {
+    .rext-btn-children {
+      opacity: 0;
+    }
+
+    .rex-loading {
+      position: absolute;
+    }
+  }
+
   &.rex-disabled {
-    opacity: 0.4;
     cursor: not-allowed;
     pointer-events: none;
   }
@@ -245,20 +274,20 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>((props, r
     isFullWidth = false,
     isSelected = false,
     loading,
-    disabled: disabledProp,
+    disabled,
     className,
-    leftElement: leftIconProp,
+    leftElement,
     rightElement,
     children,
     ...others
   } = props;
 
-  const disabled = loading || disabledProp;
-  const leftIcon = loading ? <Loading /> : leftIconProp;
+  const loadingIcon = loading ? <Loading /> : null;
 
   const clazz = cx(
     {
       'rex-btn': true,
+      'rex-btn-loading': loading,
       [`rex-btn-${shape}`]: shape,
       [`rex-btn-${type}`]: type,
       [`rex-btn-${size}`]: size,
@@ -269,18 +298,21 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>((props, r
   );
 
   return (
-    <SystemButton className={clazz} $isFullWidth={isFullWidth} type={htmlType} ref={ref} {...others}>
-      {leftIcon && (
-        <IconBox as="span" mr={children ? 's' : 0}>
-          {leftIcon}
-        </IconBox>
-      )}
-      {children}
-      {rightElement && (
-        <IconBox as="span" ml={children ? 's' : 0}>
-          {rightElement}
-        </IconBox>
-      )}
-    </SystemButton>
+    <StyledButton className={clazz} $isFullWidth={isFullWidth} type={htmlType} ref={ref} {...others}>
+      {loadingIcon}
+      <span className="rext-btn-children">
+        {leftElement && (
+          <IconBox as="span" mr={children ? 's' : 0}>
+            {leftElement}
+          </IconBox>
+        )}
+        {children}
+        {rightElement && (
+          <IconBox as="span" ml={children ? 's' : 0}>
+            {rightElement}
+          </IconBox>
+        )}
+      </span>
+    </StyledButton>
   );
 });
