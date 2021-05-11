@@ -43,14 +43,17 @@ const InputWrapper = styled(Box)`
 
     &.rex-error {
       border-color: ${getToken('Input.borderColorError')};
+      outline-color: ${getToken('Input.borderColorError')};
     }
 
     &.rex-warning {
       border-color: ${getToken('Input.borderColorWarning')};
+      outline-color: ${getToken('Input.borderColorWarning')};
     }
 
     &.rex-success {
       border-color: ${getToken('Input.borderColorSuccess')};
+      outline-color: ${getToken('Input.borderColorSuccess')};
     }
   }
 
@@ -71,7 +74,6 @@ const Center = styled(Box)`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: var(--rex-fontSizes-body);
 `;
 
 export interface InputProps extends UseInputProps {
@@ -93,11 +95,13 @@ export const Input = React.forwardRef<HTMLDivElement, InputProps>((props, ref) =
   const renderRight =
     typeof renderRightElement === 'function'
       ? renderRightElement
-      : () => (
-          <Center ml={hasClear ? 's' : 0} mr="l">
-            {rightElement}
-          </Center>
-        );
+      : () => {
+          return rightElement ? (
+            <Center ml={hasClear ? 'm' : 0} mr="l">
+              {rightElement}
+            </Center>
+          ) : null;
+        };
 
   return (
     <InputWrapper ref={ref} {...rootProps}>
@@ -105,7 +109,7 @@ export const Input = React.forwardRef<HTMLDivElement, InputProps>((props, ref) =
       <input {...inputProps} />
       {hasRightElement ? (
         <InputElement>
-          {hasClear && <ClearButton {...clearProps} />}
+          {hasClear && <ClearButton mr={rightElement ? 0 : 'l'} {...clearProps} />}
           {renderRight()}
         </InputElement>
       ) : null}
