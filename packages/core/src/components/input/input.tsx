@@ -9,11 +9,13 @@ import { getToken } from '../../utils';
 const InputWrapper = styled(Box)`
   display: inline-flex;
   position: relative;
+  vertical-align: middle;
   font-size: var(--rex-fontSizes-body);
   color: ${getToken('Input.textColor')};
   background-color: ${getToken('Input.bg')};
   height: var(--rex-sizes-formHeights-m);
   width: ${(props) => props.width || getToken('Input.width')};
+  padding-left: var(--rex-space-l);
 
   input {
     flex: 1;
@@ -23,8 +25,6 @@ const InputWrapper = styled(Box)`
     height: 100%;
     width: 100%;
     padding: 0;
-    margin-left: var(--rex-space-l);
-    margin-right: var(--rex-space-l);
     background: transparent;
     color: inherit;
   }
@@ -34,7 +34,8 @@ const InputWrapper = styled(Box)`
     border-radius: var(--rex-radii-s);
 
     &:focus-within {
-      outline: 2px auto ${getToken('Input.borderColorFocus')};
+      outline: 0;
+      box-shadow: 0 0 0 3px ${getToken('Input.borderColorFocus')};
     }
 
     &:hover {
@@ -43,17 +44,27 @@ const InputWrapper = styled(Box)`
 
     &.rex-error {
       border-color: ${getToken('Input.borderColorError')};
-      outline-color: ${getToken('Input.borderColorError')};
+
+      &:focus-within {
+        box-shadow: 0 0 0 3px ${getToken('Input.borderColorErrorFocus')};
+      }
     }
 
     &.rex-warning {
       border-color: ${getToken('Input.borderColorWarning')};
-      outline-color: ${getToken('Input.borderColorWarning')};
+
+      &:focus-within {
+        box-shadow: 0 0 0 3px ${getToken('Input.borderColorWarningFocus')};
+      }
+      /* outline-color: ${getToken('Input.borderColorWarning')}; */
     }
 
     &.rex-success {
       border-color: ${getToken('Input.borderColorSuccess')};
-      outline-color: ${getToken('Input.borderColorSuccess')};
+
+      &:focus-within {
+        box-shadow: 0 0 0 3px ${getToken('Input.borderColorSuccessFocus')};
+      }
     }
   }
 
@@ -67,6 +78,8 @@ const InputWrapper = styled(Box)`
     color: ${getToken('Input.textColorDisabled')};
     border-color: ${getToken('Input.borderColorDisabled')};
     background-color: ${getToken('Input.bgDisabled')};
+    /* safari */
+    -webkit-text-fill-color: ${getToken('Input.textColorDisabled')};
   }
 `;
 
@@ -105,7 +118,7 @@ export const Input = React.forwardRef<HTMLDivElement, InputProps>((props, ref) =
 
   return (
     <InputWrapper ref={ref} {...rootProps}>
-      {leftElement && <InputElement ml="l">{leftElement}</InputElement>}
+      {leftElement && <InputElement mr="s">{leftElement}</InputElement>}
       <input {...inputProps} />
       {hasRightElement ? (
         <InputElement>

@@ -14,8 +14,8 @@ export const DateList = styled.ul`
   > li {
     position: relative;
     flex-basis: 33.33%;
-    padding: 4px 12px;
-    margin-bottom: 12px;
+    height: ${getToken('DatePicker.dateCellSize')};
+    line-height: ${getToken('DatePicker.dateCellSize')};
 
     &:hover {
       border-radius: var(--rex-radii-s);
@@ -29,10 +29,10 @@ export const DateList = styled.ul`
         left: 50%;
         top: 80%;
         transform: translateX(-50%);
-        width: 4px;
-        height: 4px;
+        width: ${getToken('DatePicker.dateCellDotSize')};
+        height: ${getToken('DatePicker.dateCellDotSize')};
         border-radius: 100%;
-        background-color: var(--rex-colors-brand-normal);
+        background-color: var(--rex-colors-secondary-50);
       }
     }
 
@@ -47,29 +47,6 @@ export const TimePanelHeader = styled.div`
   line-height: 32px;
   text-align: center;
   font-size: var(--rex-fontSizes-body);
-`;
-
-export const DateLinkButton = styled.button<any>`
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  height: 32px;
-  background-color: transparent;
-  border: 0;
-  outline: none;
-  cursor: pointer;
-  vertical-align: middle;
-  font-size: var(--rex-fontSizes-body);
-  color: ${(props) => (props.$isPrimary ? 'var(--rex-colors-brand-normal)' : 'var(--rex-colors-text-body)')};
-  padding: 0 var(--rex-space-s);
-
-  &:hover {
-    color: var(--rex-colors-brand-normal);
-  }
-
-  svg {
-    vertical-align: middle;
-  }
 `;
 
 export const StyledTable = styled.div`
@@ -99,12 +76,11 @@ export const StyledHeadCell = styled.div`
 `;
 
 export const StyledCell = styled.div`
-  flex: 1;
   margin-top: 2px;
   margin-bottom: 2px;
   position: relative;
 
-  &:hover {
+  &:not(.rex-inRange):hover {
     border-radius: var(--rex-radii-s);
     background-color: var(--rex-colors-emphasis-10);
   }
@@ -116,8 +92,8 @@ export const StyledCell = styled.div`
       bottom: 2px;
       left: 50%;
       transform: translateX(-50%);
-      width: 4px;
-      height: 4px;
+      width: ${getToken('DatePicker.dateCellDotSize')};
+      height: ${getToken('DatePicker.dateCellDotSize')};
       border-radius: 100%;
       background-color: var(--rex-colors-secondary-50);
     }
@@ -127,16 +103,19 @@ export const StyledCell = styled.div`
     background-color: var(--rex-colors-primary-10);
   }
 
+  &.rex-inRange:not(.rex-active):hover > div {
+    border-radius: var(--rex-radii-s);
+    background-color: var(--rex-colors-primary-20);
+  }
+
   &.rex-otherMonth {
     color: var(--rex-colors-text-note);
   }
 
-  &.rex-active {
-    > div {
-      color: var(--rex-colors-emphasis-0);
-      background-color: var(--rex-colors-brand-normal);
-      border-radius: var(--rex-radii-s);
-    }
+  &.rex-active > div {
+    color: var(--rex-colors-emphasis-0);
+    background-color: var(--rex-colors-brand-normal);
+    border-radius: var(--rex-radii-s);
   }
 
   &.rex-startValue {
@@ -150,7 +129,7 @@ export const StyledCell = styled.div`
   }
 
   &.rex-active.rex-today::after {
-    background-color: #fff;
+    background-color: var(--rex-colors-emphasis-0);
   }
 
   &.rex-disabled {
@@ -163,6 +142,6 @@ export const StyledCellContent = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: ${getToken('DatePicker.dateCellHeight')};
-  width: ${getToken('DatePicker.dateCellHeight')};
+  height: ${getToken('DatePicker.dateCellSize')};
+  width: ${getToken('DatePicker.dateCellSize')};
 `;

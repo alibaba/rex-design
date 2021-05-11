@@ -28,8 +28,12 @@ const ListItem = styled.li`
   height: ${getToken('TimePicker.panelMenuItemHeight')};
   line-height: ${getToken('TimePicker.panelMenuItemHeight')};
 
+  &:hover {
+    font-weight: bold;
+  }
+
   &.rex-selected {
-    color: var(--rex-colors-brand-normal);
+    background-color: var(--rex-colors-emphasis-10);
   }
 `;
 
@@ -73,8 +77,6 @@ function scrollTo(element: any, to: any, duration: number) {
 }
 
 const defaultGetItemKey = (item: any) => item.value;
-// const defaultGetItemLabel = (item: any) => item.label;
-const defaultRenderItemLabel = (label: React.ReactNode) => label;
 
 interface TimeMenuProps {
   /**
@@ -84,11 +86,9 @@ interface TimeMenuProps {
   items?: any[];
   selectedKey: any;
   getItemKey?: (item: any) => any;
-  // getItemLabel?: (item: any) => any;
-  renderItemLabel?: (label: React.ReactNode, detail: any) => React.ReactNode;
   onSelect?: FormControlOnChangeHandler<any>;
   renderHeader?: () => React.ReactNode;
-  // renderFooter?: () => React.ReactNode;
+  itemStyle?: React.CSSProperties;
 }
 
 /**
@@ -100,9 +100,9 @@ export function TimeMenu(props: TimeMenuProps) {
     selectedKey,
     rows = 6,
     getItemKey = defaultGetItemKey,
-    renderItemLabel = defaultRenderItemLabel,
     onSelect = noop,
     renderHeader,
+    itemStyle,
   } = props;
 
   const menu = useRef<HTMLUListElement>();
@@ -133,7 +133,7 @@ export function TimeMenu(props: TimeMenuProps) {
   return (
     <Wrapper>
       {typeof renderHeader === 'function' && (
-        <Box py="s" fontSize="body" bg="fill.layer1" fontWeight="bold">
+        <Box py="s" fontSize="body" color="text.note" fontWeight="bold">
           {renderHeader()}
         </Box>
       )}
@@ -149,8 +149,9 @@ export function TimeMenu(props: TimeMenuProps) {
                 ['rex-selected']: isSelected,
               })}
               onClick={(e: any) => onSelect(key, { event: e, data: item })}
+              style={itemStyle}
             >
-              {renderItemLabel(item.label, { isSelected, ...item })}
+              {item.label}
             </ListItem>
           );
         })}

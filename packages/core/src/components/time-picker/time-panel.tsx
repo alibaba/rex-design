@@ -1,10 +1,7 @@
 import React from 'react';
-import styled from 'styled-components';
-import { Icon } from '@rexd/icon';
 import { ListNode } from '../../types';
 import dayjs from '../../dayjs';
-import { isFunction, noop } from '../../utils';
-import { useDateTableContext } from '../date-picker/date-context';
+import { noop } from '../../utils';
 import { Box } from '../layout';
 import { TimeMenu } from './time-menu';
 
@@ -45,27 +42,13 @@ export interface TimePanelProps extends TimePanelGetItemsProps {
   format?: string;
   value?: any;
   onChange?: any;
-  renderHeader?: (props: any) => React.ReactNode;
+  renderHeader?: () => React.ReactNode;
 }
 
 export function TimePanel(props: TimePanelProps) {
   const { mode, ...rest } = props;
   const Panel = mode === 'simple' ? SimpleTimePanel : FullTimePanel;
   return <Panel {...rest} />;
-}
-
-const NormalTimeItemBox = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  &:hover {
-    background-color: var(--rex-colors-emphasis-10);
-  }
-`;
-
-function renderNormalItemLabel(label: React.ReactNode) {
-  return <NormalTimeItemBox>{label}</NormalTimeItemBox>;
 }
 
 function FullTimePanel(props: TimePanelProps) {
@@ -85,8 +68,6 @@ function FullTimePanel(props: TimePanelProps) {
     renderHeader = defaultRenderHeader,
   } = props;
 
-  const dateTable = useDateTableContext();
-
   const hours = getHourItems();
   const minutes = getMinuteItems();
   const seconds = getSecondItems();
@@ -102,9 +83,6 @@ function FullTimePanel(props: TimePanelProps) {
     }
 
     onChange(nextValue);
-    if (dateTable && isFunction(dateTable.onSelectTime)) {
-      dateTable.onSelectTime(nextValue);
-    }
   };
 
   const handleHourSelect = (val: number) => {
@@ -121,13 +99,12 @@ function FullTimePanel(props: TimePanelProps) {
 
   return (
     <Box>
-      {renderHeader({ value, format })}
+      {renderHeader()}
       <Box display="flex">
         {hasHours && (
           <TimeMenu
             rows={rows}
             renderHeader={() => '时'}
-            renderItemLabel={renderNormalItemLabel}
             items={hours}
             selectedKey={value ? value.hour() : undefined}
             onSelect={handleHourSelect}
@@ -137,7 +114,6 @@ function FullTimePanel(props: TimePanelProps) {
           <TimeMenu
             rows={rows}
             renderHeader={() => '分'}
-            renderItemLabel={renderNormalItemLabel}
             items={minutes}
             selectedKey={value ? value.minute() : undefined}
             onSelect={handleMinuteSelect}
@@ -147,7 +123,6 @@ function FullTimePanel(props: TimePanelProps) {
           <TimeMenu
             rows={rows}
             renderHeader={() => '秒'}
-            renderItemLabel={renderNormalItemLabel}
             items={seconds}
             selectedKey={value ? value.second() : undefined}
             onSelect={handleSecondSelect}
@@ -173,29 +148,10 @@ const getQuickTimeItems = () => {
   return items;
 };
 
-const SimpleTimeItemBox = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-left: var(--rex-space-l);
-  padding-right: var(--rex-space-l);
-  margin-left: var(--rex-space-l);
-  margin-right: var(--rex-space-l);
-
-  &:hover {
-    border-radius: var(--rex-radii-s);
-    background-color: var(--rex-colors-emphasis-10);
-  }
-`;
-
-function renderSimpleItemLabel(label: React.ReactNode, detail: any) {
-  return (
-    <SimpleTimeItemBox>
-      {label}
-      {detail.isSelected ? <Icon type="select-bold" /> : null}
-    </SimpleTimeItemBox>
-  );
-}
+const simpleItemStyle = {
+  borderRadius: 'var(--rex-radii-s)',
+  margin: '0 var(--rex-space-s)',
+};
 
 function SimpleTimePanel(props: TimePanelProps) {
   const {
@@ -206,28 +162,22 @@ function SimpleTimePanel(props: TimePanelProps) {
     getQuickItems = getQuickTimeItems,
     renderHeader = defaultRenderHeader,
   } = props;
-  const dateTable = useDateTableContext();
   const timeItems = getQuickItems();
 
   const handleSelect = (val: string) => {
     const nextValue = dayjs(val, format);
-
     onChange(nextValue);
-
-    if (dateTable && isFunction(dateTable.onSelectTime)) {
-      dateTable.onSelectTime(nextValue);
-    }
   };
 
   return (
     <Box position="relative">
-      {renderHeader({ value, format })}
       <TimeMenu
         rows={rows}
         items={timeItems}
         selectedKey={value ? value.format('HH:mm') : undefined}
         onSelect={handleSelect}
-        renderItemLabel={renderSimpleItemLabel}
+        itemStyle={simpleItemStyle}
+        renderHeader={renderHeader}
       />
     </Box>
   );

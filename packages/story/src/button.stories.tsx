@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Button, Group, DemoGroup, IconButton } from '@rexd/core';
+import { Box, Button, Group, DemoGroup } from '@rexd/core';
 import { Icon } from '@rexd/icon';
 
 export default { title: 'Button' };
@@ -8,6 +8,9 @@ export function Basic() {
   return (
     <Box>
       <Group>
+        <Button>按钮</Button>
+      </Group>
+      <Group mt="l">
         <Button type="normal">普通按钮</Button>
         <Button type="primary">焦点按钮</Button>
         <Button type="secondary">次级按钮</Button>
@@ -54,17 +57,19 @@ export function LinkButton() {
 
 export function Size() {
   return (
-    <Group>
-      <Button size="small" leftElement={<Icon type="email" />}>
-        小尺寸按钮
-      </Button>
-      <Button size="medium" leftElement={<Icon type="email" />}>
-        中尺寸按钮
-      </Button>
-      <Button size="large" leftElement={<Icon type="email" />}>
-        大尺寸按钮
-      </Button>
-    </Group>
+    <Box>
+      <Group>
+        <Button size="small" leftElement={<Icon type="calendar" />}>
+          小尺寸按钮
+        </Button>
+        <Button size="medium" leftElement={<Icon type="calendar" />}>
+          中尺寸按钮
+        </Button>
+        <Button size="large" leftElement={<Icon type="calendar" />}>
+          大尺寸按钮
+        </Button>
+      </Group>
+    </Box>
   );
 }
 

@@ -85,7 +85,7 @@ export interface DateTableProps {
 }
 
 export function DateTable(props: DateTableProps) {
-  const { hasClose, onClose, visibleMonth, locale } = props;
+  const { visibleMonth, locale } = props;
   const ctx = useDateTableContext();
 
   const bind = useGesture({
@@ -104,12 +104,7 @@ export function DateTable(props: DateTableProps) {
 
   return (
     <Box>
-      <Flex justify="space-between" px="m" pb="m">
-        {hasClose && (
-          <Button shape="text" type="primary" size="small" onClick={onClose}>
-            关闭
-          </Button>
-        )}
+      <Flex justify="space-between" align="center" px="m" pb="m">
         <FlexItem flex="unset">
           <Button
             shape="text"
@@ -120,39 +115,27 @@ export function DateTable(props: DateTableProps) {
           >
             {visibleMonth.year()}年
           </Button>
-          <Button
-            shape="text"
-            size="small"
-            style={arrowButtonStyle}
-            onClick={() => ctx.onSelectMonth(visibleMonth.add(-1, 'month'))}
-          >
+          <Button shape="text" size="small" isIconOnly onClick={() => ctx.onSelectMonth(visibleMonth.add(-1, 'month'))}>
             <Icon type="arrow-left-bold" />
           </Button>
           <Button shape="text" size="small" style={monthButtonStyle} onClick={() => ctx.onChangeMode('month')}>
             {locale.months[visibleMonth.month()]}
           </Button>
-          <Button
-            shape="text"
-            size="small"
-            style={arrowButtonStyle}
-            onClick={() => ctx.onSelectMonth(visibleMonth.add(1, 'month'))}
-          >
+          <Button shape="text" size="small" isIconOnly onClick={() => ctx.onSelectMonth(visibleMonth.add(1, 'month'))}>
             <Icon type="arrow-right-bold" />
           </Button>
         </FlexItem>
-        <FlexItem flex="unset">
-          <Button
-            shape="text"
-            size="small"
-            type="primary"
-            onClick={() => {
-              ctx.onSelectMonth(ctx.today.clone());
-              ctx.onSelectDate(ctx.today.clone());
-            }}
-          >
-            今日
-          </Button>
-        </FlexItem>
+        <Button
+          shape="text"
+          size="small"
+          type="primary"
+          onClick={() => {
+            ctx.onSelectMonth(ctx.today.clone());
+            ctx.onSelectDate(ctx.today.clone());
+          }}
+        >
+          今日
+        </Button>
       </Flex>
       <StyledTable {...bind()}>
         <Box className="rex-date-table-header" bg="emphasis.20" px="l">

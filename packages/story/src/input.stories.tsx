@@ -1,4 +1,4 @@
-import { DemoGroup, DemoTitle, Flex, Group, Input, InputAddon } from '@rexd/core';
+import { DemoGroup, DemoTitle, Flex, Group, Input, InputAddon, useDevice } from '@rexd/core';
 import { Icon } from '@rexd/icon';
 import React, { useState } from 'react';
 
@@ -39,7 +39,7 @@ export function Elements() {
       <Input
         hasClear
         leftElement={<Icon type="search" />}
-        rightElement={<Icon type="browse" />}
+        rightElement={<Icon type="calendar" />}
         defaultValue="default value"
       />
     </Flex>
@@ -52,7 +52,14 @@ export function Controlled() {
 }
 
 export function Password() {
-  return <Input type="password" defaultValue="1234" />;
+  const [hide, setHide] = useState(true);
+  return (
+    <Input
+      type={hide ? 'password' : 'text'}
+      defaultValue="1234"
+      rightElement={<Icon type="browse" onClick={() => setHide(!hide)} />}
+    />
+  );
 }
 
 export function AutoCompleteOff() {
@@ -71,8 +78,8 @@ export function Addons() {
     <Flex spacing="l" direction="column">
       <Group isAttached>
         <InputAddon>https://</InputAddon>
-        <Input placeholder="alibaba.github" />
-        <InputAddon>.io</InputAddon>
+        <Input placeholder="portal.hemaos" />
+        <InputAddon>.com</InputAddon>
       </Group>
 
       <Group isAttached>

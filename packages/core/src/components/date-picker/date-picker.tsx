@@ -83,6 +83,7 @@ export function DatePicker(props: DatePickerProps) {
   return (
     <AdaptivePopup
       {...popupProps}
+      offset={[0, 2]}
       style={popupStyle}
       visible={visible}
       onRequestClose={onClose}
@@ -113,7 +114,6 @@ export function DatePicker(props: DatePickerProps) {
           }
         }}
         onOk={onClose}
-        onClose={onClose}
         {...restProps}
       />
     </AdaptivePopup>

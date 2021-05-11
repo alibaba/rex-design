@@ -82,10 +82,6 @@ export interface DateCardProps {
    */
   getDisabledDate?: CheckDateFn;
   /**
-   * 点击关闭按钮时的回调
-   */
-  onClose?: () => void;
-  /**
    * 点击确认按钮时的回调
    */
   onOk?: () => void;
@@ -102,7 +98,6 @@ export function DateCard(props: DateCardProps) {
     getDefaultVisibleMonth = defaultGetVisibleMonth,
     getDisabledDate = defaultGetDisabledDate,
     onSelect,
-    onClose,
     onOk,
   } = props;
   const { device } = useDevice();
@@ -125,9 +120,6 @@ export function DateCard(props: DateCardProps) {
     check: (fn: any) => {
       return fn({ format, today, startValue, endValue, visibleMonth });
     },
-    onSelectTime: (date: Dayjs) => {
-      onSelect(date);
-    },
     onSelectDate: (date: Dayjs, payload: FormEventDetail) => {
       if (!date.isSame(visibleMonth, 'month')) {
         setVisibleMonth(date);
@@ -148,15 +140,19 @@ export function DateCard(props: DateCardProps) {
     getDisabledDate,
   };
 
+  const handleTimeChange = (date: Dayjs) => {
+    const existValue = timeValue || dayjs();
+    const fixedDate = existValue.hour(date.hour()).minute(date.minute()).second(date.second());
+    onSelect(fixedDate);
+  };
+
   let panelDirection = 'row';
   let timeRows = 9;
-  let hasClose = false;
   let timeBoxProps = {};
 
   if (device.alias === 's') {
     panelDirection = 'column';
     timeRows = 3;
-    hasClose = true;
     timeBoxProps = {
       borderTop: 'solid',
       borderTopColor: 'emphasis.30',
@@ -175,15 +171,13 @@ export function DateCard(props: DateCardProps) {
     <DateTableProvider value={context}>
       <Box display="flex" flexDirection={panelDirection as any} py="l">
         <Box>
-          {mode === 'date' && (
-            <DateTable visibleMonth={visibleMonth} locale={dateLocale} hasClose={hasClose} onClose={onClose} />
-          )}
+          {mode === 'date' && <DateTable visibleMonth={visibleMonth} locale={dateLocale} />}
           {mode === 'month' && <MonthTable visibleMonth={visibleMonth} locale={dateLocale} />}
-          {mode === 'year' && <YearTable visibleMonth={visibleMonth} />}
+          {mode === 'year' && <YearTable visibleMonth={visibleMonth} locale={dateLocale} />}
         </Box>
         {hasTime && mode === 'date' && (
           <Box width={timePanelWidth} {...timeBoxProps}>
-            <TimePanel rows={timeRows} value={timeValue} mode="simple" renderHeader={() => null} {...timeProps} />
+            <TimePanel rows={timeRows} value={timeValue} mode="simple" onChange={handleTimeChange} {...timeProps} />
           </Box>
         )}
       </Box>

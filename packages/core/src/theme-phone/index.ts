@@ -20,8 +20,23 @@ export default extendTheme({
   },
 
   components: {
+    Button: {
+      spx: '12px',
+      mpx: '14px',
+      lpx: '16px',
+
+      sFontSize: '13px',
+      mFontSize: '14px',
+      lFontSize: '16px',
+
+      sIconSize: '15px',
+      mIconSize: '16px',
+      lIconSize: '18px',
+    },
+
     Input: {
       width: '100%',
+      elementFontSize: '16px',
     },
 
     TimePicker: {
@@ -33,15 +48,16 @@ export default extendTheme({
 
     DatePicker: {
       triggerWidth: '100%',
-      dateCardWidth: '90vw',
       normalTimeCardWidth: '90vw',
       simpleTimeCardWidth: '90vw',
-      dateCellHeight: '40px',
-      dateCardBorderRight: '0',
+      monthCardWidth: '90vw',
+      dateCellSize: '40px',
+      dateCellDotSize: '6px',
     },
 
     DateRangePicker: {
       triggerWidth: '100%',
+      startTriggerWidth: '45%',
     },
 
     FilePicker: {

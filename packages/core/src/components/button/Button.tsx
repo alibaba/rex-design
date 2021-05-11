@@ -36,6 +36,7 @@ const buttonType = (
   selectedColor?: StringOrNull,
   selectedBg?: StringOrNull,
   selectedBorderColor?: StringOrNull,
+  foucsOutline?: StringOrNull,
 ) => {
   return `
     color: ${textColor};
@@ -46,6 +47,11 @@ const buttonType = (
       color: ${hoverColor};
       background-color: ${hoverBg};
       border-color: ${hoverBorderColor};
+    }
+
+    &:focus {
+      outline: 0;
+      box-shadow: 0 0 0 3px ${foucsOutline};
     }
 
     &.rex-selected {
@@ -66,8 +72,9 @@ const StyledButton = styled(OneButton)<any>`
   user-select: none;
   cursor: pointer;
   width: ${(props: any) => (props.$isFullWidth ? '100%' : null)};
-  border-radius: var(--rex-radii-m);
+  border-radius: var(--rex-radii-s);
   border: var(--rex-borders-solid);
+  transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
 
   svg {
     vertical-align: middle;
@@ -146,6 +153,7 @@ const StyledButton = styled(OneButton)<any>`
       getToken('Button.textPrimaryActive'),
       getToken('Button.bgPrimaryActive'),
       getToken('Button.borderColorPrimaryActive'),
+      getToken('Button.outlinePrimary'),
     )}
   }
 
@@ -160,6 +168,7 @@ const StyledButton = styled(OneButton)<any>`
       getToken('Button.textSecondaryActive'),
       getToken('Button.bgSecondaryActive'),
       getToken('Button.borderColorSecondaryActive'),
+      getToken('Button.outlineSecondary'),
     )}
   }
 
@@ -174,6 +183,7 @@ const StyledButton = styled(OneButton)<any>`
       getToken('Button.textNormalActive'),
       getToken('Button.bgNormalActive'),
       getToken('Button.borderColorNormalActive'),
+      getToken('Button.outlineNormal'),
     )}
   }
 
@@ -197,6 +207,7 @@ const StyledButton = styled(OneButton)<any>`
       getToken('TextButton.colorPrimaryActive'),
       getToken('TextButton.bgPrimaryActive'),
       undefined,
+      undefined,
     )};
   }
 
@@ -210,6 +221,7 @@ const StyledButton = styled(OneButton)<any>`
       undefined,
       getToken('TextButton.colorNormalActive'),
       getToken('TextButton.bgNormalActive'),
+      undefined,
       undefined,
     )};
   }
@@ -233,6 +245,7 @@ const StyledButton = styled(OneButton)<any>`
       getToken('WarningButton.textNormalActive'),
       getToken('WarningButton.bgNormalActive'),
       getToken('WarningButton.borderColorNormalActive'),
+      getToken('WarningButton.outline'),
     )}
   }
 
@@ -247,6 +260,7 @@ const StyledButton = styled(OneButton)<any>`
       getToken('WarningButton.textPrimaryActive'),
       getToken('WarningButton.bgPrimaryActive'),
       getToken('WarningButton.borderColorPrimaryActive'),
+      getToken('WarningButton.outline'),
     )}
   }
 `;
@@ -257,6 +271,17 @@ const IconBox = styled(View)<Dict<any>>`
   margin-left: ${(props) => space(props.ml)};
   margin-right: ${(props) => space(props.mr)};
 `;
+
+const formatChildren = (text: any) => {
+  // 如果是两个汉字的话，给汉字间加空格
+  if (typeof text === 'string' && /^[\u3400-\u9FBF]{2}$/.test(text)) {
+    const list = text.split('');
+    list.splice(1, 0, ' ');
+    return list.join('');
+  }
+
+  return text;
+};
 
 export interface ButtonProps extends Omit<React.ComponentPropsWithRef<'button'>, 'type'> {
   shape?: 'solid' | 'text' | 'link' | 'ghost' | 'warning';
@@ -309,18 +334,20 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>((props, r
     className,
   );
 
+  const shouldFormatChildren = ['solid', 'warning'].includes(shape) && !leftElement && !rightElement;
+
   return (
     <StyledButton className={clazz} $isFullWidth={isFullWidth} type={htmlType} ref={ref} {...others}>
       {loadingIcon}
       <span className="rext-btn-children">
         {leftElement && (
-          <IconBox as="span" mr={children ? 's' : 0}>
+          <IconBox as="span" mr={children ? 'm' : 0}>
             {leftElement}
           </IconBox>
         )}
-        {children}
+        {shouldFormatChildren ? formatChildren(children) : children}
         {rightElement && (
-          <IconBox as="span" ml={children ? 's' : 0}>
+          <IconBox as="span" ml={children ? 'm' : 0}>
             {rightElement}
           </IconBox>
         )}

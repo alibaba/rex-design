@@ -209,9 +209,9 @@ const common = {
   radii: {
     none: '0',
     s: '2px',
-    m: '2px',
-    l: '4px',
-    xl: '4px',
+    m: '4px',
+    l: '8px',
+    xl: '8px',
   },
 
   shadows: {

@@ -8,9 +8,9 @@ const components = {
     mFontSize: '12px',
     lFontSize: '14px',
 
-    sIconSize: '18px',
-    mIconSize: '18px',
-    lIconSize: '20px',
+    sIconSize: '14px',
+    mIconSize: '14px',
+    lIconSize: '16px',
 
     textPrimary: 'colors.emphasis.0',
     bgPrimary: 'colors.brand.normal',
@@ -24,6 +24,8 @@ const components = {
     bgPrimaryActive: 'colors.brand.active',
     borderColorPrimaryActive: 'colors.brand.active',
 
+    outlinePrimary: 'rgba(56, 98, 207, .1)',
+
     textSecondary: 'colors.brand.normal',
     bgSecondary: 'colors.emphasis.0',
     borderColorSecondary: 'colors.brand.normal',
@@ -36,6 +38,8 @@ const components = {
     bgSecondaryActive: 'colors.primary.60',
     borderColorSecondaryActive: 'colors.primary.60',
 
+    outlineSecondary: 'rgba(56, 98, 207, .1)',
+
     textNormal: 'colors.text.body',
     bgNormal: 'colors.emphasis.0',
     borderColorNormal: 'colors.line.normal',
@@ -47,6 +51,8 @@ const components = {
     textNormalActive: 'colors.emphasis.0',
     bgNormalActive: 'colors.emphasis.80',
     borderColorNormalActive: 'colors.emphasis.80',
+
+    outlineNormal: 'rgba(67, 67, 67, .1)',
 
     /**
      * @label 禁用文本色
@@ -106,6 +112,8 @@ const components = {
     textNormalActive: 'colors.emphasis.0',
     bgNormalActive: 'colors.error.active',
     borderColorNormalActive: 'colors.error.active',
+
+    outline: 'rgba(235, 65, 65, .3)',
   },
 
   IconButton: {
@@ -124,12 +132,15 @@ const components = {
 
     borderColor: 'colors.line.border',
     borderColorHover: 'colors.brand.hover',
-    borderColorFocus: 'colors.brand.normal',
+    borderColorFocus: 'rgba(56, 98, 207, .1)',
     borderColorDisabled: 'colors.fill.disabled',
 
     borderColorError: 'colors.error.normal',
+    borderColorErrorFocus: 'rgba(235, 65, 65, .1)',
     borderColorWarning: 'colors.warning.normal',
+    borderColorWarningFocus: 'rgba(255, 169, 0, .1)',
     borderColorSuccess: 'colors.success.normal',
+    borderColorSuccessFocus: 'rgba(50, 179, 87, .1)',
 
     textColor: 'colors.text.body',
     textColorDisabled: 'colors.text.disabled',
@@ -137,11 +148,11 @@ const components = {
     bg: 'transparent',
     bgDisabled: 'colors.fill.disabled',
 
-    addonBg: 'colors.fill.layer2',
+    addonBg: 'colors.primary.10',
     addonTextColor: 'colors.text.body',
 
     elementTextColor: 'colors.text.body',
-    elementFontSize: '16px',
+    elementFontSize: '16px', // body * 1.5
   },
 
   TimePicker: {
@@ -153,16 +164,16 @@ const components = {
 
   DatePicker: {
     triggerWidth: '180px',
-    // direction: 'row',
-    // dateCardWidth: '280px',
     normalTimeCardWidth: '180px',
     simpleTimeCardWidth: '136px',
     monthCardWidth: '230px',
-    dateCellHeight: '28px',
+    dateCellSize: '28px',
+    dateCellDotSize: '4px',
   },
 
   DateRangePicker: {
-    triggerWidth: '292px',
+    triggerWidth: '326px',
+    startTriggerWidth: '144px',
   },
 
   FilePicker: {

@@ -20,12 +20,26 @@ const popupStyle = {
 
 const Wrapper = styled.div`
   display: inline-flex;
-  width: ${getToken('DateRangePicker.triggerWidth')};
   align-items: center;
+  vertical-align: middle;
+  width: ${getToken('DateRangePicker.triggerWidth')};
   border: var(--rex-borders-solid) ${getToken('Input.borderColor')};
   border-radius: var(--rex-radii-s);
   height: var(--rex-sizes-formHeights-m);
   overflow: hidden;
+
+  &:focus-within {
+    outline: 0;
+    box-shadow: 0 0 0 3px ${getToken('Input.borderColorFocus')};
+  }
+
+  &:hover {
+    border-color: ${getToken('Input.borderColorHover')};
+  }
+
+  > .rex-input:first-child {
+    flex: 0 0 ${getToken('DateRangePicker.startTriggerWidth')};
+  }
 `;
 
 function formatDateValue(strs: string[], format: string) {
@@ -99,6 +113,7 @@ export function DateRangePicker(props: DateRangePickerProps) {
   return (
     <Wrapper className={clazz} {...rest}>
       <AdaptivePopup
+        offset={[0, 2]}
         style={popupStyle}
         visible={startVisible}
         onRequestOpen={onStartOpen}
@@ -137,13 +152,13 @@ export function DateRangePicker(props: DateRangePickerProps) {
             return false;
           }}
           onOk={onStartClose}
-          onClose={onStartClose}
         />
       </AdaptivePopup>
       <Box as="span" color="text.note">
         -
       </Box>
       <AdaptivePopup
+        offset={[0, 2]}
         style={popupStyle}
         visible={endVisible}
         onRequestClose={onEndClose}
@@ -182,7 +197,6 @@ export function DateRangePicker(props: DateRangePickerProps) {
             return false;
           }}
           onOk={onEndClose}
-          onClose={onEndClose}
         />
       </AdaptivePopup>
     </Wrapper>
