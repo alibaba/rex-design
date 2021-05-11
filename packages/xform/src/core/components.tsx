@@ -41,7 +41,6 @@ export interface XFormArrayProps {
   layout(input: XFormArrayLayoutInput): React.ReactElement;
   children: React.ReactNode;
   itemFactory?(arrayModel: Model<unknown[]>): any;
-  // TODO ability to subscribe to arrayHelper.method()
 }
 
 /** 对象数组表单 */
@@ -62,7 +61,6 @@ export const XFormArray = observer(({ name, children, layout, itemFactory }: XFo
 
 /** 为该组件下的 XFormField 添加一个数据字段前缀 */
 export const XFormObject = observer(({ name, children }: { children: React.ReactNode; name: string }) => {
-  // TODO defaultValue
   const parent = useModel();
   if (name === '&') {
     return <>{children}</>;

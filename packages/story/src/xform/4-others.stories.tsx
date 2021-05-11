@@ -81,7 +81,7 @@ function ItemList({ name }: { name: string }) {
             label="证件类型(test.idType)"
             name="test.idType"
             required
-            items={['身份证', '护照', '行驶证']}
+            componentProps={{ items: ['身份证', '护照', '行驶证'] }}
             validate={(value) => {
               if (value === '行驶证') {
                 return '不可以用行驶证哦';
@@ -95,7 +95,7 @@ function ItemList({ name }: { name: string }) {
             label="test.cdType"
             name="test.cdType"
             required
-            items={['A', 'B', 'C', 'D']}
+            componentProps={{ items: ['A', 'B', 'C', 'D'] }}
           />
         </div>
         <div style={{ gridColumn: '1 / span 3' }}>
@@ -195,7 +195,12 @@ const Quan = () => (
   <div className="quan">
     <FormItem component="input" label="朋友圈主题" name="title" required defaultValue="" />
     <FormItem component="input" label="朋友圈正文" name="content" required />
-    <FormItem component="testButtonGroup" label="心情" name="feeling" items={['😂', '😊', '😉', '😋']} />
+    <FormItem
+      component="testButtonGroup"
+      label="心情"
+      name="feeling"
+      componentProps={{ items: ['😂', '😊', '😉', '😋'] }}
+    />
 
     <h2>好友信息</h2>
     <div style={{ border: '1px dashed #ccc', padding: 4 }}>
@@ -244,8 +249,20 @@ const Candidate = observer(() => {
         componentProps={{ style: { width: 200 } }}
         validate={(v) => (/[\d-]{11,13}/.test(v) ? null : '请输入有效的手机号码')}
       />
-      <FormItem name="gender" label="性别" component="testButtonGroup" required items={['男', '女']} />
-      <FormItem name="originType" label="来源" component="testButtonGroup" required items={['社会招聘', '校园招聘']} />
+      <FormItem
+        name="gender"
+        label="性别"
+        component="testButtonGroup"
+        required
+        componentProps={{ items: ['男', '女'] }}
+      />
+      <FormItem
+        name="originType"
+        label="来源"
+        component="testButtonGroup"
+        required
+        componentProps={{ items: ['社会招聘', '校园招聘'] }}
+      />
       {mod.getValue('originType') === '校园招聘' ? (
         <>
           <FormItem

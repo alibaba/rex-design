@@ -101,7 +101,6 @@ function register(Component: React.ComponentType<any>, options: RegisterOption) 
           const onBlur = () => fieldUtils.handleBlur(field);
 
           const componentProps = {
-            ...pick(props, ['dataSource', 'items' /* TODO 移除为 TestButtonGroup 准备的 items */]),
             ...componentPropsProp,
             value: valueProp !== undefined ? valueProp : value,
             onChange: onChangeProp !== undefined ? onChangeProp : onChange,
@@ -418,8 +417,7 @@ function TestButtonGroup({
 }
 interface TestButtonGroupFieldProps extends FieldConfig {
   component: 'testButtonGroup';
-  items: string[];
-  componentProps?: React.HTMLProps<HTMLDivElement>;
+  componentProps?: React.HTMLProps<HTMLDivElement> & { items: string[] };
 }
 register(TestButtonGroup, {
   name: 'testButtonGroup',

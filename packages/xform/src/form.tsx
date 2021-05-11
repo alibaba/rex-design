@@ -133,7 +133,7 @@ const FormEffect = observer(
 
     useEffect(() => {
       return reaction(
-        () => field.value,
+        () => toJS(field.value),
         (next, prev) => effect(next, { model, prev, next }),
       );
     }, [model, watch, field, effect]);
@@ -153,4 +153,5 @@ Form.Effect = FormEffect;
 Form.Array = XFormArray;
 Form.Object = XFormObject;
 Form.Field = XFormField;
+Form.ModelProvider = ModelProvider;
 Form.ModelConsumer = FormModelConsumer;

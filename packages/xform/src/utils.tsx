@@ -23,14 +23,11 @@ export const fieldUtils = {
   }),
 
   handleBlur(field: Field) {
-    // TODO 应该只触发 trigger=onBlur 的 validator
     fieldUtils.validate(field);
   },
 
   handleChange: action((field: Field, nextValue: any) => {
     field.value = nextValue;
-
-    // TODO 应该只触发 trigger=onChange 的 validator
     fieldUtils.validate(field);
   }),
 };

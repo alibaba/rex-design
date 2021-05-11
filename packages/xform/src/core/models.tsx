@@ -13,8 +13,9 @@ export interface FieldConfig {
   defaultValue?: any;
   isEmpty?(value: any): boolean;
 
-  // TODO 还有什么其他字段可以加的吗？
-  //  requiredMessage?
+  // TODO 添加更多校验相关的字段
+  //  requiredMessage
+  //  blurValidate
 }
 
 export interface IModel<D = unknown> {
@@ -251,7 +252,6 @@ export class Model<D = unknown> implements IModel<D> {
   }
 }
 
-// TODO type parameter V & STATE
 export class Field {
   /** 字段配置的最新缓存（注意不要修改该值）*/
   config?: FieldConfig = null;

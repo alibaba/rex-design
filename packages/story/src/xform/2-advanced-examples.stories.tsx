@@ -16,7 +16,13 @@ function PersonForm({
       <Form.Object name={name}>
         <FormItem component="input" name="name" label="姓名" required componentProps={{ style: { width: 150 } }} />
         <FormItem component="input" name="age" label="年龄" required componentProps={{ style: { width: 100 } }} />
-        <FormItem component="testButtonGroup" name="gender" required label="性别" items={['男', '女']} />
+        <FormItem
+          component="testButtonGroup"
+          name="gender"
+          required
+          label="性别"
+          componentProps={{ items: ['男', '女'] }}
+        />
         <FormItem
           component="input"
           name="contact"
@@ -116,7 +122,7 @@ export function ArrayExample() {
           componentProps={{ style: { maxWidth: 200 } }}
         />
         <FormItem component="datePicker" label="购买日期" name="date" required />
-        <FormItem component="testButtonGroup" label="品牌" name="brand" items={BRANDS} required />
+        <FormItem component="testButtonGroup" label="品牌" name="brand" componentProps={{ items: BRANDS }} required />
         <FormItem
           component="singleSelect"
           label="风格"
@@ -129,7 +135,7 @@ export function ArrayExample() {
           name="satisfaction"
           label="客户满意度"
           required
-          items={'非常满意，满意，基本满意，不满意，非常不满意'.split('，')}
+          componentProps={{ items: '非常满意，满意，基本满意，不满意，非常不满意'.split('，') }}
         />
         <FormItem component="input" label="客户联系方式" name="contact" componentProps={{ style: { maxWidth: 200 } }} />
         <FormItem component="input" label="客户联系地址" name="address" />

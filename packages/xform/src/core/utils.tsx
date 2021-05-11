@@ -12,6 +12,14 @@ function updateSubModelsNames(proxy: SubModelProxy) {
   });
 }
 
+function reorderInPlace<T>(list: T[], fromIndex: number, toIndex: number) {
+  if (list == null) {
+    return;
+  }
+  const [movingItem] = list.splice(fromIndex, 1);
+  list.splice(toIndex, 0, movingItem);
+}
+
 function swapInPlace<T>(values: T[], a: number, b: number) {
   if (values == null) {
     return;
@@ -65,14 +73,12 @@ export function observableSetIn(obj: unknown, key: string | string[], value: unk
     }
     target = mobx.get(target, part);
     if (!mobx.isObservable(target)) {
-      // TODO 应该提示用户 字段 冲突了
       return;
     }
   }
   if (mobx.isObservable(target)) {
     mobx.set(target, path[lastPartIndex], value);
   }
-  // TODO 应该提示用户 字段 冲突了
 }
 
 export const arrayHelpers = {
@@ -84,10 +90,8 @@ export const arrayHelpers = {
   }),
 
   delete: action((arrayModel: Model<unknown[]>, itemIndex: number) => {
-    arrayModel.values.splice(itemIndex, 1);
-
     invariant(Array.isArray(arrayModel._proxy.subModels), 'arrayModel.subModels should be Array or observable.array');
-
+    arrayModel.values.splice(itemIndex, 1);
     arrayModel._proxy.subModels.splice(itemIndex, 1);
     updateSubModelsNames(arrayModel._proxy);
   }),
@@ -97,12 +101,8 @@ export const arrayHelpers = {
       return;
     }
 
+    invariant(Array.isArray(arrayModel._proxy.subModels), 'arrayModel.subModels should be Array or observable.array');
     swapInPlace(arrayModel.values, itemIndex, itemIndex - 1);
-
-    invariant(
-      Array.isArray(arrayModel._proxy.subModels),
-      'arrayModel.attachedSubModels should be Array or observable.array',
-    );
     swapInPlace(arrayModel._proxy.subModels, itemIndex, itemIndex - 1);
     updateSubModelsNames(arrayModel._proxy);
   }),
@@ -112,16 +112,27 @@ export const arrayHelpers = {
       return;
     }
 
+    invariant(Array.isArray(arrayModel._proxy.subModels), 'arrayModel.subModels should be Array or observable.array');
     swapInPlace(arrayModel.values, itemIndex, itemIndex + 1);
-
-    invariant(
-      Array.isArray(arrayModel._proxy.subModels),
-      'arrayModel.attachedSubModels should be Array or observable.array',
-    );
     swapInPlace(arrayModel._proxy.subModels, itemIndex, itemIndex + 1);
     updateSubModelsNames(arrayModel._proxy);
   }),
-  // TODO clear?  dnd?
+
+  clear: action((arrayModel: Model<unknown[]>) => {
+    if (arrayModel.values == null || arrayModel.values.length === 0) {
+      return;
+    }
+    invariant(Array.isArray(arrayModel._proxy.subModels), 'arrayModel.subModels should be Array or observable.array');
+    arrayModel.values = [];
+    arrayModel._proxy.subModels.length = 0;
+  }),
+
+  dragAndDrop: action((arrayModel: Model<unknown[]>, fromIndex: number, toIndex: number) => {
+    invariant(Array.isArray(arrayModel._proxy.subModels), 'arrayModel.subModels should be Array or observable.array');
+    reorderInPlace(arrayModel.values, fromIndex, toIndex);
+    reorderInPlace(arrayModel._proxy.subModels, fromIndex, toIndex);
+    updateSubModelsNames(arrayModel._proxy);
+  }),
 
   renderArrayItem(arrayModel: IModel<unknown[]>, itemIndex: number, itemContent: React.ReactNode) {
     return <XFormObject name={String(itemIndex)}>{itemContent}</XFormObject>;

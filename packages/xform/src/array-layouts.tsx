@@ -145,7 +145,7 @@ export const arrayTable = ({
       title: item.props.label,
       ...item.props['x-table-column'],
       render(_, row) {
-        // TODO XFormObject 最好是能够放到 tr 元素上
+        // TODO XFormObject 最好是能够放到 tr 元素上，需要 ali-react-table 进行支持
         return (
           <XFormObject name={String(row.itemIndex)}>
             {React.cloneElement(item, { label: null, isInline: true })}

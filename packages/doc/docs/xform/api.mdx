@@ -27,12 +27,13 @@ import { Form, FormItem } from '@rexd/xform';
   props={[
     { name: 'component', required: true, type: 'string', description: '组件类型' },
     { name: 'name', required: true, type: 'string', description: '字段数据索引' },
-    { name: 'label', required: true, description: '字段的显示名称' },
+    { name: 'label', required: true, type: 'ReactNode', description: '字段的显示名称' },
     { name: 'defaultValue', description: '默认值' },
     { name: 'componentProps', description: '组件的 props' },
     { category: '校验', name: 'validate', type: '(value: any) => any', description: '校验方法' },
-    { category: '校验', name: 'required', description: '字段是否必填' },
-    { name: 'dataSource', description: '数据源' },
+    { category: '校验', name: 'required', type: 'boolean', defaultValue: 'false', description: '字段是否必填' },
+    { category: '校验', name: 'requiredMessage', type: 'string', description: '开发中. 必填字段的自定义错误信息' },
+    { name: 'dataSource', description: '数据源（即将被移除，请使用 componentProps.dataSource 代替）' },
     { category: '{🚀}', name: 'value', description: '覆盖表单项默认的 value' },
     { category: '{🚀}', name: 'onChange', description: '覆盖表单项默认的 onChange' },
     { category: '{🚀}', name: 'onBlur', description: '覆盖表单项默认的 onBlur' },
@@ -56,7 +57,7 @@ import { Form, FormItem } from '@rexd/xform';
 
 `<Form.Effect watch={watch} effect={effect} />`
 
-创建表单联动，每当 watch 对应的值发生变化时，effect 都会被调用。
+创建表单联动，每当 watch 对应的值发生变化时，effect 都会被调用。注意嵌套字段的变更也会触发 effect。
 
 effect 被调用时，可以获取到两个参数：
 
@@ -119,7 +120,11 @@ ModelContext 的 [`Consumer`](https://zh-hans.reactjs.org/docs/context.html#cont
 </Form.ModelConsumer>
 ```
 
-获取当前层级的模型对象。
+### `Form.ModelProvider`
+
+{🚀} 主动在 react context 中设置模型对象。
+
+`<Form.ModelProvider value={model}>{children}</Form.ModelProvider>`
 
 ### `useFormEnv`
 

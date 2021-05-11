@@ -92,11 +92,7 @@ Model 用来表示「一个对象或数组对应的表单模型部分」。
 
 ### `model.getSubModel(name): Model`
 
-获取一个子模型。 注意：
-
-- **即使 name 对应的子模型尚不存在，该方法也总是会返回一个 Model 对象。**
-- 这个方法会对 mobx observable 进行读取，请在 mobx reaction/computed 中调用该方法
-  - 如果一个 React 组件的 render 中调用了该方法，请确保组件被 observer 所包裹
+获取一个子模型。 **即使 name 对应的子模型尚不存在，该方法也总是会返回一个 Model 对象。**
 
 所有对 subModel.values 的读写都会变为对 parentModel.values 的读写，这样我们可以确保 `rootModel.values` 是整个表单 values 的唯一可信来源。
 
@@ -129,13 +125,7 @@ Model 用来表示「一个对象或数组对应的表单模型部分」。
 
 field 用来表示「一个 视图控件 对应的表单模型部分」。model.values 一般为一个数组或一个对象，而 field.value 则往往比较简单，一般只是一个字符串或数字。
 
-field 对象需要从 model 中获取： `field = model.getField(name)` 获取 model 中 name 对应的字段对象；name 可以是像 `.foo` 这样的简单标识符，也可以是 `.cart.items.0.sku` 这样的一个嵌套索引。
-
-注意：
-
-- **即使 name 对应的字段尚不存在，该方法也总是会返回一个 Field 对象**。
-- 这个方法会对 mobx observable 进行读取，请在 mobx reaction/computed 中调用该方法
-  - 如果一个 React 组件的 render 中调用了该方法，请确保组件被 observer 所包裹
+field 对象需要从 model 中获取： `field = model.getField(name)` 获取 model 中 name 对应的字段对象；name 可以是像 `.foo` 这样的简单标识符，也可以是 `.cart.items.0.sku` 这样的一个嵌套索引。 **即使 name 对应的字段尚不存在，该方法也总是会返回一个 Field 对象**。
 
 获取 Field 对象后我们使用下列方法操作字段：
 
@@ -157,4 +147,6 @@ field 对象需要从 model 中获取： `field = model.getField(name)` 获取 m
 
 ## modelUtils & fieldUtils
 
-WIP
+当你想要在上层主动对 model 或 field 进行操作时（例如主动触发表单的校验、清空某个字段上的错误等），可以使用 modelUtils / fieldUtils 中的工具方法，具体用法详见 [API](api#modelutilsclearerror).
+
+(TODO 添加自定义表单组件)
