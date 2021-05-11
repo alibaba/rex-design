@@ -141,6 +141,7 @@ const components = {
     addonTextColor: 'colors.text.body',
 
     elementTextColor: 'colors.text.body',
+    elementFontSize: '16px',
   },
 
   TimePicker: {

@@ -92,7 +92,23 @@ export const AddIcon = () => (
  */
 export const OnlyIcon = () => (
   <DemoGroup>
-    <Button>
+    <Button size="small" isIconOnly>
+      <Icon type="calendar" />
+    </Button>
+    <Button size="medium" isIconOnly>
+      <Icon type="calendar" />
+    </Button>
+    <Button size="large" isIconOnly>
+      <Icon type="calendar" />
+    </Button>
+    <br />
+    <Button shape="text" size="small" isIconOnly>
+      <Icon type="calendar" />
+    </Button>
+    <Button shape="text" size="medium" isIconOnly>
+      <Icon type="calendar" />
+    </Button>
+    <Button shape="text" size="large" isIconOnly>
       <Icon type="calendar" />
     </Button>
   </DemoGroup>

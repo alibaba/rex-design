@@ -16,6 +16,11 @@ const buttonSize = (height?: string, px?: string, fontSize?: string, iconSize?: 
     svg {
       font-size: ${iconSize};
     }
+
+    &.rex-btn-iconOnly {
+      width: ${height};
+      padding: 0;
+    }
   `;
 };
 
@@ -71,6 +76,7 @@ const StyledButton = styled(OneButton)<any>`
   .rext-btn-children {
     display: flex;
     align-items: center;
+    font-weight: 500;
   }
 
   &.rex-btn-small {
@@ -258,6 +264,10 @@ export interface ButtonProps extends Omit<React.ComponentPropsWithRef<'button'>,
   size?: 'small' | 'medium' | 'large';
   htmlType?: 'button' | 'submit' | 'reset';
   isFullWidth?: boolean;
+  /**
+   * 是否为纯图标按钮
+   */
+  isIconOnly?: boolean;
   isSelected?: boolean;
   loading?: boolean;
   className?: string;
@@ -272,6 +282,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>((props, r
     size = 'medium',
     htmlType = 'button',
     isFullWidth = false,
+    isIconOnly = false,
     isSelected = false,
     loading,
     disabled,
@@ -288,6 +299,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>((props, r
     {
       'rex-btn': true,
       'rex-btn-loading': loading,
+      'rex-btn-iconOnly': isIconOnly,
       [`rex-btn-${shape}`]: shape,
       [`rex-btn-${type}`]: type,
       [`rex-btn-${size}`]: size,
