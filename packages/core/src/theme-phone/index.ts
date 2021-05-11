@@ -26,15 +26,16 @@ export default extendTheme({
 
     TimePicker: {
       triggerWidth: '100%',
-      panelWidth: '90vw',
+      normalPanelWidth: '90vw',
+      simplePanelWidth: '90vw',
       panelMenuItemHeight: '40px', // 需要保持和日期组件的格子一样大
     },
 
     DatePicker: {
       triggerWidth: '100%',
-      direction: 'column',
       dateCardWidth: '90vw',
-      timeCardWidth: '90vw',
+      normalTimeCardWidth: '90vw',
+      simpleTimeCardWidth: '90vw',
       dateCellHeight: '40px',
       dateCardBorderRight: '0',
     },

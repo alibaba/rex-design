@@ -13,6 +13,10 @@ import { FormControlOnChangeHandler } from '../../types';
 const DATE_FORMAT = 'YYYY-MM-DD';
 const TIME_FORMAT = 'HH:mm:ss';
 
+const popupStyle = {
+  background: 'transparent',
+};
+
 function formatDateValue(str: string, format: string) {
   if (str) {
     return dayjs(str, format);
@@ -79,6 +83,7 @@ export function DatePicker(props: DatePickerProps) {
   return (
     <AdaptivePopup
       {...popupProps}
+      style={popupStyle}
       visible={visible}
       onRequestClose={onClose}
       onRequestOpen={onOpen}

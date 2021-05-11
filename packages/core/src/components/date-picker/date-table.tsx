@@ -6,7 +6,8 @@ import { Dayjs } from '../../dayjs';
 import { Box, Flex, FlexItem } from '../layout';
 import { useDateTableContext } from './date-context';
 import { DateLocale } from './date-types';
-import { DateLinkButton, StyledTable, StyledRow, StyledCell, StyledCellContent } from './styled';
+import { StyledTable, StyledRow, StyledHeadCell, StyledCell, StyledCellContent } from './styled';
+import { Button } from '../button';
 
 /**
  * 获得日期的二维数组列表
@@ -56,6 +57,14 @@ const getDateList = (visibleMonth: Dayjs) => {
   return list2d;
 };
 
+const arrowButtonStyle = {
+  padding: 0,
+};
+
+const monthButtonStyle = {
+  padding: '0 4px',
+};
+
 export interface DateTableProps {
   /**
    * 是否显示关闭按钮
@@ -94,50 +103,64 @@ export function DateTable(props: DateTableProps) {
   }, [visibleMonth]);
 
   return (
-    <Box py="l">
-      <Flex justify="space-between" px="l">
+    <Box>
+      <Flex justify="space-between" px="m" pb="m">
         {hasClose && (
-          <DateLinkButton onClick={onClose}>
-            <Icon type="close" />
-          </DateLinkButton>
+          <Button shape="text" type="primary" size="small" onClick={onClose}>
+            关闭
+          </Button>
         )}
         <FlexItem flex="unset">
-          <DateLinkButton
+          <Button
+            shape="text"
+            size="small"
             onClick={() => {
               ctx.onChangeMode('year');
             }}
           >
             {visibleMonth.year()}年
-          </DateLinkButton>
-          <DateLinkButton onClick={() => ctx.onSelectMonth(visibleMonth.add(-1, 'month'))}>
+          </Button>
+          <Button
+            shape="text"
+            size="small"
+            style={arrowButtonStyle}
+            onClick={() => ctx.onSelectMonth(visibleMonth.add(-1, 'month'))}
+          >
             <Icon type="arrow-left-bold" />
-          </DateLinkButton>
-          <DateLinkButton onClick={() => ctx.onChangeMode('month')}>
+          </Button>
+          <Button shape="text" size="small" style={monthButtonStyle} onClick={() => ctx.onChangeMode('month')}>
             {locale.months[visibleMonth.month()]}
-          </DateLinkButton>
-          <DateLinkButton onClick={() => ctx.onSelectMonth(visibleMonth.add(1, 'month'))}>
+          </Button>
+          <Button
+            shape="text"
+            size="small"
+            style={arrowButtonStyle}
+            onClick={() => ctx.onSelectMonth(visibleMonth.add(1, 'month'))}
+          >
             <Icon type="arrow-right-bold" />
-          </DateLinkButton>
+          </Button>
         </FlexItem>
         <FlexItem flex="unset">
-          <DateLinkButton
-            $isPrimary
+          <Button
+            shape="text"
+            size="small"
+            type="primary"
             onClick={() => {
               ctx.onSelectMonth(ctx.today.clone());
               ctx.onSelectDate(ctx.today.clone());
             }}
           >
             今日
-          </DateLinkButton>
+          </Button>
         </FlexItem>
       </Flex>
       <StyledTable {...bind()}>
         <Box className="rex-date-table-header" bg="emphasis.20" px="l">
           <StyledRow>
             {locale.weekdays.map((item: string) => (
-              <StyledCell key={item}>
+              <StyledHeadCell key={item}>
                 <StyledCellContent>{item}</StyledCellContent>
-              </StyledCell>
+              </StyledHeadCell>
             ))}
           </StyledRow>
         </Box>

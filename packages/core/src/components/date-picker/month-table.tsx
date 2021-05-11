@@ -1,10 +1,12 @@
 import React from 'react';
 import cx from 'classnames';
-import { Dayjs } from '../../dayjs';
+import dayjs, { Dayjs } from '../../dayjs';
 import { Box, Flex } from '../layout';
+import { Button } from '../button';
 import { useDateTableContext } from './date-context';
-import { DateList, DateLinkButton, StyledCell, StyledCellContent } from './styled';
+import { DateList } from './styled';
 import { DateLocale } from './date-types';
+import { getToken } from '../../utils';
 
 interface MonthTableProps {
   visibleMonth: Dayjs;
@@ -13,11 +15,27 @@ interface MonthTableProps {
 
 export function MonthTable(props: MonthTableProps) {
   const { visibleMonth, locale } = props;
+  const ctx = useDateTableContext();
+
+  const changeMode = () => {
+    ctx.onChangeMode('year');
+  };
+
+  const selectCurrent = () => {
+    const current = dayjs();
+    ctx.onSelectMonth(current);
+    ctx.onChangeMode('date');
+  };
 
   return (
-    <Box p="l">
-      <Flex justify="center">
-        <DateLinkButton>{visibleMonth.year()}</DateLinkButton>
+    <Box px="l" width={getToken('DatePicker.monthCardWidth')}>
+      <Flex justify="space-between" mb="m">
+        <Button shape="text" size="small" onClick={changeMode}>
+          {visibleMonth.year()}年
+        </Button>
+        <Button shape="text" type="primary" size="small" onClick={selectCurrent}>
+          本月
+        </Button>
       </Flex>
       <DateList>
         {locale.months.map((item: string, index: number) => {

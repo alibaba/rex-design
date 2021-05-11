@@ -91,11 +91,17 @@ export const Input = React.forwardRef<HTMLDivElement, InputProps>((props, ref) =
 
   const hasRightElement = rightElement || renderRightElement || hasClear;
   const renderRight =
-    typeof renderRightElement === 'function' ? renderRightElement : () => <Center mr="l">{rightElement}</Center>;
+    typeof renderRightElement === 'function'
+      ? renderRightElement
+      : () => (
+          <Center ml={hasClear ? 's' : 0} mr="l">
+            {rightElement}
+          </Center>
+        );
 
   return (
     <InputWrapper ref={ref} {...rootProps}>
-      {leftElement && <InputElement>{leftElement}</InputElement>}
+      {leftElement && <InputElement ml="l">{leftElement}</InputElement>}
       <input {...inputProps} />
       {hasRightElement ? (
         <InputElement>
@@ -109,7 +115,7 @@ export const Input = React.forwardRef<HTMLDivElement, InputProps>((props, ref) =
 
 function ClearButton(props: BoxProps) {
   return (
-    <Box px="m" height="100%" display="inline-flex" alignItems="center" {...props}>
+    <Box height="100%" display="inline-flex" alignItems="center" {...props}>
       <Icon type="delete-filling" />
     </Box>
   );

@@ -37,8 +37,9 @@ export function Elements() {
   return (
     <Flex spacing="l" direction="column">
       <Input
-        leftElement={<Icon type="search" style={{ marginLeft: '8px' }} />}
-        rightElement={<Icon type="browse" style={{ marginRight: '8px' }} />}
+        hasClear
+        leftElement={<Icon type="search" />}
+        rightElement={<Icon type="browse" />}
         defaultValue="default value"
       />
     </Flex>

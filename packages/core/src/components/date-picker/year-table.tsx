@@ -1,9 +1,11 @@
 import React, { useMemo } from 'react';
 import cx from 'classnames';
-import { Dayjs } from '../../dayjs';
-import { Box } from '../layout';
+import dayjs, { Dayjs } from '../../dayjs';
+import { Box, Flex } from '../layout';
+import { Button } from '../button';
 import { DateList } from './styled';
 import { useDateTableContext } from './date-context';
+import { getToken } from '../../utils';
 
 const getYearList = (visibleMonth: Dayjs) => {
   const startYearOfList = visibleMonth.startOf('year').add(-7, 'year');
@@ -25,12 +27,25 @@ interface YearTableProps {
 
 export function YearTable(props: YearTableProps) {
   const { visibleMonth } = props;
+  const ctx = useDateTableContext();
+
   const yearList = useMemo(() => {
     return getYearList(visibleMonth);
   }, [visibleMonth]);
 
+  const selectCurrent = () => {
+    const current = dayjs();
+    ctx.onSelectMonth(current);
+    ctx.onChangeMode('month');
+  };
+
   return (
-    <Box p="l">
+    <Box px="l" width={getToken('DatePicker.monthCardWidth')}>
+      <Flex justify="flex-end" mb="m">
+        <Button shape="text" type="primary" size="small" onClick={selectCurrent}>
+          今年
+        </Button>
+      </Flex>
       <DateList>
         {yearList.map((item: Dayjs) => {
           const display = item.format('YYYY');

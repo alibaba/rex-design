@@ -17,9 +17,9 @@ export function HasTime() {
     <DemoGroup>
       <DatePicker hasTime />
 
-      {/* <DatePicker hasTime timeProps={{ mode: 'normal' }} />
+      <DatePicker hasTime timeProps={{ mode: 'normal' }} />
 
-      <DateRangePicker hasTime /> */}
+      <DateRangePicker hasTime />
     </DemoGroup>
   );
 }

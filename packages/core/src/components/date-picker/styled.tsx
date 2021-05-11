@@ -14,7 +14,8 @@ export const DateList = styled.ul`
   > li {
     position: relative;
     flex-basis: 33.33%;
-    padding: 8px 10px;
+    padding: 4px 12px;
+    margin-bottom: 12px;
 
     &:hover {
       border-radius: var(--rex-radii-s);
@@ -22,8 +23,6 @@ export const DateList = styled.ul`
     }
 
     &.rex-current {
-      color: var(--rex-colors-brand-normal);
-
       &::after {
         content: ' ';
         position: absolute;
@@ -94,9 +93,15 @@ export const StyledRow = styled.div`
   }
 `;
 
+export const StyledHeadCell = styled.div`
+  margin-top: 2px;
+  margin-bottom: 2px;
+`;
+
 export const StyledCell = styled.div`
   flex: 1;
-  margin-top: var(--rex-space-s);
+  margin-top: 2px;
+  margin-bottom: 2px;
   position: relative;
 
   &:hover {
@@ -159,4 +164,5 @@ export const StyledCellContent = styled.div`
   justify-content: center;
   align-items: center;
   height: ${getToken('DatePicker.dateCellHeight')};
+  width: ${getToken('DatePicker.dateCellHeight')};
 `;

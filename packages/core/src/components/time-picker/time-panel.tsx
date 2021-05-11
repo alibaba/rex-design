@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Icon } from '@rexd/icon';
 import { ListNode } from '../../types';
 import dayjs from '../../dayjs';
-import { getToken, isFunction, noop } from '../../utils';
+import { isFunction, noop } from '../../utils';
 import { useDateTableContext } from '../date-picker/date-context';
 import { Box } from '../layout';
 import { TimeMenu } from './time-menu';

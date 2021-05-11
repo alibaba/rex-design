@@ -14,6 +14,9 @@ import { FormControlOnChangeHandler } from '../../types';
 
 const DATE_FORMAT = 'YYYY-MM-DD';
 const TIME_FORMAT = 'HH:mm:ss';
+const popupStyle = {
+  background: 'transparent',
+};
 
 const Wrapper = styled.div`
   display: inline-flex;
@@ -96,6 +99,7 @@ export function DateRangePicker(props: DateRangePickerProps) {
   return (
     <Wrapper className={clazz} {...rest}>
       <AdaptivePopup
+        style={popupStyle}
         visible={startVisible}
         onRequestOpen={onStartOpen}
         onRequestClose={onStartClose}
@@ -140,6 +144,7 @@ export function DateRangePicker(props: DateRangePickerProps) {
         -
       </Box>
       <AdaptivePopup
+        style={popupStyle}
         visible={endVisible}
         onRequestClose={onEndClose}
         onRequestOpen={onEndOpen}

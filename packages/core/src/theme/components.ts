@@ -148,9 +148,11 @@ const components = {
 
   DatePicker: {
     triggerWidth: '180px',
-    direction: 'row',
-    dateCardWidth: '280px',
-    timeCardWidth: '180px',
+    // direction: 'row',
+    // dateCardWidth: '280px',
+    normalTimeCardWidth: '180px',
+    simpleTimeCardWidth: '136px',
+    monthCardWidth: '230px',
     dateCellHeight: '28px',
   },
 

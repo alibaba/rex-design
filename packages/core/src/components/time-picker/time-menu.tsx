@@ -19,7 +19,6 @@ const List = styled.ul<any>`
   position: relative;
   overflow-y: auto;
   list-style: none;
-
   margin: 0;
   padding: 0;
   font-size: var(--rex-fontSizes-body);

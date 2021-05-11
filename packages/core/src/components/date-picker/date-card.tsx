@@ -1,5 +1,4 @@
 import React, { useMemo, useState } from 'react';
-import styled from 'styled-components';
 import dayjs, { Dayjs } from '../../dayjs';
 import { Box } from '../layout';
 import { Button } from '../button';
@@ -10,19 +9,8 @@ import { DateTableProvider } from './date-context';
 import { DatePanelMode, DateLocale, CheckDateFn } from './date-types';
 import { FormEventDetail } from '../../types';
 import { TimePanel, TimePanelProps } from '../time-picker/time-panel';
-import { TimePanelHeader } from './styled';
 import { getToken } from '../../utils';
 import { useDevice } from '../../providers';
-
-const Card = styled.div`
-  display: flex;
-  flex-direction: ${getToken('DatePicker.direction')};
-`;
-
-const DateBox = styled(Box)<any>`
-  flex: 1;
-  width: ${getToken('DatePicker.dateCardWidth')};
-`;
 
 interface GetVisibleMonthOption {
   value?: Dayjs;
@@ -160,32 +148,45 @@ export function DateCard(props: DateCardProps) {
     getDisabledDate,
   };
 
+  let panelDirection = 'row';
   let timeRows = 9;
   let hasClose = false;
+  let timeBoxProps = {};
 
   if (device.alias === 's') {
+    panelDirection = 'column';
     timeRows = 3;
     hasClose = true;
+    timeBoxProps = {
+      borderTop: 'solid',
+      borderTopColor: 'emphasis.30',
+    };
   }
 
   // TODO: 快捷调用
 
+  const timePanelMode = timeProps?.mode || 'simple';
+  const timePanelWidth =
+    timePanelMode === 'simple'
+      ? getToken('DatePicker.simpleTimeCardWidth')
+      : getToken('DatePicker.normalTimeCardWidth');
+
   return (
     <DateTableProvider value={context}>
-      <Card>
-        <DateBox $hasTime={hasTime}>
+      <Box display="flex" flexDirection={panelDirection as any} py="l">
+        <Box>
           {mode === 'date' && (
             <DateTable visibleMonth={visibleMonth} locale={dateLocale} hasClose={hasClose} onClose={onClose} />
           )}
           {mode === 'month' && <MonthTable visibleMonth={visibleMonth} locale={dateLocale} />}
           {mode === 'year' && <YearTable visibleMonth={visibleMonth} />}
-        </DateBox>
-        {hasTime && (
-          <Box width={getToken('DatePicker.timeCardWidth')} py="l">
+        </Box>
+        {hasTime && mode === 'date' && (
+          <Box width={timePanelWidth} {...timeBoxProps}>
             <TimePanel rows={timeRows} value={timeValue} mode="simple" renderHeader={() => null} {...timeProps} />
           </Box>
         )}
-      </Card>
+      </Box>
       {hasTime && <DatePanelFooter onOk={onOk} />}
     </DateTableProvider>
   );
@@ -199,9 +200,15 @@ interface DatePanelFooterProps {
 function DatePanelFooter(props: DatePanelFooterProps) {
   const { onOk } = props;
   const { device } = useDevice();
+
   return (
     <Box px="m" pb="m" textAlign="right">
-      <Button isFullWidth={device.alias === 's'} size="small" type="primary" onClick={onOk}>
+      <Button
+        isFullWidth={device.alias === 's'}
+        size={device.alias === 's' ? 'medium' : 'small'}
+        type="primary"
+        onClick={onOk}
+      >
         确认
       </Button>
     </Box>
