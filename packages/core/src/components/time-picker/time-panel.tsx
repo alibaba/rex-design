@@ -177,6 +177,7 @@ function SimpleTimePanel(props: TimePanelProps) {
         selectedKey={value ? value.format('HH:mm') : undefined}
         onSelect={handleSelect}
         itemStyle={simpleItemStyle}
+        shouldScrollToActiveItem={false}
         renderHeader={renderHeader}
       />
     </Box>

@@ -37,7 +37,7 @@ const common = {
       70: '#434343',
       80: '#262626',
       90: '#1f1f1f',
-      95: '#141414',
+      95: '#141414', // TODO: 考虑去掉 95，只留 11 个
       100: '#000000',
     },
 
@@ -86,7 +86,6 @@ const common = {
       70: 'colors.gray.70',
       80: 'colors.gray.80',
       90: 'colors.gray.90',
-      95: 'colors.gray.95',
       100: 'colors.gray.100',
     },
 

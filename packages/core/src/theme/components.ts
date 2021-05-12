@@ -61,16 +61,15 @@ const components = {
     /**
      * @label 禁用背景色
      */
-    bgDisabled: 'colors.emphasis.10',
+    bgDisabled: 'colors.fill.disabled',
     /**
      * @label 禁用边框色
      */
-    borderColorDisabled: 'colors.emphasis.10',
+    borderColorDisabled: 'colors.fill.disabled',
   },
 
   TextButton: {
     colorPrimary: 'colors.brand.normal',
-    // bgPrimary: '',
 
     colorPrimaryHover: 'colors.brand.hover',
     bgPrimaryHover: 'colors.emphasis.10',
@@ -79,7 +78,6 @@ const components = {
     bgPrimaryActive: 'colors.emphasis.10',
 
     colorNormal: 'colors.text.body',
-    // bgNormal: '',
 
     colorNormalHover: 'colors.brand.normal',
     bgNormalHover: 'colors.emphasis.10',
@@ -160,6 +158,9 @@ const components = {
     normalPanelWidth: '200px',
     simplePanelWidth: '200px',
     panelMenuItemHeight: '28px', // 需要保持和日期组件的格子一样大
+
+    listEndMaskBg:
+      'linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.65) 35%, rgba(255, 255, 255, 0.95) 100%)',
   },
 
   DatePicker: {
@@ -169,6 +170,12 @@ const components = {
     monthCardWidth: '230px',
     dateCellSize: '28px',
     dateCellDotSize: '4px',
+
+    dateCellInRangeBg: 'colors.primary.10',
+    dateCellInRangeBgHover: 'colors.primary.20',
+
+    dateCellActiveBg: 'colors.brand.normal',
+    dateCellActiveColor: 'colors.emphasis.0',
   },
 
   DateRangePicker: {

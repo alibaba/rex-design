@@ -3,7 +3,7 @@ import React, { useMemo } from 'react';
 import { useGesture } from 'react-use-gesture';
 import { Icon } from '@rexd/icon';
 import { Dayjs } from '../../dayjs';
-import { Box, Flex, FlexItem } from '../layout';
+import { Box, Flex } from '../layout';
 import { useDateTableContext } from './date-context';
 import { DateLocale } from './date-types';
 import { StyledTable, StyledRow, StyledHeadCell, StyledCell, StyledCellContent } from './styled';
@@ -57,10 +57,6 @@ const getDateList = (visibleMonth: Dayjs) => {
   return list2d;
 };
 
-const arrowButtonStyle = {
-  padding: 0,
-};
-
 const monthButtonStyle = {
   padding: '0 4px',
 };
@@ -104,8 +100,8 @@ export function DateTable(props: DateTableProps) {
 
   return (
     <Box>
-      <Flex justify="space-between" align="center" px="m" pb="m">
-        <FlexItem flex="unset">
+      <Flex justify="space-between" align="center" px="m" pb="s">
+        <Box height="formHeights.s">
           <Button
             shape="text"
             size="small"
@@ -124,7 +120,7 @@ export function DateTable(props: DateTableProps) {
           <Button shape="text" size="small" isIconOnly onClick={() => ctx.onSelectMonth(visibleMonth.add(1, 'month'))}>
             <Icon type="arrow-right-bold" />
           </Button>
-        </FlexItem>
+        </Box>
         <Button
           shape="text"
           size="small"

@@ -14,9 +14,6 @@ import { FormControlOnChangeHandler } from '../../types';
 
 const DATE_FORMAT = 'YYYY-MM-DD';
 const TIME_FORMAT = 'HH:mm:ss';
-const popupStyle = {
-  background: 'transparent',
-};
 
 const Wrapper = styled.div`
   display: inline-flex;
@@ -118,7 +115,6 @@ export function DateRangePicker(props: DateRangePickerProps) {
     <Wrapper className={clazz} {...rest}>
       <AdaptivePopup
         offset={[0, 2]}
-        style={popupStyle}
         visible={startVisible}
         onRequestOpen={onStartOpen}
         onRequestClose={onStartClose}
@@ -132,38 +128,40 @@ export function DateRangePicker(props: DateRangePickerProps) {
             readOnly
           />
         )}
-      >
-        <DatePanel
-          format={format}
-          hasTime={hasTime}
-          timeValue={startValue}
-          startValue={startValue}
-          endValue={endValue}
-          getDefaultVisibleMonth={() => (startValue ? startValue : dayjs())}
-          onSelect={(val) => {
-            if (!val.isSame(startValue, dateCompareUnit)) {
-              updateValue([val, endValue]);
-            }
-          }}
-          getDisabledDate={(date) => {
-            if (isFunction(getDisabledDate)) {
-              return getDisabledDate(date);
-            }
+        renderChildren={({ ref }: any) => (
+          <DatePanel
+            forwardedRef={ref}
+            format={format}
+            hasTime={hasTime}
+            timeValue={startValue}
+            startValue={startValue}
+            endValue={endValue}
+            getDefaultVisibleMonth={() => (startValue ? startValue : dayjs())}
+            onSelect={(val) => {
+              if (!val.isSame(startValue, dateCompareUnit)) {
+                updateValue([val, endValue]);
+              }
+            }}
+            getDisabledDate={(date) => {
+              if (isFunction(getDisabledDate)) {
+                return getDisabledDate(date);
+              }
 
-            if (endValue && date.isAfter(endValue)) {
-              return true;
-            }
-            return false;
-          }}
-          onOk={onStartClose}
-        />
-      </AdaptivePopup>
+              if (endValue && date.isAfter(endValue)) {
+                return true;
+              }
+              return false;
+            }}
+            onOk={onStartClose}
+          />
+        )}
+      />
+
       <Box as="span" color="text.note">
         -
       </Box>
       <AdaptivePopup
         offset={[0, 2]}
-        style={popupStyle}
         visible={endVisible}
         onRequestClose={onEndClose}
         onRequestOpen={onEndOpen}
@@ -180,31 +178,33 @@ export function DateRangePicker(props: DateRangePickerProps) {
             rightElement={<Icon type="calendar" />}
           />
         )}
-      >
-        <DatePanel
-          format={format}
-          hasTime={hasTime}
-          timeValue={endValue}
-          startValue={startValue}
-          endValue={endValue}
-          onSelect={(val) => {
-            if (!val.isSame(endValue, dateCompareUnit)) {
-              updateValue([startValue, val]);
-            }
-          }}
-          getDisabledDate={(date) => {
-            if (isFunction(getDisabledDate)) {
-              return getDisabledDate(date);
-            }
+        renderChildren={({ ref }: any) => (
+          <DatePanel
+            forwardedRef={ref}
+            format={format}
+            hasTime={hasTime}
+            timeValue={endValue}
+            startValue={startValue}
+            endValue={endValue}
+            onSelect={(val) => {
+              if (!val.isSame(endValue, dateCompareUnit)) {
+                updateValue([startValue, val]);
+              }
+            }}
+            getDisabledDate={(date) => {
+              if (isFunction(getDisabledDate)) {
+                return getDisabledDate(date);
+              }
 
-            if (startValue && date.isBefore(startValue)) {
-              return true;
-            }
-            return false;
-          }}
-          onOk={onEndClose}
-        />
-      </AdaptivePopup>
+              if (startValue && date.isBefore(startValue)) {
+                return true;
+              }
+              return false;
+            }}
+            onOk={onEndClose}
+          />
+        )}
+      />
     </Wrapper>
   );
 }

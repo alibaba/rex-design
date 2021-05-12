@@ -10,10 +10,6 @@ import { getToken, noop, pickStyleAndDataAndEventProps } from '../../utils';
 import { PopupProps } from '../overlays';
 import { FormControlOnChangeHandler } from '../../types';
 
-const popupStyle = {
-  background: 'transparent',
-};
-
 export interface TimePickerProps extends TimePanelGetItemsProps {
   placeholder?: string;
   /**
@@ -73,7 +69,6 @@ export function TimePicker(props: TimePickerProps) {
   return (
     <AdaptivePopup
       offset={[0, 4]}
-      style={popupStyle}
       {...popupProps}
       renderTarget={(pass: any) => (
         <Input
@@ -87,10 +82,11 @@ export function TimePicker(props: TimePickerProps) {
           status={status}
         />
       )}
-    >
-      <Box width={panelWidth} bg="emphasis.0" boxShadow="lowDown" borderRadius="m">
-        <TimePanel value={value} onChange={(value: Dayjs) => updateValue(value)} mode={mode} {...restProps} />
-      </Box>
-    </AdaptivePopup>
+      renderChildren={({ ref }: any) => (
+        <Box ref={ref} width={panelWidth} boxShadow="lowDown" borderRadius="m">
+          <TimePanel value={value} onChange={(value: Dayjs) => updateValue(value)} mode={mode} {...restProps} />
+        </Box>
+      )}
+    />
   );
 }
