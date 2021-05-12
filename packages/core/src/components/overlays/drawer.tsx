@@ -1,6 +1,6 @@
 import { Icon } from '@rexd/icon';
+import cx from 'classnames';
 import React from 'react';
-import styled, { css } from 'styled-components';
 import { useOverlayBehavior } from '../../providers';
 import {
   IOverlayAnimationProps,
@@ -49,123 +49,6 @@ export interface DrawerProps
   /** 是否使用极简样式，极简样式下不会生成抽屉的内部结构，会直接渲染 children */
   minimal?: boolean;
 }
-
-const drawerCloseMixin = css`
-  .rex-drawer-close {
-    position: absolute;
-    top: 16px;
-    right: 16px;
-  }
-
-  .rex-drawer-close-icon {
-    display: block;
-    color: var(--rex-colors-emphasis-60);
-    cursor: pointer;
-
-    &:hover {
-      color: var(--rex-colors-emphasis-80);
-    }
-  }
-`;
-
-const drawerPlacementsMixin = css`
-  &[data-placement='right'] {
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: auto;
-    width: 400px;
-    max-width: 80%;
-    box-shadow: var(--rex-shadows-lowleft);
-  }
-
-  &[data-placement='left'] {
-    width: 400px;
-    max-width: 80%;
-    top: 0;
-    right: auto;
-    bottom: 0;
-    left: 0;
-    box-shadow: var(--rex-shadows-lowRight);
-  }
-
-  &[data-placement='top'] {
-    height: 400px;
-    max-height: 80%;
-    top: 0;
-    right: 0;
-    bottom: auto;
-    left: 0;
-    box-shadow: var(--rex-shadows-lowDown);
-  }
-
-  &[data-placement='bottom'] {
-    height: 400px;
-    max-height: 80%;
-    top: auto;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    box-shadow: var(--rex-shadows-lowUp);
-  }
-`;
-
-const MinimalDrawerDiv = styled.div.withConfig({ componentId: 'rex-drawer rex-drawer-minimal' })`
-  position: fixed;
-  background: var(--rex-overlay-depth-l);
-
-  ${drawerPlacementsMixin};
-
-  .rex-drawer-close {
-    position: absolute;
-    top: 16px;
-    right: 16px;
-  }
-
-  .rex-drawer-close-icon {
-    display: block;
-    color: var(--rex-colors-emphasis-60);
-    cursor: pointer;
-
-    &:hover {
-      color: var(--rex-colors-emphasis-80);
-    }
-  }
-`;
-
-const DrawerDiv = styled.div.withConfig({ componentId: 'rex-drawer' })`
-  position: fixed;
-  background: var(--rex-overlay-depth-l);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-
-  ${drawerPlacementsMixin};
-  ${drawerCloseMixin};
-
-  .rex-drawer-header {
-    flex: 0 0 auto;
-    font-size: var(--rex-fontSizes-title);
-    font-weight: bold;
-    padding: 12px 16px;
-    border-bottom: 1px solid var(--rex-colors-line-border);
-  }
-
-  .rex-drawer-body {
-    flex: auto;
-    font-size: var(--rex-fontSizes-body);
-    padding: 16px;
-    overflow: auto;
-  }
-
-  .rex-drawer-footer {
-    flex: 0 0 auto;
-    border-top: 1px solid var(--rex-colors-line-border);
-    display: flex;
-    justify-content: center;
-    padding: 12px;
-  }
-`;
 
 function resolveDrawerAnimation(
   animationProp: IOverlayAnimationProps['animation'],
@@ -234,27 +117,27 @@ export function Drawer({
       {...lifeCycles}
       renderChildren={({ ref }) => {
         return minimal ? (
-          <MinimalDrawerDiv
+          <div
             ref={ref as React.RefObject<HTMLDivElement>}
             data-placement={placement}
-            className={className}
+            className={cx('rex-drawer', 'rex-drawer-minimal', className)}
             style={{ position, ...style }}
           >
             {children}
             {renderCloseIcon()}
-          </MinimalDrawerDiv>
+          </div>
         ) : (
-          <DrawerDiv
+          <div
             ref={ref as React.RefObject<HTMLDivElement>}
             data-placement={placement}
-            className={className}
+            className={cx('rex-drawer', className)}
             style={{ position, ...style }}
           >
             {title && <div className="rex-drawer-header">{title}</div>}
             <div className="rex-drawer-body">{children}</div>
             {footer && <div className="rex-drawer-footer">{footer}</div>}
             {renderCloseIcon()}
-          </DrawerDiv>
+          </div>
         );
       }}
     />

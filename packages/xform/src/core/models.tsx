@@ -13,9 +13,7 @@ export interface FieldConfig {
   defaultValue?: any;
   isEmpty?(value: any): boolean;
 
-  // TODO 添加更多校验相关的字段
-  //  requiredMessage
-  //  blurValidate
+  // 其他更多字段由上层自定义（TS 层面可以使用 interface merge）
 }
 
 export interface IModel<D = unknown> {

@@ -1,14 +1,13 @@
 import cx from 'classnames';
 import React, { useRef } from 'react';
 import styled from 'styled-components';
-import { useDevice } from '../../providers';
 import { pick } from '../../utils';
 import { Input } from '../input';
 import { AdaptivePopup, PopupChildrenRenderArg, PopupTargetRenderArgs } from '../overlays';
 import { VirtualList, VirtualListAlign } from '../virtual-list';
 import { TickIcon } from './icons';
 import { SelectTrigger } from './select-trigger';
-import { DefaultNotFoundContent, filterDataSourceBySearchValue, rexLightScrollbarStyleMixin } from './select-utils';
+import { DefaultNotFoundContent, filterDataSourceBySearchValue } from './select-utils';
 import {
   ISelectAppearanceProps,
   ISelectPopupProps,
@@ -17,41 +16,44 @@ import {
   SelectItem,
 } from './types';
 
-export const SelectPanelDiv = styled.div.withConfig({
-  componentId: 'rex-select-panel',
-})`
+export const SelectPanelDiv = styled.div.withConfig({ componentId: 'rex-select-panel' })`
   max-height: 350px;
-  overflow: auto;
-  ${rexLightScrollbarStyleMixin};
-
-  padding: 8px 4px;
-  border-radius: var(--rex-radii-l);
+  overflow: hidden;
+  display: flex;
+  flex-flow: column;
+  border-radius: 2px;
   box-shadow: var(--rex-shadows-lowDown);
 
   *[data-popper-placement^='top'] > & {
     box-shadow: var(--rex-shadows-lowUp);
   }
 
-  &.restricted {
-    box-shadow: none;
-    max-height: none;
-    height: 100%;
+  .rex-select-search {
+    margin: 8px 4px 0;
+    flex: 0 0 auto;
   }
 
-  .rex-select-search {
-    margin-bottom: 4px;
-    position: sticky;
-    top: 0;
-    z-index: 5;
-    background: var(--rex-colors-emphasis-0);
+  .rex-select-item-list-wrapper {
+    margin: 8px 4px;
+    flex: auto;
+    overflow: auto;
+
+    &.rex-empty {
+      margin: 0;
+    }
   }
+
+  ${({ theme, $showSearch: showSearch }: any) => {
+    if (theme.device.name === 'phone') {
+      return { width: '90vw', height: showSearch ? 350 : undefined };
+    }
+  }}
 `;
 
 const SelectItemDiv = styled.div.withConfig({ componentId: 'rex-select-item' })`
   font-size: var(--rex-fontSizes-body);
   height: var(--rex-components-Select-rowHeight);
   padding: 0 8px;
-  background: var(--rex-colors-emphasis-0);
   border-radius: var(--rex-radii-s);
   display: flex;
   align-items: center;
@@ -69,7 +71,7 @@ const SelectItemDiv = styled.div.withConfig({ componentId: 'rex-select-item' })`
   }
 
   &.selected {
-    font-weight: bold;
+    font-weight: 500;
   }
 
   .rex-select-item-tick {
@@ -133,15 +135,6 @@ export const SelectView = React.forwardRef<HTMLDivElement, SelectViewProps>((pro
   const valueMap = new Map(dataSource.map((item) => [item.value, item]));
   const getLabelByValue = (v: string) => valueMap.get(v)?.label ?? v;
 
-  // 处理不同端下的表现
-  const { device } = useDevice();
-  let height: number = undefined;
-  let restricted = false;
-  if (device.name === 'phone' && showSearch) {
-    height = 350;
-    restricted = true;
-  }
-
   return (
     <AdaptivePopup
       visible={visible}
@@ -149,11 +142,8 @@ export const SelectView = React.forwardRef<HTMLDivElement, SelectViewProps>((pro
       onRequestClose={onRequestClose}
       autoWidth={autoWidth}
       autoHeight={autoHeight}
-      offset={[0, appearance.minimum ? -2 : 2]}
+      offset={[0, 4]}
       interactionKind="click"
-      fullscreenProps={{
-        style: { width: '90vw', height },
-      }}
       onOpen={() => {
         if (autoScrollToFirstItemWhenOpen) {
           const list = virtualListRef.current;
@@ -183,10 +173,13 @@ export const SelectView = React.forwardRef<HTMLDivElement, SelectViewProps>((pro
 
   function renderSelectPanel(arg: PopupChildrenRenderArg) {
     return (
-      <SelectPanelDiv ref={arg.ref as React.RefObject<HTMLDivElement>} className={cx({ restricted })}>
+      <SelectPanelDiv
+        ref={arg.ref as React.RefObject<HTMLDivElement>}
+        // @ts-ignore
+        $showSearch={showSearch}
+      >
         {showSearch && (
           <Input
-            // todo htmlType=search
             className="rex-select-search"
             placeholder="搜索"
             hasClear
@@ -203,37 +196,39 @@ export const SelectView = React.forwardRef<HTMLDivElement, SelectViewProps>((pro
         )}
         {isNotFound && notFoundContent}
 
-        <VirtualList
-          estimatedRowHeight={32}
-          ref={virtualListRef}
-          rows={filteredDataSource}
-          renderRow={(row, rowIndex, listRowDataset) => {
-            const selected = valueSet.has(row.value);
+        <div className={cx('rex-select-item-list-wrapper', { 'rex-empty': isNotFound })}>
+          <VirtualList
+            estimatedRowHeight={28}
+            ref={virtualListRef}
+            rows={filteredDataSource}
+            renderRow={(row, rowIndex, listRowDataset) => {
+              const selected = valueSet.has(row.value);
 
-            return (
-              <SelectItemDiv
-                key={row.value}
-                className={cx({
-                  selected: selected,
-                  disabled: row.disabled,
-                })}
-                {...listRowDataset}
-                onClick={(event) => {
-                  if (row.disabled) {
-                    return;
-                  }
-                  onChange(toggleValue(value, row.value), { event });
-                  if (autoCloseAfterSelect) {
-                    onRequestClose();
-                  }
-                }}
-              >
-                <span className="rex-select-item-label">{row.label}</span>
-                {selected && <TickIcon className="rex-select-item-tick" />}
-              </SelectItemDiv>
-            );
-          }}
-        />
+              return (
+                <SelectItemDiv
+                  key={row.value}
+                  className={cx({
+                    selected: selected,
+                    disabled: row.disabled,
+                  })}
+                  {...listRowDataset}
+                  onClick={(event) => {
+                    if (row.disabled) {
+                      return;
+                    }
+                    onChange(toggleValue(value, row.value), { event });
+                    if (autoCloseAfterSelect) {
+                      onRequestClose();
+                    }
+                  }}
+                >
+                  <span className="rex-select-item-label">{row.label}</span>
+                  {selected && <TickIcon className="rex-select-item-tick" />}
+                </SelectItemDiv>
+              );
+            }}
+          />
+        </div>
       </SelectPanelDiv>
     );
   }

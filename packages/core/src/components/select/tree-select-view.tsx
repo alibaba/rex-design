@@ -99,28 +99,16 @@ export const TreeSelectView = React.forwardRef<HTMLDivElement, TreeSelectViewPro
 
   const isNotFound = dataSource.length > 0 && filteredTreeDataSource.length === 0;
 
-  // 处理不同端下的表现
-  const { device } = useDevice();
-  let height: number = undefined;
-  let restricted = false;
-  if (device.name === 'phone' && showSearch) {
-    height = 350;
-    restricted = true;
-  }
-
   return (
     <AdaptivePopup
       {...popupProps}
       visible={visible}
       onRequestOpen={onRequestOpen}
       onRequestClose={onRequestClose}
-      offset={[0, appearance.minimum ? -2 : 2]}
+      offset={[0, 4]}
       autoWidth={autoWidth}
       autoHeight={autoHeight}
       interactionKind="click"
-      fullscreenProps={{
-        style: { width: '90vw', height },
-      }}
       onOpen={() => {
         if (autoScrollToFirstItemWhenOpen) {
           const valueSet = new Set(value);
@@ -145,10 +133,9 @@ export const TreeSelectView = React.forwardRef<HTMLDivElement, TreeSelectViewPro
         />
       )}
       renderChildren={({ ref }: any) => (
-        <SelectPanelDiv ref={ref as React.RefObject<HTMLDivElement>} className={cx({ restricted })}>
+        <SelectPanelDiv ref={ref as React.RefObject<HTMLDivElement>}>
           {showSearch && (
             <Input
-              // todo htmlType=search
               className="rex-select-search"
               placeholder="搜索"
               hasClear
@@ -164,6 +151,7 @@ export const TreeSelectView = React.forwardRef<HTMLDivElement, TreeSelectViewPro
           {isNotFound && notFoundContent}
 
           <Tree
+            className={cx('rex-select-item-list-wrapper', { 'rex-empty': isNotFound })}
             virtualListRef={virtualListRef as React.Ref<VirtualList<any>>}
             dataSource={filteredTreeDataSource}
             expandedKeys={expandedKeys}

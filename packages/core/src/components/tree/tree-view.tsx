@@ -42,7 +42,6 @@ const TreeItemDiv = styled.div.withConfig({ componentId: 'rex-tree-item' })`
   display: flex;
   align-items: center;
   border-radius: 2px;
-  background: var(--rex-colors-emphasis-0);
 
   &:hover {
     background: var(--rex-colors-emphasis-10);
@@ -64,10 +63,10 @@ const TreeItemDiv = styled.div.withConfig({ componentId: 'rex-tree-item' })`
     &.selectable {
       cursor: pointer;
       &:hover {
-        background: #f2f2f2;
+        background: var(--rex-colors-emphasis-30);
       }
       &.selected {
-        background: #3862cf;
+        background: var(--rex-colors-primary-50);
         color: white;
       }
     }

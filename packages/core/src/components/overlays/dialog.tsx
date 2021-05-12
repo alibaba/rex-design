@@ -1,6 +1,6 @@
 import { Icon } from '@rexd/icon';
+import cx from 'classnames';
 import React, { useMemo } from 'react';
-import styled, { css } from 'styled-components';
 import { useOverlayBehavior } from '../../providers';
 import { noop, useMemoizedMergeRefs } from '../../utils';
 import { Button, ButtonProps } from '../button';
@@ -30,6 +30,9 @@ export interface DialogProps
   onRequestClose?(reason: any): void;
   content?: React.ReactNode;
   children?: React.ReactNode;
+
+  /** 使用 render prop 的形式指定弹层内容，用于精确控制 DOM 结构，只能在 minimal 模式下使用 */
+  renderChildren?(pass: { ref: React.Ref<Element> }): React.ReactNode;
   title?: React.ReactNode;
 
   /** @displayType null | React.ReactElement | Action[] */
@@ -56,73 +59,6 @@ export interface DialogProps
   /** 是否使用极简样式，极简样式下不会生成对话框的内部结构，会直接渲染 children */
   minimal?: boolean;
 }
-
-const dialogCloseMixin = css`
-  .rex-dialog-close {
-    position: absolute;
-    top: 24px;
-    right: 24px;
-    width: 24px;
-    height: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--rex-colors-emphasis-50);
-    cursor: pointer;
-
-    &:hover {
-      color: #333;
-    }
-  }
-`;
-
-const MinimalDialogDiv = styled.div.withConfig({ componentId: 'rex-dialog rex-dialog-minimal' })`
-  position: absolute;
-  z-index: 1000;
-  background: var(--rex-overlay-depth-l);
-  box-shadow: var(--rex-shadows-medianDown);
-
-  ${dialogCloseMixin};
-`;
-
-const DialogDiv = styled.div.withConfig({ componentId: 'rex-dialog' })`
-  z-index: 1000;
-  position: absolute;
-  // 400px 为默认宽度，实际宽度可以被 style.width 覆盖
-  width: 400px;
-  max-width: 70%;
-
-  background: var(--rex-overlay-depth-l);
-  border-radius: 2px;
-  box-shadow: var(--rex-shadows-medianDown);
-  overflow: hidden;
-
-  .rex-dialog-header {
-    font-size: var(--rex-fontSizes-title);
-    margin: 24px 24px 0 24px;
-    padding-bottom: 16px;
-    border-bottom: 1px solid var(--rex-colors-emphasis-30);
-    color: var(--rex-colors-text-title);
-  }
-
-  .rex-dialog-body {
-    font-size: var(--rex-fontSizes-body);
-    margin: 16px 24px 32px;
-    color: var(--rex-colors-text-body);
-  }
-
-  .rex-dialog-footer {
-    display: flex;
-    margin: 16px 24px 24px 24px;
-    justify-content: flex-end;
-
-    > * {
-      margin-left: 8px;
-    }
-  }
-
-  ${dialogCloseMixin};
-`;
 
 function renderDialogFooter(
   footerWithConfig: Pick<DialogProps, 'footer' | 'onOk' | 'onCancel' | 'onRequestClose'>,
@@ -193,6 +129,7 @@ export function Dialog({
   visible,
   children,
   content = children,
+  renderChildren,
   title,
   footer,
   onRequestClose,
@@ -237,13 +174,13 @@ export function Dialog({
     />
   );
 
+  // TODO  需要改为 Dialog.Inner 和 Dialog， minimal 模式下使用 Inner 直接渲染即可
   function renderMinimalDialogContent(ref: React.RefCallback<Element>) {
-    return (
-      <MinimalDialogDiv ref={ref} className={className} style={style}>
-        {renderCloseIcon()}
-        {content}
-      </MinimalDialogDiv>
-    );
+    if (typeof renderChildren === 'function') {
+      return <div className="rex-popup-content">{renderChildren({ ref })}</div>;
+    }
+
+    throw new Error('minimal 模式下只支持使用 renderChildren');
   }
 
   function renderCloseIcon() {
@@ -258,12 +195,12 @@ export function Dialog({
 
   function renderNormalDialogContent(ref: React.RefCallback<Element>) {
     return (
-      <DialogDiv ref={ref} className={className} style={style}>
+      <div ref={ref} className={cx('rex-dialog', className)} style={style}>
         {renderDialogHeader()}
         {renderDialogBody()}
         {renderDialogFooter({ footer, onOk, onCancel, onRequestClose })}
         {renderCloseIcon()}
-      </DialogDiv>
+      </div>
     );
 
     function renderDialogHeader() {

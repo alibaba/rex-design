@@ -46,19 +46,19 @@ export interface ISelectAppearanceProps {
    *
    * @category 外观
    * */
-  status?: 'normal' | 'error';
+  status?: 'normal' | 'error' | 'warning' | 'success';
 
   /**
    * 选择器值为空时，trigger 上的占位文本
    * @category 外观
    * */
-  placeholder?: React.ReactNode;
+  placeholder?: string;
 
   /**
-   * 是否为轻量选择模式
+   * 选择器形状
    * @category 外观
    * */
-  minimum?: boolean;
+  shape?: 'simple' | 'solid';
 
   /**
    * 是否有下拉箭头
@@ -80,7 +80,7 @@ export const selectAppearancePropKeys: (keyof ISelectAppearanceProps)[] = [
   'size',
   'status',
   'placeholder',
-  'minimum',
+  'shape',
   'hasArrow',
   'hasClear',
 ];

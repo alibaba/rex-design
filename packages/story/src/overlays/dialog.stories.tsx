@@ -197,16 +197,19 @@ export function Minimal() {
     <div>
       <Button onClick={() => setVisible(true)}>打开对话框</Button>
       <Dialog
-        minimal
         visible={visible}
         onRequestClose={() => setVisible(false)}
         style={{ width: 300, height: 250, padding: '1rem 2rem 1rem 1rem' }}
         canCloseByOutSideClick
         canCloseByEsc
         canCloseByIcon
-      >
-        {hippoIntroduction}
-      </Dialog>
+        minimal
+        renderChildren={({ ref }) => (
+          <div ref={ref as React.Ref<HTMLDivElement>} style={{ width: '80%', padding: 16 }}>
+            {hippoIntroduction}
+          </div>
+        )}
+      />
     </div>
   );
 }

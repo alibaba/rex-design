@@ -15,12 +15,13 @@ export interface AppProviderProps {
   isNormalized?: boolean;
 }
 
+// TODO AppProvider 重构
 export function AppProvider(props: React.PropsWithChildren<AppProviderProps>) {
   const { device, colorMode, config, theme, isNormalized = true, children } = props;
 
   return (
     <ColorModeProvider value={colorMode} theme={theme}>
-      <ThemeProvider theme={{ ...theme, colorMode }}>
+      <ThemeProvider theme={{ ...theme, colorMode, device }}>
         <DeviceProvider value={device}>
           <ConfigProvider value={config}>
             {isNormalized && <Normalize />}

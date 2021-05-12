@@ -219,7 +219,7 @@ const components = {
 
   Select: {
     triggerHeight: '32px',
-    rowHeight: '32px',
+    rowHeight: '28px',
   },
 };
 

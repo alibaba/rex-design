@@ -1,7 +1,6 @@
 import * as Popper from '@popperjs/core';
 import cx from 'classnames';
 import React from 'react';
-import styled from 'styled-components';
 import { composeHandlers, pick } from '../../utils';
 import {
   IOverlayAnimationProps,
@@ -18,7 +17,6 @@ import { PopupInteractionManager } from './overlay-utils/PopupInteractionManager
 
 export type PopupPlacement = Popper.Placement;
 
-const ARROW_SIZE = 10;
 const ARROW_PADDING = 10;
 const ARROW_OFFSET = 12;
 
@@ -103,44 +101,6 @@ const adjustArrowStyleModifier: Popper.Modifier<'adjustArrowStyle', {}> = {
     }
   },
 };
-
-const StyledOverlay = styled(Overlay)`
-  > .rex-popup-content {
-    position: absolute;
-    z-index: 1000;
-
-    > * {
-      background-color: var(--rex-popup-bgcolor, var(--rex-overlay-depth-m));
-    }
-  }
-
-  .rex-popup-arrow {
-    user-select: none;
-
-    &::before {
-      content: '';
-      position: absolute;
-      width: ${ARROW_SIZE}px;
-      height: ${ARROW_SIZE}px;
-      transform-origin: center center;
-      transform: translate(-50%, -50%) rotate(45deg);
-      background-color: var(--rex-popup-bgcolor, var(--rex-overlay-depth-m));
-    }
-
-    &[data-popper-placement^='top']::before {
-      box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, 0.06);
-    }
-    &[data-popper-placement^='right']::before {
-      box-shadow: -2px 2px 3px 0 rgba(0, 0, 0, 0.06);
-    }
-    &[data-popper-placement^='bottom']::before {
-      box-shadow: -2px -2px 3px 0 rgba(0, 0, 0, 0.06);
-    }
-    &[data-popper-placement^='left']::before {
-      box-shadow: 2px -2px 3px 0 rgba(0, 0, 0, 0.06);
-    }
-  }
-`;
 
 export interface PopupChildrenRenderArg {
   ref: React.RefObject<Element>;
@@ -522,7 +482,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       <>
         {renderedTarget}
 
-        <StyledOverlay
+        <Overlay
           className={wrapperClassName}
           style={wrapperStyle}
           usePortal={usePortal}

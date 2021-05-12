@@ -2,25 +2,26 @@ import React from 'react';
 import { css } from 'styled-components';
 import { SelectItem } from './types';
 
-export const rexLightScrollbarStyleMixin = css`
-  ::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: #ccc;
-    border: 1px solid #eaeaea;
-
-    &:hover {
-      background: #6e6e6e;
-    }
-  }
-
-  ::-webkit-scrollbar-track {
-    background: #eaeaea;
-  }
-`;
+// todo 先暂时移除
+// export const rexLightScrollbarStyleMixin = css`
+//   ::-webkit-scrollbar {
+//     width: 10px;
+//     height: 10px;
+//   }
+//
+//   ::-webkit-scrollbar-thumb {
+//     background: #ccc;
+//     border: 1px solid #eaeaea;
+//
+//     &:hover {
+//       background: #6e6e6e;
+//     }
+//   }
+//
+//   ::-webkit-scrollbar-track {
+//     background: #eaeaea;
+//   }
+// `;
 
 export function toggleValue(value: string[], targetValue: string) {
   return value.includes(targetValue) ? value.filter((v) => v !== targetValue) : [...value, targetValue];

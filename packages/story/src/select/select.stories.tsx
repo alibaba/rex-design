@@ -26,7 +26,7 @@ export function Minimum() {
     <SingleSelect
       style={{ display: 'inline-flex' }}
       popupProps={{ style: { width: 120 } }}
-      minimum
+      shape="simple"
       dataSource={basicSelectDataSource}
     />
   );

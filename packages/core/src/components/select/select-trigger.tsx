@@ -7,27 +7,31 @@ import { PopupTargetRenderArgs } from '../overlays';
 import { CaretDownIcon, ClearIcon } from './icons';
 import { toggleValue } from './select-utils';
 import { ISelectAppearanceProps, SelectItem } from './types';
+import { getToken } from '../../utils';
 
 const ValueTagDiv = styled.div.withConfig({ componentId: 'rex-select-value-tag' })`
   display: inline-flex;
   align-items: center;
   padding: 0 var(--rex-space-m);
-  border-radius: var(--rex-radii-m);
+  border-radius: 2px;
   color: var(--rex-colors-text-body);
-  height: var(--rex-sizes-s5);
+  height: var(--rex-sizes-s6);
   font-size: var(--rex-fontSizes-note);
   background-color: var(--rex-colors-emphasis-10);
 
   &:hover {
-    cursor: pointer;
     background-color: var(--rex-colors-emphasis-30);
   }
 
   > .delete-icon {
-    margin-left: var(--rex-space-m);
+    color: var(--rex-colors-emphasis-50);
+    margin-left: 6px;
     display: flex;
     align-items: center;
     cursor: pointer;
+    &:hover {
+      color: var(--rex-colors-emphasis-60);
+    }
   }
 `;
 
@@ -52,9 +56,9 @@ const ValueTag = React.memo(({ v, label, onDelete }: ValueTagProps) => (
   </ValueTagDiv>
 ));
 
-const SelectTriggerDiv = styled.div.withConfig({ componentId: 'rex-select-trigger' })`
+const SelectTriggerDiv = styled.div`
   cursor: pointer;
-  height: var(--rex-components-Select-triggerHeight);
+  height: var(--rex-sizes-formHeights-m);
   display: flex;
   align-items: center;
   transition: all 200ms;
@@ -63,51 +67,59 @@ const SelectTriggerDiv = styled.div.withConfig({ componentId: 'rex-select-trigge
   border-radius: var(--rex-radii-s);
   position: relative;
   overflow: hidden;
+  color: ${getToken('Input.textColor')};
 
-  &.rex-select-trigger-normal {
-    border: 1px solid var(--rex-colors-emphasis-40);
+  &.rex-solid {
+    border: var(--rex-borders-solid) ${getToken('Input.borderColor')};
+    border-radius: var(--rex-radii-s);
+
+    &:focus-within {
+      outline: 0;
+      box-shadow: 0 0 0 3px ${getToken('Input.borderColorFocus')};
+    }
 
     &:hover {
-      border: 1px solid var(--rex-colors-brand-normal);
+      border-color: ${getToken('Input.borderColorHover')};
     }
 
-    &:focus,
-    &:active,
-    &.active {
-      border: 1px solid var(--rex-colors-brand-active);
-      box-shadow: 0 0 0 1px var(--rex-colors-brand-normal);
-      outline: none;
-    }
-  }
+    &.rex-error {
+      border-color: ${getToken('Input.borderColorError')};
 
-  &.rex-select-trigger-error {
-    border: 1px solid var(--rex-colors-error-normal);
-
-    &:hover {
-      border: 1px solid var(--rex-colors-error-hover);
+      &:focus-within {
+        box-shadow: 0 0 0 3px ${getToken('Input.borderColorErrorFocus')};
+      }
     }
 
-    &:focus,
-    &:active,
-    &.active {
-      border: 1px solid var(--rex-colors-error-active);
-      box-shadow: 0 0 0 1px var(--rex-colors-error-normal);
-      outline: none;
+    &.rex-warning {
+      border-color: ${getToken('Input.borderColorWarning')};
+
+      &:focus-within {
+        box-shadow: 0 0 0 3px ${getToken('Input.borderColorWarningFocus')};
+      }
     }
-  }
 
-  &.rex-select-trigger-minimum {
-    padding-left: 0;
+    &.rex-success {
+      border-color: ${getToken('Input.borderColorSuccess')};
 
-    &,
-    &:hover,
-    &:focus,
-    &:active,
-    &.active {
-      border-color: transparent;
-      box-shadow: none;
+      &:focus-within {
+        box-shadow: 0 0 0 3px ${getToken('Input.borderColorSuccessFocus')};
+      }
     }
   }
+
+  &.rex-simple {
+    border: 0;
+    background-color: transparent;
+  }
+
+  // &.rex-disabled {
+  //   pointer-events: none;
+  //   color: ${getToken('Input.textColorDisabled')};
+  //   border-color: ${getToken('Input.borderColorDisabled')};
+  //   background-color: ${getToken('Input.bgDisabled')};
+  //   /* safari */
+  //   -webkit-text-fill-color: ${getToken('Input.textColorDisabled')};
+  // }
 
   .rex-select-placeholder {
     color: var(--rex-colors-emphasis-50);
@@ -140,7 +152,7 @@ const SelectTriggerDiv = styled.div.withConfig({ componentId: 'rex-select-trigge
     position: absolute;
   }
 
-  &.rex-select-trigger-minimum .rex-select-trigger-controls {
+  &.rex-simple .rex-select-trigger-controls {
     margin-left: 4px;
     position: static;
   }
@@ -188,7 +200,7 @@ export const SelectTrigger = React.forwardRef<HTMLDivElement, SelectTriggerProps
     dataSource,
     onChange,
     containerProps,
-    minimum,
+    shape = 'solid',
     className,
     style,
     hasClear,
@@ -213,10 +225,11 @@ export const SelectTrigger = React.forwardRef<HTMLDivElement, SelectTriggerProps
       {...containerProps}
       className={cx(
         {
-          active: visible,
-          'rex-select-trigger-normal': status === 'normal',
-          'rex-select-trigger-error': status === 'error',
-          'rex-select-trigger-minimum': minimum,
+          'rex-solid': shape === 'solid',
+          'rex-simple': shape === 'simple',
+          'rex-error': status === 'error',
+          'rex-warning': status === 'warning',
+          'rex-success': status === 'success',
         },
         className,
       )}

@@ -21,7 +21,7 @@ export interface FullscreenPopupProps
     >,
     Pick<DialogProps, 'placement'> {
   renderTarget?(arg0: Partial<PopupTargetRenderArgs[0]>, arg1: PopupTargetRenderArgs[1]): React.ReactNode;
-  renderChildren?(arg: { children?: React.ReactNode }): React.ReactNode;
+  renderChildren?(arg: { ref: React.Ref<Element>; children?: React.ReactNode }): React.ReactNode;
   style?: React.CSSProperties;
   className?: string;
 }
@@ -62,10 +62,6 @@ export function FullscreenPopup(props: FullscreenPopupProps) {
 
   const renderedTarget = renderTarget({ onClick: onRequestOpen }, { target, targetTagName, targetStyle });
 
-  const renderedChildren = (renderChildren ?? Popup.defaultRenderChildren)(({
-    children,
-  } as unknown) as any);
-
   return (
     <>
       {renderedTarget}
@@ -92,9 +88,9 @@ export function FullscreenPopup(props: FullscreenPopupProps) {
         hasBackdrop={hasBackdrop}
         {...overlayLifecycles}
         // TODO 检查 props 透传是否有遗漏……
-      >
-        {renderedChildren}
-      </Dialog>
+        renderChildren={renderChildren}
+        children={children}
+      />
     </>
   );
 }
