@@ -44,7 +44,7 @@ export const SelectPanelDiv = styled.div.withConfig({ componentId: 'rex-select-p
   }
 
   ${({ theme, $showSearch: showSearch }: any) => {
-    if (theme.device.name === 'phone') {
+    if (theme.device?.name === 'phone') {
       return { width: '90vw', height: showSearch ? 350 : undefined };
     }
   }}

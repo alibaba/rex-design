@@ -4,27 +4,91 @@ title: 开始使用
 slug: /
 ---
 
+import { Button, Dialog } from '@rexd/core';
+
 [![NPM Package](https://img.shields.io/npm/v/@rexd/core.svg?style=flat-square)](https://www.npmjs.org/package/@rexd/core)
 
-@rexd/core 一句话描述
+@rexd/core 基于 React 的多端自适应组件库。
 
-### 安装
+:::danger
+ReX Design 组件库目前仍处于 alpha 阶段中，后续可能出现未在文档中列出的 BREAKING CHANGE。请勿在生产环境下使用。
+:::
+
+## 安装
 
 `yarn add @rexd/core`
-
-### 特点
-
-- 特点 1
-- 特点 2
-- 特点 3
 
 ## 兼容性说明
 
 - 组件库兼容 react `^16.8.0 || ^17.0.0`
-- 组件库 用到了一些较新的浏览器 API，只兼容较新版本的 PC 端浏览器或手机浏览器，详见...
+- 组件库 用到了一些较新的浏览器 API，只兼容较新版本的 PC 端浏览器或手机浏览器
+  - chrome: ?
+  - safari: ?
 
-## 相关链接
+## 使用
 
-- 链接 1
-- 链接 2
-- 链接 3
+### 引入样式
+
+@rexd/core 依赖于 normalize.css，你需要先引入 normalize.css 然后引入 rexd.css：
+
+```html
+<head>
+  <link href="path/to/node_modules/normalize.css/normalize.css" rel="stylesheet" />
+  <link href="path/to/node_modules/@rexd/core/dist/rexd.css" rel="stylesheet" />
+</head>
+```
+
+如果你使用 webpack 且支持引入 CSS 模块，可以在代码入口处引入以下 CSS 文件：
+
+```jsx
+import 'normalize.css';
+import '@rexd/core/dist/rexd.css';
+```
+
+### 使用组件
+
+```jsx
+import { Button, Toaster } from '@rexd/core';
+
+<Button
+  type="primary"
+  onClick={() => {
+    Dialog.show({ title: '对话框', content: 'hello rexd' });
+  }}
+>
+  按钮
+</Button>;
+```
+
+<Button
+  type="primary"
+  onClick={() => {
+    Dialog.show({ title: '对话框', content: 'hello rexd' });
+  }}
+>
+  按钮
+</Button>
+
+### 切换主题与设备
+
+通过 `AppProvider` 可以为子节点生效设置主题与设备。
+
+```jsx
+import { AppProvider } from '@rexd/core';
+
+<AppProvider colorMode="dark" device="phone">
+  {children}
+</AppProvider>;
+```
+
+切换主题与设备底层依赖 [CSS 变量](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Using_CSS_custom_properties)，你可以通过 container 指定 CSS 变量的注入位置，如不指定则 CSS 变量的生效节点为 `:root`。
+
+```jsx
+<AppProvider container={div} colorMode="dark" device="phone">
+  {children}
+</AppProvider>
+```
+
+### 自定义主题
+
+（开发中，敬请期待）

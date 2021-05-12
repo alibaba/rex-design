@@ -6982,7 +6982,7 @@ clone@^1.0.2:
 
 clsx@^1.1.1:
   version "1.1.1"
-  resolved "https://registry.npm.taobao.org/clsx/download/clsx-1.1.1.tgz#98b3134f9abbdf23b2663491ace13c5c03a73188"
+  resolved "https://registry.npm.alibaba-inc.com/clsx/download/clsx-1.1.1.tgz#98b3134f9abbdf23b2663491ace13c5c03a73188"
   integrity sha1-mLMTT5q73yOyZjSRrOE8XAOnMYg=
 
 cmd-shim@^4.1.0:
@@ -7268,6 +7268,11 @@ constants-browserify@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npm.taobao.org/constants-browserify/download/constants-browserify-1.0.0.tgz#c20b96d8c617748aaf1c16021760cd27fcb8cb75"
   integrity sha1-wguW2MYXdIqvHBYCF2DNJ/y4y3U=
+
+constate@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.npm.alibaba-inc.com/constate/download/constate-3.2.0.tgz#6034e7b775ca0e58137274f87c25196e8932f685"
+  integrity sha1-YDTnt3XKDlgTcnT4fCUZboky9oU=
 
 content-disposition@0.5.2:
   version "0.5.2"

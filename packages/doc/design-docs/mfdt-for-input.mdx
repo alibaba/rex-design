@@ -1,0 +1,173 @@
+---
+title: 多因子组件文档示例-输入框
+---
+
+## 定义
+
+通过鼠标或键盘输入内容，是最基础的表单域的包装
+
+​
+
+## 输入框组成解释
+
+输入框的整体尺寸由内容区域及内容区域与容器的间距距组成，内容区域相对于容器居中
+
+一个输入框的尺寸我们可以这样计算：
+
+输入框宽度=内容宽度+2*左右 padding，输入框高度=内容高度+2*上下 padding
+
+为方便下文解释，我们设输入框的宽、高分别为 W、H
+
+​
+
+![01.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt-for-input/48fde9f1.png)
+
+## 内容区域
+
+内容区域一般为文字，或者文字+图标的组合
+
+已知在字距为 0 的条件下，文字的行高=1.5T，单个文字的字宽=T（T 为文字字号，详见文档《多因子影响下的文字》）
+
+设输入框最多可输入 n 个字符，那么文字区域宽度=nT
+
+我们的图标规定为正方形，一般与文字的行高等高，即图标的宽、高均为 1.5T
+
+文字与图标的间距我们设为 m 个字符，即 mT
+
+​
+
+![02.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt-for-input/ff39c2af.png)
+
+## 基准输入框
+
+为保持所有组件的统一，我们规定所有组件的基准文字及其对应的基准 padding 值统一，即与基准按钮一致（详见文档《多因子影响下的按钮》）
+
+设基准输入框的左右 padding 为 q，上下 padding 为 s
+
+在这里我们推荐左右 padding 为字号的 0.25 ～ 1 倍，上下 padding 为字号的 0.15 ～ 1 倍
+
+即：
+
+​
+
+**q=αT**
+
+0.25 ≤ α ≤ 1
+
+​
+
+**s=βT**
+
+0.15 ≤ β ≤ 1
+
+​
+
+因此基准输入框的尺寸可以这样计算：
+
+![03.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt-for-input/edf05906.png)
+
+根据 W3C 标准，12px 为浏览器最小字体，因此我们此次以 12px 为基准文字，即 T=12
+
+取 α=1，β=0.66（与基准按钮一致）
+
+出于空间利用效率和视觉舒适度的考虑，我们推荐 m 取值为 1
+
+基于各业务场景的适应性，一般限制输入框可输入最多的字符个数为 12 ～ 16，即 12 ≤ n ≤ 16，我们此次取 n=12
+
+有如下计算：
+
+![04.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt-for-input/2f45bcb0.png)
+
+基准输入框
+
+![05.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt-for-input/26e9ce6d.png)
+
+## 输入框推算
+
+输入框的整体尺寸与内容区域呈正相关，因此整体尺寸以内容区域大小为基准向外扩展
+
+已知视距和屏幕显示精度，我们可以通过以下计算得出最佳可视字体大小
+
+​
+
+- **字体物理高度 R（mm） = L/N**
+
+L 是观看距离; N 是一个范围变量
+
+【0.45M 以下】
+
+N=70 时：超大号字
+
+N=110 时：舒适字号
+
+N=180 时：极限字号
+
+​
+
+- **PT = R / 0.3527**
+
+  0.3527 是 pt 与毫米转化参数
+
+​
+
+- **屏幕精度 ppi=√x²+y²**
+
+X,Y 是设备横竖分辨率
+
+- **T = PT / ( 72 / PPI )**
+
+结合色彩对比度和设备移动速度，可得出一个 T 的最佳值
+
+T 必须为偶数，若不是偶数则增加 1 作为 T
+
+我们规定以「基准输入框」的文字字号为基准，每增大 2 个字号，则上下 padding 增加 2，左右 padding 增加 2
+
+可以得到如下计算公式：
+
+![06.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt-for-input/77ff2b89.png)
+
+## ![07.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt-for-input/35199da6.png)
+
+## 操作方式因子
+
+![08.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt-for-input/2e028e6a.png)
+
+可视范围内，键鼠操作一般没有限制，所以我们暂定合理的可视尺寸即为鼠标操作的合适区域
+
+而同等视距和信息密度的情形下下，触控操作较之键鼠操作则要求更大的区域，也要求更为疏松的间距
+
+因此我们规定，在同等视距和信息密度的情况下，增加触控因子，则按钮的宽、高 padding 分别增加 k 和 z
+
+可以得到如下计算公式：
+
+![09.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt-for-input/a3f8c59c.png)
+
+已知端参数推荐
+
+![10.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt-for-input/e398c905.png)
+
+##
+
+## 举例
+
+以视距为 45cm，屏幕尺寸为 10.2 英寸，分辨率为 810\*1080 的触控场景为例，推导一个合适的输入框
+
+​
+
+- 设定基准输入框：T=12，取 α=1，β=0.66，m=1，n=12
+
+![11.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt-for-input/4333271d.png)
+
+- 由视距、屏幕显示精度、色彩对比度、设备移动状态等可得出该场景下字体大小的推荐范围为 17 ～ 43px，则取 T=18
+
+![12.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt-for-input/26f3a66d.png)
+
+- 以「基准输入框」的大小为基准，通过 T=18，可推导出在该视距和屏幕尺寸下一个较为合理的输入框大小
+
+![13.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt-for-input/a745e3e3.png)
+
+- 基于当前条件，我们变为触控操作，考虑到该场景与 pad 端类似，我们选取 pad 端的横纵总量
+
+![14.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt-for-input/e56b6af8.png)
+
+![15.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt-for-input/24ef2886.png)

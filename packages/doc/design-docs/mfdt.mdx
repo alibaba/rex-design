@@ -2,12 +2,6 @@
 title: MFDT 多因子设计
 ---
 
-<!--
-  这个文件是从语雀文档同步生成的，请不要手动修改
-  语雀文档地址 https://www.yuque.com/hema-fe/rex-design/mfdt
-  同步时间：2021-05-11 15:44:05
--->
-
 随着新零售的快速发展，新的端源源不断的出现，小二每天要面对大量的设备，PC、Pad、POS、Phone、RF、Watch、TV... 每个端因为分辨率、屏幕精度、使用场景等条件等不同，为了保持每个端更好的体验，设计师都需要分别设计一套组件和定义一套设计规范，开发者的维护成本也越来越高。
 
 在日常多端界面设计中，我们经常会听到以下这些声音：
@@ -35,7 +29,7 @@ Design Tokens 已经能够解决一致性的问题，Muti-Factor Design Token �
 
 凡此种种，不一而足。
 
-![image.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/71136e1c.png)
+![编组 38备份@2x.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/feb61b81.png)
 
 ##
 
@@ -97,7 +91,7 @@ Design Tokens 已经能够解决一致性的问题，Muti-Factor Design Token �
 
 在字距为 0 的条件下，单个文字的字宽 = T，单行若排列有 n 个文字，则字宽 = nT
 
-![进步规则备份 6.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/f029406f.png)
+![进步规则备份 6@2x.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/37c6c29b.png)
 
 ### 基准按钮
 
@@ -119,7 +113,7 @@ Design Tokens 已经能够解决一致性的问题，Muti-Factor Design Token �
 
 因此基准按钮的尺寸可以这样计算：
 
-![进步规则备份 7.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/28446ed6.png)
+![进步规则备份 7@2x.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/09d1b132.png)
 
 根据 W3C 标准，12px 为浏览器最小字体，因此我们此次以 12px 为基准文字，即 T=12
 
@@ -143,13 +137,13 @@ T=12
 
 β=0.66
 
-#### ![01.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/85c53314.png)
+#### ![01@2x.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/b817ff6c.png)
 
 ### 按钮推算
 
 按钮的整体尺寸与文字区域呈正相关，因此整体尺寸以文字区域大小为基准向外扩展，已知视距和屏幕显示精度，我们可以通过以下计算得出最佳可视字体大小。
 
-![进步规则备份 9.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/2ad1f76c.png)
+![进步规则备份 9@2x.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/f397f275.png)
 
 结合色彩对比度和设备移动速度，可得出一个 T 的最佳值
 
@@ -159,11 +153,13 @@ T 必须为偶数，若不是偶数则增加 1 作为 T
 
 可以得到如下计算公式：
 
-![02.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/f3286985.png)![进步规则备份 11.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/d6883def.png)
+![02@2x.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/b72a440e.png)
+
+![进步规则备份 11@2x.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/7f51a4d4.png)
 
 ### 操作方式因子
 
-![进步规则备份 12.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/d5215013.png)
+![进步规则备份 12@2x.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/c7b9b03c.png)
 
 可视范围内，键鼠操作一般没有限制，所以我们暂定合理的可视尺寸即为鼠标操作的合适区域
 
@@ -173,9 +169,9 @@ T 必须为偶数，若不是偶数则增加 1 作为 T
 
 可以得到如下计算公式：
 
-![进步规则备份 13.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/abc01079.png)
+![进步规则备份 13@2x.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/5b7d1cf9.png)
 
-![进步规则备份 14.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/74df9d37.png)
+![进步规则备份 14@2x.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/0884e0b9.png)
 
 ### 举例
 
@@ -187,11 +183,11 @@ T 必须为偶数，若不是偶数则增加 1 作为 T
 
 **H=1.5*12+2*0.66\*12=34**
 
-![image.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/09449284.png)
+![01备份@2x.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/15098508.png)
 
 2.由视距、屏幕显示精度、色彩对比度、设备移动状态等可得出该场景下字体大小的推荐范围为 17 ～ 43px，则取 T=18
 
-![01备份 2.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/dc2514a9.png)
+![01备份 2@2x.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/1c58eb66.png)
 
 3.以「基准按钮」的大小为基准，通过 T=18，可推导出在该视距和屏幕尺寸下一个较为合理的按钮大小
 
@@ -199,16 +195,16 @@ T 必须为偶数，若不是偶数则增加 1 作为 T
 
 **H=1.5*18+2*8+2\*2(18-12)/2=55**
 
-![01备份 3.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/845106eb.png)
+![01备份 3@2x.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/f9ba7139.png)
 
 4.基于当前条件，我们变为触控操作，考虑到该场景与 pad 端类似，我们选取 pad 端的横纵总量
 
-![01备份 4.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/2ce3607d.png)
+![01备份 4@2x.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/0b1ff4d1.png)
 
 **W=4*18+2*12+2*2(18-12)/2+2*4=116**
 
 **H=1.5*18+2*8+2*2(18-12)/2+2*2=59**
 
-![01备份 5.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/e0a1bdfa.png)
+![01备份 5@2x.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/d5477e20.png)
 
-![01备份 6.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/b4d6fa95.png)
+![01备份 6@2x.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/e122401b.png)

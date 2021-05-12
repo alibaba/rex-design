@@ -9,6 +9,71 @@
   --collapse-button-bg-color-dark: #2e333a;
 }
 
+.switcher {
+  display: none;
+}
+
+@media (min-width: 997px) {
+  .switcher {
+    display: flex;
+    margin-top: 20px;
+    margin-bottom: 12px;
+    justify-content: flex-end;
+    padding-right: 12px;
+
+    .switch {
+      height: 35px;
+      display: flex;
+      margin-left: 8px;
+
+      > button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 60px;
+        border: 1px solid var(--ifm-color-emphasis-200);
+        background: transparent;
+        cursor: pointer;
+        color: var(--ifm-color-emphasis-700);
+
+        transition-property: color, background;
+        transition-duration: var(--ifm-transition-fast);
+        transition-timing-function: var(--ifm-transition-timing-default);
+
+        > svg {
+          color: var(--ifm-color-emphasis-600);
+
+          html[data-theme='dark'] & {
+            color: var(--ifm-color-emphasis-300);
+          }
+        }
+
+        &:hover {
+          z-index: 2;
+          background: var(--rex-colors-emphasis-10);
+        }
+        &.active {
+          z-index: 3;
+          color: var(--ifm-menu-color-active);
+          border-color: var(--ifm-menu-color-active);
+
+          > svg {
+            color: var(--ifm-menu-color-active) !important;
+          }
+        }
+
+        &:first-child {
+          border-radius: 2px 0 0 2px;
+        }
+        &:last-child {
+          border-radius: 0 2px 2px 0;
+          margin-left: -1px;
+        }
+      }
+    }
+  }
+}
+
 @media (min-width: 997px) {
   .sidebar {
     display: flex;

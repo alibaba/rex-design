@@ -1,0 +1,161 @@
+---
+title: 多因子组件示例-按钮
+---
+
+## 定义
+
+用于开始一个即时操作
+
+## 按钮组成解释
+
+按钮的整体尺寸由文字区域及文字区域与容器的间距距组成，文字区域相对于容器居中
+
+一个按钮的尺寸我们可以这样计算：
+
+按钮宽度=字宽+2*左右 padding，按钮高度=行高+2*上下 padding
+
+为方便下文解释，我们设按钮的宽、高分别为 W、H，设文字的字号为 T(单位为 px)；在此我们将行高定为字号的 1.5 倍，即行高=1.5T
+
+在字距为 0 的条件下，单个文字的字宽=T，单行若排列有 n 个文字，则字宽=nT
+
+​
+
+![编组 40.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt-for-button/8991e4e1.png)
+
+##
+
+## 基准按钮
+
+为方便后续公式的推导和演示，我们定义一个基准按钮，由基准文字区域和文字区域与容器的上下左右 padding 组成
+
+设基准按钮的左右 padding 为 q，上下 padding 为 s
+
+在这里我们推荐左右 padding 为字号的 0.25 ～ 1 倍，上下 padding 为为的 0.15 ～ 1 倍
+
+即：
+
+​
+
+**q=αT**
+
+0.25 ≤ α ≤ 1
+
+​
+
+**s=βT**
+
+0.15 ≤ β ≤ 1
+
+​
+
+因此基准按钮的尺寸可以这样计算：
+
+![02.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt-for-button/6ae90440.png)
+
+根据 W3C 标准，12px 为浏览器最小字体，因此我们此次以 12px 为基准文字，即 T=12
+
+取 α=1，β=0.66
+
+以 4 个字符作为按钮文字最小单位
+
+有如下计算：
+
+![03.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt-for-button/b900faad.png)
+
+![04.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt-for-button/b279902e.png)
+
+​
+
+## 按钮推算
+
+按钮的整体尺寸与文字区域呈正相关，因此整体尺寸以文字区域大小为基准向外扩展
+
+已知视距和屏幕显示精度，我们可以通过以下计算得出最佳可视字体大小
+
+​
+
+- **字体物理高度 R（mm） = L/N**
+
+L 是观看距离; N 是一个范围变量
+
+【0.45M 以下】
+
+N=70 时：超大号字
+
+N=110 时：舒适字号
+
+N=180 时：极限字号
+
+​
+
+- **PT = R / 0.3527**
+
+  0.3527 是 pt 与毫米转化参数
+
+​
+
+- **屏幕精度 ppi=√x²+y²**
+
+X,Y 是设备横竖分辨率
+
+- **T = PT / ( 72 / PPI )**
+
+结合色彩对比度和设备移动速度，可得出一个 T 的最佳值
+
+T 必须为偶数，若不是偶数则增加 1 作为 T
+
+我们规定以「基准按钮」的文字字号为基准，每增大 2 个字号，则上下 padding 增加 2，左右 padding 增加 2
+
+可以得到如下计算公式：
+
+​
+
+![05.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt-for-button/0c4db7c0.png)
+
+![06.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt-for-button/04023688.png)
+
+## 操作方式因子
+
+![07.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt-for-button/e2bc7b3c.png)
+
+可视范围内，键鼠操作一般没有限制，所以我们暂定合理的可视尺寸即为鼠标操作的合适区域
+
+而同等视距和信息密度的情形下下，触控操作较之键鼠操作则要求更大的区域，也要求更为疏松的间距
+
+因此我们规定，在同等视距和信息密度的情况下，增加触控因子，则按钮的宽、高 padding 分别增加 k 和 z
+
+可以得到如下计算公式：
+
+![08.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt-for-button/eb02b36b.png)
+
+​
+
+已知端参数推荐
+
+![09.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt-for-button/e398c905.png)
+
+## 举例
+
+以视距为 45cm，屏幕尺寸为 10.2 英寸，分辨率为 810\*1080 的触控场景为例，推导一个合适的按钮
+
+​
+
+- 设定基准按钮：T=12，取 α=1，β=0.66
+
+![10.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt-for-button/db234818.png)
+
+- 由视距、屏幕显示精度、色彩对比度、设备移动状态等可得出该场景下字体大小的推荐范围为 17 ～ 43px，则取 T=18
+
+![11.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt-for-button/ce6593d4.png)
+
+- 以「基准按钮」的大小为基准，通过 T=18，可推导出在该视距和屏幕尺寸下一个较为合理的按钮大小
+
+![12.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt-for-button/c4aa77ce.png)
+
+- 基于当前条件，我们变为触控操作，考虑到该场景与 pad 端类似，我们选取 pad 端的横纵总量
+
+![13.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt-for-button/e56b6af8.png)
+
+![14.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt-for-button/9f69a39e.png)
+
+![15.png#](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt-for-button/8ceb6236.png)
