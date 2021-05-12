@@ -1,6 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 import styled from 'styled-components';
+import { Icon } from '@rexd/icon';
 import dayjs, { Dayjs } from '../../dayjs';
 import { AdaptivePopup } from '../overlays';
 import { Input } from '../input';
@@ -13,15 +14,32 @@ import { FormControlOnChangeHandler } from '../../types';
 
 const DATE_FORMAT = 'YYYY-MM-DD';
 const TIME_FORMAT = 'HH:mm:ss';
+const popupStyle = {
+  background: 'transparent',
+};
 
 const Wrapper = styled.div`
   display: inline-flex;
-  width: ${getToken('DateRangePicker.triggerWidth')};
   align-items: center;
+  vertical-align: middle;
+  width: ${getToken('DateRangePicker.triggerWidth')};
   border: var(--rex-borders-solid) ${getToken('Input.borderColor')};
   border-radius: var(--rex-radii-s);
   height: var(--rex-sizes-formHeights-m);
   overflow: hidden;
+
+  &:focus-within {
+    outline: 0;
+    box-shadow: 0 0 0 3px ${getToken('Input.borderColorFocus')};
+  }
+
+  &:hover {
+    border-color: ${getToken('Input.borderColorHover')};
+  }
+
+  > .rex-input:first-child {
+    flex: 0 0 ${getToken('DateRangePicker.startTriggerWidth')};
+  }
 `;
 
 function formatDateValue(strs: string[], format: string) {
@@ -68,7 +86,6 @@ export function DateRangePicker(props: DateRangePickerProps) {
     defaultValue,
     onChange = noop,
     getDisabledDate,
-    // @ts-ignore
     className,
     ...rest
   } = props;
@@ -83,7 +100,12 @@ export function DateRangePicker(props: DateRangePickerProps) {
     onChange: (val) => {
       const display1 = val[0] ? val[0].format(format) : undefined;
       const display2 = val[1] ? val[1].format(format) : undefined;
-      onChange([display1, display2], { data: val });
+
+      if (!display1 && !display2) {
+        onChange([], { data: [] });
+      } else {
+        onChange([display1, display2], { data: val });
+      }
     },
   });
 
@@ -95,6 +117,8 @@ export function DateRangePicker(props: DateRangePickerProps) {
   return (
     <Wrapper className={clazz} {...rest}>
       <AdaptivePopup
+        offset={[0, 2]}
+        style={popupStyle}
         visible={startVisible}
         onRequestOpen={onStartOpen}
         onRequestClose={onStartClose}
@@ -132,13 +156,14 @@ export function DateRangePicker(props: DateRangePickerProps) {
             return false;
           }}
           onOk={onStartClose}
-          onClose={onStartClose}
         />
       </AdaptivePopup>
       <Box as="span" color="text.note">
         -
       </Box>
       <AdaptivePopup
+        offset={[0, 2]}
+        style={popupStyle}
         visible={endVisible}
         onRequestClose={onEndClose}
         onRequestOpen={onEndOpen}
@@ -149,7 +174,10 @@ export function DateRangePicker(props: DateRangePickerProps) {
             placeholder={placeholder[1]}
             shape="simple"
             value={endValue ? endValue.format(format) : ''}
+            onClear={() => updateValue([])}
             readOnly
+            hasClear
+            rightElement={<Icon type="calendar" />}
           />
         )}
       >
@@ -175,7 +203,6 @@ export function DateRangePicker(props: DateRangePickerProps) {
             return false;
           }}
           onOk={onEndClose}
-          onClose={onEndClose}
         />
       </AdaptivePopup>
     </Wrapper>

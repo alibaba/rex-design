@@ -49,4 +49,6 @@ export { default as theme, extendTheme, getThemeValue } from './theme';
 export { default as darkTheme } from './theme-dark';
 export { default as phoneTheme } from './theme-phone';
 export { default as phoneDarkTheme } from './theme-phone-dark';
+export { default as tabletTheme } from './theme-tablet';
+export { default as tabletDarkTheme } from './theme-tablet-dark';
 export { default as dayjs } from './dayjs';

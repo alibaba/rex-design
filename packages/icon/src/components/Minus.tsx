@@ -10,7 +10,8 @@ const SvgMinus = (props: React.SVGProps<SVGSVGElement>, svgRef?: React.Ref<SVGSV
     ref={svgRef}
     {...props}
   >
-    <path d="M853.333 544H170.667c-17.067 0-32-14.933-32-32s14.933-32 32-32h682.666c17.067 0 32 14.933 32 32s-14.933 32-32 32z" />
+    <path d="M0 0h1024v1024H0z" fillOpacity={0.01} />
+    <path d="M821.333 480a32 32 0 013.072 63.85l-3.072.15H224a32 32 0 01-3.072-63.85L224 480h597.333z" />
   </svg>
 );
 

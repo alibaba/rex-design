@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
-import styled from 'styled-components';
 import dayjs, { Dayjs } from '../../dayjs';
 import { Box } from '../layout';
+import { Button } from '../button';
 import { DateTable } from './date-table';
 import { MonthTable } from './month-table';
 import { YearTable } from './year-table';
@@ -9,26 +9,8 @@ import { DateTableProvider } from './date-context';
 import { DatePanelMode, DateLocale, CheckDateFn } from './date-types';
 import { FormEventDetail } from '../../types';
 import { TimePanel, TimePanelProps } from '../time-picker/time-panel';
-import { TimePanelHeader } from './styled';
 import { getToken } from '../../utils';
 import { useDevice } from '../../providers';
-
-const Card = styled.div`
-  display: flex;
-  flex-direction: ${getToken('DatePicker.direction')};
-`;
-
-const DateBox = styled(Box)<any>`
-  flex: 1;
-  width: ${getToken('DatePicker.dateCardWidth')};
-  border-right: ${(props) => (props.$hasTime ? getToken('datePicker.dateCardBorderRight') : undefined)};
-  padding: var(--rex-space-m);
-`;
-
-const TimeBox = styled(Box)`
-  padding: var(--rex-space-m);
-  width: ${getToken('DatePicker.timeCardWidth')};
-`;
 
 interface GetVisibleMonthOption {
   value?: Dayjs;
@@ -100,9 +82,9 @@ export interface DateCardProps {
    */
   getDisabledDate?: CheckDateFn;
   /**
-   * 点击关闭按钮时的回调
+   * 点击确认按钮时的回调
    */
-  onClose?: () => void;
+  onOk?: () => void;
 }
 
 export function DateCard(props: DateCardProps) {
@@ -116,7 +98,7 @@ export function DateCard(props: DateCardProps) {
     getDefaultVisibleMonth = defaultGetVisibleMonth,
     getDisabledDate = defaultGetDisabledDate,
     onSelect,
-    onClose,
+    onOk,
   } = props;
   const { device } = useDevice();
   const [mode, setMode] = useState('date'); // date, month, year
@@ -138,9 +120,6 @@ export function DateCard(props: DateCardProps) {
     check: (fn: any) => {
       return fn({ format, today, startValue, endValue, visibleMonth });
     },
-    onSelectTime: (date: Dayjs) => {
-      onSelect(date);
-    },
     onSelectDate: (date: Dayjs, payload: FormEventDetail) => {
       if (!date.isSame(visibleMonth, 'month')) {
         setVisibleMonth(date);
@@ -161,32 +140,71 @@ export function DateCard(props: DateCardProps) {
     getDisabledDate,
   };
 
-  let timeRows = 6;
-  let renderTimeHeader = () => <TimePanelHeader />;
-  let hasClose = false;
+  const handleTimeChange = (date: Dayjs) => {
+    const existValue = timeValue || dayjs();
+    const fixedDate = existValue.hour(date.hour()).minute(date.minute()).second(date.second());
+    onSelect(fixedDate);
+  };
+
+  let panelDirection = 'row';
+  let timeRows = 9;
+  let timeBoxProps = {};
 
   if (device.alias === 's') {
+    panelDirection = 'column';
     timeRows = 3;
-    renderTimeHeader = () => null;
-    hasClose = true;
+    timeBoxProps = {
+      borderTop: 'solid',
+      borderTopColor: 'emphasis.30',
+    };
   }
+
+  // TODO: 快捷调用
+
+  const timePanelMode = timeProps?.mode || 'simple';
+  const timePanelWidth =
+    timePanelMode === 'simple'
+      ? getToken('DatePicker.simpleTimeCardWidth')
+      : getToken('DatePicker.normalTimeCardWidth');
 
   return (
     <DateTableProvider value={context}>
-      <Card>
-        <DateBox $hasTime={hasTime}>
-          {mode === 'date' && (
-            <DateTable visibleMonth={visibleMonth} locale={dateLocale} hasClose={hasClose} onClose={onClose} />
-          )}
+      <Box display="flex" flexDirection={panelDirection as any} py="l">
+        <Box>
+          {mode === 'date' && <DateTable visibleMonth={visibleMonth} locale={dateLocale} />}
           {mode === 'month' && <MonthTable visibleMonth={visibleMonth} locale={dateLocale} />}
-          {mode === 'year' && <YearTable visibleMonth={visibleMonth} />}
-        </DateBox>
-        {hasTime && (
-          <TimeBox>
-            <TimePanel rows={timeRows} value={timeValue} renderHeader={renderTimeHeader} mode="simple" {...timeProps} />
-          </TimeBox>
+          {mode === 'year' && <YearTable visibleMonth={visibleMonth} locale={dateLocale} />}
+        </Box>
+        {hasTime && mode === 'date' && (
+          <Box width={timePanelWidth} {...timeBoxProps}>
+            <TimePanel rows={timeRows} value={timeValue} mode="simple" onChange={handleTimeChange} {...timeProps} />
+          </Box>
         )}
-      </Card>
+      </Box>
+      {hasTime && <DatePanelFooter onOk={onOk} />}
     </DateTableProvider>
+  );
+}
+
+interface DatePanelFooterProps {
+  // leftElement?: React.ReactNode;
+  onOk?: React.MouseEventHandler<HTMLButtonElement>;
+}
+
+function DatePanelFooter(props: DatePanelFooterProps) {
+  const { onOk } = props;
+  const { device } = useDevice();
+
+  return (
+    <Box px="m" pb="m" textAlign="right">
+      <Button
+        isFullWidth={device.alias === 's'}
+        size={device.alias === 's' ? 'medium' : 'small'}
+        type="primary"
+        onClick={onOk}
+      >
+        确认
+      </Button>
+    </Box>
   );
 }

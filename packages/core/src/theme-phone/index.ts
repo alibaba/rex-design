@@ -13,35 +13,51 @@ export default extendTheme({
 
   sizes: {
     formHeights: {
-      s: '32px',
-      m: '40px',
+      s: '30px',
+      m: '41px',
       l: '48px',
-      xl: '52px',
     },
   },
 
   components: {
+    Button: {
+      spx: '12px',
+      mpx: '14px',
+      lpx: '16px',
+
+      sFontSize: '13px',
+      mFontSize: '14px',
+      lFontSize: '16px',
+
+      sIconSize: '15px',
+      mIconSize: '16px',
+      lIconSize: '18px',
+    },
+
     Input: {
       width: '100%',
+      elementFontSize: '16px',
     },
 
     TimePicker: {
       triggerWidth: '100%',
-      panelWidth: '90vw',
+      normalPanelWidth: '90vw',
+      simplePanelWidth: '90vw',
       panelMenuItemHeight: '40px', // 需要保持和日期组件的格子一样大
     },
 
     DatePicker: {
       triggerWidth: '100%',
-      direction: 'column',
-      dateCardWidth: '90vw',
-      timeCardWidth: '90vw',
-      dateCellHeight: '40px',
-      dateCardBorderRight: '0',
+      normalTimeCardWidth: '90vw',
+      simpleTimeCardWidth: '90vw',
+      monthCardWidth: '90vw',
+      dateCellSize: '40px',
+      dateCellDotSize: '6px',
     },
 
     DateRangePicker: {
       triggerWidth: '100%',
+      startTriggerWidth: '45%',
     },
 
     FilePicker: {
@@ -61,11 +77,21 @@ export default extendTheme({
     },
 
     Switch: {
-      width: '42px',
-      height: '22px',
+      small: {
+        width: '44px',
+        height: '24px',
+        trackHeight: '14px',
+        sliderOffsetTop: '5px',
+        sliderCheckedTransform: 'translateX(20px)',
+      },
 
-      sliderSize: '22px',
-      sliderCheckedTransform: 'translateX(20px)',
+      medium: {
+        width: '60px',
+        height: '32px',
+        trackHeight: '20px',
+        sliderOffsetTop: '6px', // (height - trackHeight)/2
+        sliderCheckedTransform: 'translateX(28px)',
+      },
     },
 
     Tree: {

@@ -1,4 +1,4 @@
-import React, { StrictMode, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { StyleSheetManager } from 'styled-components';
 import {
   AppProvider,
@@ -10,6 +10,8 @@ import {
   darkTheme,
   phoneTheme,
   phoneDarkTheme,
+  tabletTheme,
+  tabletDarkTheme,
   extendTheme,
 } from '@rexd/core';
 
@@ -51,10 +53,8 @@ function getTheme(deviceName, colorMode, themeMode) {
     'desktop.dark': darkTheme,
     'phone.light': phoneTheme,
     'phone.dark': phoneDarkTheme,
-
-    // TODO: add default pad theme
-    'tablet.light': defaultTheme,
-    'tablet.dark': darkTheme,
+    'tablet.light': tabletTheme,
+    'tablet.dark': tabletDarkTheme,
   }[`${deviceName}.${colorMode}`];
 
   if (themeMode === 'local') {
@@ -79,10 +79,10 @@ export const parameters = {
         },
       },
       phone: {
-        name: 'iPhone 5/SE',
+        name: 'iPhone 6/7/8',
         styles: {
-          height: '568px',
-          width: '320px',
+          height: '667px',
+          width: '375px',
         },
       },
     },

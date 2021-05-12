@@ -1,5 +1,17 @@
 const components = {
   Button: {
+    spx: '12px',
+    mpx: '12px',
+    lpx: '14px',
+
+    sFontSize: '12px',
+    mFontSize: '12px',
+    lFontSize: '14px',
+
+    sIconSize: '14px',
+    mIconSize: '14px',
+    lIconSize: '16px',
+
     textPrimary: 'colors.emphasis.0',
     bgPrimary: 'colors.brand.normal',
     borderColorPrimary: 'colors.brand.normal',
@@ -12,29 +24,35 @@ const components = {
     bgPrimaryActive: 'colors.brand.active',
     borderColorPrimaryActive: 'colors.brand.active',
 
+    outlinePrimary: 'rgba(56, 98, 207, .1)',
+
     textSecondary: 'colors.brand.normal',
     bgSecondary: 'colors.emphasis.0',
     borderColorSecondary: 'colors.brand.normal',
 
     textSecondaryHover: 'colors.emphasis.0',
-    bgSecondaryHover: 'colors.primary.40',
-    borderColorSecondaryHover: 'colors.primary.40',
+    bgSecondaryHover: 'colors.brand.normal',
+    borderColorSecondaryHover: 'colors.brand.normal',
 
     textSecondaryActive: 'colors.emphasis.0',
-    bgSecondaryActive: 'colors.brand.normal',
-    borderColorSecondaryActive: 'colors.brand.normal',
+    bgSecondaryActive: 'colors.primary.60',
+    borderColorSecondaryActive: 'colors.primary.60',
+
+    outlineSecondary: 'rgba(56, 98, 207, .1)',
 
     textNormal: 'colors.text.body',
     bgNormal: 'colors.emphasis.0',
     borderColorNormal: 'colors.line.normal',
 
     textNormalHover: 'colors.emphasis.0',
-    bgNormalHover: 'colors.emphasis.50',
-    borderColorNormalHover: 'colors.emphasis.50',
+    bgNormalHover: 'colors.emphasis.70',
+    borderColorNormalHover: 'colors.emphasis.70',
 
     textNormalActive: 'colors.emphasis.0',
-    bgNormalActive: 'colors.emphasis.70',
-    borderColorNormalActive: 'colors.emphasis.70',
+    bgNormalActive: 'colors.emphasis.80',
+    borderColorNormalActive: 'colors.emphasis.80',
+
+    outlineNormal: 'rgba(67, 67, 67, .1)',
 
     /**
      * @label 禁用文本色
@@ -43,11 +61,11 @@ const components = {
     /**
      * @label 禁用背景色
      */
-    bgDisabled: 'colors.fill.disabled',
+    bgDisabled: 'colors.emphasis.10',
     /**
      * @label 禁用边框色
      */
-    borderColorDisabled: 'colors.line.disabled',
+    borderColorDisabled: 'colors.emphasis.10',
   },
 
   TextButton: {
@@ -94,6 +112,8 @@ const components = {
     textNormalActive: 'colors.emphasis.0',
     bgNormalActive: 'colors.error.active',
     borderColorNormalActive: 'colors.error.active',
+
+    outline: 'rgba(235, 65, 65, .3)',
   },
 
   IconButton: {
@@ -107,16 +127,20 @@ const components = {
     textColorHover: 'colors.emphasis.90',
   },
 
-  FormControl: {},
-
   Input: {
     width: '240px',
 
     borderColor: 'colors.line.border',
-    borderColorHover: 'colors.brand.normal',
-    borderColorFocus: 'colors.brand.normal',
-    borderColorDisabled: 'colors.line.disabled',
+    borderColorHover: 'colors.brand.hover',
+    borderColorFocus: 'rgba(56, 98, 207, .1)',
+    borderColorDisabled: 'colors.fill.disabled',
+
     borderColorError: 'colors.error.normal',
+    borderColorErrorFocus: 'rgba(235, 65, 65, .1)',
+    borderColorWarning: 'colors.warning.normal',
+    borderColorWarningFocus: 'rgba(255, 169, 0, .1)',
+    borderColorSuccess: 'colors.success.normal',
+    borderColorSuccessFocus: 'rgba(50, 179, 87, .1)',
 
     textColor: 'colors.text.body',
     textColorDisabled: 'colors.text.disabled',
@@ -124,29 +148,32 @@ const components = {
     bg: 'transparent',
     bgDisabled: 'colors.fill.disabled',
 
-    addonBg: 'colors.fill.layer2',
+    addonBg: 'colors.primary.10',
     addonTextColor: 'colors.text.body',
 
     elementTextColor: 'colors.text.body',
+    elementFontSize: '16px', // body * 1.5
   },
 
   TimePicker: {
-    triggerWidth: '180px',
-    panelWidth: '200px',
+    triggerWidth: '200px',
+    normalPanelWidth: '200px',
+    simplePanelWidth: '200px',
     panelMenuItemHeight: '28px', // 需要保持和日期组件的格子一样大
   },
 
   DatePicker: {
-    triggerWidth: '180px',
-    direction: 'row',
-    dateCardWidth: '280px',
-    timeCardWidth: '200px',
-    dateCellHeight: '28px',
-    dateCardBorderRight: '1px solid var(--rex-colors-line-border)',
+    triggerWidth: '196px',
+    normalTimeCardWidth: '196px',
+    simpleTimeCardWidth: '136px',
+    monthCardWidth: '230px',
+    dateCellSize: '28px',
+    dateCellDotSize: '4px',
   },
 
   DateRangePicker: {
-    triggerWidth: '292px',
+    triggerWidth: '342px',
+    startTriggerWidth: '144px',
   },
 
   FilePicker: {
@@ -166,11 +193,21 @@ const components = {
   },
 
   Switch: {
-    width: '30px', // height * 2 - 2
-    height: '16px',
+    small: {
+      width: '32px',
+      height: '18px',
+      trackHeight: '14px',
+      sliderOffsetTop: '2px',
+      sliderCheckedTransform: 'translateX(15px)',
+    },
 
-    sliderSize: '16px',
-    sliderCheckedTransform: 'translateX(14px)', // size - 2
+    medium: {
+      width: '48px',
+      height: '26px',
+      trackHeight: '20px',
+      sliderOffsetTop: '3px', // (height - trackHeight)/2
+      sliderCheckedTransform: 'translateX(22px)',
+    },
   },
 
   Tree: {

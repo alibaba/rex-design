@@ -6,12 +6,21 @@ import { Dict } from '../../types';
 import { space, getToken } from '../../utils';
 import { Loading } from '../loading';
 
-const buttonSize = (height?: string, px?: string, fontSize?: string) => {
+const buttonSize = (height?: string, px?: string, fontSize?: string, iconSize?: string) => {
   return `
     font-size: ${fontSize};
     height: ${height};
     padding-left: ${px};
     padding-right: ${px};
+
+    svg {
+      font-size: ${iconSize};
+    }
+
+    &.rex-btn-iconOnly {
+      width: ${height};
+      padding: 0;
+    }
   `;
 };
 
@@ -27,6 +36,7 @@ const buttonType = (
   selectedColor?: StringOrNull,
   selectedBg?: StringOrNull,
   selectedBorderColor?: StringOrNull,
+  foucsOutline?: StringOrNull,
 ) => {
   return `
     color: ${textColor};
@@ -40,7 +50,8 @@ const buttonType = (
     }
 
     &:focus {
-      outline: 2px auto ${selectedBorderColor};
+      outline: 0;
+      box-shadow: 0 0 0 3px ${foucsOutline};
     }
 
     &.rex-selected {
@@ -51,7 +62,7 @@ const buttonType = (
   `;
 };
 
-const SystemButton = styled(OneButton)<Dict<any>>`
+const StyledButton = styled(OneButton)<any>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -60,24 +71,46 @@ const SystemButton = styled(OneButton)<Dict<any>>`
   vertical-align: middle;
   user-select: none;
   cursor: pointer;
-  width: ${(props: Dict) => (props.$isFullWidth ? '100%' : null)};
-  border-radius: var(--rex-radii-m);
+  width: ${(props: any) => (props.$isFullWidth ? '100%' : null)};
+  border-radius: var(--rex-radii-s);
   border: var(--rex-borders-solid);
+  transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
 
   svg {
     vertical-align: middle;
   }
 
+  .rext-btn-children {
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+  }
+
   &.rex-btn-small {
-    ${buttonSize('var(--rex-sizes-formHeights-s)', 'var(--rex-space-l)', 'var(--rex-fontSizes-body)')}
+    ${buttonSize(
+      'var(--rex-sizes-formHeights-s)',
+      getToken('Button.spx'),
+      getToken('Button.sFontSize'),
+      getToken('Button.sIconSize'),
+    )}
   }
 
   &.rex-btn-medium {
-    ${buttonSize('var(--rex-sizes-formHeights-m)', 'var(--rex-space-xl)', 'var(--rex-fontSizes-body)')}
+    ${buttonSize(
+      'var(--rex-sizes-formHeights-m)',
+      getToken('Button.mpx'),
+      getToken('Button.mFontSize'),
+      getToken('Button.mIconSize'),
+    )}
   }
 
   &.rex-btn-large {
-    ${buttonSize('var(--rex-sizes-formHeights-l)', 'var(--rex-space-xxl)', 'var(--rex-fontSizes-title)')}
+    ${buttonSize(
+      'var(--rex-sizes-formHeights-l)',
+      getToken('Button.lpx'),
+      getToken('Button.lFontSize'),
+      getToken('Button.lIconSize'),
+    )}
   }
 
   &.rex-btn-link {
@@ -87,8 +120,17 @@ const SystemButton = styled(OneButton)<Dict<any>>`
     background: transparent;
   }
 
+  &.rex-btn-loading {
+    .rext-btn-children {
+      opacity: 0;
+    }
+
+    .rex-loading {
+      position: absolute;
+    }
+  }
+
   &.rex-disabled {
-    opacity: 0.4;
     cursor: not-allowed;
     pointer-events: none;
   }
@@ -111,6 +153,7 @@ const SystemButton = styled(OneButton)<Dict<any>>`
       getToken('Button.textPrimaryActive'),
       getToken('Button.bgPrimaryActive'),
       getToken('Button.borderColorPrimaryActive'),
+      getToken('Button.outlinePrimary'),
     )}
   }
 
@@ -125,6 +168,7 @@ const SystemButton = styled(OneButton)<Dict<any>>`
       getToken('Button.textSecondaryActive'),
       getToken('Button.bgSecondaryActive'),
       getToken('Button.borderColorSecondaryActive'),
+      getToken('Button.outlineSecondary'),
     )}
   }
 
@@ -139,6 +183,7 @@ const SystemButton = styled(OneButton)<Dict<any>>`
       getToken('Button.textNormalActive'),
       getToken('Button.bgNormalActive'),
       getToken('Button.borderColorNormalActive'),
+      getToken('Button.outlineNormal'),
     )}
   }
 
@@ -162,6 +207,7 @@ const SystemButton = styled(OneButton)<Dict<any>>`
       getToken('TextButton.colorPrimaryActive'),
       getToken('TextButton.bgPrimaryActive'),
       undefined,
+      undefined,
     )};
   }
 
@@ -175,6 +221,7 @@ const SystemButton = styled(OneButton)<Dict<any>>`
       undefined,
       getToken('TextButton.colorNormalActive'),
       getToken('TextButton.bgNormalActive'),
+      undefined,
       undefined,
     )};
   }
@@ -198,6 +245,7 @@ const SystemButton = styled(OneButton)<Dict<any>>`
       getToken('WarningButton.textNormalActive'),
       getToken('WarningButton.bgNormalActive'),
       getToken('WarningButton.borderColorNormalActive'),
+      getToken('WarningButton.outline'),
     )}
   }
 
@@ -212,6 +260,7 @@ const SystemButton = styled(OneButton)<Dict<any>>`
       getToken('WarningButton.textPrimaryActive'),
       getToken('WarningButton.bgPrimaryActive'),
       getToken('WarningButton.borderColorPrimaryActive'),
+      getToken('WarningButton.outline'),
     )}
   }
 `;
@@ -223,12 +272,27 @@ const IconBox = styled(View)<Dict<any>>`
   margin-right: ${(props) => space(props.mr)};
 `;
 
+const formatChildren = (text: any) => {
+  // 如果是两个汉字的话，给汉字间加空格
+  if (typeof text === 'string' && /^[\u3400-\u9FBF]{2}$/.test(text)) {
+    const list = text.split('');
+    list.splice(1, 0, ' ');
+    return list.join('');
+  }
+
+  return text;
+};
+
 export interface ButtonProps extends Omit<React.ComponentPropsWithRef<'button'>, 'type'> {
   shape?: 'solid' | 'text' | 'link' | 'ghost' | 'warning';
   type?: 'primary' | 'secondary' | 'normal';
   size?: 'small' | 'medium' | 'large';
   htmlType?: 'button' | 'submit' | 'reset';
   isFullWidth?: boolean;
+  /**
+   * 是否为纯图标按钮
+   */
+  isIconOnly?: boolean;
   isSelected?: boolean;
   loading?: boolean;
   className?: string;
@@ -243,22 +307,24 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>((props, r
     size = 'medium',
     htmlType = 'button',
     isFullWidth = false,
+    isIconOnly = false,
     isSelected = false,
     loading,
-    disabled: disabledProp,
+    disabled,
     className,
-    leftElement: leftIconProp,
+    leftElement,
     rightElement,
     children,
     ...others
   } = props;
 
-  const disabled = loading || disabledProp;
-  const leftIcon = loading ? <Loading /> : leftIconProp;
+  const loadingIcon = loading ? <Loading /> : null;
 
   const clazz = cx(
     {
       'rex-btn': true,
+      'rex-btn-loading': loading,
+      'rex-btn-iconOnly': isIconOnly,
       [`rex-btn-${shape}`]: shape,
       [`rex-btn-${type}`]: type,
       [`rex-btn-${size}`]: size,
@@ -268,19 +334,24 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>((props, r
     className,
   );
 
+  const shouldFormatChildren = ['solid', 'warning'].includes(shape) && !leftElement && !rightElement;
+
   return (
-    <SystemButton className={clazz} $isFullWidth={isFullWidth} type={htmlType} ref={ref} {...others}>
-      {leftIcon && (
-        <IconBox as="span" mr={children ? 's' : 0}>
-          {leftIcon}
-        </IconBox>
-      )}
-      {children}
-      {rightElement && (
-        <IconBox as="span" ml={children ? 's' : 0}>
-          {rightElement}
-        </IconBox>
-      )}
-    </SystemButton>
+    <StyledButton className={clazz} $isFullWidth={isFullWidth} type={htmlType} ref={ref} {...others}>
+      {loadingIcon}
+      <span className="rext-btn-children">
+        {leftElement && (
+          <IconBox as="span" mr={children ? 'm' : 0}>
+            {leftElement}
+          </IconBox>
+        )}
+        {shouldFormatChildren ? formatChildren(children) : children}
+        {rightElement && (
+          <IconBox as="span" ml={children ? 'm' : 0}>
+            {rightElement}
+          </IconBox>
+        )}
+      </span>
+    </StyledButton>
   );
 });

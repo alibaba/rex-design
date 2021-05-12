@@ -15,7 +15,7 @@ export interface UseInputProps {
   onClear?: () => void;
   hasClear?: boolean;
   shape?: 'solid' | 'simple';
-  status?: 'error' | 'success';
+  status?: 'error' | 'success' | 'warning';
   readOnly?: boolean;
   disabled?: boolean;
   placeholder?: string;
@@ -77,7 +77,8 @@ export function useInput(props: UseInputProps) {
 
   const getClearButtonProps = useCallback(() => {
     return {
-      onClick: () => {
+      onClick: (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.stopPropagation();
         updateValue('');
         onClear();
       },

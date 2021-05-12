@@ -1,9 +1,12 @@
 import React, { useMemo } from 'react';
 import cx from 'classnames';
-import { Dayjs } from '../../dayjs';
-import { Box } from '../layout';
+import dayjs, { Dayjs } from '../../dayjs';
+import { Box, Flex } from '../layout';
+import { Button } from '../button';
 import { DateList } from './styled';
 import { useDateTableContext } from './date-context';
+import { getToken } from '../../utils';
+import { DateLocale } from './date-types';
 
 const getYearList = (visibleMonth: Dayjs) => {
   const startYearOfList = visibleMonth.startOf('year').add(-7, 'year');
@@ -21,16 +24,37 @@ const getYearList = (visibleMonth: Dayjs) => {
 
 interface YearTableProps {
   visibleMonth: Dayjs;
+  locale?: DateLocale;
 }
 
 export function YearTable(props: YearTableProps) {
-  const { visibleMonth } = props;
+  const { visibleMonth, locale } = props;
+  const ctx = useDateTableContext();
+
   const yearList = useMemo(() => {
     return getYearList(visibleMonth);
   }, [visibleMonth]);
 
+  const selectCurrent = () => {
+    const current = dayjs();
+    ctx.onSelectMonth(current);
+    ctx.onChangeMode('month');
+  };
+
+  const selectMonth = () => {
+    ctx.onChangeMode('month');
+  };
+
   return (
-    <Box>
+    <Box px="l" width={getToken('DatePicker.monthCardWidth')}>
+      <Flex justify="space-between" mb="m">
+        <Button shape="text" size="small" onClick={selectMonth}>
+          {locale.months[visibleMonth.month()]}
+        </Button>
+        <Button shape="text" type="primary" size="small" onClick={selectCurrent}>
+          今年
+        </Button>
+      </Flex>
       <DateList>
         {yearList.map((item: Dayjs) => {
           const display = item.format('YYYY');
@@ -72,7 +96,7 @@ function YearCell(props: YearCellProps) {
 
   const handleClick = (e: any) => {
     ctx.onSelectYear(date, { event: e });
-    ctx.onChangeMode('date');
+    ctx.onChangeMode('month');
   };
 
   return (

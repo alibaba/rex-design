@@ -1,5 +1,6 @@
 import React from 'react';
 import cx from 'classnames';
+import { Icon } from '@rexd/icon';
 import dayjs, { Dayjs } from '../../dayjs';
 import { AdaptivePopup } from '../overlays';
 import { Input } from '../input';
@@ -11,6 +12,10 @@ import { FormControlOnChangeHandler } from '../../types';
 
 const DATE_FORMAT = 'YYYY-MM-DD';
 const TIME_FORMAT = 'HH:mm:ss';
+
+const popupStyle = {
+  background: 'transparent',
+};
 
 function formatDateValue(str: string, format: string) {
   if (str) {
@@ -41,8 +46,6 @@ export interface DatePickerProps extends DatePickerSharedProps {
    */
   onChange?: FormControlOnChangeHandler<string>;
   status?: string;
-  style?: React.CSSProperties;
-  className?: string;
 }
 
 export function DatePicker(props: DatePickerProps) {
@@ -67,7 +70,7 @@ export function DatePicker(props: DatePickerProps) {
     value: formatDateValue(valueProp, format),
     defaultValue: formatDateValue(defaultValue, format),
     onChange: (date: Dayjs) => {
-      const display = date.format(format);
+      const display = date ? date.format(format) : '';
       onChange(display, { data: date });
     },
   });
@@ -78,6 +81,8 @@ export function DatePicker(props: DatePickerProps) {
   return (
     <AdaptivePopup
       {...popupProps}
+      offset={[0, 2]}
+      style={popupStyle}
       visible={visible}
       onRequestClose={onClose}
       onRequestOpen={onOpen}
@@ -90,8 +95,11 @@ export function DatePicker(props: DatePickerProps) {
           className={cx('rex-date-picker', className)}
           placeholder={placeholder}
           value={display}
+          onClear={() => updateValue(null)}
           status={status}
           readOnly
+          hasClear
+          rightElement={<Icon type="calendar" />}
         />
       )}
     >
@@ -106,7 +114,6 @@ export function DatePicker(props: DatePickerProps) {
           }
         }}
         onOk={onClose}
-        onClose={onClose}
         {...restProps}
       />
     </AdaptivePopup>

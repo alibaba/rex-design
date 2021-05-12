@@ -9,11 +9,13 @@ import { getToken } from '../../utils';
 const InputWrapper = styled(Box)`
   display: inline-flex;
   position: relative;
+  vertical-align: middle;
   font-size: var(--rex-fontSizes-body);
   color: ${getToken('Input.textColor')};
   background-color: ${getToken('Input.bg')};
   height: var(--rex-sizes-formHeights-m);
   width: ${(props) => props.width || getToken('Input.width')};
+  padding-left: var(--rex-space-l);
 
   input {
     flex: 1;
@@ -23,8 +25,6 @@ const InputWrapper = styled(Box)`
     height: 100%;
     width: 100%;
     padding: 0;
-    margin-left: var(--rex-space-m);
-    margin-right: var(--rex-space-m);
     background: transparent;
     color: inherit;
   }
@@ -34,7 +34,8 @@ const InputWrapper = styled(Box)`
     border-radius: var(--rex-radii-s);
 
     &:focus-within {
-      outline: 2px auto ${getToken('Input.borderColorFocus')};
+      outline: 0;
+      box-shadow: 0 0 0 3px ${getToken('Input.borderColorFocus')};
     }
 
     &:hover {
@@ -43,6 +44,27 @@ const InputWrapper = styled(Box)`
 
     &.rex-error {
       border-color: ${getToken('Input.borderColorError')};
+
+      &:focus-within {
+        box-shadow: 0 0 0 3px ${getToken('Input.borderColorErrorFocus')};
+      }
+    }
+
+    &.rex-warning {
+      border-color: ${getToken('Input.borderColorWarning')};
+
+      &:focus-within {
+        box-shadow: 0 0 0 3px ${getToken('Input.borderColorWarningFocus')};
+      }
+      /* outline-color: ${getToken('Input.borderColorWarning')}; */
+    }
+
+    &.rex-success {
+      border-color: ${getToken('Input.borderColorSuccess')};
+
+      &:focus-within {
+        box-shadow: 0 0 0 3px ${getToken('Input.borderColorSuccessFocus')};
+      }
     }
   }
 
@@ -56,33 +78,52 @@ const InputWrapper = styled(Box)`
     color: ${getToken('Input.textColorDisabled')};
     border-color: ${getToken('Input.borderColorDisabled')};
     background-color: ${getToken('Input.bgDisabled')};
+    /* safari */
+    -webkit-text-fill-color: ${getToken('Input.textColorDisabled')};
   }
+`;
+
+const Center = styled(Box)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 export interface InputProps extends UseInputProps {
   leftElement?: React.ReactNode;
   rightElement?: React.ReactNode;
+  renderRightElement?: () => React.ReactNode;
   hasClear?: boolean;
   inputRef?: React.RefObject<HTMLInputElement>;
 }
 
 export const Input = React.forwardRef<HTMLDivElement, InputProps>((props, ref) => {
-  const { leftElement, rightElement, ...rest } = props;
+  const { leftElement, rightElement, renderRightElement, ...rest } = props;
   const { hasClear, getRootProps, getInputProps, getClearButtonProps } = useInput(rest);
   const rootProps = getRootProps();
   const inputProps = getInputProps();
   const clearProps = getClearButtonProps();
 
-  const hasRightElement = rightElement || hasClear;
+  const hasRightElement = rightElement || renderRightElement || hasClear;
+  const renderRight =
+    typeof renderRightElement === 'function'
+      ? renderRightElement
+      : () => {
+          return rightElement ? (
+            <Center ml={hasClear ? 'm' : 0} mr="l">
+              {rightElement}
+            </Center>
+          ) : null;
+        };
 
   return (
     <InputWrapper ref={ref} {...rootProps}>
-      {leftElement && <InputElement>{leftElement}</InputElement>}
+      {leftElement && <InputElement mr="s">{leftElement}</InputElement>}
       <input {...inputProps} />
       {hasRightElement ? (
         <InputElement>
-          {hasClear && <ClearButton {...clearProps} />}
-          {rightElement}
+          {hasClear && <ClearButton mr={rightElement ? 0 : 'l'} {...clearProps} />}
+          {renderRight()}
         </InputElement>
       ) : null}
     </InputWrapper>
@@ -91,7 +132,7 @@ export const Input = React.forwardRef<HTMLDivElement, InputProps>((props, ref) =
 
 function ClearButton(props: BoxProps) {
   return (
-    <Box px="m" height="100%" display="inline-flex" alignItems="center" {...props}>
+    <Box height="100%" display="inline-flex" alignItems="center" {...props}>
       <Icon type="delete-filling" />
     </Box>
   );

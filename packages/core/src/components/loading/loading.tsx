@@ -8,7 +8,7 @@ const LoadingBox = styled(Box)`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: var(--rex-colors-text-body);
+  /* color: var(--rex-colors-text-body); */
 
   > .rex-rotate {
     animation: rotate 1250ms linear infinite both;

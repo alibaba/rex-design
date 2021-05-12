@@ -1,14 +1,13 @@
 import cx from 'classnames';
 import React, { useMemo } from 'react';
 import { useGesture } from 'react-use-gesture';
-import styled from 'styled-components';
 import { Icon } from '@rexd/icon';
 import { Dayjs } from '../../dayjs';
-import { getToken } from '../../utils';
 import { Box, Flex, FlexItem } from '../layout';
 import { useDateTableContext } from './date-context';
 import { DateLocale } from './date-types';
-import { DateLinkButton } from './styled';
+import { StyledTable, StyledRow, StyledHeadCell, StyledCell, StyledCellContent } from './styled';
+import { Button } from '../button';
 
 /**
  * 获得日期的二维数组列表
@@ -58,25 +57,13 @@ const getDateList = (visibleMonth: Dayjs) => {
   return list2d;
 };
 
-const StyledTable = styled.table`
-  user-select: none;
-  border-collapse: collapse;
-  width: 100%;
-  font-size: var(--rex-fontSizes-body);
-  color: var(--rex-colors-text-body);
+const arrowButtonStyle = {
+  padding: 0,
+};
 
-  thead {
-    background-color: var(--rex-colors-fill-layer1);
-  }
-
-  th {
-    padding: 4px 0;
-  }
-
-  td {
-    padding: 0;
-  }
-`;
+const monthButtonStyle = {
+  padding: '0 4px',
+};
 
 export interface DateTableProps {
   /**
@@ -98,7 +85,7 @@ export interface DateTableProps {
 }
 
 export function DateTable(props: DateTableProps) {
-  const { hasClose, onClose, visibleMonth, locale } = props;
+  const { visibleMonth, locale } = props;
   const ctx = useDateTableContext();
 
   const bind = useGesture({
@@ -117,60 +104,60 @@ export function DateTable(props: DateTableProps) {
 
   return (
     <Box>
-      <Flex justify="space-between">
-        {hasClose && (
-          <DateLinkButton onClick={onClose}>
-            <Icon type="close" />
-          </DateLinkButton>
-        )}
+      <Flex justify="space-between" align="center" px="m" pb="m">
         <FlexItem flex="unset">
-          <DateLinkButton
+          <Button
+            shape="text"
+            size="small"
             onClick={() => {
               ctx.onChangeMode('year');
             }}
           >
-            {visibleMonth.year()}
-          </DateLinkButton>
-          <DateLinkButton onClick={() => ctx.onSelectMonth(visibleMonth.add(-1, 'month'))}>
+            {visibleMonth.year()}年
+          </Button>
+          <Button shape="text" size="small" isIconOnly onClick={() => ctx.onSelectMonth(visibleMonth.add(-1, 'month'))}>
             <Icon type="arrow-left-bold" />
-          </DateLinkButton>
-          <DateLinkButton onClick={() => ctx.onChangeMode('month')}>
+          </Button>
+          <Button shape="text" size="small" style={monthButtonStyle} onClick={() => ctx.onChangeMode('month')}>
             {locale.months[visibleMonth.month()]}
-          </DateLinkButton>
-          <DateLinkButton onClick={() => ctx.onSelectMonth(visibleMonth.add(1, 'month'))}>
+          </Button>
+          <Button shape="text" size="small" isIconOnly onClick={() => ctx.onSelectMonth(visibleMonth.add(1, 'month'))}>
             <Icon type="arrow-right-bold" />
-          </DateLinkButton>
+          </Button>
         </FlexItem>
-        <FlexItem flex="unset">
-          <DateLinkButton
-            onClick={() => {
-              ctx.onSelectMonth(ctx.today.clone());
-              ctx.onSelectDate(ctx.today.clone());
-            }}
-          >
-            今日
-          </DateLinkButton>
-        </FlexItem>
+        <Button
+          shape="text"
+          size="small"
+          type="primary"
+          onClick={() => {
+            ctx.onSelectMonth(ctx.today.clone());
+            ctx.onSelectDate(ctx.today.clone());
+          }}
+        >
+          今日
+        </Button>
       </Flex>
       <StyledTable {...bind()}>
-        <thead>
-          <tr>
+        <Box className="rex-date-table-header" bg="emphasis.20" px="l">
+          <StyledRow>
             {locale.weekdays.map((item: string) => (
-              <th key={item}>{item}</th>
+              <StyledHeadCell key={item}>
+                <StyledCellContent>{item}</StyledCellContent>
+              </StyledHeadCell>
             ))}
-          </tr>
-        </thead>
-        <tbody>
+          </StyledRow>
+        </Box>
+        <Box className="rex-date-table-body" px="l">
           {dateList.map((dateRow) => (
             <DateRow key={dateRow[0].week()} items={dateRow} />
           ))}
-        </tbody>
+        </Box>
       </StyledTable>
     </Box>
   );
 }
 
-interface DateRowProps extends React.ComponentProps<'tr'> {
+interface DateRowProps extends React.ComponentPropsWithoutRef<'div'> {
   items?: Dayjs[];
 }
 
@@ -179,67 +166,18 @@ function DateRow(props: DateRowProps) {
   const ctx = useDateTableContext();
 
   return (
-    <tr {...rest}>
+    <StyledRow {...rest}>
       {items.map((item: Dayjs) => {
         const date = item.format(ctx.format);
         return <DateCell key={date} title={date} date={item} />;
       })}
-    </tr>
+    </StyledRow>
   );
 }
 
-interface DateCellProps extends React.ComponentProps<'td'> {
+interface DateCellProps extends React.ComponentPropsWithoutRef<'div'> {
   date: Dayjs;
 }
-
-const CellContent = styled(Box)`
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: ${getToken('DatePicker.dateCellHeight')};
-
-  &:hover {
-    background-color: var(--rex-colors-primary-10);
-  }
-
-  &.rex-today {
-    color: var(--rex-colors-brand-normal);
-
-    &::after {
-      content: ' ';
-      position: absolute;
-      transform: translateY(10px);
-      width: 4px;
-      height: 4px;
-      border-radius: 100%;
-      background-color: var(--rex-colors-brand-normal);
-    }
-  }
-
-  &.rex-otherMonth {
-    color: var(--rex-colors-text-note);
-  }
-
-  &.rex-active {
-    color: var(--rex-colors-emphasis-0);
-    background-color: var(--rex-colors-brand-normal);
-  }
-
-  &.rex-active.rex-today::after {
-    background-color: #fff;
-  }
-
-  &.rex-inRange {
-    background-color: var(--rex-colors-primary-10);
-  }
-
-  &.rex-disabled {
-    color: var(--rex-colors-text-disabled);
-    pointer-events: none;
-  }
-`;
 
 function DateCell(props: DateCellProps) {
   const { date, ...rest } = props;
@@ -256,8 +194,20 @@ function DateCell(props: DateCellProps) {
       }
       return false;
     }),
+    'rex-startValue': ctx.check(({ startValue }) => {
+      if (startValue && startValue.isSame(date, 'date')) {
+        return true;
+      }
+      return false;
+    }),
+    'rex-endValue': ctx.check(({ endValue }) => {
+      if (endValue && endValue.isSame(date, 'date')) {
+        return true;
+      }
+      return false;
+    }),
     'rex-inRange': ctx.check(({ startValue, endValue }) => {
-      if (startValue && endValue && startValue.isBefore(date, 'date') && endValue.isAfter(date, 'date')) {
+      if (startValue && endValue && startValue.isSameOrBefore(date, 'date') && endValue.isSameOrAfter(date, 'date')) {
         return true;
       }
       return false;
@@ -283,8 +233,8 @@ function DateCell(props: DateCellProps) {
   };
 
   return (
-    <td onClick={disabled ? undefined : handleClick} {...rest}>
-      <CellContent className={clazz}>{date.date()}</CellContent>
-    </td>
+    <StyledCell className={clazz} onClick={disabled ? undefined : handleClick} {...rest}>
+      <StyledCellContent>{date.date()}</StyledCellContent>
+    </StyledCell>
   );
 }
