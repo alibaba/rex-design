@@ -10,6 +10,7 @@ export { default as SvgArrowDown } from './ArrowDown';
 export { default as SvgArrowLeftBold } from './ArrowLeftBold';
 export { default as SvgArrowLeftCircle } from './ArrowLeftCircle';
 export { default as SvgArrowLeftFilling } from './ArrowLeftFilling';
+export { default as SvgArrowLeft } from './ArrowLeft';
 export { default as SvgArrowRightBold } from './ArrowRightBold';
 export { default as SvgArrowRightCircle } from './ArrowRightCircle';
 export { default as SvgArrowRightFilling } from './ArrowRightFilling';

@@ -1,4 +1,5 @@
 export type IconType =
+  | 'arrow-left'
   | 'add-bold'
   | 'add'
   | 'arrow-down-filling'
@@ -184,6 +185,7 @@ export type IconType =
   | 'arrow-up-circle';
 
 export const iconTypes: IconType[] = [
+  'arrow-left',
   'add-bold',
   'add',
   'arrow-down-filling',
