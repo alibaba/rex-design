@@ -15,11 +15,11 @@ export function Basic() {
 export function HasTime() {
   return (
     <DemoGroup>
-      <DatePicker hasTime />
+      <DatePicker hasTime onChange={console.log} />
 
-      <DatePicker hasTime timeProps={{ mode: 'normal' }} />
+      <DatePicker hasTime timeProps={{ mode: 'normal' }} onChange={console.log} />
 
-      <DateRangePicker hasTime />
+      <DateRangePicker hasTime onChange={console.log} />
     </DemoGroup>
   );
 }

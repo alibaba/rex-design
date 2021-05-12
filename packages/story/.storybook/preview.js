@@ -11,6 +11,7 @@ import {
   phoneTheme,
   phoneDarkTheme,
   tabletTheme,
+  tabletDarkTheme,
   extendTheme,
 } from '@rexd/core';
 
@@ -52,10 +53,8 @@ function getTheme(deviceName, colorMode, themeMode) {
     'desktop.dark': darkTheme,
     'phone.light': phoneTheme,
     'phone.dark': phoneDarkTheme,
-
-    // TODO: add default pad theme
     'tablet.light': tabletTheme,
-    'tablet.dark': darkTheme,
+    'tablet.dark': tabletDarkTheme,
   }[`${deviceName}.${colorMode}`];
 
   if (themeMode === 'local') {
