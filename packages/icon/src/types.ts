@@ -1,11 +1,30 @@
 export type IconType =
+  | 'add-bold'
+  | 'add'
+  | 'arrow-down-filling'
+  | 'arrow-left-filling'
+  | 'arrow-down'
+  | 'arrow-down-bold'
+  | 'arrow-left-bold'
+  | 'arrow-right-filling'
+  | 'arrow-right'
+  | 'arrow-up-filling'
+  | 'arrow-right-bold'
+  | 'arrow-up-bold'
+  | 'close-bold'
+  | 'close'
+  | 'direction-left'
+  | 'minus'
+  | 'direction-right'
+  | 'direction-down'
+  | 'minus-bold'
+  | 'direction-up'
+  | 'select'
   | 'database-config'
   | 'function'
   | 'diamond'
   | 'arrow-right-circle'
-  | 'arrow-down'
   | 'ashbin'
-  | 'arrow-right'
   | 'browse'
   | 'bottom'
   | 'back'
@@ -18,7 +37,6 @@ export type IconType =
   | 'chart-bar'
   | 'attachment'
   | 'code'
-  | 'close'
   | 'check-item'
   | 'calendar'
   | 'comment'
@@ -29,15 +47,11 @@ export type IconType =
   | 'cry'
   | 'customer-service'
   | 'delete'
-  | 'direction-down'
   | 'copy'
   | 'cut'
   | 'data-view'
   | 'direction-down-circle'
-  | 'direction-right'
-  | 'direction-up'
   | 'discount'
-  | 'direction-left'
   | 'download'
   | 'electronics'
   | 'drag'
@@ -88,7 +102,6 @@ export type IconType =
   | 'play'
   | 'print'
   | 'mobile-phone'
-  | 'minus'
   | 'navigation'
   | 'pdf'
   | 'prompt'
@@ -104,7 +117,6 @@ export type IconType =
   | 'scanning'
   | 'security'
   | 'sign-out'
-  | 'select'
   | 'stop'
   | 'success'
   | 'smile'
@@ -128,18 +140,7 @@ export type IconType =
   | 'warning'
   | 'zoom-in'
   | 'zoom-out'
-  | 'add-bold'
-  | 'arrow-left-bold'
-  | 'arrow-up-bold'
-  | 'close-bold'
-  | 'arrow-down-bold'
-  | 'minus-bold'
-  | 'arrow-right-bold'
   | 'select-bold'
-  | 'arrow-up-filling'
-  | 'arrow-down-filling'
-  | 'arrow-left-filling'
-  | 'arrow-right-filling'
   | 'caps-unlock-filling'
   | 'comment-filling'
   | 'check-item-filling'
@@ -178,19 +179,37 @@ export type IconType =
   | 'sorting'
   | 'column-3'
   | 'column-4'
-  | 'add'
   | 'add-circle'
   | 'adjust'
   | 'arrow-up-circle';
 
 export const iconTypes: IconType[] = [
+  'add-bold',
+  'add',
+  'arrow-down-filling',
+  'arrow-left-filling',
+  'arrow-down',
+  'arrow-down-bold',
+  'arrow-left-bold',
+  'arrow-right-filling',
+  'arrow-right',
+  'arrow-up-filling',
+  'arrow-right-bold',
+  'arrow-up-bold',
+  'close-bold',
+  'close',
+  'direction-left',
+  'minus',
+  'direction-right',
+  'direction-down',
+  'minus-bold',
+  'direction-up',
+  'select',
   'database-config',
   'function',
   'diamond',
   'arrow-right-circle',
-  'arrow-down',
   'ashbin',
-  'arrow-right',
   'browse',
   'bottom',
   'back',
@@ -203,7 +222,6 @@ export const iconTypes: IconType[] = [
   'chart-bar',
   'attachment',
   'code',
-  'close',
   'check-item',
   'calendar',
   'comment',
@@ -214,15 +232,11 @@ export const iconTypes: IconType[] = [
   'cry',
   'customer-service',
   'delete',
-  'direction-down',
   'copy',
   'cut',
   'data-view',
   'direction-down-circle',
-  'direction-right',
-  'direction-up',
   'discount',
-  'direction-left',
   'download',
   'electronics',
   'drag',
@@ -273,7 +287,6 @@ export const iconTypes: IconType[] = [
   'play',
   'print',
   'mobile-phone',
-  'minus',
   'navigation',
   'pdf',
   'prompt',
@@ -289,7 +302,6 @@ export const iconTypes: IconType[] = [
   'scanning',
   'security',
   'sign-out',
-  'select',
   'stop',
   'success',
   'smile',
@@ -313,18 +325,7 @@ export const iconTypes: IconType[] = [
   'warning',
   'zoom-in',
   'zoom-out',
-  'add-bold',
-  'arrow-left-bold',
-  'arrow-up-bold',
-  'close-bold',
-  'arrow-down-bold',
-  'minus-bold',
-  'arrow-right-bold',
   'select-bold',
-  'arrow-up-filling',
-  'arrow-down-filling',
-  'arrow-left-filling',
-  'arrow-right-filling',
   'caps-unlock-filling',
   'comment-filling',
   'check-item-filling',
@@ -363,7 +364,6 @@ export const iconTypes: IconType[] = [
   'sorting',
   'column-3',
   'column-4',
-  'add',
   'add-circle',
   'adjust',
   'arrow-up-circle',
