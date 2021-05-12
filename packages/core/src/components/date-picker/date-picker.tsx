@@ -46,8 +46,6 @@ export interface DatePickerProps extends DatePickerSharedProps {
    */
   onChange?: FormControlOnChangeHandler<string>;
   status?: string;
-  style?: React.CSSProperties;
-  className?: string;
 }
 
 export function DatePicker(props: DatePickerProps) {
@@ -72,7 +70,7 @@ export function DatePicker(props: DatePickerProps) {
     value: formatDateValue(valueProp, format),
     defaultValue: formatDateValue(defaultValue, format),
     onChange: (date: Dayjs) => {
-      const display = date.format(format);
+      const display = date ? date.format(format) : '';
       onChange(display, { data: date });
     },
   });
@@ -97,8 +95,10 @@ export function DatePicker(props: DatePickerProps) {
           className={cx('rex-date-picker', className)}
           placeholder={placeholder}
           value={display}
+          onClear={() => updateValue(null)}
           status={status}
           readOnly
+          hasClear
           rightElement={<Icon type="calendar" />}
         />
       )}

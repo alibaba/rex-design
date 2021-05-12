@@ -156,15 +156,15 @@ const components = {
   },
 
   TimePicker: {
-    triggerWidth: '180px',
+    triggerWidth: '200px',
     normalPanelWidth: '200px',
-    simplePanelWidth: '180px',
+    simplePanelWidth: '200px',
     panelMenuItemHeight: '28px', // 需要保持和日期组件的格子一样大
   },
 
   DatePicker: {
-    triggerWidth: '180px',
-    normalTimeCardWidth: '180px',
+    triggerWidth: '196px',
+    normalTimeCardWidth: '196px',
     simpleTimeCardWidth: '136px',
     monthCardWidth: '230px',
     dateCellSize: '28px',
@@ -172,7 +172,7 @@ const components = {
   },
 
   DateRangePicker: {
-    triggerWidth: '326px',
+    triggerWidth: '342px',
     startTriggerWidth: '144px',
   },
 

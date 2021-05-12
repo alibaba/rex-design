@@ -77,7 +77,8 @@ export function useInput(props: UseInputProps) {
 
   const getClearButtonProps = useCallback(() => {
     return {
-      onClick: () => {
+      onClick: (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.stopPropagation();
         updateValue('');
         onClear();
       },

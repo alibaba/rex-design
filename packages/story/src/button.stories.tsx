@@ -69,6 +69,28 @@ export function Size() {
           大尺寸按钮
         </Button>
       </Group>
+      <Group mt="l">
+        <Button size="small" leftElement={<Icon type="arrow-left-bold" />}>
+          小尺寸按钮
+        </Button>
+        <Button size="medium" leftElement={<Icon type="arrow-left-bold" />}>
+          中尺寸按钮
+        </Button>
+        <Button size="large" leftElement={<Icon type="arrow-left-bold" />}>
+          大尺寸按钮
+        </Button>
+      </Group>
+      <Group mt="l">
+        <Button size="small" isIconOnly>
+          <Icon type="arrow-left-bold" />
+        </Button>
+        <Button size="medium" isIconOnly>
+          <Icon type="arrow-left-bold" />
+        </Button>
+        <Button size="large" isIconOnly>
+          <Icon type="arrow-left-bold" />
+        </Button>
+      </Group>
     </Box>
   );
 }

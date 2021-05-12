@@ -47,16 +47,16 @@ export default extendTheme({
     },
 
     DatePicker: {
-      triggerWidth: '240px',
+      triggerWidth: '264px',
       normalTimeCardWidth: '240px',
       simpleTimeCardWidth: '200px',
-      monthCardWidth: '260px',
+      monthCardWidth: '264px',
       dateCellSize: '39px',
       dateCellDotSize: '6px',
     },
 
     DateRangePicker: {
-      triggerWidth: '480px',
+      triggerWidth: '490px',
       startTriggerWidth: '208px',
     },
   },

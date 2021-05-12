@@ -111,7 +111,7 @@ export function TimeMenu(props: TimeMenuProps) {
 
   useEffect(() => {
     scrollTo(menu.current, selected.current?.offsetTop, 100);
-  }, [selectedKey]);
+  }, []);
 
   const handleListScroll = (e: React.MouseEvent<HTMLUListElement>) => {
     const element = e.target as HTMLUListElement;

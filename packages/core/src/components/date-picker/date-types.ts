@@ -35,4 +35,6 @@ export interface DatePickerSharedProps {
    * 设置默认显示的月份
    */
   getDefaultVisibleMonth?: any;
+  className?: string;
+  style?: React.CSSProperties;
 }
