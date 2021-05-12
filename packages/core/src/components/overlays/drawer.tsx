@@ -106,7 +106,7 @@ const drawerPlacementsMixin = css`
     right: 0;
     bottom: 0;
     left: 0;
-    box-shadow: var(--rex-shadows-lowTop);
+    box-shadow: var(--rex-shadows-lowUp);
   }
 `;
 
@@ -145,7 +145,7 @@ const DrawerDiv = styled.div.withConfig({ componentId: 'rex-drawer' })`
 
   .rex-drawer-header {
     flex: 0 0 auto;
-    font-size: 16px;
+    font-size: var(--rex-fontSizes-title);
     font-weight: bold;
     padding: 12px 16px;
     border-bottom: 1px solid var(--rex-colors-line-border);
@@ -153,7 +153,7 @@ const DrawerDiv = styled.div.withConfig({ componentId: 'rex-drawer' })`
 
   .rex-drawer-body {
     flex: auto;
-    font-size: 12px;
+    font-size: var(--rex-fontSizes-body);
     padding: 16px;
     overflow: auto;
   }

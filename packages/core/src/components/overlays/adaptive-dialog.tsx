@@ -11,20 +11,36 @@ export interface FullscreenDialogProps
     Pick<DialogProps, 'onOk' | 'onCancel' | 'footer'> {}
 
 const StyledDrawer = styled(Drawer)`
-  // todo change to design token
-  font-size: 14px;
+  font-size: var(--rex-fontSizes-body);
+  border-radius: 4px 4px 2px 2px;
+  max-height: 70%;
+  flex-flow: column;
+  display: flex;
 
   &[data-placement] {
     height: auto;
   }
 
+  .rex-fullscreen-dialog-title {
+    flex: 0 0 auto;
+    font-size: var(--rex-fontSizes-title);
+    padding: 24px 24px 16px;
+    border-bottom: 1px solid var(--rex-colors-emphasis-30);
+    color: var(--rex-colors-text-title);
+  }
+
   .rex-fullscreen-dialog-body {
-    padding: 6px 8px 8px;
+    font-size: var(--rex-fontSizes-body);
+    margin: 16px 24px 32px;
+    color: var(--rex-colors-text-body);
+    flex: auto;
+    overflow: auto;
   }
 
   .rex-fullscreen-dialog-footer {
+    flex: 0 0 auto;
     display: flex;
-    padding: 8px 16px 12px;
+    margin: 0 24px 24px 24px;
     justify-content: flex-end;
 
     > * {
@@ -41,6 +57,7 @@ const StyledDrawer = styled(Drawer)`
  * */
 export function FullscreenDialog(props: FullscreenDialogProps) {
   const {
+    title,
     visible,
     onRequestClose,
     canCloseByOutSideClick = true,
@@ -66,6 +83,7 @@ export function FullscreenDialog(props: FullscreenDialogProps) {
       placement="bottom"
       minimal
     >
+      <div className="rex-fullscreen-dialog-title">{title}</div>
       <div className="rex-fullscreen-dialog-body">{children}</div>
       {Dialog.renderDialogFooter({ footer, onOk, onCancel, onRequestClose }, 'rex-fullscreen-dialog-footer')}
     </StyledDrawer>

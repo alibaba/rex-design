@@ -109,6 +109,8 @@ export const OverlayGlobalStyles = createGlobalStyle`
   :root {
     ${overlayBackground};
 
-    --rex-overlay-radius: 8px;
+
+    // TODO remove it
+    --rex-overlay-radius: 200px;
   }
 `;

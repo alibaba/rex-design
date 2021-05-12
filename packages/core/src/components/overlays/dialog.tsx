@@ -60,13 +60,14 @@ export interface DialogProps
 const dialogCloseMixin = css`
   .rex-dialog-close {
     position: absolute;
-    top: 14px;
-    right: 16px;
-  }
-
-  .rex-dialog-close-icon {
-    display: block;
-    color: #999;
+    top: 24px;
+    right: 24px;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--rex-colors-emphasis-50);
     cursor: pointer;
 
     &:hover {
@@ -92,25 +93,27 @@ const DialogDiv = styled.div.withConfig({ componentId: 'rex-dialog' })`
   max-width: 70%;
 
   background: var(--rex-overlay-depth-l);
-  border-radius: var(--rex-overlay-radius);
+  border-radius: 2px;
   box-shadow: var(--rex-shadows-medianDown);
   overflow: hidden;
 
   .rex-dialog-header {
-    font-size: 14px;
-    padding: 12px 16px 6px;
-    color: var(--rex-colors-emphasis-90);
+    font-size: var(--rex-fontSizes-title);
+    margin: 24px 24px 0 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--rex-colors-emphasis-30);
+    color: var(--rex-colors-text-title);
   }
 
   .rex-dialog-body {
-    font-size: 12px;
-    padding: 6px 16px 8px;
-    color: var(--rex-colors-emphasis-70);
+    font-size: var(--rex-fontSizes-body);
+    margin: 16px 24px 32px;
+    color: var(--rex-colors-text-body);
   }
 
   .rex-dialog-footer {
     display: flex;
-    padding: 8px 16px 12px;
+    margin: 16px 24px 24px 24px;
     justify-content: flex-end;
 
     > * {
@@ -140,7 +143,6 @@ function renderDialogFooter(
               <Button
                 key={index}
                 type={item.type}
-                size="small"
                 onClick={(event) => {
                   batchedUpdates(() => {
                     item.onClick(event);
@@ -164,7 +166,6 @@ function renderDialogFooter(
       <div className={className}>
         <Button
           type="normal"
-          size="small"
           onClick={() => {
             onCancel();
             onRequestClose('ok');
@@ -174,7 +175,6 @@ function renderDialogFooter(
         </Button>
         <Button
           type="primary"
-          size="small"
           onClick={() => {
             onOk();
             onRequestClose('cancel');
