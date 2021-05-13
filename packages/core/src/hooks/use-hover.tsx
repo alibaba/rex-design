@@ -90,7 +90,7 @@ export function useHover(props: UseHoverProps) {
     }
 
     return hoverProps;
-  }, [onHoverStart, onHoverEnd, onHoverChange, disabled, state]);
+  }, [onHoverStart, onHoverEnd, onHoverChange, disabled, loading, state]);
 
   return {
     isHover,
