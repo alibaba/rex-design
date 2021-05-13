@@ -154,14 +154,7 @@ const simpleItemStyle = {
 };
 
 function SimpleTimePanel(props: TimePanelProps) {
-  const {
-    rows = 6,
-    format = 'HH:mm',
-    value,
-    onChange = noop,
-    getQuickItems = getQuickTimeItems,
-    renderHeader = defaultRenderHeader,
-  } = props;
+  const { rows = 6, format = 'HH:mm', value, onChange = noop, getQuickItems = getQuickTimeItems, renderHeader } = props;
   const timeItems = getQuickItems();
 
   const handleSelect = (val: string) => {

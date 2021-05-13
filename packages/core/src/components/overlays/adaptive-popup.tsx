@@ -73,7 +73,7 @@ export function FullscreenPopup(props: FullscreenPopupProps) {
         placement={placement}
         className={cx('rex-fullscreen-popup', props.className)}
         style={{
-          minWidth: '60%',
+          minWidth: '30%',
           maxWidth: '90%',
           ...props.style,
         }}
