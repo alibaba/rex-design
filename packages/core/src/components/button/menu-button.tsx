@@ -33,8 +33,14 @@ export function MenuButton(props: MenuButtonProps) {
   };
 
   return (
-    <AdaptivePopup visible={visible} onRequestClose={onClose} onRequestOpen={onOpen} renderTarget={renderTarget}>
-      <Menu dataSource={dataSource} onItemClick={callAll(onClose, onItemClick)} />
-    </AdaptivePopup>
+    <AdaptivePopup
+      visible={visible}
+      onRequestClose={onClose}
+      onRequestOpen={onOpen}
+      renderTarget={renderTarget}
+      renderChildren={(arg: any) => (
+        <Menu {...arg} dataSource={dataSource} onItemClick={callAll(onClose, onItemClick)} />
+      )}
+    />
   );
 }

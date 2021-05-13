@@ -24,7 +24,7 @@ export interface TimePickerProps extends TimePanelGetItemsProps {
   defaultValue?: string;
   onChange?: FormControlOnChangeHandler<string>;
   status?: string;
-  popupProps?: PopupProps;
+  popupProps?: Omit<PopupProps, 'children'>;
   className?: string;
   style?: React.CSSProperties;
 }

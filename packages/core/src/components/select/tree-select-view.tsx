@@ -2,7 +2,7 @@ import { collectNodes, makeRecursiveMapper } from 'ali-react-table';
 import cx from 'classnames';
 import React, { useMemo, useRef } from 'react';
 import { useDevice } from '../../providers';
-import { pick } from '../../utils';
+import { omit, pick } from '../../utils';
 import { Input } from '../input';
 import { AdaptivePopup, Popup } from '../overlays';
 import { searchTreeByKeyword, Tree, TreeItem, TreeProps } from '../tree';

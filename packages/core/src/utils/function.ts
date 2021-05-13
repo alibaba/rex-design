@@ -62,6 +62,11 @@ export function pick<T extends object, U extends keyof T>(object: T, props: U[])
   return _.pick(object, props);
 }
 
+// typesafe _.omit
+export function omit<T extends object, U extends keyof T>(object: T, props: U[]): Omit<T, U> {
+  return _.omit(object, props);
+}
+
 /**
  * Performs equality by iterating through keys on an object and returning false
  * when any key has values which are not strictly equal between the arguments.

@@ -143,5 +143,5 @@ export interface ISelectPopupProps {
   autoCloseAfterSelect?: boolean;
 
   /** @category 弹层 */
-  popupProps?: PopupProps;
+  popupProps?: Omit<PopupProps, 'children'>;
 }

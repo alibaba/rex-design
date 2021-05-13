@@ -26,15 +26,23 @@ export function ActionSheet(props: ActionSheetProps) {
   });
 
   return (
-    <AdaptivePopup hasArrow visible={visible} onRequestOpen={onOpen} onRequestClose={onClose} target={target}>
-      <Box boxShadow="lowDown" width={device.alias === 's' ? '90vw' : undefined}>
-        {title && (
-          <Box py="m" textAlign="center" fontSize="body">
-            {title}
-          </Box>
-        )}
-        <Menu className="minimal" dataSource={dataSource} onItemClick={callAll(onItemClick, onClose)} />
-      </Box>
-    </AdaptivePopup>
+    <AdaptivePopup
+      hasArrow
+      visible={visible}
+      onRequestOpen={onOpen}
+      onRequestClose={onClose}
+      target={target}
+      renderChildren={(arg: any) => (
+        <Box {...arg} boxShadow="lowDown" width={device.alias === 's' ? '90vw' : undefined}>
+          {arg.arrow}
+          {title && (
+            <Box py="m" textAlign="center" fontSize="body">
+              {title}
+            </Box>
+          )}
+          <Menu className="minimal" dataSource={dataSource} onItemClick={callAll(onItemClick, onClose)} />
+        </Box>
+      )}
+    />
   );
 }

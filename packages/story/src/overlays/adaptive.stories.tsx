@@ -30,29 +30,41 @@ function BalaBala() {
 
 export function BasicAdaptivePopup() {
   return (
-    <AdaptivePopup target={<Button>尝试在不同端打开试试</Button>} style={{ maxWidth: '92%' }}>
-      <StyledDiv>
-        <BalaBala />
-      </StyledDiv>
-    </AdaptivePopup>
+    <AdaptivePopup
+      target={<Button>尝试在不同端打开试试</Button>}
+      style={{ maxWidth: '92%' }}
+      renderChildren={(arg: any) => (
+        <StyledDiv {...arg}>
+          <BalaBala />
+        </StyledDiv>
+      )}
+    />
   );
 }
 
 export function NestedAdaptivePopup() {
   return (
-    <AdaptivePopup target={<Button>查看详情</Button>} style={{ maxWidth: '92%' }}>
-      <StyledDiv>
-        <BalaBala />
+    <AdaptivePopup
+      target={<Button>查看详情</Button>}
+      style={{ maxWidth: '92%' }}
+      renderChildren={(arg: any) => (
+        <StyledDiv {...arg}>
+          <BalaBala />
 
-        <AdaptivePopup target={<Button>查看教育经历</Button>} style={{ maxWidth: '92%' }}>
-          <StyledDiv>
-            1. 北京大学｜工商管理｜2007-09-01 至 2006-06-01
-            <br />
-            2. 中央财经大学｜2004-09-01 至 2007-06-01
-          </StyledDiv>
-        </AdaptivePopup>
-      </StyledDiv>
-    </AdaptivePopup>
+          <AdaptivePopup
+            target={<Button>查看教育经历</Button>}
+            style={{ maxWidth: '92%' }}
+            renderChildren={(arg2: any) => (
+              <StyledDiv {...arg2}>
+                1. 北京大学｜工商管理｜2007-09-01 至 2006-06-01
+                <br />
+                2. 中央财经大学｜2004-09-01 至 2007-06-01
+              </StyledDiv>
+            )}
+          />
+        </StyledDiv>
+      )}
+    />
   );
 }
 
@@ -62,9 +74,16 @@ export function BasicAdaptiveDialog() {
   return (
     <div>
       <Button onClick={() => setVisible(true)}>尝试在不同端打开试试</Button>
-      <AdaptiveDialog title="芭芭拉简历" visible={visible} onRequestClose={() => setVisible(false)}>
-        <BalaBala />
-      </AdaptiveDialog>
+      <AdaptiveDialog
+        title="芭芭拉简历"
+        visible={visible}
+        onRequestClose={() => setVisible(false)}
+        renderChildren={(arg: any) => (
+          <div {...arg}>
+            <BalaBala />
+          </div>
+        )}
+      />
     </div>
   );
 }

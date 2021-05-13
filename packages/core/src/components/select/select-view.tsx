@@ -1,7 +1,7 @@
 import cx from 'classnames';
 import React, { useRef } from 'react';
 import styled from 'styled-components';
-import { pick } from '../../utils';
+import { omit, pick } from '../../utils';
 import { Input } from '../input';
 import { AdaptivePopup, PopupChildrenRenderArg, PopupTargetRenderArgs } from '../overlays';
 import { VirtualList, VirtualListAlign } from '../virtual-list';
