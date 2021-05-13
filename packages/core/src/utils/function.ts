@@ -15,10 +15,12 @@ export function callAllHandlers<T extends (event: any) => void>(...fns: (T | und
   };
 }
 
-export function callAll<T extends AnyFunction>(...fns: (T | undefined)[]) {
-  return function mergedFn(arg: FunctionArguments<T>[0]) {
+export function callAll(...fns: any[]) {
+  return function mergedFn(...args: any[]) {
     fns.forEach((fn) => {
-      fn?.(arg);
+      if (isFunction(fn)) {
+        fn?.(...args);
+      }
     });
   };
 }
