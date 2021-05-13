@@ -1,25 +1,20 @@
 import { Box, Flex, Input } from '@rexd/core';
 import { Icon, iconTypes } from '@rexd/icon';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 
 export default { title: 'Icons' };
 
 export const Basic = () => {
-  const [query, setQuery] = useState<string>(null);
-  const ref = useRef<HTMLInputElement>();
-
-  useEffect(() => {
-    ref.current.focus();
-  }, []);
+  const [query, setQuery] = useState<string>('');
 
   return (
-    <>
+    <Box>
       <Box>
-        搜索: <Input onChange={setQuery} style={{ width: '150px' }} ref={ref} />
+        <Input placeholder="输入图标名称进行检索" onChange={setQuery} />
       </Box>
       <Flex wrap="wrap">
         {iconTypes
-          .filter((name) => !query || query.length === 0 || name.includes(query))
+          .filter((name) => !query || name.includes(query))
           .map((iconType) => (
             <Flex direction="column" justify="center" align="center" width="160px" height="120px" key={iconType}>
               <Icon type={iconType} style={{ height: '50px', width: '50px' }} />
@@ -27,6 +22,6 @@ export const Basic = () => {
             </Flex>
           ))}
       </Flex>
-    </>
+    </Box>
   );
 };

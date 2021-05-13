@@ -10,9 +10,6 @@ export const Basic = () => (
   </DemoGroup>
 );
 
-/**
- * 全功能模式
- */
 export const Simple = () => (
   <DemoGroup>
     <TimePicker mode="simple" onChange={console.log} />

@@ -1,3 +1,4 @@
+import { math } from 'polished';
 import { extendTheme } from '../theme';
 
 export default extendTheme({
@@ -29,9 +30,10 @@ export default extendTheme({
       mFontSize: '16px',
       lFontSize: '18px',
 
-      sIconSize: '16px',
-      mIconSize: '18px',
-      lIconSize: '20px',
+      // iconSize = fontSize * lineHeight
+      sIconSize: math('14px * 1.5'),
+      mIconSize: math('16px * 1.5'),
+      lIconSize: math('18px * 1.5'),
     },
 
     Input: {

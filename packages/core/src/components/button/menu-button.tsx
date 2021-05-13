@@ -4,7 +4,7 @@ import { AdaptivePopup } from '../overlays';
 import { Menu, MenuProps } from '../menu';
 import { useVisible } from '../../hooks';
 import { callAll } from '../../utils';
-import { Button } from './Button';
+import { Button } from './button';
 
 export interface MenuButtonProps {
   dataSource?: MenuProps['dataSource'];

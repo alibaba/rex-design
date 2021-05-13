@@ -8,6 +8,8 @@ import * as stories from 'story/src/file-picker.stories';
 
 ## 使用场景
 
+从系统文件目录中选择部分文件进行上传。
+
 ### 请求库接入示例
 
 ```jsx
@@ -16,15 +18,12 @@ import * as stories from 'story/src/file-picker.stories';
     axios({
       method: 'post',
       url: 'http://127.0.0.1:7001/api/upload',
-      transformResponse: [].concat(
-        axios.defaults.transformResponse,
-        (data: any) => {
-          return {
-            url: data.data,
-            message: data.message,
-          };
-        }
-      ),
+      transformResponse: [].concat(axios.defaults.transformResponse, (data: any) => {
+        return {
+          url: data.data,
+          message: data.message,
+        };
+      }),
       ...options,
     }).then((ret) => {
       return ret.data;

@@ -1,4 +1,4 @@
-import { rgba } from '../utils';
+import { rgba } from 'polished';
 import { extendTheme } from '../theme';
 
 export const colors = {

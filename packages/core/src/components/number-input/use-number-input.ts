@@ -23,6 +23,7 @@ export function useNumberInput(props: UseNumberInputProps) {
       type: 'text',
       status,
       readOnly,
+      disabled,
       value: display,
       onChange: (input: string) => {
         updateDisplay(input);

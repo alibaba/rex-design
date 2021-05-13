@@ -3,8 +3,9 @@ import styled from 'styled-components';
 import cx from 'classnames';
 import { Button as OneButton, View } from '@rexd/one';
 import { Dict } from '../../types';
-import { space, getToken } from '../../utils';
+import { space, getToken, mergeProps } from '../../utils';
 import { Loading } from '../loading';
+import { useHover } from '../../hooks/use-hover';
 
 const buttonSize = (height?: string, px?: string, fontSize?: string, iconSize?: string) => {
   return `
@@ -43,15 +44,15 @@ const buttonType = (
     background-color: ${bg};
     border-color: ${borderColor};
 
-    &:hover:not(.rex-btn-loading) {
-      color: ${hoverColor};
-      background-color: ${hoverBg};
-      border-color: ${hoverBorderColor};
-    }
-
     &:focus {
       outline: 0;
       box-shadow: 0 0 0 3px ${foucsOutline};
+    }
+
+    &.rex-hovered:not(.rex-btn-loading) {
+      color: ${hoverColor};
+      background-color: ${hoverBg};
+      border-color: ${hoverBorderColor};
     }
 
     &.rex-selected {
@@ -69,12 +70,19 @@ const StyledButton = styled(OneButton)<any>`
   position: relative;
   white-space: nowrap;
   vertical-align: middle;
-  user-select: none;
   cursor: pointer;
   width: ${(props: any) => (props.$isFullWidth ? '100%' : null)};
   border-radius: var(--rex-radii-s);
   border: var(--rex-borders-solid);
   transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
+
+  /* Disable user-select */
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
 
   svg {
     vertical-align: middle;
@@ -318,6 +326,9 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>((props, r
     ...others
   } = props;
 
+  // TODO: merge props
+  const { hoverProps, isHover } = useHover({ disabled });
+
   const loadingIcon = loading ? <Loading /> : null;
 
   const clazz = cx(
@@ -330,6 +341,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>((props, r
       [`rex-btn-${size}`]: size,
       [`rex-selected`]: isSelected,
       [`rex-disabled`]: disabled,
+      [`rex-hovered`]: isHover,
     },
     className,
   );
@@ -337,7 +349,13 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>((props, r
   const shouldFormatChildren = ['solid', 'warning'].includes(shape) && !leftElement && !rightElement;
 
   return (
-    <StyledButton className={clazz} $isFullWidth={isFullWidth} type={htmlType} ref={ref} {...others}>
+    <StyledButton
+      className={clazz}
+      $isFullWidth={isFullWidth}
+      type={htmlType}
+      ref={ref}
+      {...mergeProps(others, hoverProps)}
+    >
       {loadingIcon}
       <span className="rext-btn-children">
         {leftElement && (
