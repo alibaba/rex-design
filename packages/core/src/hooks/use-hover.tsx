@@ -11,10 +11,11 @@ export interface UseHoverProps {
   onHoverEnd?: (e: HoverEvent) => void;
   onHoverChange?: (isHover: boolean) => void;
   disabled?: boolean;
+  loading?: boolean;
 }
 
 export function useHover(props: UseHoverProps) {
-  const { onHoverStart, onHoverChange, onHoverEnd, disabled } = props;
+  const { onHoverStart, onHoverChange, onHoverEnd, disabled, loading } = props;
 
   const [isHover, setHover] = useState(false);
 
@@ -25,7 +26,7 @@ export function useHover(props: UseHoverProps) {
   const hoverProps = useMemo(() => {
     const handleHoverStart = (e: any, pointerType: any) => {
       // if (disabled || pointerType === 'touch' || state.isHover) {
-      if (disabled || state.isHover) {
+      if (disabled || loading || state.isHover) {
         return;
       }
 

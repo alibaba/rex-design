@@ -49,7 +49,7 @@ const buttonType = (
       box-shadow: 0 0 0 3px ${foucsOutline};
     }
 
-    &.rex-hovered:not(.rex-btn-loading) {
+    &.rex-hover {
       color: ${hoverColor};
       background-color: ${hoverBg};
       border-color: ${hoverBorderColor};
@@ -326,8 +326,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>((props, r
     ...others
   } = props;
 
-  // TODO: merge props
-  const { hoverProps, isHover } = useHover({ disabled });
+  const { hoverProps, isHover } = useHover({ disabled, loading });
 
   const loadingIcon = loading ? <Loading /> : null;
 
@@ -341,7 +340,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>((props, r
       [`rex-btn-${size}`]: size,
       [`rex-selected`]: isSelected,
       [`rex-disabled`]: disabled,
-      [`rex-hovered`]: isHover,
+      [`rex-hover`]: isHover,
     },
     className,
   );
