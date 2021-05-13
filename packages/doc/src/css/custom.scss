@@ -29,8 +29,11 @@ html[data-theme='dark'] .header-github-link:before {
 }
 
 //noinspection CssUnknownTarget
-html[data-theme='dark'] .navbar .navbar__logo {
-  content: url(https://img.alicdn.com/imgextra/i1/O1CN01kYRcBU1hXx0dehfN9_!!6000000004288-55-tps-244-21.svg);
+html[data-theme='dark'] {
+  .navbar .navbar__logo,
+  *[class^='sidebarLogo'] > img {
+    content: url(https://img.alicdn.com/imgextra/i1/O1CN01kYRcBU1hXx0dehfN9_!!6000000004288-55-tps-244-21.svg);
+  }
 }
 
 // 默认样式复写

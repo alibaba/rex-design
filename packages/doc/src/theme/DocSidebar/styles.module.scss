@@ -18,19 +18,18 @@
     display: flex;
     margin-top: 20px;
     margin-bottom: 12px;
-    justify-content: flex-end;
-    padding-right: 12px;
+    padding: 0 12px;
 
     .switch {
+      flex: auto;
       height: 35px;
       display: flex;
-      margin-left: 8px;
 
       > button {
+        flex: 1 1 0;
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 60px;
         border: 1px solid var(--ifm-color-emphasis-200);
         background: transparent;
         cursor: pointer;

@@ -31,34 +31,34 @@ const QRCode = React.memo(({ colorMode }) => {
   }
 
   return (
-    <svg width={468 / 3} height={468 / 3} viewBox="0 0 468 468" style={{ display: 'block' }}>
+    <svg width={468 / 2} height={468 / 2} viewBox="0 0 468 468" style={{ display: 'block' }}>
       <rect width="468" height="468" fill={bg} />
       <g fill={fg}>{rects}</g>
     </svg>
   );
 });
 
-function Sun() {
-  return (
-    <svg width="24" height="24">
-      <path
-        d="M12 1.4c.3 0 .6.2.7.5l.6 1.6c.3.7 0 1.4-.8 1.7H12c-.8 0-1.4-.5-1.4-1.3v-.4l.7-1.6c.1-.3.4-.5.7-.5zm0 21.2a.7.7 0 01-.7-.5l-.6-1.6-.1-.4c0-.8.6-1.4 1.4-1.4l.5.1c.7.3 1.1 1 .8 1.7l-.6 1.6c-.1.3-.4.5-.7.5zM22.6 12c0 .3-.2.6-.5.7l-1.6.6c-.7.3-1.4 0-1.7-.8V12c0-.8.5-1.4 1.3-1.4h.4l1.6.7c.3.1.5.4.5.7zM1.4 12c0-.3.2-.6.5-.7l1.6-.6.4-.1c.8 0 1.4.6 1.4 1.4l-.1.5c-.3.7-1 1.1-1.7.8l-1.6-.6a.8.8 0 01-.5-.7zm3.1-7.5c.3-.2.6-.3.8-.1L7 5c.7.3 1 1.1.6 1.8 0 .2-.1.3-.3.4-.5.6-1.4.6-2 .1L5 7l-.6-1.6c-.2-.2 0-.5.1-.8zm15 15c-.3.2-.6.3-.8.1L17 19c-.2 0-.3-.2-.4-.3-.5-.5-.5-1.4 0-2l.5-.2c.7-.4 1.5-.1 1.8.6l.6 1.6c.2.2 0 .5-.1.8zm0-15c.2.3.3.6.1.8L19 7c-.3.7-1.1 1-1.8.6-.2 0-.3-.1-.4-.3-.6-.5-.6-1.4-.1-2L17 5l1.6-.6c.2-.2.5 0 .8.1zm-15 15a.7.7 0 01-.1-.8L5 17c0-.2.2-.3.3-.4.5-.5 1.4-.5 2 0l.2.5c.4.7.1 1.5-.6 1.8l-1.6.6c-.2.2-.5 0-.8-.1zm7.5-2.2a5.3 5.3 0 110-10.6 5.3 5.3 0 010 10.6z"
-        fill="currentColor"
-      />
-    </svg>
-  );
-}
+// function Sun() {
+//   return (
+//     <svg width="24" height="24">
+//       <path
+//         d="M12 1.4c.3 0 .6.2.7.5l.6 1.6c.3.7 0 1.4-.8 1.7H12c-.8 0-1.4-.5-1.4-1.3v-.4l.7-1.6c.1-.3.4-.5.7-.5zm0 21.2a.7.7 0 01-.7-.5l-.6-1.6-.1-.4c0-.8.6-1.4 1.4-1.4l.5.1c.7.3 1.1 1 .8 1.7l-.6 1.6c-.1.3-.4.5-.7.5zM22.6 12c0 .3-.2.6-.5.7l-1.6.6c-.7.3-1.4 0-1.7-.8V12c0-.8.5-1.4 1.3-1.4h.4l1.6.7c.3.1.5.4.5.7zM1.4 12c0-.3.2-.6.5-.7l1.6-.6.4-.1c.8 0 1.4.6 1.4 1.4l-.1.5c-.3.7-1 1.1-1.7.8l-1.6-.6a.8.8 0 01-.5-.7zm3.1-7.5c.3-.2.6-.3.8-.1L7 5c.7.3 1 1.1.6 1.8 0 .2-.1.3-.3.4-.5.6-1.4.6-2 .1L5 7l-.6-1.6c-.2-.2 0-.5.1-.8zm15 15c-.3.2-.6.3-.8.1L17 19c-.2 0-.3-.2-.4-.3-.5-.5-.5-1.4 0-2l.5-.2c.7-.4 1.5-.1 1.8.6l.6 1.6c.2.2 0 .5-.1.8zm0-15c.2.3.3.6.1.8L19 7c-.3.7-1.1 1-1.8.6-.2 0-.3-.1-.4-.3-.6-.5-.6-1.4-.1-2L17 5l1.6-.6c.2-.2.5 0 .8.1zm-15 15a.7.7 0 01-.1-.8L5 17c0-.2.2-.3.3-.4.5-.5 1.4-.5 2 0l.2.5c.4.7.1 1.5-.6 1.8l-1.6.6c-.2.2-.5 0-.8-.1zm7.5-2.2a5.3 5.3 0 110-10.6 5.3 5.3 0 010 10.6z"
+//         fill="currentColor"
+//       />
+//     </svg>
+//   );
+// }
 
-function Moon() {
-  return (
-    <svg width="20" height="20">
-      <path
-        d="M10.3 18.3h-.1c-2.3 0-4.5-1-6.1-2.6A8.7 8.7 0 013.8 4c1-1 2-1.8 3.4-2.2.3-.2.6 0 .9.1.2.3.2.6.2.9a7 7 0 009 9 .8.8 0 011 1 8.5 8.5 0 01-8 5.5z"
-        fill="currentColor"
-      />
-    </svg>
-  );
-}
+// function Moon() {
+//   return (
+//     <svg width="20" height="20">
+//       <path
+//         d="M10.3 18.3h-.1c-2.3 0-4.5-1-6.1-2.6A8.7 8.7 0 013.8 4c1-1 2-1.8 3.4-2.2.3-.2.6 0 .9.1.2.3.2.6.2.9a7 7 0 009 9 .8.8 0 011 1 8.5 8.5 0 01-8 5.5z"
+//         fill="currentColor"
+//       />
+//     </svg>
+//   );
+// }
 
 const MOBILE_TOGGLE_SIZE = 24;
 
@@ -308,20 +308,25 @@ function RexMDTFSwitcher() {
     <div className={styles.switcher}>
       <div className={styles.switch}>
         <Tooltip
-          title={<QRCode colorMode={config.colorMode} />}
+          title={
+            <div>
+              <QRCode colorMode={config.colorMode} />
+              <div style={{ marginTop: 4, textAlign: 'center', fontSize: 14 }}>小尺寸组件请扫码转移至移动端查看</div>
+            </div>
+          }
           placement="bottom-start"
           renderTarget={(arg) => <button {...arg}>S</button>}
         />
         <button className={styles.active}>L</button>
       </div>
-      <div className={styles.switch}>
-        <button className={clsx({ [styles.active]: config.colorMode === 'light' })} onClick={config.setLightMode}>
-          <Sun />
-        </button>
-        <button className={clsx({ [styles.active]: config.colorMode === 'dark' })} onClick={config.setDarkMode}>
-          <Moon />
-        </button>
-      </div>
+      {/*<div className={styles.switch}>*/}
+      {/*  <button className={clsx({ [styles.active]: config.colorMode === 'light' })} onClick={config.setLightMode}>*/}
+      {/*    <Sun />*/}
+      {/*  </button>*/}
+      {/*  <button className={clsx({ [styles.active]: config.colorMode === 'dark' })} onClick={config.setDarkMode}>*/}
+      {/*    <Moon />*/}
+      {/*  </button>*/}
+      {/*</div>*/}
     </div>
   );
 }

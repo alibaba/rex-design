@@ -146,7 +146,7 @@ function getMarkdownImageMeta($, imageUrl) {
   const sel = $(`img[src^="${stripHash(imageUrl)}"]`);
   // <p> 上面可能保存着图片的对齐信息
   const paragraph = sel.parent().parent();
-  const width = sel.css('width');
+  const width = sel.css('width') ?? sel.attr('width');
   const align = paragraph.css('text-align');
 
   return [width ? `width=${width}` : null, align].filter(Boolean).join(',');
