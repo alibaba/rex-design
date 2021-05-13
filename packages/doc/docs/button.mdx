@@ -4,7 +4,7 @@ title: Button 按钮
 ---
 
 import { Button } from '@rexd/core';
-import { basic, fullWidth, size, group, addIcon, loading, shape } from 'story/src/button.stories';
+import * as stories from 'story/src/button.stories';
 
 ## 使用场景
 
@@ -14,43 +14,49 @@ import { basic, fullWidth, size, group, addIcon, loading, shape } from 'story/sr
 
 ### 基本示例
 
-<Story fn={Basic} />
+<Story fn={stories.Basic} />
 
 ### 链接型按钮
 
 与文本按钮相比，链接型按钮没有内间距
 
-<Story fn={LinkButton} />
+<Story fn={stories.LinkButton} />
 
 ### 按钮大小
 
 通过 size 设置按钮的尺寸
 
-<Story fn={Size} />
+<Story fn={stories.Size} />
 
 ### 整行按钮
 
 通过 isFullWidth 设置按钮占据整行，通常用于小屏场景
 
-<Story fn={FullWidth} />
+<Story fn={stories.FullWidth} />
 
 ### 按钮中的图标
 
-<Story fn={AddIcon} />
+<Story fn={stories.AddIcon} />
+
+### 图标按钮
+
+通过 isIconOnly 设置按钮为图标按钮，此时按钮的宽高相同。
+
+<Story fn={stories.OnlyIcon} />
 
 ### 按钮组
 
-<Story fn={ButtonGroup} />
+<Story fn={stories.ButtonGroup} />
 
 ### 加载状态
 
-<Story fn={Loading} />
+<Story fn={stories.Loading} />
 
 ### 可选中的按钮
 
-<Story fn={Toggle} />
+<Story fn={stories.Toggle} />
 
-<Story fn={ToggleGroup} />
+<Story fn={stories.ToggleGroup} />
 
 ## API
 
