@@ -33,7 +33,7 @@ export function ActionSheet(props: ActionSheetProps) {
       onRequestClose={onClose}
       target={target}
       renderChildren={(arg: any) => (
-        <Box {...arg} boxShadow="lowDown" width={device.alias === 's' ? '90vw' : undefined}>
+        <Box {...arg} boxShadow="lowDown" borderRadius="m">
           {arg.arrow}
           {title && (
             <Box py="m" textAlign="center" fontSize="body">
