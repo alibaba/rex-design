@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import cx from 'classnames';
 import { Button as OneButton, View } from '@rexd/one';
 import { Dict } from '../../types';
-import { space, getToken } from '../../utils';
+import { space, getToken, mergeProps } from '../../utils';
 import { Loading } from '../loading';
 import { useHover } from './use-hover';
 
@@ -349,7 +349,13 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>((props, r
   const shouldFormatChildren = ['solid', 'warning'].includes(shape) && !leftElement && !rightElement;
 
   return (
-    <StyledButton className={clazz} $isFullWidth={isFullWidth} type={htmlType} ref={ref} {...hoverProps} {...others}>
+    <StyledButton
+      className={clazz}
+      $isFullWidth={isFullWidth}
+      type={htmlType}
+      ref={ref}
+      {...mergeProps(others, hoverProps)}
+    >
       {loadingIcon}
       <span className="rext-btn-children">
         {leftElement && (

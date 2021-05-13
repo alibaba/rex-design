@@ -1,4 +1,6 @@
+import cx from 'classnames';
 import { Dict } from '../types';
+import { callAll } from './function';
 
 /**
  * Get value from a deeply nested object using a string path
@@ -50,27 +52,27 @@ export const pickStyleProps = getPickProps(testStyleProps);
 export const pickStyleAndDataProps = getPickProps(testStyleProps, testDataProps);
 export const pickStyleAndDataAndEventProps = getPickProps(testStyleProps, testDataProps, testEventProps);
 
-/**
- * 挑选出符合条件的属性，并修改为 data-name 的格式
- * @param object 目标对象
- * @param keys 目标属性集白名单，如没有则会转换所有的 keys
- */
-export function toDataProps(object: Dict, keys: string[] = []) {
-  const obj = {};
+export function mergeProps<T extends Dict[]>(...args: T) {
+  const result: Dict = {};
 
-  if (keys.length) {
-    // 有白名单的情况
-    keys.forEach((key) => {
-      if (key in object) {
-        obj[`data-${key}`] = object[key];
+  for (const props of args) {
+    for (const key in result) {
+      if (/^on[A-Z]/.test(key) && typeof result[key] === 'function' && typeof props[key] === 'function') {
+        result[key] = callAll(result[key], props[key]);
+      } else if (key === 'className' && typeof result.className === 'string' && typeof props.className === 'string') {
+        result[key] = cx(result.className, props.className);
+      } else {
+        result[key] = props[key] !== undefined ? props[key] : result[key];
       }
-    });
-  } else {
-    // 无白名单转换所有的值
-    Object.keys(object).forEach((key) => {
-      obj[`data-${key}`] = object[key];
-    });
+    }
+
+    // Add props from b that are not in a
+    for (const key in props) {
+      if (result[key] === undefined) {
+        result[key] = props[key];
+      }
+    }
   }
 
-  return obj;
+  return result;
 }
