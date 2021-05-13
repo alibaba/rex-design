@@ -1,25 +1,24 @@
-import { Icon } from '@rexd/icon';
-import { View } from '@rexd/one';
 import cx from 'classnames';
 import React, { forwardRef } from 'react';
 import styled from 'styled-components';
+import { Icon } from '@rexd/icon';
 import { colors } from '../../utils';
-import { IconButton } from '../button';
+import { Button } from '../button';
 import { Box } from '../layout';
 
-const NoticeBox = styled(View)`
+const NoticeBox = styled.div`
   padding: var(--rex-space-m);
   background-color: var(--rex-notice-bg);
 `;
 
-const AlertHead = styled(View)`
+const AlertHead = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-size: var(--rex-fontSizes-body);
 `;
 
-const AlertTitle = styled(View)`
+const AlertTitle = styled.div`
   flex: 1;
   display: flex;
   align-items: center;
@@ -29,7 +28,7 @@ const AlertTitle = styled(View)`
   }
 `;
 
-const AlertExtra = styled(View)`
+const AlertExtra = styled.div`
   display: inline-flex;
   align-items: center;
 
@@ -38,7 +37,7 @@ const AlertExtra = styled(View)`
   }
 `;
 
-const AlertContent = styled(View)`
+const AlertContent = styled.div`
   margin-left: 20px;
   font-size: var(--rex-fontSizes-body);
 `;
@@ -95,7 +94,11 @@ export const Notice = forwardRef<HTMLDivElement, NoticeProps>((props, ref) => {
         </AlertTitle>
         <AlertExtra>
           {extra}
-          {closeable && <IconButton onClick={onClose} icon="close" />}
+          {closeable && (
+            <Button shape="text" size="small" isIconOnly onClick={onClose}>
+              <Icon type="close" />
+            </Button>
+          )}
         </AlertExtra>
       </AlertHead>
       {children && <AlertContent>{children}</AlertContent>}

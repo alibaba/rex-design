@@ -117,11 +117,6 @@ const components = {
     outline: 'rgba(235, 65, 65, .3)',
   },
 
-  IconButton: {
-    textColor: 'colors.text.body',
-    bgHover: 'rgba(0, 0, 0, 0.06)',
-  },
-
   Breadcrumb: {
     textColor: 'colors.emphasis.60',
     textColorActive: 'colors.emphasis.90',

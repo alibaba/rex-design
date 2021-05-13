@@ -5,7 +5,7 @@ import { Button as OneButton, View } from '@rexd/one';
 import { Dict } from '../../types';
 import { space, getToken, mergeProps } from '../../utils';
 import { Loading } from '../loading';
-import { useHover } from './use-hover';
+import { useHover } from '../../hooks/use-hover';
 
 const buttonSize = (height?: string, px?: string, fontSize?: string, iconSize?: string) => {
   return `

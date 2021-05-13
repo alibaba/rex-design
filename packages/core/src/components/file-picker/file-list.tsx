@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Icon } from '@rexd/icon';
 import { Box, Text } from '../layout';
 import { Link } from '../link';
-import { IconButton } from '../button';
+import { Button } from '../button';
 import { noop } from '../../utils';
 import { FileStatusType } from './types';
 import { FileListProps, FileListItemProps } from './types';
@@ -51,7 +52,15 @@ function FileListItem(props: FileListItemProps) {
           </Text>
         )}
       </Box>
-      <IconButton icon="close" onClick={() => onRemove(file.id, { data: file })} disabled={disabled} />
+      <Button
+        shape="text"
+        size="small"
+        isIconOnly
+        onClick={() => onRemove(file.id, { data: file })}
+        disabled={disabled}
+      >
+        <Icon type="close" />
+      </Button>
     </Box>
   );
 }
