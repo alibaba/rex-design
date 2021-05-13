@@ -43,7 +43,16 @@ function FileListItem(props: FileListItemProps) {
   const bg = getItemBg(file.status);
 
   return (
-    <Box as="li" bg={bg} px="m" py="s" fontSize="body" display="flex" justifyContent="space-between">
+    <Box
+      as="li"
+      bg={bg}
+      px="m"
+      py="s"
+      fontSize="body"
+      display="flex"
+      justifyContent="space-between"
+      alignItems="center"
+    >
       <Box>
         <Link>{file.name}</Link>
         {file.error && (
