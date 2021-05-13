@@ -7,11 +7,12 @@ export interface IconProps extends React.SVGProps<SVGSVGElement> {
 }
 
 export const Icon = React.forwardRef<SVGSVGElement, IconProps>((props, ref) => {
-  const comp = icons[`Svg${camelize(props.type)}`];
+  const { type, ...svgProps } = props;
+  const comp = icons[`Svg${camelize(type)}`];
 
   if (typeof comp !== 'undefined') {
     return React.createElement(comp, {
-      ...props,
+      ...svgProps,
       ref,
     });
   }
@@ -19,21 +20,12 @@ export const Icon = React.forwardRef<SVGSVGElement, IconProps>((props, ref) => {
 
 export { iconTypes, IconType };
 
-function _isNumerical(obj: any) {
-  const _obj = obj - 0;
-  return obj === _obj;
-}
-
 /**
  * 中划线命名转大驼峰命名
  * eg: zoom-in => ZoomIn
  */
 function camelize(string: string) {
   if (!string) {
-    return string;
-  }
-
-  if (_isNumerical(string)) {
     return string;
   }
 
