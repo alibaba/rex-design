@@ -51,19 +51,20 @@ export function ActionItem(props: ActionItemProps) {
           </Button>
         )}
         interactionKind="click"
-      >
-        <Box minWidth="140px">
-          <Box mb="m">你确定吗?</Box>
-          <Group display="flex" justifyContent="flex-end">
-            <Button size="small" onClick={handleCancel}>
-              取消
-            </Button>
-            <Button size="small" type="primary" onClick={handleOk}>
-              确认
-            </Button>
-          </Group>
-        </Box>
-      </Tooltip>
+        title={
+          <Box minWidth="140px">
+            <Box mb="m">你确定吗?</Box>
+            <Group display="flex" justifyContent="flex-end">
+              <Button size="small" onClick={handleCancel}>
+                取消
+              </Button>
+              <Button size="small" type="primary" onClick={handleOk}>
+                确认
+              </Button>
+            </Group>
+          </Box>
+        }
+      />
     );
   } else {
     ret = (
