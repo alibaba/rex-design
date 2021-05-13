@@ -102,10 +102,11 @@ export function AdaptivePopup({
   fullscreenProps?: Partial<FullscreenPopupProps>;
 }) {
   const { device } = useDevice();
-  const PopupComponent = device.name === 'phone' ? FullscreenPopup : Popup;
+  const isFullscreen = ['tablet', 'phone'].includes(device.name);
+  const PopupComponent = isFullscreen ? FullscreenPopup : Popup;
   const props: any = {
     ...others,
-    ...(device.name === 'phone' ? fullscreenProps : null),
+    ...(isFullscreen ? fullscreenProps : null),
   };
   return <PopupComponent {...props} />;
 }

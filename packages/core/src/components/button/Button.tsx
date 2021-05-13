@@ -43,7 +43,7 @@ const buttonType = (
     background-color: ${bg};
     border-color: ${borderColor};
 
-    &:hover {
+    &:hover:not(.rex-btn-loading) {
       color: ${hoverColor};
       background-color: ${hoverBg};
       border-color: ${hoverBorderColor};

@@ -70,10 +70,7 @@ export const StyledRow = styled.div`
   }
 `;
 
-export const StyledHeadCell = styled.div`
-  margin-top: 2px;
-  margin-bottom: 2px;
-`;
+export const StyledHeadCell = styled.div``;
 
 export const StyledCell = styled.div`
   margin-top: 2px;
@@ -100,12 +97,12 @@ export const StyledCell = styled.div`
   }
 
   &.rex-inRange {
-    background-color: var(--rex-colors-primary-10);
+    background-color: ${getToken('DatePicker.dateCellInRangeBg')};
   }
 
   &.rex-inRange:not(.rex-active):hover > div {
     border-radius: var(--rex-radii-s);
-    background-color: var(--rex-colors-primary-20);
+    background-color: ${getToken('DatePicker.dateCellInRangeBgHover')};
   }
 
   &.rex-otherMonth {
@@ -113,8 +110,8 @@ export const StyledCell = styled.div`
   }
 
   &.rex-active > div {
-    color: var(--rex-colors-emphasis-0);
-    background-color: var(--rex-colors-brand-normal);
+    color: ${getToken('DatePicker.dateCellActiveColor')};
+    background-color: ${getToken('DatePicker.dateCellActiveBg')};
     border-radius: var(--rex-radii-s);
   }
 
@@ -129,7 +126,7 @@ export const StyledCell = styled.div`
   }
 
   &.rex-active.rex-today::after {
-    background-color: var(--rex-colors-emphasis-0);
+    background-color: ${getToken('DatePicker.dateCellActiveColor')};
   }
 
   &.rex-disabled {

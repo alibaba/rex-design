@@ -41,8 +41,8 @@ export default extendTheme({
 
     TimePicker: {
       triggerWidth: '200px',
-      normalPanelWidth: '200px',
-      simplePanelWidth: '200px',
+      normalPanelWidth: '574px',
+      simplePanelWidth: '574px',
       panelMenuItemHeight: '39px', // 需要保持和日期组件的格子一样大
     },
 
@@ -50,7 +50,7 @@ export default extendTheme({
       triggerWidth: '264px',
       normalTimeCardWidth: '240px',
       simpleTimeCardWidth: '200px',
-      monthCardWidth: '264px',
+      monthCardWidth: '574px',
       dateCellSize: '39px',
       dateCellDotSize: '6px',
     },

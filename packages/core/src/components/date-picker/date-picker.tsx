@@ -13,10 +13,6 @@ import { FormControlOnChangeHandler } from '../../types';
 const DATE_FORMAT = 'YYYY-MM-DD';
 const TIME_FORMAT = 'HH:mm:ss';
 
-const popupStyle = {
-  background: 'transparent',
-};
-
 function formatDateValue(str: string, format: string) {
   if (str) {
     return dayjs(str, format);
@@ -82,7 +78,6 @@ export function DatePicker(props: DatePickerProps) {
     <AdaptivePopup
       {...popupProps}
       offset={[0, 2]}
-      style={popupStyle}
       visible={visible}
       onRequestClose={onClose}
       onRequestOpen={onOpen}
@@ -102,20 +97,22 @@ export function DatePicker(props: DatePickerProps) {
           rightElement={<Icon type="calendar" />}
         />
       )}
-    >
-      <DatePanel
-        format={format}
-        hasTime={hasTime}
-        startValue={value}
-        timeValue={value}
-        onSelect={(val: any) => {
-          if (!val.isSame(value, dateCompareUnit)) {
-            updateValue(val);
-          }
-        }}
-        onOk={onClose}
-        {...restProps}
-      />
-    </AdaptivePopup>
+      renderChildren={({ ref }: any) => (
+        <DatePanel
+          forwardedRef={ref}
+          format={format}
+          hasTime={hasTime}
+          startValue={value}
+          timeValue={value}
+          onSelect={(val: any) => {
+            if (!val.isSame(value, dateCompareUnit)) {
+              updateValue(val);
+            }
+          }}
+          onOk={onClose}
+          {...restProps}
+        />
+      )}
+    />
   );
 }

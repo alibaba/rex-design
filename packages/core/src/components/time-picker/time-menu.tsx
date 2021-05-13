@@ -42,12 +42,7 @@ const ListEndMask = styled.div`
   bottom: 0;
   width: 100%;
   height: ${getToken('TimePicker.panelMenuItemHeight')};
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.65) 35%,
-    rgba(255, 255, 255, 0.95) 100%
-  );
+  background: ${getToken('TimePicker.listEndMaskBg')};
 `;
 
 function scrollTo(element: any, to: any, duration: number) {
@@ -89,6 +84,10 @@ interface TimeMenuProps {
   onSelect?: FormControlOnChangeHandler<any>;
   renderHeader?: () => React.ReactNode;
   itemStyle?: React.CSSProperties;
+  /**
+   * 是否自动滚动到激活项
+   */
+  shouldScrollToActiveItem?: boolean;
 }
 
 /**
@@ -103,6 +102,7 @@ export function TimeMenu(props: TimeMenuProps) {
     onSelect = noop,
     renderHeader,
     itemStyle,
+    shouldScrollToActiveItem = true,
   } = props;
 
   const menu = useRef<HTMLUListElement>();
@@ -110,8 +110,10 @@ export function TimeMenu(props: TimeMenuProps) {
   const [isScrollToEnd, setIsScrollToEnd] = useState(false);
 
   useEffect(() => {
-    scrollTo(menu.current, selected.current?.offsetTop, 100);
-  }, []);
+    if (shouldScrollToActiveItem) {
+      scrollTo(menu.current, selected.current?.offsetTop, 100);
+    }
+  }, [selectedKey, shouldScrollToActiveItem]);
 
   const handleListScroll = (e: React.MouseEvent<HTMLUListElement>) => {
     const element = e.target as HTMLUListElement;
@@ -131,9 +133,19 @@ export function TimeMenu(props: TimeMenuProps) {
   };
 
   return (
-    <Wrapper>
+    <Wrapper className="rex-timePicker-menu">
       {typeof renderHeader === 'function' && (
-        <Box py="s" fontSize="body" color="text.note" fontWeight="bold">
+        <Box
+          className="rex-timePicker-menu-header"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          height="formHeights.s"
+          mb="s"
+          fontSize="body"
+          color="text.note"
+          fontWeight="bold"
+        >
           {renderHeader()}
         </Box>
       )}
