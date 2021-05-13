@@ -57,7 +57,7 @@ export function Password() {
     <Input
       type={hide ? 'password' : 'text'}
       defaultValue="1234"
-      rightElement={<Icon type="browse" onClick={() => setHide(!hide)} />}
+      rightElement={<Icon type={hide ? 'eye-close' : 'browse'} onClick={() => setHide(!hide)} />}
     />
   );
 }
