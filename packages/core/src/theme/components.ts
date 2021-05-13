@@ -1,3 +1,5 @@
+import { math } from 'polished';
+
 const components = {
   Button: {
     spx: '12px',
@@ -8,9 +10,10 @@ const components = {
     mFontSize: '12px',
     lFontSize: '14px',
 
-    sIconSize: '14px',
-    mIconSize: '14px',
-    lIconSize: '16px',
+    // iconSize = fontSize * lineHeight
+    sIconSize: math('12px * 1.5'),
+    mIconSize: math('12px * 1.5'),
+    lIconSize: math('14px * 1.5'),
 
     textPrimary: 'colors.emphasis.0',
     bgPrimary: 'colors.brand.normal',
