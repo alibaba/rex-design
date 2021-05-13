@@ -14,7 +14,7 @@ export function Basic() {
     <MenuButton
       dataSource={items}
       onItemClick={(key, detail) => {
-        console.log('YOUR click', key, detail);
+        console.log('clicked:', key, detail);
       }}
     >
       文件
