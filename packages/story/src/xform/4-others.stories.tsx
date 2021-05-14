@@ -306,14 +306,17 @@ const CandidateListFormInner = observer(() => {
   const addCandidate = action(() => {
     const mod = arrayModel.getSubModel(String(model.values.activeIndex));
 
-    const result = modelUtils.validateAll(mod);
-    if (result.hasError) {
-      Toaster.show({ placement: 'top', content: '请先完成当前表单' });
-      return;
-    }
+    modelUtils.validateAll(mod).then(
+      action((result) => {
+        if (result.hasError) {
+          Toaster.show({ placement: 'top', content: '请先完成当前表单' });
+          return;
+        }
 
-    arrayHelpers.append(arrayModel);
-    model.values.activeIndex = model.values.items.length - 1;
+        arrayHelpers.append(arrayModel);
+        model.values.activeIndex = model.values.items.length - 1;
+      }),
+    );
   });
 
   return (

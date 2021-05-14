@@ -100,7 +100,7 @@ export function DateCard(props: DateCardProps) {
     onSelect,
     onOk,
   } = props;
-  const { device } = useDevice();
+  const device = useDevice();
   const [mode, setMode] = useState('date'); // date, month, year
   const [visibleMonth, setVisibleMonth] = useState(() =>
     getDefaultVisibleMonth({
@@ -193,7 +193,7 @@ interface DatePanelFooterProps {
 
 function DatePanelFooter(props: DatePanelFooterProps) {
   const { onOk } = props;
-  const { device } = useDevice();
+  const device = useDevice();
 
   return (
     <Box px="m" pb="m" textAlign="right">

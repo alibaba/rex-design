@@ -63,7 +63,7 @@ const getWidth = (span: StringOrNumber) => {
 export const FlexItem = React.forwardRef<HTMLDivElement, FlexItemProps>((props, ref) => {
   const { span: spanProp, flex: flexProp, className, ...rest } = props;
   const clazz = cx('rex-flex-item', className);
-  const { device } = useDevice();
+  const device = useDevice();
   const span = getResponsive(spanProp, device.alias);
   const width = span ? getWidth(span) : undefined;
   const flex = width ? '0 0 auto' : '1 0 0%';

@@ -206,7 +206,7 @@ const FeaturesSection = observer(() => {
 
 export default function Home() {
   return (
-    <AppProvider>
+    <AppProvider root>
       <div className={styles.homePage}>
         <div className={styles.headerWrapper}>
           <div className={styles.header}>

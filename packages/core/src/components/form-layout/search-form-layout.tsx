@@ -108,7 +108,7 @@ export function SearchFormLayout(props: SearchFormLayoutProps) {
 
 function SearchFormMain(props: SearchFormLayoutProps) {
   const { displayCount, columns, children, renderFooterMain = defaultRenderFooterMain } = props;
-  const { device } = useDevice();
+  const device = useDevice();
   const shouldExpandRef = useRef(false);
   const [visible, setVisible] = useState(false);
   let displayChildren = children;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDevice } from './device-provider';
+import { useDevice } from './app-provider';
 import { defaultConfig, phoneConfig } from '../config';
 import { createContext } from '../utils';
 
@@ -19,7 +19,7 @@ const [Provider, useDeviceConfig] = createContext<ConfigContextType>({
 export function ConfigProvider(props: any) {
   const { value, children } = props;
 
-  const { device } = useDevice();
+  const device = useDevice();
   const context = configMap[device.name];
 
   const controlledContext = {
@@ -29,6 +29,7 @@ export function ConfigProvider(props: any) {
   return <Provider value={value ? controlledContext : context}>{children}</Provider>;
 }
 
+// TODO rename to useComponentConfig?
 export function useConfig<T>(name: string, props: T) {
   const config = useDeviceConfig();
   const value = config[name] || {};

@@ -1,11 +1,99 @@
+import { serializeStyles } from '@emotion/serialize';
+import { StyleSheet } from '@emotion/sheet';
+import React, { useLayoutEffect, useRef } from 'react';
 import { createGlobalStyle } from 'styled-components';
+// @ts-ignore
+import { compile, middleware, rulesheet, serialize, stringify } from 'stylis';
+import { Dict } from '../types';
+import { getToken, isValidTokenPath } from '../utils';
 
-// TODO: 这里有问题，当存在多重 AppProvider 的时候会存在 :root 样式覆盖的问题
-export const CssVariables = createGlobalStyle<{ variables: string[][] }>`
-  :root {
-    ${(props: any) => props.variables.map((item: string[]) => item.join(':')).join(';')}
+function themeToVariables(obj: Dict, prefix = '--rex') {
+  let paths: string[][] = [];
+
+  Object.keys(obj).forEach((key) => {
+    const keypath = prefix ? [prefix, key].join('-') : key;
+    if (typeof obj[key] === 'string') {
+      let val = obj[key];
+
+      if (isValidTokenPath(val)) {
+        val = getToken(val, 'common');
+      }
+
+      paths.push([keypath, val]);
+    } else {
+      paths = paths.concat(themeToVariables(obj[key], keypath));
+    }
+  });
+
+  return paths;
+}
+
+function injectGlobal(style: string) {
+  const { name, styles } = serializeStyles(style as any, null);
+  const sheet = new StyleSheet({
+    key: `global-${name}`,
+    container: document.head,
+    speedy: true,
+  });
+
+  serialize(
+    compile(styles),
+    middleware([
+      stringify,
+      rulesheet((rule: any) => {
+        sheet.insert(rule);
+      }),
+    ]),
+  );
+
+  return [name, () => sheet.flush()] as const;
+}
+
+export const CssVariables = React.memo(({ theme, root }: { theme: any; root: boolean }) => {
+  const ref = useRef<HTMLDivElement>();
+
+  useLayoutEffect(() => {
+    const variables = themeToVariables(theme);
+
+    if (root) {
+      const globalStyle = `
+        :root {
+          ${variables.map((item: string[]) => item.join(':')).join(';')}
+        }`;
+      const [name, disposer] = injectGlobal(globalStyle);
+      return disposer;
+    }
+
+    const target = ref.current.parentElement;
+
+    if (target) {
+      const existedApps = Array.from(target.ownerDocument.querySelectorAll<HTMLDivElement>('*[data-rex-app]'));
+      const maxAppNo = existedApps.reduce((max, div) => {
+        const appNo = Number(div.dataset.rexApp.replace(/^app_/, ''));
+        return Math.max(max, appNo);
+      }, 0);
+      const nextAppNo = maxAppNo + 1;
+
+      target.dataset.rexApp = `app_${nextAppNo}`;
+
+      const globalStyle = `
+        *[data-rex-app="${`app_${nextAppNo}`}"] {
+          ${variables.map((item: string[]) => item.join(':')).join(';')}
+        }`;
+      const [name, disposer] = injectGlobal(globalStyle);
+
+      target.dataset.rexAppStyleSheetName = name;
+
+      return disposer;
+    }
+  }, [root, theme]);
+
+  if (root) {
+    return null;
   }
-`;
+
+  return <div ref={ref} style={{ display: 'none' }} data-rex-app-parent-sensor="" />;
+});
 
 export const Normalize = createGlobalStyle`
 html {

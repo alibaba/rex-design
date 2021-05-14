@@ -1,10 +1,9 @@
 import { collectNodes, makeRecursiveMapper } from 'ali-react-table';
 import cx from 'classnames';
 import React, { useMemo, useRef } from 'react';
-import { useDevice } from '../../providers';
-import { omit, pick } from '../../utils';
+import { pick } from '../../utils';
 import { Input } from '../input';
-import { AdaptivePopup, Popup } from '../overlays';
+import { AdaptivePopup } from '../overlays';
 import { searchTreeByKeyword, Tree, TreeItem, TreeProps } from '../tree';
 import { TreeCheckedStrategy } from '../tree/helpers/TreeDataHelper';
 import { VirtualList, VirtualListAlign } from '../virtual-list';

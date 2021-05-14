@@ -30,7 +30,7 @@ export const Grid = forwardRef<HTMLDivElement, GridProps>((props, ref) => {
     ...rest
   } = props;
 
-  const { device } = useDevice();
+  const device = useDevice();
   const columns = getResponsive(columnsProp, device.alias);
 
   const templateColumns = minChildWidth ? widthToColumns(minChildWidth) : countToColumns(columns);

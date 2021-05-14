@@ -1,5 +1,6 @@
-import { AppProvider, useColorMode, useDevice, Box, Text, Button } from '@rexd/core';
+import { AppProvider, Box, Button, Text, useColorMode, useDevice } from '@rexd/core';
 import * as React from 'react';
+import { useState } from 'react';
 
 export default {
   title: 'AppProvider',
@@ -12,19 +13,27 @@ export const Basic = () => (
 );
 
 export const ChangeColorMode = () => {
-  const { colorMode, toggleColorMode } = useColorMode();
-  const bg = colorMode === 'dark' ? '#333' : '#eee';
+  const [colorMode, setColorMode] = useState(useColorMode());
 
   return (
-    <Box bg={bg} p="xl">
-      <Button onClick={() => toggleColorMode()}>切换色彩模式</Button>
-      <Box mt="l">当前色彩模式: {colorMode}</Box>
+    <Box>
+      <AppProvider colorMode={colorMode}>
+        <Box height="400px" color="emphasis.10" bg="emphasis.10">
+          <Button onClick={() => setColorMode(colorMode === 'light' ? 'dark' : 'light')}>切换色彩模式</Button>
+          <Box mt="l">当前色彩模式: {colorMode}</Box>
+          <Box data-innerbox height="250px" m="l" p="l" bg="emphasis.30">
+            <AppProvider colorMode="light">
+              <Button>Always light</Button>
+            </AppProvider>
+          </Box>
+        </Box>
+      </AppProvider>
     </Box>
   );
 };
 
 export const ChangeDeviceMode = () => {
-  const { device } = useDevice();
+  const device = useDevice();
 
   return (
     <Box>

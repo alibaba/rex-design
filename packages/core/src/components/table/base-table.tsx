@@ -9,7 +9,7 @@ import cx from 'classnames';
 import React from 'react';
 import styled from 'styled-components';
 import { useColorMode, useDevice } from '../../providers';
-import theme from '../../theme';
+import { THEMES } from '../../theme';
 import { Checkbox } from '../checkbox';
 import { Loading } from '../loading';
 import { Tooltip } from '../overlays';
@@ -139,12 +139,12 @@ export { BaseTableProps, ArtColumn as Column } from 'ali-react-table';
  * @see https://ali-react-table.js.org/docs */
 export const BaseTable = React.forwardRef<ArtBaseTable, BaseTableProps>((props, ref) => {
   const headerDepth = getTreeDepth(props.columns);
-  const { colorMode } = useColorMode();
-  const { device } = useDevice();
+  const colorMode = useColorMode();
+  const device = useDevice();
 
   return (
     <StyledArtBaseTable
-      theme={theme}
+      theme={THEMES.base}
       ref={ref}
       {...props}
       className={cx(props.className, {

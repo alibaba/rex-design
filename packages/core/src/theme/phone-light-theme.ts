@@ -1,7 +1,8 @@
 import { math } from 'polished';
-import { extendTheme } from '../theme';
+import { base } from './base';
+import { extendTheme } from './theme-utils';
 
-export default extendTheme({
+export const phoneLightTheme = extendTheme(base, {
   fontSizes: {
     note: '10px',
     body: '14px',

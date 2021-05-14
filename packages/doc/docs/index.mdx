@@ -4,7 +4,7 @@ title: 开始使用
 slug: /
 ---
 
-import { Button, Dialog } from '@rexd/core';
+import { AppProvider, Button, Dialog } from '@rexd/core';
 
 [![NPM Package](https://img.shields.io/npm/v/@rexd/core.svg?style=flat-square)](https://www.npmjs.org/package/@rexd/core)
 
@@ -27,22 +27,14 @@ ReX Design 组件库目前仍处于 alpha 阶段中，后续可能出现未在�
 
 ## 使用
 
-### 引入样式
+### 引入 AppProvider
 
-@rexd/core 依赖于 normalize.css，你需要先引入 normalize.css 然后引入 rexd.css：
-
-```html
-<head>
-  <link href="path/to/node_modules/normalize.css/normalize.css" rel="stylesheet" />
-  <link href="path/to/node_modules/@rexd/core/dist/rexd.css" rel="stylesheet" />
-</head>
-```
-
-如果你使用 webpack 且支持引入 CSS 模块，可以在代码入口处引入以下 CSS 文件：
+@rexd/core 组件依赖 `AppProvider` 提供的全局样式，你需要在页面的最外层包裹一个 `<AppProvider root>`：
 
 ```jsx
-import 'normalize.css';
-import '@rexd/core/dist/rexd.css';
+import { AppProvider } from '@rexd/core';
+
+<AppProvider root>{children}</AppProvider>;
 ```
 
 ### 使用组件
@@ -69,26 +61,34 @@ import { Button, Toaster } from '@rexd/core';
   按钮
 </Button>
 
-### 切换主题与设备
+### 切换颜色模式与设备
 
-通过 `AppProvider` 可以为子节点生效设置主题与设备。
+通过 `AppProvider` 可以设置颜色模式与设备：
 
 ```jsx
 import { AppProvider } from '@rexd/core';
 
-<AppProvider colorMode="dark" device="phone">
+<AppProvider root colorMode="dark" device="phone">
   {children}
 </AppProvider>;
 ```
 
-切换主题与设备底层依赖 [CSS 变量](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Using_CSS_custom_properties)，你可以通过 container 指定 CSS 变量的注入位置，如不指定则 CSS 变量的生效节点为 `:root`。
+AppProvider 允许简单的嵌套，这样可以让颜色模式和设备只在指定的层级内发生变化，注意只有 root=false 的 AppProvider 可以被嵌套在其他 AppProvider 内：
 
 ```jsx
-<AppProvider container={div} colorMode="dark" device="phone">
-  {children}
+<AppProvider root colorMode="dark">
+  <AppProvider colorMode="light" device="phone">
+    {children}
+  </AppProvider>
 </AppProvider>
 ```
+
+切换能力依赖 [CSS 变量](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Using_CSS_custom_properties) 特性，root Provider 会将 CSS 变量注入至 `:root`，非 root 的 AppProvider 会将 CSS 变量的注入至最近的上级 DOM 节点，。
 
 ### 自定义主题
 
 （开发中，敬请期待）
+
+## AppProvider
+
+<PropsTable component={AppProvider} />{' '}

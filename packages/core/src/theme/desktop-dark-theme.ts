@@ -1,7 +1,8 @@
 import { rgba } from 'polished';
-import { extendTheme } from '../theme';
+import { base } from './base';
+import { extendTheme } from './theme-utils';
 
-export const colors = {
+export const darkColors = {
   //----------------------
   // 基础色板（基于 light 扩展）
   //----------------------
@@ -58,7 +59,7 @@ export const colors = {
   //----------------------
 };
 
-export const components = {
+export const darkComponents = {
   Button: {
     textPrimary: 'colors.emphasis.100',
     textPrimaryHover: 'colors.emphasis.100',
@@ -104,8 +105,7 @@ export const components = {
   },
 };
 
-export default extendTheme({
-  colors,
-
-  components,
+export const desktopDarkTheme = extendTheme(base, {
+  colors: darkColors,
+  components: darkComponents,
 });

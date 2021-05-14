@@ -183,7 +183,7 @@ const withRexAppProvider = (Story, context) => {
   const theme = getTheme(device.name, colorMode, themeMode);
 
   return (
-    <AppProvider theme={theme} device={device} colorMode={colorMode}>
+    <AppProvider root theme={theme} device={device} colorMode={colorMode}>
       <StyleSheetManager disableVendorPrefixes>
         <Story {...context} />
       </StyleSheetManager>

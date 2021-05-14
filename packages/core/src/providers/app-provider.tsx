@@ -1,38 +1,111 @@
-import React from 'react';
-import { ThemeProvider } from 'styled-components';
+import React, { useContext, useMemo } from 'react';
+import { ThemeProvider as StyledComponentsThemeProvider } from 'styled-components';
 import { OverlayAnimationStyles } from '../components/overlays/overlay-utils/animations';
 import { OverlayGlobalStyles } from '../components/overlays/overlay-utils/OverlayGlobalStyles';
-import { ColorMode, ColorModeProvider } from './color-mode-provider';
-import { Device, DeviceProvider } from './device-provider';
+import { THEMES } from '../theme';
 import { ConfigProvider } from './config-provider';
-import { Normalize } from './global-styles';
+import { CssVariables, Normalize } from './global-styles';
 
-export interface AppProviderProps {
-  device?: Device;
-  colorMode?: ColorMode;
-  config?: any;
-  theme?: any;
-  isNormalized?: boolean;
+// TODO device 相关的变量可以移动到 devices/ 目录下
+export type DeviceName = 'phone' | 'tablet' | 'desktop';
+
+export interface Device {
+  /** 设备名 */
+  name: DeviceName;
+  /** 别名 */
+  alias: string;
+  /** 断点设置 */
+  breakpoint: string;
+}
+export const DESKTOP_DEVICE: Device = { name: 'desktop', alias: 'l', breakpoint: '' } as const;
+export const TABLET_DEVICE: Device = { name: 'tablet', alias: 'm', breakpoint: '835px' } as const;
+export const PHONE_DEVICE: Device = { name: 'phone', alias: 's', breakpoint: '415px' } as const;
+
+export type ColorMode = 'light' | 'dark';
+
+export interface AppContextType {
+  underRoot: boolean;
+  /** 设备上下文，默认继承自上层节点；顶层默认为 DESKTOP_DEVICE */
+  device: Device;
+  /** 颜色模式，默认继承自上层节点；顶层默认为 'light' */
+  colorMode: ColorMode;
+  /** 组件配置上下文 */
+  config: any;
+  /** 主题，默认根据 colorMode 与 device 选取对应的 rexd 内置主题 */
+  theme: any;
 }
 
-// TODO AppProvider 重构
+const AppContext = React.createContext<AppContextType>({
+  underRoot: false,
+  device: DESKTOP_DEVICE,
+  config: {}, // TODO pc default config
+  theme: THEMES.light.desktop,
+  colorMode: 'light',
+});
+
+export const useAppContext = () => useContext(AppContext);
+export const useColorMode = () => useAppContext().colorMode;
+export const useDevice = () => useAppContext().device;
+
+export interface AppProviderProps extends Omit<Partial<AppContextType>, 'underRoot'> {
+  /** 是否为 root AppProvider */
+  root?: boolean;
+
+  /**
+   * 样式调整，是否引入 normalize.css。root=true 的时候默认为 true；
+   * 页面中已存在 normalize.css 的话可将该值设置为 false
+   *
+   * @category 其他
+   * */
+  includeNormalized?: boolean;
+}
+
 export function AppProvider(props: React.PropsWithChildren<AppProviderProps>) {
-  const { device, colorMode, config, theme, isNormalized = true, children } = props;
+  const parent = useContext(AppContext);
+
+  const {
+    root = false,
+    device = parent.device,
+    colorMode = parent.colorMode,
+    config = parent.config,
+    theme = THEMES[colorMode][device.name],
+    includeNormalized = root,
+    children,
+  } = props;
+
+  if (!parent.underRoot && !root) {
+    throw new Error('顶层的 <AppProvider /> 必须设置 root=true.');
+  }
+
+  if ((!parent.underRoot && !root) || (parent.underRoot && root)) {
+    throw new Error('嵌套的 <AppProvider /> 不支持设置为 root=true.');
+  }
+
+  const underRoot = parent.underRoot || root;
+  const appContextValue = useMemo(() => ({ underRoot, colorMode, theme, device, config }), [
+    colorMode,
+    config,
+    device,
+    theme,
+    underRoot,
+  ]);
+
+  const themeContextValue = useMemo(() => ({ ...theme /* TODO 移除 theme */, colorMode, device }), [
+    colorMode,
+    device,
+    theme,
+  ]);
 
   return (
-    <ColorModeProvider value={colorMode} theme={theme}>
-      <ThemeProvider theme={{ ...theme, colorMode, device }}>
-        <DeviceProvider value={device}>
-          <ConfigProvider value={config}>
-            {isNormalized && <Normalize />}
-            {children}
+    <AppContext.Provider value={appContextValue}>
+      <StyledComponentsThemeProvider theme={themeContextValue}>
+        {includeNormalized && <Normalize />}
+        {root && <OverlayGlobalStyles />}
+        {root && <OverlayAnimationStyles />}
+        <CssVariables root={root} theme={theme} />
 
-            {/* TODO 下面两个是临时放的，可能需要换个地方 */}
-            <OverlayGlobalStyles />
-            <OverlayAnimationStyles />
-          </ConfigProvider>
-        </DeviceProvider>
-      </ThemeProvider>
-    </ColorModeProvider>
+        <ConfigProvider value={config}>{children}</ConfigProvider>
+      </StyledComponentsThemeProvider>
+    </AppContext.Provider>
   );
 }

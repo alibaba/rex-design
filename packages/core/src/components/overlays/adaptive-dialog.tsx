@@ -91,7 +91,7 @@ export function FullscreenDialog(props: FullscreenDialogProps) {
 }
 
 export function AdaptiveDialog(props: DialogProps) {
-  const { device } = useDevice();
+  const device = useDevice();
   const DialogComponent = device.name === 'phone' ? FullscreenDialog : Dialog;
   return <DialogComponent {...props} />;
 }

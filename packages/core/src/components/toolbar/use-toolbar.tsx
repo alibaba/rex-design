@@ -15,7 +15,7 @@ export interface UseToolbarProps extends BoxProps {
 
 export function useToolbar(props: UseToolbarProps): any /* TODO 移除 any */ {
   const { actions: actionsProp = [], ...htmlProps } = props;
-  const { device } = useDevice();
+  const device = useDevice();
   const max = getMaxNodes(device.name);
 
   let left = actionsProp;

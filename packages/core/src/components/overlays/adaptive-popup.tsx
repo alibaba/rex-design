@@ -102,7 +102,7 @@ export function AdaptivePopup({
   fullscreenProps?: Partial<FullscreenPopupProps>;
   children?: never; // AdaptivePopup 不支持 children，这里显式的用 TS 声明
 }) {
-  const { device } = useDevice();
+  const device = useDevice();
   const isFullscreen = ['tablet', 'phone'].includes(device.name);
   const PopupComponent = isFullscreen ? FullscreenPopup : Popup;
   const props: any = {

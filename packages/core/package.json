@@ -25,6 +25,9 @@
   },
   "dependencies": {
     "@popperjs/core": "^2.6.0",
+    "@emotion/serialize": "^1.0.2",
+    "@emotion/sheet": "^1.0.1",
+    "stylis": "^4.0.10",
     "@rexd/icon": "^0.3.0-alpha.1",
     "@rexd/one": "^0.3.0-alpha.1",
     "@types/d3": "^6.3.0",

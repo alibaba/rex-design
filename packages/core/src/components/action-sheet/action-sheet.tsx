@@ -20,7 +20,7 @@ export interface ActionSheetProps {
 
 export function ActionSheet(props: ActionSheetProps) {
   const { title, target, dataSource = [], onItemClick } = props;
-  const { device } = useDevice();
+  const device = useDevice();
   const { visible, onClose, onOpen } = useVisible({
     defaultVisible: false,
   });
