@@ -55,7 +55,7 @@ const buttonType = (
       border-color: ${hoverBorderColor};
     }
 
-    &.rex-selected {
+    &:active, .rex-selected {
       color: ${selectedColor};
       background-color: ${selectedBg};
       border-color: ${selectedBorderColor};
