@@ -43,19 +43,28 @@ import { Form, FormItem } from '@rexd/xform';
     {
       category: '校验',
       name: 'validator',
-      type: '(value: any) => any',
-      description: '校验方法，在 onChange 和 onBlur 时被调用',
+      type: '(value: any, field: Field) => string | Promise<string>',
+      // </string> 这个是为了解决 webstorm 的报错 (￣３￣)a
+      description: (
+        <>
+          校验方法，在 onChange 和 onBlur 时被调用
+          <br />
+          返回字符串进行同步校验，返回 Promise 进行异步校验。
+        </>
+      ),
     },
     {
       category: '校验',
       name: 'blurValidator',
-      type: '(value: any) => any',
+      type: '(value: any, field: Field) => string | Promise<string>',
+      // </string> 这个是为了解决 webstorm 的报错 (￣３￣)a
       description: '校验方法，仅在 onBlur 时被调用',
     },
     {
       category: '校验',
       name: 'changeValidator',
-      type: '(value: any) => any',
+      type: '(value: any, field: Field) => string | Promise<string>',
+      // </string> 这个是为了解决 webstorm 的报错 (￣３￣)a
       description: '校验方法，仅在 onChange 时被调用',
     },
     { name: 'dataSource', description: '同 componentProps.dataSource' },
@@ -274,7 +283,10 @@ Field 用来表示「一个 视图控件 对应的表单模型部分」。
 
 - `field.value` 读取或设置字段的值，这是一个 mobx computed 字段
 - `field.state` 字段状态，这是一个 mobx observable 对象，默认为 `{}`。
-  - 目前，我们约定了 `field.state.error` 作为该字段上的错误状态，当 state.error 有值时，页面中就会展示对应的出错提示。
+  - 目前，我们约定了以下属性的含义：
+    - `field.state.error` 该字段上的错误消息，当 error 字段有值时，页面中就会展示对应的出错提示
+    - `field.state.validating` 是否正在执行校验
+    - `field.state.cancelValidation()` 取消上次校验的方法
 - `field.config` 字段配置信息，反映该字段对应的控件最近一次被渲染时 React Element 上的 props
 - `field.id: string` 字段在所属表单内的唯一 id
 - `field.mountCount: number` 字段对应的控件的加载数量
@@ -289,15 +301,25 @@ mobx action. 清除 model 上所有的错误信息
 
 ### `modelUtils.validateAll`
 
-`modelUtils.validateAll(model: IModel): { hasError: boolean, errors: any }`
+```
+modelUtils.validateAll(
+  model: IModel,
+  trigger: '*' | 'blur' | 'change' = '*'
+): Promise<{ hasError: boolean, errors: any }>
+```
 
-mobx action. 执行 model 上所有的校验，并返回所有的报错信息
+mobx action. 执行 model 上所有的校验，并返回一个 Promise 表示所有的报错信息；trigger 用于指定所要执行的 validator，默认为 `'*'`。
 
 ### `fieldUtils.validate`
 
-`fieldUtils.validate(field: Field): any`
+```
+fieldUtils.validate(
+  field: Field,
+  trigger: '*' | 'blur' | 'change' = '*',
+): Promise<string>
+```
 
-mobx action. 执行指定字段上的校验，返回报错信息。
+mobx action. 执行指定字段上的校验，返回一个 Promise 表示报错信息；trigger 用于指定所要执行的 validator，默认为 `'*'`。
 
 ### `fieldUtils.handleBlur`
 
@@ -313,4 +335,4 @@ mobx action. change 事件处理函数，一般在创建自定义的表单项组
 
 ### `makeAsyncValue`
 
-{🚀} (开发中)
+{🚀} (TODO 开发中)

@@ -81,49 +81,18 @@ export function Form({
 
 function FormSubmit({ type = 'primary', children = '提交', ...props }: ButtonProps) {
   const root = useModel().root;
-  const { onSubmit, onError } = useFormEnv();
+  const formEnv = useFormEnv();
+
   return (
-    <Button
-      onClick={() => {
-        const { hasError, errors } = modelUtils.validateAll(root);
-        if (hasError) {
-          onError?.(errors, root);
-        } else if (typeof onSubmit === 'function') {
-          const submitValues: any = observable(root.valueShape === 'array' ? [] : {});
-
-          root._proxy.iterateFields((field) => {
-            if (field.mountCount === 0) {
-              return;
-            }
-
-            const { path, value } = field;
-            observableSetIn(submitValues, path, value);
-          });
-
-          onSubmit(toJS(submitValues), root);
-        }
-      }}
-      type={type}
-      children={children}
-      {...props}
-    />
+    <Button onClick={() => modelUtils.submit(root, 'mounted', formEnv)} type={type} children={children} {...props} />
   );
 }
 
 function FormReset({ children = '重置', ...props }: ButtonProps) {
   const root = useModel().root;
-  const { onReset } = useFormEnv();
-  return (
-    <Button
-      onClick={action(() => {
-        root.values = {};
-        modelUtils.clearError(root);
-        onReset?.(root);
-      })}
-      children={children}
-      {...props}
-    />
-  );
+  const formEnv = useFormEnv();
+
+  return <Button onClick={action(() => modelUtils.reset(root, formEnv))} children={children} {...props} />;
 }
 
 const FormEffect = observer(

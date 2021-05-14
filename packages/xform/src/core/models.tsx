@@ -10,13 +10,13 @@ export interface FieldConfig {
   label?: React.ReactNode;
   labelWidth?: string;
   help?: React.ReactNode;
-  validator?: (value: any) => any;
+  validator?(value: any, field: Field): string | Promise<string>;
   required?: boolean;
   defaultValue?: any;
   isEmpty?(value: any): boolean;
   requiredMessage?: string;
-  blurValidator?(value: any): any;
-  changeValidator?(value: any): any;
+  blurValidator?(value: any, field: Field): string | Promise<string>;
+  changeValidator?(value: any, field: Field): string | Promise<string>;
   disabled?: boolean;
   readOnly?: boolean;
   status?: string;

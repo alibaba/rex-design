@@ -1,6 +1,6 @@
 import { action, observable, toJS } from 'mobx';
 import React from 'react';
-import { Field, IModel } from './core';
+import { Field, FormEnvContextType, FormModel, IModel } from './core';
 import { composeState, observableSetIn } from './core/utils';
 
 export const fieldUtils = {
@@ -8,6 +8,7 @@ export const fieldUtils = {
     if (field.config == null) {
       return;
     }
+
     const {
       validator,
       required,
@@ -18,26 +19,42 @@ export const fieldUtils = {
       changeValidator,
     } = field.config;
     const value = field.value;
-    let error;
 
     if (required && isEmpty(value)) {
-      error = requiredMessage;
-    } else {
-      // TODO 异步校验
-      const val = composeState(value, defaultValue);
-      if (error == null && (trigger === '*' || trigger === 'change')) {
-        error = changeValidator?.(val);
-      }
-      if (error == null && (trigger === '*' || trigger === 'blur')) {
-        error = blurValidator?.(val);
-      }
-      if (error == null) {
-        error = validator?.(val);
-      }
+      field.state.error = requiredMessage;
+      field.state.cancelValidation?.();
+      field.state.cancelValidation = null;
+      return Promise.resolve(requiredMessage);
     }
-    field.state.error = error;
 
-    return error;
+    const val = composeState(value, defaultValue);
+    const checks = [
+      (trigger === '*' || trigger === 'change') && changeValidator?.(val, field),
+      (trigger === '*' || trigger === 'blur') && blurValidator?.(val, field),
+      validator?.(val, field),
+    ].filter(Boolean);
+
+    let cancelled = false;
+    field.state.cancelValidation?.();
+    field.state.validating = true;
+    field.state.cancelValidation = () => {
+      field.state.validating = false;
+      cancelled = true;
+    };
+
+    return Promise.all(checks).then(
+      action((errors) => {
+        if (cancelled) {
+          return;
+        }
+        field.state.cancelValidation = null;
+        field.state.validating = false;
+        // 只考虑第一个错误信息
+        const error = errors.filter(Boolean)[0];
+        field.state.error = error;
+        return error;
+      }),
+    );
   }),
 
   handleBlur(field: Field) {
@@ -58,22 +75,66 @@ export const modelUtils = {
   }),
 
   validateAll: action((model: IModel, trigger: '*' | 'blur' | 'change' = '*') => {
+    let hasError = false;
     const errors: any = observable(model.valueShape === 'array' ? [] : {});
 
-    let hasError = false;
+    const promises: Promise<unknown>[] = [];
 
     model._proxy.iterateFields((field) => {
       if (field.mountCount === 0) {
         return;
       }
-      // TODO 异步校验
-      const error = fieldUtils.validate(field, trigger);
-      if (error) {
-        hasError = true;
-        observableSetIn(errors, field.path, error);
-      }
+      promises.push(
+        fieldUtils.validate(field, trigger).then(
+          action((error) => {
+            if (error) {
+              hasError = true;
+              observableSetIn(errors, field.path, error);
+            }
+          }),
+        ),
+      );
     });
 
-    return { hasError, errors: toJS(errors) };
+    return Promise.all(promises).then(() => ({ hasError, errors: toJS(errors) }));
+  }),
+
+  submit: action(
+    (
+      root: FormModel,
+      valueFilter: 'mounted' | 'all',
+      { onError, onSubmit }: Pick<FormEnvContextType, 'onSubmit' | 'onError'>,
+    ) => {
+      modelUtils.validateAll(root).then(
+        action(({ hasError, errors }) => {
+          if (hasError) {
+            onError?.(errors, root);
+          } else if (typeof onSubmit === 'function') {
+            if (valueFilter === 'all') {
+              onSubmit(toJS(root.values), root);
+            } else {
+              const mountedValues: any = observable(root.valueShape === 'array' ? [] : {});
+
+              root._proxy.iterateFields((field) => {
+                if (field.mountCount === 0) {
+                  return;
+                }
+
+                const { path, value } = field;
+                observableSetIn(mountedValues, path, value);
+              });
+
+              onSubmit(toJS(mountedValues), root);
+            }
+          }
+        }),
+      );
+    },
+  ),
+
+  reset: action((root: FormModel, { onReset }: Pick<FormEnvContextType, 'onReset'>) => {
+    root.values = {};
+    modelUtils.clearError(root);
+    onReset?.(root);
   }),
 };
