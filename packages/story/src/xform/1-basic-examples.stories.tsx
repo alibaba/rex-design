@@ -1,4 +1,4 @@
-import { Button, dayjs, Group } from '@rexd/core';
+import { Button, dayjs } from '@rexd/core';
 import { Form, FormItem, modelUtils, RootModel } from '@rexd/xform';
 import { action } from 'mobx';
 import React from 'react';
@@ -31,18 +31,18 @@ export function BasicUncontrolled() {
         phone: '',
         address: '杭州市余杭区文一西路969号',
       }}
-      onSubmit={(values, model) => console.log('onSubmit:', values)}
-      onError={(errors, model) => console.log('onError:', errors)}
-      onReset={(model) => console.log('onReset')}
+      onSubmit={(values) => console.log('onSubmit:', values)}
+      onError={(errors) => console.log('onError:', errors)}
+      onReset={() => console.log('onReset')}
     >
       <FormItem component="input" label="姓名" name="name" required />
       <FormItem component="input" label="电话" name="phone" required />
       <FormItem component="input" label="地址" name="address" />
 
-      <Group mt="8px">
+      <div style={{ marginTop: 8, display: 'flex', gap: 8 }}>
         <Form.Submit />
         <Form.Reset />
-      </Group>
+      </div>
     </Form>
   );
 }
@@ -65,7 +65,7 @@ export function Validation() {
         name="商品编码"
         required
         componentProps={{ placeholder: '请输入商品编码' }}
-        validate={(value: string) => {
+        validator={(value: string) => {
           let error;
           if (!value) {
             error = '该字段必填';

@@ -8,10 +8,19 @@ export type ValueShape = 'array' | 'object';
 export interface FieldConfig {
   name: string;
   label?: React.ReactNode;
-  validate?: (value: any) => any;
+  labelWidth?: string;
+  help?: React.ReactNode;
+  validator?: (value: any) => any;
   required?: boolean;
   defaultValue?: any;
   isEmpty?(value: any): boolean;
+  requiredMessage?: string;
+  blurValidator?(value: any): any;
+  changeValidator?(value: any): any;
+  disabled?: boolean;
+  readOnly?: boolean;
+  status?: string;
+  renderPreview?(props: any): React.ReactNode;
 
   // 其他更多字段由上层自定义（TS 层面可以使用 interface merge）
 }

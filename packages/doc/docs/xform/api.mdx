@@ -5,7 +5,7 @@ title: API
 
 import { Form, FormItem } from '@rexd/xform';
 
-{🚀} 表示进阶 API。
+{🚀} 表示进阶 API。 所有 API 都通过 `@rexd/xform` 导出。
 
 ## 组件
 
@@ -28,18 +28,84 @@ import { Form, FormItem } from '@rexd/xform';
     { name: 'component', required: true, type: 'string', description: '组件类型' },
     { name: 'name', required: true, type: 'string', description: '字段数据索引' },
     { name: 'label', required: true, type: 'ReactNode', description: '字段的显示名称' },
+    { name: 'labelWidth', type: 'string', description: '标签宽度' },
+    { name: 'help', type: 'ReactNode', description: '帮助文本' },
     { name: 'defaultValue', description: '默认值' },
     { name: 'componentProps', description: '组件的 props' },
-    { category: '校验', name: 'validate', type: '(value: any) => any', description: '校验方法' },
     { category: '校验', name: 'required', type: 'boolean', defaultValue: 'false', description: '字段是否必填' },
-    { category: '校验', name: 'requiredMessage', type: 'string', description: '开发中. 必填字段的自定义错误信息' },
-    { name: 'dataSource', description: '数据源（即将被移除，请使用 componentProps.dataSource 代替）' },
+    {
+      category: '校验',
+      name: 'requiredMessage',
+      type: 'string',
+      defaultValue: '"该字段为必填项"',
+      description: '必填字段的错误信息',
+    },
+    {
+      category: '校验',
+      name: 'validator',
+      type: '(value: any) => any',
+      description: '校验方法，在 onChange 和 onBlur 时被调用',
+    },
+    {
+      category: '校验',
+      name: 'blurValidator',
+      type: '(value: any) => any',
+      description: '校验方法，仅在 onBlur 时被调用',
+    },
+    {
+      category: '校验',
+      name: 'changeValidator',
+      type: '(value: any) => any',
+      description: '校验方法，仅在 onChange 时被调用',
+    },
+    { name: 'dataSource', description: '同 componentProps.dataSource' },
+    { name: 'disabled', description: '同 componentProps.disabled' },
+    { name: 'readOnly', description: '同 componentProps.readOnly' },
+    {
+      name: 'status',
+      description: (
+        <>
+          同 componentProps.status
+          <br />
+          默认为 undefined；字段校验出错时，status 的默认值为 'error'；
+          <br /> 该 prop 一般不需要进行设置
+        </>
+      ),
+    },
     { category: '{🚀}', name: 'value', description: '覆盖表单项默认的 value' },
     { category: '{🚀}', name: 'onChange', description: '覆盖表单项默认的 onChange' },
     { category: '{🚀}', name: 'onBlur', description: '覆盖表单项默认的 onBlur' },
-    { category: '{🚀}', name: 'items', description: '测试用，即将被移除，勿使用' },
+    { category: '{🚀}', name: 'renderPreview', description: '覆盖表单项默认的 预览态渲染方法' },
   ]}
 />
+
+<details>
+  <summary>component 列表</summary>
+
+```
+"switch"
+"checkbox"
+"checkboxGroup"
+"radioGroup"
+"datePicker"
+"dateRangePicker"
+"timePicker"
+"filePicker"
+"mediaPicker"
+"input"
+"textarea"
+"numberInput"
+"range"
+"select"
+"singleSelect"
+"multiSelect"
+"treeSelect"
+"singleTreeSelect"
+"multiTreeSelect"
+"testButtonGroup" (测试用的按钮组，通过 componentProps.items=['A', 'B', 'C'] 设置选项)
+```
+
+</details>
 
 ### `Form.Submit`
 
@@ -97,7 +163,7 @@ effect 被调用时，可以获取到两个参数：
 
 {🚀} 用于创建自定义的表单项组件。
 
-TODO 用法介绍
+(TODO 用法介绍)
 
 ## contexts & hooks
 
@@ -247,4 +313,4 @@ mobx action. change 事件处理函数，一般在创建自定义的表单项组
 
 ### `makeAsyncValue`
 
-{🚀} 开发中
+{🚀} (开发中)

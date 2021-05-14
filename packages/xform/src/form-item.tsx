@@ -1,8 +1,10 @@
 import {
   Box,
   Button,
+  Checkbox,
   CheckboxGroup,
   CheckboxGroupProps,
+  CheckboxProps,
   colors,
   DatePicker,
   DatePickerProps,
@@ -47,10 +49,15 @@ import {
 import React from 'react';
 import { FieldConfig, useFormEnv } from './core';
 import { XFormField } from './core/components';
+import { composeState } from './core/utils';
 import { fieldUtils } from './utils';
 
-function defaultPreviewRender(props: any) {
-  return props.value ?? props.defaultValue;
+function renderBooleanPreview(props: any) {
+  return props.value ? '是' : '否';
+}
+
+function defaultRenderPreview(props: any) {
+  return props.value;
 }
 
 function isFalsy(value: any) {
@@ -72,7 +79,7 @@ interface RegisterOption {
   name: string;
 
   /** 预览态下组件的渲染方法 */
-  previewRender: (props: any) => React.ReactNode;
+  renderPreview(props: any): React.ReactNode;
 
   /** 当数据为空 undefined 时，渲染控件所使用的值 */
   fallbackValue: any;
@@ -97,22 +104,33 @@ function register(Component: React.ComponentType<any>, options: RegisterOption) 
         {({ model, name, field, value, required }) => {
           const error = field.state.error;
 
-          const onChange = (nextValue: any) => fieldUtils.handleChange(field, nextValue /*model, name*/);
+          const onChange = (nextValue: any) => fieldUtils.handleChange(field, nextValue);
           const onBlur = () => fieldUtils.handleBlur(field);
 
           const componentProps = {
+            // dataSource, readOnly, disabled 允许直接透传
+            ...pick(props, ['dataSource', 'readOnly', 'disabled']),
             ...componentPropsProp,
+            // status 优先用 prop 中的值，然后再根据 field.state.error 自动判断
+            status: composeState(componentPropsProp?.status, composeState(props.status, error ? 'error' : undefined)),
             value: valueProp !== undefined ? valueProp : value,
             onChange: onChangeProp !== undefined ? onChangeProp : onChange,
             onBlur: onBlurProp !== undefined ? onBlurProp : onBlur,
-            status: error ? 'error' : undefined,
-            // todo disabled, readOnly
           };
 
-          // TODO pass help, labelWidth to FormControl
           return (
-            <FormControl label={props.label} required={required} error={error}>
-              {isPreview ? options.previewRender(componentProps) : <Component {...componentProps} />}
+            <FormControl
+              label={props.label}
+              help={props.help}
+              labelWidth={props.labelWidth}
+              required={required}
+              error={error}
+            >
+              {isPreview ? (
+                (props.renderPreview ?? options.renderPreview)(componentProps)
+              ) : (
+                <Component {...componentProps} />
+              )}
             </FormControl>
           );
         }}
@@ -132,11 +150,19 @@ interface SwitchFormItemProps extends FieldConfig {
 }
 register(Switch, {
   name: 'switch',
-  previewRender(props) {
-    const value = props.value ?? props.defaultValue;
-    // TODO: 自定义文案
-    return value ? '是' : '否';
-  },
+  renderPreview: renderBooleanPreview,
+  fallbackValue: false,
+  isEmpty: isFalsy,
+});
+
+interface CheckboxFormItemProps extends FieldConfig {
+  component: 'checkbox';
+  componentProps?: CheckboxProps;
+  defaultValue?: boolean;
+}
+register(Checkbox, {
+  name: 'checkbox',
+  renderPreview: renderBooleanPreview,
   fallbackValue: false,
   isEmpty: isFalsy,
 });
@@ -150,7 +176,7 @@ interface CheckboxGroupFormItemProps extends FieldConfig {
 register(CheckboxGroup, {
   name: 'checkboxGroup',
   fallbackValue: [],
-  previewRender(props: CheckboxGroupProps) {
+  renderPreview(props: CheckboxGroupProps) {
     const value = props.value ?? props.defaultValue;
     const list = new ListStore<string | number>(props.dataSource);
     const labels = value.map((val) => {
@@ -173,7 +199,7 @@ interface RadioGroupFormItemProps extends FieldConfig {
 register(RadioGroup, {
   name: 'radioGroup',
   fallbackValue: null,
-  previewRender(props: RadioGroupProps) {
+  renderPreview(props: RadioGroupProps) {
     const value = props.value ?? props.defaultValue;
     const list = new ListStore<string | number>(props.dataSource);
     const item = list.getItem(value);
@@ -189,7 +215,7 @@ interface DatePickerFormItemProps extends FieldConfig {
 }
 register(DatePicker, {
   name: 'datePicker',
-  previewRender: defaultPreviewRender,
+  renderPreview: defaultRenderPreview,
   fallbackValue: null,
   isEmpty: isFalsy,
 });
@@ -201,13 +227,12 @@ interface DateRangePickerFormItemProps extends FieldConfig {
 }
 register(DateRangePicker, {
   name: 'dateRangePicker',
-  previewRender(props: DateRangePickerProps) {
+  renderPreview(props: DateRangePickerProps) {
     const value = (props.value ?? props.defaultValue) || [];
     return `${value[0] || '-'} ~ ${value[1] || '-'}`;
   },
-  fallbackValue: ['', ''],
-  // TODO 优化 isEmpty
-  isEmpty: isFalsy,
+  fallbackValue: [],
+  isEmpty: isNullOrEmptyArray,
 });
 
 interface TimePickerFormItemProps extends FieldConfig {
@@ -217,7 +242,7 @@ interface TimePickerFormItemProps extends FieldConfig {
 }
 register(TimePicker, {
   name: 'timePicker',
-  previewRender: defaultPreviewRender,
+  renderPreview: defaultRenderPreview,
   fallbackValue: '',
   isEmpty: isFalsy,
 });
@@ -229,7 +254,7 @@ interface FilePickerFormItemProps extends FieldConfig {
 }
 register(FilePicker, {
   name: 'filePicker',
-  previewRender(props: FilePickerProps) {
+  renderPreview(props: FilePickerProps) {
     const items = (props.value ?? props.defaultValue) || [];
     return (
       <Flex spacing="s" direction="column">
@@ -252,7 +277,7 @@ interface MediaPickerFormItemProps extends FieldConfig {
 }
 register(MediaPicker, {
   name: 'mediaPicker',
-  previewRender(props) {
+  renderPreview(props) {
     const items: any[] = (props.value ?? props.defaultValue) || [];
     return (
       <Flex spacing="m">
@@ -274,7 +299,7 @@ interface InputFormItemProps extends FieldConfig {
 }
 register(Input, {
   name: 'input',
-  previewRender: defaultPreviewRender,
+  renderPreview: defaultRenderPreview,
   fallbackValue: '',
   isEmpty: isFalsy,
 });
@@ -286,7 +311,7 @@ interface TextareaFormItemProps extends FieldConfig {
 }
 register(Textarea, {
   name: 'textarea',
-  previewRender: defaultPreviewRender,
+  renderPreview: defaultRenderPreview,
   fallbackValue: '',
   isEmpty: isFalsy,
 });
@@ -298,8 +323,7 @@ interface NumberInputFormItemProps extends FieldConfig {
 }
 register(NumberInput, {
   name: 'numberInput',
-  // TODO: preview with format
-  previewRender: defaultPreviewRender,
+  renderPreview: defaultRenderPreview,
   fallbackValue: null,
   isEmpty: isNullOrUndefined,
 });
@@ -312,7 +336,7 @@ interface RangeFormItemProps extends FieldConfig {
 
 register(Range, {
   name: 'range',
-  previewRender: defaultPreviewRender,
+  renderPreview: defaultRenderPreview,
   fallbackValue: 0,
   isEmpty: isNullOrUndefined,
 });
@@ -325,7 +349,7 @@ interface SelectFormItemProps extends FieldConfig {
 }
 register(Select, {
   name: 'select',
-  previewRender: defaultPreviewRender,
+  renderPreview: defaultRenderPreview,
   fallbackValue: null,
   isEmpty: isNullOrUndefined,
 });
@@ -337,7 +361,7 @@ interface SingleSelectFormItemProps extends FieldConfig {
 }
 register(SingleSelect, {
   name: 'singleSelect',
-  previewRender: defaultPreviewRender,
+  renderPreview: defaultRenderPreview,
   fallbackValue: null,
   isEmpty: isFalsy,
 });
@@ -350,7 +374,7 @@ interface MultiSelectFormItemProps extends FieldConfig {
 }
 register(MultiSelect, {
   name: 'multiSelect',
-  previewRender: defaultPreviewRender,
+  renderPreview: defaultRenderPreview,
   fallbackValue: [],
   isEmpty: isNullOrEmptyArray,
 });
@@ -363,7 +387,7 @@ interface TreeSelectFormItemProps extends FieldConfig {
 }
 register(TreeSelect, {
   name: 'treeSelect',
-  previewRender: defaultPreviewRender,
+  renderPreview: defaultRenderPreview,
   fallbackValue: null,
   isEmpty: isNullOrEmptyArray,
 });
@@ -376,7 +400,7 @@ interface SingleTreeSelectFormItemProps extends FieldConfig {
 }
 register(SingleTreeSelect, {
   name: 'singleTreeSelect',
-  previewRender: defaultPreviewRender,
+  renderPreview: defaultRenderPreview,
   fallbackValue: null,
   isEmpty: isFalsy,
 });
@@ -389,7 +413,7 @@ interface MultiTreeSelectFormItemProps extends FieldConfig {
 }
 register(MultiTreeSelect, {
   name: 'multiTreeSelect',
-  previewRender: defaultPreviewRender,
+  renderPreview: defaultRenderPreview,
   fallbackValue: [],
   isEmpty: isNullOrEmptyArray,
 });
@@ -422,13 +446,14 @@ interface TestButtonGroupFieldProps extends FieldConfig {
 register(TestButtonGroup, {
   name: 'testButtonGroup',
   fallbackValue: '',
-  previewRender: defaultPreviewRender,
+  renderPreview: defaultRenderPreview,
   isEmpty: isFalsy,
 });
 //#endregion
 
 export type FormItemProps =
   | SwitchFormItemProps
+  | CheckboxFormItemProps
   | CheckboxGroupFormItemProps
   | RadioGroupFormItemProps
   | DatePickerFormItemProps
