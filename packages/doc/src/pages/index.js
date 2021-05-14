@@ -243,16 +243,22 @@ export default function Home() {
         <section className={styles.resourcesSection}>
           <h2>工具和资源</h2>
           <div className={styles.resourcesGroup}>
-            <div className={styles.resource}>
+            <Link
+              className={styles.resource}
+              href="https://gw.alipayobjects.com/os/bmw-prod/88515173-0787-4269-a1ad-359fee23bdbe.zip"
+            >
               <SketchIcon className={styles.resourceLogo} />
               <span className={styles.name}>Sketch资源包</span>
               <button className={styles.download}>立即下载</button>
-            </div>
-            <div className={styles.resource}>
+            </Link>
+            <Link
+              className={styles.resource}
+              href="https://gw.alipayobjects.com/os/bmw-prod/2c62b221-44f0-450b-b8a7-7e21663a2a48.zip"
+            >
               <AxureIcon className={styles.resourceLogo} />
               <span className={styles.name}>Axure资源包</span>
               <button className={styles.download}>立即下载</button>
-            </div>
+            </Link>
             <Link className={styles.resource} to={useBaseUrl('/design/kitchen')}>
               <KitchenIcon className={styles.resourceLogo} />
               <span className={styles.name}>Kitchen</span>

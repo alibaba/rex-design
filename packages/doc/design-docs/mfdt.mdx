@@ -6,32 +6,30 @@ title: MFDT 多因子设计
 
 在日常多端界面设计中，我们经常会听到以下这些声音：
 
-- 我觉得这里用 44 像素，视觉效果有点奇怪；
-- 这个设备是挂式的，大家都站比较远看，字能不能再大一点？
-- 仓里面作业的人员，他们都是一边小跑一边看，字可以大一些么？
-- 作业场景需要沉浸式，这个颜色能用暗色吗？
-- 我们这个业务需要在界面上放的东西比较多，整体组件摆放可以紧凑一些的吧？
-- …
+> - 我觉得这里用 44 像素，视觉效果有点奇怪；
+> - 这个设备是挂式的，大家都站比较远看，字能不能再大一点？
+> - 仓里面作业的人员，他们都是一边小跑一边看，字可以大一些么？
+> - 作业场景需要沉浸式，这个颜色能用暗色吗？
+> - 我们这个业务需要在界面上放的东西比较多，整体组件摆放可以紧凑一些的吧？
+> - …
 
 因此，有必要建立有规律可循且灵活的设计系统，以广泛满足多交互、跨场景的设计需要。
 
-MFDT（Muti-Factor Design Token）诞生了，对于 Design Tokens 已经是老生常谈了，早在 16 年的时候就有许多设计师提倡使用，它是一种设计师和开发人员都能够清晰明了的设计系统。「Tokens」意思是「令牌」，也是一种计算机术语，与 Design 连在一起有设计变量的意思。具体来说，Design Tokens 是一种将视觉原子化的设计系统，它将视觉原子控件与界面属性重新梳理、归纳进行语义化，带来的益处从设计师层面，方便统一管理&扩展，最大程度的保证产品的一致性；从开发者层面，语义化的命名替代了前端代码中复杂的代码（如：十六进制的颜色代码），提升产研效率。
+MFDT（Multi-Factor Design Token）诞生了，对于 Design Tokens 已经是老生常谈了，早在 16 年的时候就有许多设计师提倡使用，它是一种设计师和开发人员都能够清晰明了的设计系统。「Tokens」意思是「令牌」，也是一种计算机术语，与 Design 连在一起有设计变量的意思。具体来说，Design Tokens 是一种将视觉原子化的设计系统，它将视觉原子控件与界面属性重新梳理、归纳进行语义化，带来的益处从设计师层面，方便统一管理&扩展，最大程度的保证产品的一致性；从开发者层面，语义化的命名替代了前端代码中复杂的代码（如：十六进制的颜色代码），提升产研效率。
 
-Design Tokens 就是解决问题的核心。
-
-Design tokens are the visual design atoms of the design system.
+> Design Tokens 就是解决问题的核心。
+>
+> Design tokens are the visual design atoms of the design system.
 
 ## MFDT 多因子
 
-Design Tokens 已经能够解决一致性的问题，Muti-Factor Design Token 和这个有什么区别呢？
+Design Tokens 已经能够解决一致性的问题，Multi-Factor Design Token 和这个有什么区别呢？
 
-「Muti-Factor」意思是「多因子」，具体来说，一套设计系统的统一性不止是需要保持静态基础样式的一致，在一个多因子模型框架内，模型会受到人因（human factor)、机因(device factor)、法因(task factor)、环因(environment factor)的影响，发生多维度的组合型变化，所以多因子设计将公式和算法用于现有业务场景和应对未知的“X”设备，而真正未知的“X”则更关注参差部分，多因子其建模公式的逻辑起点都是从变动(variant)中寻找不变(invariant)。
+「Multi-Factor」意思是「多因子」，具体来说，一套设计系统的统一性不止是需要保持静态基础样式的一致，在一个多因子模型框架内，模型会受到人因（human factor）、机因（device factor）、法因（task factor）、环因（environment factor）的影响，发生多维度的组合型变化，所以多因子设计将公式和算法用于现有业务场景和应对未知的“X”设备，而真正未知的“X”则更关注参差部分，多因子其建模公式的逻辑起点都是从变动（variant）中寻找不变（invariant）。
 
 凡此种种，不一而足。
 
 ![编组 38备份@2x.png#width=2880](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/feb61b81.png)
-
-##
 
 ## 回归本质
 
@@ -43,8 +41,6 @@ Design Tokens 已经能够解决一致性的问题，Muti-Factor Design Token �
 
 文字的大小会受视距的远近、屏幕精度、色彩对比度、观看角度以及移动速度这五个维度的影响。
 
-####
-
 ### 视距 & 屏幕精度对文字大小的影响
 
 ![按钮备份.png#width=1920](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/2c892c2a.png)
@@ -53,23 +49,17 @@ Design Tokens 已经能够解决一致性的问题，Muti-Factor Design Token �
 
 ![视距.png#width=1920](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/19b4e6e1.png)
 
-####
-
 ### 色彩对比度对文字的影响
 
 我们设计的物料或者屏幕页面会使用一些颜色和字体；放置在环境空间场中光照射在物料上然后光线传播到我们的眼睛，我们眼睛能感应不同颜色的强弱，这种光线强弱对物体的识别有一定的影响
 
 ![色彩对比度.png#width=1920](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/c2439376.png)
 
-####
-
 ### 转动角度对文字大小的影响
 
 我们人在正常情况下有一个舒适区域，比如：左右摇头，前后点头和抬头在一定区域是舒适的，转身 360 度如果脚不转动就会不太舒适；我们先来普及一下一个普通人常规人舒适的尺寸和角度。
 
 ![观看角度.png#width=1920](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/734375cf.png)
-
-####
 
 ### 移动速度对文字大小的影响
 
@@ -81,11 +71,11 @@ Design Tokens 已经能够解决一致性的问题，Muti-Factor Design Token �
 
 基于对文字的变量因子研究，我们以一个「按钮」来举例展示多因子组件设计的推演过程。按钮的尺寸取决于容器内文字的大小以及内容和容器的间距决定。
 
-**按钮 = 内容（文字、图标） + 容器（不同大小、不同圆角）**
+<FormulaCenter>按钮 = 内容（文字、图标） + 容器（不同大小、不同圆角）</FormulaCenter>
 
 **按钮尺寸**
 
-我们通过把文字数字化，按钮宽度 = 字宽 + 2*左右 padding，按钮高度 = 行高 + 2*上下 padding
+我们通过把文字数字化，按钮宽度 = 字宽 + 2\*左右 padding，按钮高度 = 行高 + 2\*上下 padding
 
 为方便下文解释，我们设按钮的宽、高分别为 W、H，设文字的字号为 T(单位为 px)；在此我们将行高定为字号的 1.5 倍，即行高 = 1.5T
 
@@ -103,11 +93,11 @@ Design Tokens 已经能够解决一致性的问题，Muti-Factor Design Token �
 
 即：
 
-\*\*q=αT \*\*
+**q=αT **
 
 0.25 ≤ α ≤ 1
 
-\*\*s=βT \*\*
+**s=βT **
 
 0.15 ≤ β ≤ 1
 
@@ -123,7 +113,7 @@ Design Tokens 已经能够解决一致性的问题，Muti-Factor Design Token �
 
 有如下计算：
 
-**W=4*12+2*1\*12=72**
+**W=4\*12+2\*1\*12=72**
 
 n=4
 
@@ -131,7 +121,7 @@ T=12
 
 α=1
 
-**H=1.5*12+2*0.66\*12=34**
+**H=1.5\*12+2\*0.66\*12=34**
 
 T=12
 
@@ -179,9 +169,9 @@ T 必须为偶数，若不是偶数则增加 1 作为 T
 
 1.设定基准按钮：T=12，取 α=1，β=0.66
 
-**W=4*12+2*1\*12=72**
+**W=4\*12+2\*1\*12=72**
 
-**H=1.5*12+2*0.66\*12=34**
+**H=1.5\*12+2\*0.66\*12=34**
 
 ![01备份@2x.png#width=1748](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/15098508.png)
 
@@ -191,9 +181,9 @@ T 必须为偶数，若不是偶数则增加 1 作为 T
 
 3.以「基准按钮」的大小为基准，通过 T=18，可推导出在该视距和屏幕尺寸下一个较为合理的按钮大小
 
-**W=4*18+2*12+2\*2(18-12)/2=108**
+**W=4\*18+2\*12+2\*2(18-12)/2=108**
 
-**H=1.5*18+2*8+2\*2(18-12)/2=55**
+**H=1.5\*18+2\*8+2\*2(18-12)/2=55**
 
 ![01备份 3@2x.png#width=1748](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/f9ba7139.png)
 
@@ -201,9 +191,9 @@ T 必须为偶数，若不是偶数则增加 1 作为 T
 
 ![01备份 4@2x.png#width=1748](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/0b1ff4d1.png)
 
-**W=4*18+2*12+2*2(18-12)/2+2*4=116**
+**W=4\*18+2\*12+2\*2(18-12)/2+2\*4=116**
 
-**H=1.5*18+2*8+2*2(18-12)/2+2*2=59**
+**H=1.5\*18+2\*8+2\*2(18-12)/2+2\*2=59**
 
 ![01备份 5@2x.png#width=1748](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt/d5477e20.png)
 

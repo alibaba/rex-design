@@ -6,6 +6,9 @@ module.exports = {
       label: '组件',
       collapsed: false,
       items: [
+        'button',
+        'input',
+        'date-picker',
         {
           type: 'category',
           collapsed: false,

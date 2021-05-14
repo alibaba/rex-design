@@ -12,13 +12,11 @@ title: 多因子组件示例-按钮
 
 一个按钮的尺寸我们可以这样计算：
 
-按钮宽度=字宽+2*左右 padding，按钮高度=行高+2*上下 padding
+按钮宽度=字宽+2\*左右 padding，按钮高度=行高+2\*上下 padding
 
 为方便下文解释，我们设按钮的宽、高分别为 W、H，设文字的字号为 T(单位为 px)；在此我们将行高定为字号的 1.5 倍，即行高=1.5T
 
 在字距为 0 的条件下，单个文字的字宽=T，单行若排列有 n 个文字，则字宽=nT
-
-​
 
 ![编组 40.png#width=535](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt-for-button/8991e4e1.png)
 
@@ -34,19 +32,13 @@ title: 多因子组件示例-按钮
 
 即：
 
-​
-
 **q=αT**
 
 0.25 ≤ α ≤ 1
 
-​
-
 **s=βT**
 
 0.15 ≤ β ≤ 1
-
-​
 
 因此基准按钮的尺寸可以这样计算：
 
@@ -64,15 +56,11 @@ title: 多因子组件示例-按钮
 
 ![04.png#width=240](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt-for-button/b279902e.png)
 
-​
-
 ## 按钮推算
 
 按钮的整体尺寸与文字区域呈正相关，因此整体尺寸以文字区域大小为基准向外扩展
 
 已知视距和屏幕显示精度，我们可以通过以下计算得出最佳可视字体大小
-
-​
 
 - **字体物理高度 R（mm） = L/N**
 
@@ -86,13 +74,9 @@ N=110 时：舒适字号
 
 N=180 时：极限字号
 
-​
-
 - **PT = R / 0.3527**
 
-0.3527 是 pt 与毫米转化参数
-
-​
+  0.3527 是 pt 与毫米转化参数
 
 - **屏幕精度 ppi=√x²+y²**
 
@@ -107,8 +91,6 @@ T 必须为偶数，若不是偶数则增加 1 作为 T
 我们规定以「基准按钮」的文字字号为基准，每增大 2 个字号，则上下 padding 增加 2，左右 padding 增加 2
 
 可以得到如下计算公式：
-
-​
 
 ![05.png#width=394](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt-for-button/0c4db7c0.png)
 
@@ -128,8 +110,6 @@ T 必须为偶数，若不是偶数则增加 1 作为 T
 
 ![08.png#width=540](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt-for-button/eb02b36b.png)
 
-​
-
 已知端参数推荐
 
 ![09.png#width=540](https://hippo-oss.oss-cn-hangzhou.aliyuncs.com/rex/design-images/mfdt-for-button/e398c905.png)
@@ -137,8 +117,6 @@ T 必须为偶数，若不是偶数则增加 1 作为 T
 ## 举例
 
 以视距为 45cm，屏幕尺寸为 10.2 英寸，分辨率为 810\*1080 的触控场景为例，推导一个合适的按钮
-
-​
 
 - 设定基准按钮：T=12，取 α=1，β=0.66
 
