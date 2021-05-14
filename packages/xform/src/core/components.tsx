@@ -1,7 +1,7 @@
 import { computed } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
-import { Field, FieldConfig, IModel, Model, RootModel } from './models';
+import { Field, FieldConfig, IModel, SubModel, FormModel } from './models';
 import { composeState } from './utils';
 
 const ModelContext = React.createContext<IModel>(null);
@@ -10,9 +10,9 @@ export const ModelProvider = ModelContext.Provider;
 // 导出该类型，允许上层通过 interface merge 拓展该类型
 export interface FormEnvContextType {
   isPreview?: boolean;
-  onSubmit?(submitValues: any, model: RootModel): void;
-  onError?(errors: any, model: RootModel): void;
-  onReset?(model: RootModel): void;
+  onSubmit?(submitValues: any, model: FormModel): void;
+  onError?(errors: any, model: FormModel): void;
+  onReset?(model: FormModel): void;
 }
 const FormEnvContext = React.createContext<FormEnvContextType>({});
 
@@ -30,17 +30,17 @@ export function useModel<T = unknown>() {
 }
 
 export interface XFormArrayLayoutInput {
-  arrayModel: Model<unknown[]>;
+  arrayModel: SubModel<unknown[]>;
   itemCount: number;
   itemContent: React.ReactNode;
-  itemFactory(arrayModel: Model<unknown[]>): any;
+  itemFactory(arrayModel: SubModel<unknown[]>): any;
 }
 
 export interface XFormArrayProps {
   name: string;
   layout(input: XFormArrayLayoutInput): React.ReactElement;
   children: React.ReactNode;
-  itemFactory?(arrayModel: Model<unknown[]>): any;
+  itemFactory?(arrayModel: SubModel<unknown[]>): any;
 }
 
 /** 对象数组表单 */

@@ -146,7 +146,7 @@ effect 被调用时，可以获取到两个参数：
     },
     {
       name: 'itemFactory',
-      type: '(arrayModel: Model) => any',
+      type: '(arrayModel: SubModel) => any',
       defaultValue: '() => ({})',
       description: '数组中新增元素的初始值, 默认为一个总是返回一个新的空对象的函数',
     },
@@ -252,21 +252,21 @@ interface ArrayTableOptions {
 
 ## 模型与工具
 
-### `Model`
+### `IModel`
 
-Model 表示「一个对象或数组对应的表单模型部分」。
+IModel 表示「一个对象或数组对应的表单模型部分」。 IModel 是一个 interface， `FormModel`（根节点）和 `SubModel`（子节点） 实现了该 interface.
 
-- `model.getSubModel(name): Model` 获取一个子模型
-- `model.getSubArray(name): Model` 获取一个子模型，但获取的子模型的数据格式为数组
+- `model.getSubModel(name): SubModel` 获取一个子模型
+- `model.getSubArray(name): SubModel` 获取一个子模型，但获取的子模型的数据格式为数组
 - `model.getField(name): Field` 获取 name 对应的字段对象
-- `model.root: RootModel` 指向 RootModel
-- `model.path: string[]` 从 RootModel 到当前 model 的数据路径
+- `model.root: FormModel` 指向 FormModel
+- `model.path: string[]` 从 FormModel 到当前 model 的数据路径
 - `model.parent: IModel` 指向上一级的 model
 - `model.values` 模型上的数据，这是一个 mobx computed 字段
 - `model.getValue(name, defaultValue)` 以当前模型为起始路径，读取 name 处的数据
 - `model.setValue(name, value)` 以当前模型为起始路径，修改 name 处的数据
 - `model.state` 模型级别的状态，这是一个 mobx observable 对象，默认为 `{}`，一般用来管理一些表单的 UI 状态。
-- `model.id: string` 模型在所属 RootModel 内的唯一 id
+- `model.id: string` 模型在所属 FormModel 内的唯一 id
 
 ### `Field`
 
@@ -278,7 +278,7 @@ Field 用来表示「一个 视图控件 对应的表单模型部分」。
 - `field.config` 字段配置信息，反映该字段对应的控件最近一次被渲染时 React Element 上的 props
 - `field.id: string` 字段在所属表单内的唯一 id
 - `field.mountCount: number` 字段对应的控件的加载数量
-- `field.path: string[]` 从 RootModel 到该字段的完整路径
+- `field.path: string[]` 从 FormModel 到该字段的完整路径
 - `field.parent: IModel` 指向上一级的 model
 
 ### `modelUtils.clearError`

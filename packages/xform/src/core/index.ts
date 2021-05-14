@@ -8,5 +8,5 @@ export {
   FormEnvProvider,
   FormEnvContextType,
 } from './components';
-export { RootModel, Field, IModel, FieldConfig } from './models';
+export { FormModel, Field, IModel, FieldConfig } from './models';
 export { arrayHelpers } from './utils';

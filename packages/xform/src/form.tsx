@@ -2,26 +2,26 @@ import { Button, ButtonProps, FormLayout } from '@rexd/core';
 import { action, observable, reaction, toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import React, { useEffect, useState } from 'react';
-import { FormEnvProvider, IModel, RootModel, useFormEnv, useModel } from './core';
+import { FormEnvProvider, IModel, FormModel, useFormEnv, useModel } from './core';
 import { ModelProvider, XFormArray, XFormField, XFormObject } from './core/components';
 import { composeState, observableSetIn } from './core/utils';
 import { modelUtils } from './utils';
 
 export interface FormProps {
-  /** 受控用法。 xform 模型对象，一般由上层通过 new RootModel(...) 创建而成 */
+  /** 受控用法。 xform 模型对象，一般由上层通过 new FormModel(...) 创建而成 */
   model?: IModel;
 
   /** 非受控用法。 表单的默认值 */
   defaultValue?: any;
 
   /** 提交表单时的回调函数，需配合 <Form.Submit /> 使用 */
-  onSubmit?(submitValues: any, model: RootModel): void;
+  onSubmit?(submitValues: any, model: FormModel): void;
 
   /** 提交表单时的出错回调函数，需配合 <Form.Submit /> 使用 */
-  onError?(errors: any, model: RootModel): void;
+  onError?(errors: any, model: FormModel): void;
 
   /** 清空表单时的回调函数，需配合 <Form.Reset /> 使用 */
-  onReset?(model: RootModel): void;
+  onReset?(model: FormModel): void;
 
   /**
    * 是否为预览态
@@ -65,7 +65,7 @@ export function Form({
   className,
   style,
 }: FormProps) {
-  const [_model] = useState(() => new RootModel(defaultValue));
+  const [_model] = useState(() => new FormModel(defaultValue));
   const model = composeState(modelProp, _model);
 
   return (
@@ -80,18 +80,18 @@ export function Form({
 }
 
 function FormSubmit({ type = 'primary', children = '提交', ...props }: ButtonProps) {
-  const rootModel = useModel().root;
+  const root = useModel().root;
   const { onSubmit, onError } = useFormEnv();
   return (
     <Button
       onClick={() => {
-        const { hasError, errors } = modelUtils.validateAll(rootModel);
+        const { hasError, errors } = modelUtils.validateAll(root);
         if (hasError) {
-          onError?.(errors, rootModel);
+          onError?.(errors, root);
         } else if (typeof onSubmit === 'function') {
-          const submitValues: any = observable(rootModel.valueShape === 'array' ? [] : {});
+          const submitValues: any = observable(root.valueShape === 'array' ? [] : {});
 
-          rootModel._proxy.iterateFields((field) => {
+          root._proxy.iterateFields((field) => {
             if (field.mountCount === 0) {
               return;
             }
@@ -100,7 +100,7 @@ function FormSubmit({ type = 'primary', children = '提交', ...props }: ButtonP
             observableSetIn(submitValues, path, value);
           });
 
-          onSubmit(toJS(submitValues), rootModel);
+          onSubmit(toJS(submitValues), root);
         }
       }}
       type={type}
@@ -111,14 +111,14 @@ function FormSubmit({ type = 'primary', children = '提交', ...props }: ButtonP
 }
 
 function FormReset({ children = '重置', ...props }: ButtonProps) {
-  const rootModel = useModel().root;
+  const root = useModel().root;
   const { onReset } = useFormEnv();
   return (
     <Button
       onClick={action(() => {
-        rootModel.values = {};
-        modelUtils.clearError(rootModel);
-        onReset?.(rootModel);
+        root.values = {};
+        modelUtils.clearError(root);
+        onReset?.(root);
       })}
       children={children}
       {...props}

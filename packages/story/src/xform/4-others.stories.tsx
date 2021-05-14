@@ -1,5 +1,5 @@
 import { Box, Button, Dialog, Group, Switch, Toaster, Tooltip, useBoolean } from '@rexd/core';
-import { arrayCard, arrayHelpers, Form, FormItem, modelUtils, RootModel, useModel } from '@rexd/xform';
+import { arrayCard, arrayHelpers, Form, FormItem, modelUtils, FormModel, useModel } from '@rexd/xform';
 import { action, toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import React, { useState } from 'react';
@@ -24,7 +24,7 @@ const SHOPS = [
 ];
 
 const Tools = observer(() => {
-  const model = useModel().root as RootModel<any>;
+  const model = useModel().root as FormModel<any>;
 
   return (
     <div style={{ display: 'flex', gap: 8 }}>
@@ -123,7 +123,7 @@ function ItemList({ name }: { name: string }) {
 }
 
 const ArrayExampleInner = observer(() => {
-  const [model] = useState(() => new RootModel<any>());
+  const [model] = useState(() => new FormModel<any>());
 
   return (
     <Form model={model}>
@@ -212,7 +212,7 @@ const Quan = () => (
 );
 
 export function Fractal() {
-  const [model] = useState(new RootModel());
+  const [model] = useState(new FormModel());
 
   return (
     <Form model={model}>
@@ -228,7 +228,7 @@ Fractal.storyName = '分形表单';
 //#endregion
 
 //#region 候选人名单
-const model = new RootModel({
+const model = new FormModel({
   activeIndex: 0,
   items: [
     { id: 1001, name: '小明', gender: '男', phone: '18866668888' },

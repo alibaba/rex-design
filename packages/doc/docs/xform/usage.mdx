@@ -25,13 +25,13 @@ import * as basicExamples from 'story/src/xform/1-basic-examples.stories';
 
 ## 开始使用
 
-在使用表单之前，我们需要先创建一个 Model 对象，然后将其传递给 Form 组件的 props.model。
+在使用表单之前，我们需要先创建一个 FormModel 对象，然后通过 props.model 传递给 Form：
 
 ```jsx
-import { Form, FormItem, RootModel } from '@rexd/xform';
+import { Form, FormItem, FormModel } from '@rexd/xform';
 
 // step1 创建表单模型
-const model = new RootModel({
+const model = new FormModel({
   name: '小河马',
   phone: '188-8888-8888',
   address: '杭州市余杭区文一西路969号',
@@ -49,15 +49,17 @@ export function Basic() {
 }
 ```
 
-如果你使用 mobx 管理应用状态，那么可以在 store 中创建 model 对象：
+<details>
+
+<summary>如果你使用 mobx 管理应用状态，那么可以在 store 中创建 FormModel 对象：</summary>
 
 ```jsx
 import { observable, computed, makeObservable } from 'mobx';
-import { RootModel } from '@rexd/xform';
+import { FormModel } from '@rexd/xform';
 
 class Store {
   @observable
-  model = new RootModel({
+  formModel = new FormModel({
     name: '小河马',
     phone: '188-8888-8888',
     address: '杭州市余杭区文一西路969号',
@@ -65,7 +67,7 @@ class Store {
 
   @computed
   get formValues() {
-    return model.values;
+    return formModel.values;
   }
 
   constructor() {
@@ -73,6 +75,8 @@ class Store {
   }
 }
 ```
+
+</details>
 
 ## 示例
 

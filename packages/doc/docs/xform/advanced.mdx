@@ -84,21 +84,21 @@ Form.Array 其他参数：
 
 **模型分形**： 模型的数据结构和 API 可以满足分形视图的需求。详见下方。
 
-## Model
+## IModel
 
-Model 用来表示「一个对象或数组对应的表单模型部分」。
+IModel 表示「一个对象或数组对应的表单模型部分」。 IModel 是一个 interface， `FormModel`（根节点）和 `SubModel`（子节点） 实现了该 interface.
 
-与分形视图类似，整个 model 的结构也是分形的。所有的 model 都是从 RootModel 开始的，RootModel 一般由上层开发者手动创建。
+与分形视图类似，整个 model 的结构也是分形的。所有的 model 都是从 FormModel 开始的，FormModel 一般由上层开发者手动创建。
 
-### `model.getSubModel(name): Model`
+### `model.getSubModel(name): SubModel`
 
-获取一个子模型。 **即使 name 对应的子模型尚不存在，该方法也总是会返回一个 Model 对象。**
+获取一个子模型。 **即使 name 对应的子模型尚不存在，该方法也总是会返回一个 SubModel 对象。**
 
-所有对 subModel.values 的读写都会变为对 parentModel.values 的读写，这样我们可以确保 `rootModel.values` 是整个表单 values 的唯一可信来源。
+所有对 subModel.values 的读写都会变为对 parentModel.values 的读写，这样我们可以确保 `formModel.values` 是整个表单 values 的唯一可信来源。
 
 例如， `me = familyModel.getSubModel('me')` 可以获取到 familyModel 中 me 对应的子模型， 对 me.values 的修改会转变为 familyModel.values 的修改。
 
-### `model.getSubArray(name)`
+### `model.getSubArray(name): SubModel`
 
 获取一个子模型，但获取的子模型的数据格式为数组。
 
@@ -106,17 +106,16 @@ Model 用来表示「一个对象或数组对应的表单模型部分」。
 
 ### model 中的其他属性/方法
 
-- `model.root: RootModel` 指向 RootModel
-- `model.path: string[]` 从 RootModel 到当前 model 的数据路径
+- `model.root: FormModel` 指向模型根节点 FormModel
+- `model.path: string[]` 从根节点 FormModel 到当前 model 的数据路径
 - `model.parent: IModel` 指向上一级的 model
-  - 例如：如果 `model` 的路径为 `['a', 'b', 'c']`，则 `model.parent` 的路径为 `['a', 'b']`
-  - 注意，如果 `subModel = model.getSubModel('a.b')`，那么 `subModel.parent.parent == model` 成立
+  - 示例：若 `model.path = ['a', 'b', 'c']`，则 `model.parent.path = ['a', 'b']`
 - `model.values` 模型上的数据
-  - 对 values 的读写其实是对 `model.parent.values` 的读写
+  - 对 SubModel.values 的读写其实是对 `model.parent.values` 的读写
 - `model.getValue(name, defaultValue)` 以当前模型为起始路径，读取 name 处的数据
 - `model.setValue(name, value)` 以当前模型为起始路径，修改 name 处的数据
 - `model.state` 模型级别的状态，这是一个 mobx observable 对象，默认为 `{}`，一般用来管理一些表单的 UI 状态。
-  - 每个 Model 都有独立的 state
+  - 每个 SubModel 都有独立的 state
   - 更新 parentModel.state 不会影响 subModel.state
   - 更新 subModel.state 也不会影响 parentModel.state
 - `model.id: string` 模型在所属表单内的唯一 id
@@ -129,7 +128,7 @@ field 对象需要从 model 中获取： `field = model.getField(name)` 获取 m
 
 获取 Field 对象后我们使用下列方法操作字段：
 
-`field.value` 读取或设置字段的值。 Field 对象本身不会记录 value，所有对 field.value 的读写都会变为对 model.values 的读写，这样我们可以确保 `rootModel.values` 是整个表单 values 的唯一可信来源。
+`field.value` 读取或设置字段的值。 Field 对象本身不会记录 value，所有对 field.value 的读写都会变为对 model.values 的读写，这样我们可以确保根节点 `formModel.values` 是整个表单 values 的唯一可信来源。
 
 `field.state` 字段状态，这是一个 mobx observable 对象，默认为 `{}`。目前，我们约定了 `field.state.error` 作为该字段上的错误状态，当 state.error 有值时，页面中就会展示对应的出错提示。
 
@@ -141,7 +140,7 @@ field 对象需要从 model 中获取： `field = model.getField(name)` 获取 m
 - `field.mountCount: number` 字段对应的控件的加载数量
   - 一般为 0 或 1，表示字段对应的控件是否渲染在视图中
   - 多个指向同一个字段的控件被同时渲染时， mountCount 会大于 1
-- `field.path: string[]` 从 RootModel 到该字段的完整路径
+- `field.path: string[]` 从 FormModel 到该字段的完整路径
 - `field.parent: IModel` 指向上一级的 model
   - 例如：如果 `field` 的路径为 `['a', 'b', 'c']`，则 `field.parent` 的路径为 `['a', 'b']`
 

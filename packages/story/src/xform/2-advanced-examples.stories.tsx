@@ -1,5 +1,5 @@
 import { dayjs, Group, Toaster } from '@rexd/core';
-import { arrayCard, Form, FormItem, RootModel } from '@rexd/xform';
+import { arrayCard, Form, FormItem, FormModel } from '@rexd/xform';
 import React, { useState } from 'react';
 import { ValuePreview } from './helpers';
 
@@ -152,7 +152,7 @@ export function ArrayExample() {
 }
 
 export function SelfReference() {
-  const [root] = useState(new RootModel({ texts: [] as string[] }));
+  const [root] = useState(new FormModel({ texts: [] as string[] }));
 
   return (
     <Form model={root}>

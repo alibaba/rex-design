@@ -27,7 +27,7 @@ export interface FieldConfig {
 
 export interface IModel<D = unknown> {
   // model navigation
-  readonly root: RootModel;
+  readonly root: FormModel;
   readonly path: string[];
   readonly parent: IModel;
   readonly valueShape: ValueShape;
@@ -42,9 +42,9 @@ export interface IModel<D = unknown> {
 
   setValue<V>(name: string, value: V): void;
 
-  getSubModel(name: string): Model;
+  getSubModel(name: string): SubModel;
 
-  getSubArray(name: string): Model<unknown[]>;
+  getSubArray(name: string): SubModel<unknown[]>;
 
   getField(name: string): Field;
 
@@ -59,7 +59,7 @@ export class SubModelProxy {
   readonly valueShape: ValueShape;
 
   readonly fieldMap = new Map<string, Field>();
-  readonly subModels: { [key: string]: Model };
+  readonly subModels: { [key: string]: SubModel };
 
   constructor(model: IModel, valueShape: ValueShape) {
     this.model = model;
@@ -68,7 +68,7 @@ export class SubModelProxy {
   }
 
   /** 递归前序遍历该 proxy 下（不包含 proxy 本身）所有存在的 model 对象 */
-  iterateModels(iteratee: (mod: Model) => void) {
+  iterateModels(iteratee: (mod: SubModel) => void) {
     const dfs = (proxy: SubModelProxy) => {
       Object.values(proxy.subModels).forEach((mod) => {
         iteratee(mod);
@@ -87,7 +87,7 @@ export class SubModelProxy {
     });
   }
 
-  getSubModel(longName: string | string[], valueShape: ValueShape = 'object'): Model {
+  getSubModel(longName: string | string[], valueShape: ValueShape = 'object'): SubModel {
     const path = Array.isArray(longName) ? longName : splitToPath(longName);
     let result = this.model;
     for (let i = 0; i < path.length - 1; i++) {
@@ -96,13 +96,13 @@ export class SubModelProxy {
     return result._proxy._getSubModel(path[path.length - 1], valueShape);
   }
 
-  _getSubModel(name: string, valueShape: ValueShape = 'object'): Model {
+  _getSubModel(name: string, valueShape: ValueShape = 'object'): SubModel {
     invariant(!name.includes('.'), 'name 中不能包含 .');
 
     let subModel = this.subModels[name];
 
     if (subModel == null) {
-      subModel = new Model(this.model, name, valueShape);
+      subModel = new SubModel(this.model, name, valueShape);
       this.subModels[name] = subModel;
     }
 
@@ -131,7 +131,7 @@ export class SubModelProxy {
 
 const EMPTY_PATH = [] as string[];
 
-export class RootModel<D = unknown> implements IModel<D> {
+export class FormModel<D = unknown> implements IModel<D> {
   private _nextModelId = 1;
   getNextModelId() {
     return `Model_${this._nextModelId++}`;
@@ -169,12 +169,12 @@ export class RootModel<D = unknown> implements IModel<D> {
     observableSetIn(this.values, name, value);
   }
 
-  getSubModel(name: string | string[]): Model {
+  getSubModel(name: string | string[]): SubModel {
     return this._proxy.getSubModel(name, 'object');
   }
 
-  getSubArray(name: string | string[]): Model<unknown[]> {
-    return this._proxy.getSubModel(name, 'array') as Model<unknown[]>;
+  getSubArray(name: string | string[]): SubModel<unknown[]> {
+    return this._proxy.getSubModel(name, 'array') as SubModel<unknown[]>;
   }
 
   getField(name: string): Field {
@@ -182,12 +182,12 @@ export class RootModel<D = unknown> implements IModel<D> {
   }
 
   _asField(): never {
-    throw new Error('RootModel 下不支持使用 name=& 的 Field');
+    throw new Error('FormModel 下不支持使用 name=& 的 Field');
   }
 }
 
-export class Model<D = unknown> implements IModel<D> {
-  readonly root: RootModel;
+export class SubModel<D = unknown> implements IModel<D> {
+  readonly root: FormModel;
   readonly parent: IModel;
   public state = {};
 
@@ -223,12 +223,12 @@ export class Model<D = unknown> implements IModel<D> {
     return [...this.parent.path, this.name];
   }
 
-  getSubModel(name: string | string[]): Model {
+  getSubModel(name: string | string[]): SubModel {
     return this._proxy.getSubModel(name, 'object');
   }
 
-  getSubArray(name: string): Model<unknown[]> {
-    return this._proxy.getSubModel(name, 'array') as Model<unknown[]>;
+  getSubArray(name: string): SubModel<unknown[]> {
+    return this._proxy.getSubModel(name, 'array') as SubModel<unknown[]>;
   }
 
   get values() {

@@ -32,7 +32,7 @@ mobx 是一个非常优秀的状态管理工具。一是它采用了 Proxy 魔�
 
 ### 双向绑定
 
-通过 `new RootModel(values)` 创建 model，并将 model 传递给视图后，「模型与视图」就会进行双向绑定：
+通过 `new FormModel(values)` 创建 model，并将 model 传递给视图后，「模型与视图」就会进行双向绑定：
 
 - 视图总是反映模型中的最新值
 - 视图上的操作会实时更新模型
@@ -40,7 +40,7 @@ mobx 是一个非常优秀的状态管理工具。一是它采用了 Proxy 魔�
 用户在表单上的交互可以看做是对 model.values 的修改：
 
 ```jsx
-const model = new RootModel(values);
+const model = new FormModel(values);
 
 // 用户在 <input name="foo" /> 中输入了 'abc'
 model.values.foo = 'abc';

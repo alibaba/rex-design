@@ -1,12 +1,12 @@
 import { Button, dayjs } from '@rexd/core';
-import { Form, FormItem, modelUtils, RootModel } from '@rexd/xform';
+import { Form, FormItem, modelUtils, FormModel } from '@rexd/xform';
 import { action } from 'mobx';
 import React from 'react';
 import { ValuePreview } from './helpers';
 
 export default { title: 'XForm / 基本示例' };
 
-const simpleFormModel = new RootModel({
+const simpleFormModel = new FormModel({
   name: '小河马',
   phone: '188-8888-8888',
   address: '杭州市余杭区文一西路969号',
@@ -152,7 +152,7 @@ export function InnerLayout() {
   );
 }
 
-const model = new RootModel({
+const model = new FormModel({
   name: '小河马',
   phone: '',
   address: '杭州市余杭区文一西路969号',
