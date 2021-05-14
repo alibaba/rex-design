@@ -4,6 +4,7 @@ import { Box, BoxProps } from './Box';
 
 const attachedStyle = css`
   display: inline-flex;
+  vertical-align: middle;
 
   > *:first-child:not(:last-child) {
     border-top-right-radius: 0;

@@ -84,15 +84,22 @@ export function DateTable(props: DateTableProps) {
   const { visibleMonth, locale } = props;
   const ctx = useDateTableContext();
 
-  const bind = useGesture({
-    onDrag: ({ vxvy: [vx, vy], last }) => {
-      if (last && vy > 0) {
-        ctx.onSelectMonth(visibleMonth.add(-1, 'month'));
-      } else if (last && vy < 0) {
-        ctx.onSelectMonth(visibleMonth.add(1, 'month'));
-      }
+  const bind = useGesture(
+    {
+      onDrag: ({ vxvy: [vx, vy], last }) => {
+        if (last && vy > 0) {
+          ctx.onSelectMonth(visibleMonth.add(-1, 'month'));
+        } else if (last && vy < 0) {
+          ctx.onSelectMonth(visibleMonth.add(1, 'month'));
+        }
+      },
     },
-  });
+    {
+      drag: {
+        threshold: 100,
+      },
+    },
+  );
 
   const dateList = useMemo(() => {
     return getDateList(visibleMonth);
