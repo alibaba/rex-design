@@ -6,12 +6,7 @@ import {
   TABLET_DEVICE,
   DESKTOP_DEVICE,
   useEventListener,
-  theme as defaultTheme,
-  darkTheme,
-  phoneTheme,
-  phoneDarkTheme,
-  tabletTheme,
-  tabletDarkTheme,
+  THEMES,
   extendTheme,
 } from '@rexd/core';
 
@@ -49,12 +44,12 @@ function getLocalTheme(deviceName, colorMode) {
 
 function getTheme(deviceName, colorMode, themeMode) {
   let theme = {
-    'desktop.light': defaultTheme,
-    'desktop.dark': darkTheme,
-    'phone.light': phoneTheme,
-    'phone.dark': phoneDarkTheme,
-    'tablet.light': tabletTheme,
-    'tablet.dark': tabletDarkTheme,
+    'desktop.light': THEMES.light.desktop,
+    'desktop.dark': THEMES.dark.desktop,
+    'phone.light': THEMES.light.phone,
+    'phone.dark': THEMES.dark.phone,
+    'tablet.light': THEMES.light.tablet,
+    'tablet.dark': THEMES.dark.tablet,
   }[`${deviceName}.${colorMode}`];
 
   if (themeMode === 'local') {
