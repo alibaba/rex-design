@@ -11,13 +11,17 @@ import { Form, FormItem } from '@rexd/xform';
 
 ### `Form`
 
-表单组件，渲染一个 div 并创建表单所需的上下文，包括以下 React Context：
+表单组件，创建所需的上下文，并通过 FormLayout 渲染一个 div：
 
 - FormEnvProvider：表单的环境变量，子组件可以通过 [`useFormEnv`](#useformenv) 获取这些环境变量
 - ModelProvider：模型对象，子组件可以通过 [`useModel`](#usemodel) 获取模型对象
 - FormLayout： 来自 `@rexd/core` 的表单布局能力
 
 <PropsTable component={Form} />
+
+:::info @alife/hippo-xform
+注意因为底层组件库不同，@alife/hippo-xform 提供了不同的 layout 参数。详见 [hippo-xform](hippo-xform).
+:::
 
 ### `FormItem`
 
@@ -115,6 +119,10 @@ import { Form, FormItem } from '@rexd/xform';
 ```
 
 </details>
+
+:::info @alife/hippo-xform
+注意 @alife/hippo-xform 提供了不同的组件类型，详见 [hippo-xform](hippo-xform).
+:::
 
 ### `Form.Submit`
 
@@ -231,6 +239,10 @@ FormEnvProvider 接受任意的 props，设置后子组件可以通过 `useFormE
 ## 数组布局 {🚀}
 
 需要配合 `Form.Array` 使用
+
+:::info @alife/hippo-xform
+注意因为底层组件库不同，@alife/hippo-xform 提供了不同的 layout 参数。详见 [hippo-xform](hippo-xform).
+:::
 
 ### `arrayCard`
 

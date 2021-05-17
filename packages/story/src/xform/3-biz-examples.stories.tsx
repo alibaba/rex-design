@@ -5,7 +5,6 @@ import { ValuePreview } from './helpers';
 
 export default { title: 'XForm / 业务示例' };
 
-// 表格布局
 export function TableLayout() {
   const layout = arrayTable({
     defaultColumnWidth: 180,
@@ -38,7 +37,7 @@ export function TableLayout() {
 // 数组元素内的显示/隐藏控制
 export function VisibilityControlInArrayItem() {
   return (
-    <Form defaultValue={{ array: [{ show: true }, { show: false }] }} labelPosition="left">
+    <Form defaultValue={{ array: [{ show: true }, { show: false }] }}>
       <Form.Array
         name="array"
         layout={arrayCard({ showItemOrder: true })}
@@ -100,11 +99,7 @@ const SubGroup = observer(() => {
 
 export function LogicsWithinArrayItem() {
   return (
-    <Form
-      style={{ fontSize: 12 }}
-      defaultValue={{ primary: {}, users: [{}, { username: 'My Name', preview: true }] }}
-      labelPosition="left"
-    >
+    <Form style={{ fontSize: 12 }} defaultValue={{ primary: {}, users: [{}, { username: 'My Name', preview: true }] }}>
       <Form.Object name="primary">
         <SubGroup />
       </Form.Object>

@@ -30,18 +30,16 @@ export interface FormProps {
   isPreview?: boolean;
 
   /**
-   * 是否内联布局
+   * 布局参数
    * @category 布局
-   * @default false
-   */
-  isInline?: boolean;
+   **/
+  layout?: {
+    /** 是否内联布局 */
+    isInline?: boolean;
 
-  /**
-   * 标签位置
-   * @category 布局
-   * @default 'top'
-   */
-  labelPosition?: 'top' | 'left';
+    /** 标签位置 */
+    labelPosition?: 'top' | 'left';
+  };
 
   /** @category 布局 */
   style?: React.CSSProperties;
@@ -56,8 +54,7 @@ export function Form({
   model: modelProp,
   defaultValue,
   isPreview,
-  isInline,
-  labelPosition,
+  layout = { labelPosition: 'left' },
   onSubmit,
   onError,
   onReset,
@@ -71,7 +68,7 @@ export function Form({
   return (
     <FormEnvProvider isPreview={isPreview} onError={onError} onReset={onReset} onSubmit={onSubmit}>
       <ModelProvider value={model}>
-        <FormLayout labelPosition={labelPosition} isInline={isInline} style={style} className={className}>
+        <FormLayout {...layout} style={style} className={className}>
           {children}
         </FormLayout>
       </ModelProvider>
@@ -84,7 +81,12 @@ function FormSubmit({ type = 'primary', children = '提交', ...props }: ButtonP
   const formEnv = useFormEnv();
 
   return (
-    <Button onClick={() => modelUtils.submit(root, 'mounted', formEnv)} type={type} children={children} {...props} />
+    <Button
+      onClick={() => modelUtils.submit(root, { ...formEnv, valueFilter: 'mounted' })}
+      type={type}
+      children={children}
+      {...props}
+    />
   );
 }
 

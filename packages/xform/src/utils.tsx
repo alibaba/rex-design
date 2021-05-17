@@ -102,8 +102,11 @@ export const modelUtils = {
   submit: action(
     (
       root: FormModel,
-      valueFilter: 'mounted' | 'all',
-      { onError, onSubmit }: Pick<FormEnvContextType, 'onSubmit' | 'onError'>,
+      {
+        onError,
+        onSubmit,
+        valueFilter,
+      }: Pick<FormEnvContextType, 'onSubmit' | 'onError'> & { valueFilter: 'mounted' | 'all' },
     ) => {
       modelUtils.validateAll(root).then(
         action(({ hasError, errors }) => {
@@ -120,8 +123,9 @@ export const modelUtils = {
                   return;
                 }
 
-                const { path, value } = field;
-                observableSetIn(mountedValues, path, value);
+                if (field.value !== undefined) {
+                  observableSetIn(mountedValues, field.path, field.value);
+                }
               });
 
               onSubmit(toJS(mountedValues), root);

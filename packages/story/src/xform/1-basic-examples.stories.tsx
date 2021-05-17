@@ -123,7 +123,7 @@ export function BasicEffect() {
 
 export function InnerLayout() {
   return (
-    <Form labelPosition="left">
+    <Form>
       <div style={{ border: '1px dashed #ccc', padding: 8 }}>
         <p style={{ marginBottom: 8, fontWeight: 'bold' }}>商品参数</p>
         <FormItem component="input" label="SKU code" name="sku.code" required />

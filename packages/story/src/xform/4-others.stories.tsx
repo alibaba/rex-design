@@ -57,9 +57,8 @@ const Tools = observer(() => {
             在列表末尾追加 10 条项目
           </Button>
         )}
-      >
-        可以多点击几次来查看大数据量下的表现
-      </Tooltip>
+        title="可以多点击几次来查看大数据量下的表现"
+      />
     </div>
   );
 });
@@ -363,7 +362,7 @@ const CandidateListFormInner = observer(() => {
         </div>
 
         <div style={{ flex: 'auto', padding: 16, borderLeft: 'solid 1px var(--rex-colors-emphasis-30)' }}>
-          <Form model={model.getSubModel(`items.${model.values.activeIndex}`)} labelPosition="left">
+          <Form model={model.getSubModel(`items.${model.values.activeIndex}`)}>
             <Candidate />
           </Form>
         </div>
@@ -431,7 +430,7 @@ export function ComponentsIntegration() {
 
       <Form
         isPreview={isPreview}
-        labelPosition={labelPosition}
+        layout={{ labelPosition }}
         defaultValue={{
           filePicker: files,
           mediaPicker: files,

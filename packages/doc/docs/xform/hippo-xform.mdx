@@ -1,0 +1,48 @@
+---
+id: hippo-xform
+title: '@alife/hippo-xform'
+---
+
+因为 @rexd/core 与 @alife/hippo 提供的组件不同，故 @alife/hippo-xform 的 API 在「布局」和「组件集成」上与 @rex/xform 有所差异。
+
+## Form layout 参数
+
+```tsx
+export interface FormLayoutParams {
+  /** 标签位置，可选 'left' 或 'top'  */
+  labelPosition?: 'left' | 'top';
+  // isInline?: boolean;
+  /** 标签宽度 */
+  labelWidth?: string | number;
+  /** 控件宽度 */
+  controlWidth?: string | number;
+  /** 两个 form item 之间的间距 */
+  formItemGap?: string | number;
+}
+```
+
+## components 列表
+
+```
+[
+    "switch",
+    "checkbox",
+    "checkboxGroup",
+    "radioGroup",
+    "datePicker",
+    "dateRangePicker",
+    "monthPicker",
+    "yearPicker",
+    "timePicker",
+    "timeRangePicker",
+    "input",
+    "textArea",
+    "numberInput",
+    "range",
+    "select",
+    "singleSelect",
+    "multiSelect",
+    "treeSelect",
+    "testButtonGroup"
+]
+```

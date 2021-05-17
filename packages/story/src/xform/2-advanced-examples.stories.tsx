@@ -46,7 +46,6 @@ function PersonForm({
 export function ObjectExample() {
   return (
     <Form
-      labelPosition="left"
       defaultValue={{
         me: {
           name: 'rex design',
@@ -98,7 +97,6 @@ function showErrorToast(errors: any) {
 export function ArrayExample() {
   return (
     <Form
-      labelPosition="left"
       defaultValue={{ tickets: [{ name: 'feichao', date: dayjs().format('YYYY-MM-DD') }] }}
       onSubmit={(values) => {
         console.log('onSubmit:', values);
