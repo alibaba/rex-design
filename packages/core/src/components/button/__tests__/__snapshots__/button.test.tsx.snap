@@ -17,38 +17,84 @@ exports[`ui 1`] = `
   position: relative;
   white-space: nowrap;
   vertical-align: middle;
+  cursor: pointer;
+  border-radius: var(--rex-radii-s);
+  border: var(--rex-borders-solid);
+  -webkit-transition: all 1s cubic-bezier(0.19,1,0.22,1);
+  transition: all 1s cubic-bezier(0.19,1,0.22,1);
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  cursor: pointer;
-  border-radius: var(--rex-radii-m);
-  border: var(--rex-borders-solid);
 }
 
 .c0 svg {
   vertical-align: middle;
 }
 
+.c0 .rext-btn-children {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  font-weight: 500;
+}
+
 .c0.rex-btn-small {
-  font-size: var(--rex-fontSizes-body);
+  font-size: var(--rex-components-Button-sFontSize);
   height: var(--rex-sizes-formHeights-s);
-  padding-left: var(--rex-space-l);
-  padding-right: var(--rex-space-l);
+  padding-left: var(--rex-components-Button-spx);
+  padding-right: var(--rex-components-Button-spx);
+}
+
+.c0.rex-btn-small svg {
+  font-size: var(--rex-components-Button-sIconSize);
+}
+
+.c0.rex-btn-small.rex-btn-iconOnly {
+  width: var(--rex-sizes-formHeights-s);
+  padding: 0;
 }
 
 .c0.rex-btn-medium {
-  font-size: var(--rex-fontSizes-body);
+  font-size: var(--rex-components-Button-mFontSize);
   height: var(--rex-sizes-formHeights-m);
-  padding-left: var(--rex-space-xl);
-  padding-right: var(--rex-space-xl);
+  padding-left: var(--rex-components-Button-mpx);
+  padding-right: var(--rex-components-Button-mpx);
+}
+
+.c0.rex-btn-medium svg {
+  font-size: var(--rex-components-Button-mIconSize);
+}
+
+.c0.rex-btn-medium.rex-btn-iconOnly {
+  width: var(--rex-sizes-formHeights-m);
+  padding: 0;
 }
 
 .c0.rex-btn-large {
-  font-size: var(--rex-fontSizes-title);
+  font-size: var(--rex-components-Button-lFontSize);
   height: var(--rex-sizes-formHeights-l);
-  padding-left: var(--rex-space-xxl);
-  padding-right: var(--rex-space-xxl);
+  padding-left: var(--rex-components-Button-lpx);
+  padding-right: var(--rex-components-Button-lpx);
+}
+
+.c0.rex-btn-large svg {
+  font-size: var(--rex-components-Button-lIconSize);
+}
+
+.c0.rex-btn-large.rex-btn-iconOnly {
+  width: var(--rex-sizes-formHeights-l);
+  padding: 0;
 }
 
 .c0.rex-btn-link {
@@ -58,8 +104,15 @@ exports[`ui 1`] = `
   background: transparent;
 }
 
+.c0.rex-btn-loading .rext-btn-children {
+  opacity: 0;
+}
+
+.c0.rex-btn-loading .rex-loading {
+  position: absolute;
+}
+
 .c0.rex-disabled {
-  opacity: 0.4;
   cursor: not-allowed;
   pointer-events: none;
 }
@@ -77,17 +130,19 @@ exports[`ui 1`] = `
   border-color: var(--rex-components-Button-borderColorPrimary);
 }
 
-.c0.rex-btn-solid.rex-btn-primary:not(.rex-disabled):hover {
+.c0.rex-btn-solid.rex-btn-primary:not(.rex-disabled):focus {
+  outline: 0;
+  box-shadow: 0 0 0 3px var(--rex-components-Button-outlinePrimary);
+}
+
+.c0.rex-btn-solid.rex-btn-primary:not(.rex-disabled).rex-hover {
   color: var(--rex-components-Button-textPrimaryHover);
   background-color: var(--rex-components-Button-bgPrimaryHover);
   border-color: var(--rex-components-Button-borderColorPrimaryHover);
 }
 
-.c0.rex-btn-solid.rex-btn-primary:not(.rex-disabled):focus {
-  outline: 2px auto var(--rex-components-Button-borderColorPrimaryActive);
-}
-
-.c0.rex-btn-solid.rex-btn-primary:not(.rex-disabled).rex-selected {
+.c0.rex-btn-solid.rex-btn-primary:not(.rex-disabled):active,
+.c0.rex-btn-solid.rex-btn-primary:not(.rex-disabled) .rex-selected {
   color: var(--rex-components-Button-textPrimaryActive);
   background-color: var(--rex-components-Button-bgPrimaryActive);
   border-color: var(--rex-components-Button-borderColorPrimaryActive);
@@ -99,17 +154,19 @@ exports[`ui 1`] = `
   border-color: var(--rex-components-Button-borderColorSecondary);
 }
 
-.c0.rex-btn-solid.rex-btn-secondary:not(.rex-disabled):hover {
+.c0.rex-btn-solid.rex-btn-secondary:not(.rex-disabled):focus {
+  outline: 0;
+  box-shadow: 0 0 0 3px var(--rex-components-Button-outlineSecondary);
+}
+
+.c0.rex-btn-solid.rex-btn-secondary:not(.rex-disabled).rex-hover {
   color: var(--rex-components-Button-textSecondaryHover);
   background-color: var(--rex-components-Button-bgSecondaryHover);
   border-color: var(--rex-components-Button-borderColorSecondaryHover);
 }
 
-.c0.rex-btn-solid.rex-btn-secondary:not(.rex-disabled):focus {
-  outline: 2px auto var(--rex-components-Button-borderColorSecondaryActive);
-}
-
-.c0.rex-btn-solid.rex-btn-secondary:not(.rex-disabled).rex-selected {
+.c0.rex-btn-solid.rex-btn-secondary:not(.rex-disabled):active,
+.c0.rex-btn-solid.rex-btn-secondary:not(.rex-disabled) .rex-selected {
   color: var(--rex-components-Button-textSecondaryActive);
   background-color: var(--rex-components-Button-bgSecondaryActive);
   border-color: var(--rex-components-Button-borderColorSecondaryActive);
@@ -121,17 +178,19 @@ exports[`ui 1`] = `
   border-color: var(--rex-components-Button-borderColorNormal);
 }
 
-.c0.rex-btn-solid.rex-btn-normal:not(.rex-disabled):hover {
+.c0.rex-btn-solid.rex-btn-normal:not(.rex-disabled):focus {
+  outline: 0;
+  box-shadow: 0 0 0 3px var(--rex-components-Button-outlineNormal);
+}
+
+.c0.rex-btn-solid.rex-btn-normal:not(.rex-disabled).rex-hover {
   color: var(--rex-components-Button-textNormalHover);
   background-color: var(--rex-components-Button-bgNormalHover);
   border-color: var(--rex-components-Button-borderColorNormalHover);
 }
 
-.c0.rex-btn-solid.rex-btn-normal:not(.rex-disabled):focus {
-  outline: 2px auto var(--rex-components-Button-borderColorNormalActive);
-}
-
-.c0.rex-btn-solid.rex-btn-normal:not(.rex-disabled).rex-selected {
+.c0.rex-btn-solid.rex-btn-normal:not(.rex-disabled):active,
+.c0.rex-btn-solid.rex-btn-normal:not(.rex-disabled) .rex-selected {
   color: var(--rex-components-Button-textNormalActive);
   background-color: var(--rex-components-Button-bgNormalActive);
   border-color: var(--rex-components-Button-borderColorNormalActive);
@@ -152,17 +211,19 @@ exports[`ui 1`] = `
   border-color: undefined;
 }
 
-.c0.rex-btn-text.rex-btn-primary:not(.rex-disabled):hover {
+.c0.rex-btn-text.rex-btn-primary:not(.rex-disabled):focus {
+  outline: 0;
+  box-shadow: 0 0 0 3px undefined;
+}
+
+.c0.rex-btn-text.rex-btn-primary:not(.rex-disabled).rex-hover {
   color: var(--rex-components-TextButton-colorPrimaryHover);
   background-color: var(--rex-components-TextButton-bgPrimaryHover);
   border-color: undefined;
 }
 
-.c0.rex-btn-text.rex-btn-primary:not(.rex-disabled):focus {
-  outline: 2px auto undefined;
-}
-
-.c0.rex-btn-text.rex-btn-primary:not(.rex-disabled).rex-selected {
+.c0.rex-btn-text.rex-btn-primary:not(.rex-disabled):active,
+.c0.rex-btn-text.rex-btn-primary:not(.rex-disabled) .rex-selected {
   color: var(--rex-components-TextButton-colorPrimaryActive);
   background-color: var(--rex-components-TextButton-bgPrimaryActive);
   border-color: undefined;
@@ -174,17 +235,19 @@ exports[`ui 1`] = `
   border-color: undefined;
 }
 
-.c0.rex-btn-text.rex-btn-normal:not(.rex-disabled):hover {
+.c0.rex-btn-text.rex-btn-normal:not(.rex-disabled):focus {
+  outline: 0;
+  box-shadow: 0 0 0 3px undefined;
+}
+
+.c0.rex-btn-text.rex-btn-normal:not(.rex-disabled).rex-hover {
   color: var(--rex-components-TextButton-colorNormalHover);
   background-color: var(--rex-components-TextButton-bgNormalHover);
   border-color: undefined;
 }
 
-.c0.rex-btn-text.rex-btn-normal:not(.rex-disabled):focus {
-  outline: 2px auto undefined;
-}
-
-.c0.rex-btn-text.rex-btn-normal:not(.rex-disabled).rex-selected {
+.c0.rex-btn-text.rex-btn-normal:not(.rex-disabled):active,
+.c0.rex-btn-text.rex-btn-normal:not(.rex-disabled) .rex-selected {
   color: var(--rex-components-TextButton-colorNormalActive);
   background-color: var(--rex-components-TextButton-bgNormalActive);
   border-color: undefined;
@@ -196,17 +259,19 @@ exports[`ui 1`] = `
   border-color: undefined;
 }
 
-.c0.rex-btn-link.rex-btn-primary:not(.rex-disabled):hover {
+.c0.rex-btn-link.rex-btn-primary:not(.rex-disabled):focus {
+  outline: 0;
+  box-shadow: 0 0 0 3px undefined;
+}
+
+.c0.rex-btn-link.rex-btn-primary:not(.rex-disabled).rex-hover {
   color: var(--rex-components-TextButton-colorPrimaryHover);
   background-color: undefined;
   border-color: undefined;
 }
 
-.c0.rex-btn-link.rex-btn-primary:not(.rex-disabled):focus {
-  outline: 2px auto undefined;
-}
-
-.c0.rex-btn-link.rex-btn-primary:not(.rex-disabled).rex-selected {
+.c0.rex-btn-link.rex-btn-primary:not(.rex-disabled):active,
+.c0.rex-btn-link.rex-btn-primary:not(.rex-disabled) .rex-selected {
   color: undefined;
   background-color: undefined;
   border-color: undefined;
@@ -218,17 +283,19 @@ exports[`ui 1`] = `
   border-color: undefined;
 }
 
-.c0.rex-btn-link.rex-btn-normal:not(.rex-disabled):hover {
+.c0.rex-btn-link.rex-btn-normal:not(.rex-disabled):focus {
+  outline: 0;
+  box-shadow: 0 0 0 3px undefined;
+}
+
+.c0.rex-btn-link.rex-btn-normal:not(.rex-disabled).rex-hover {
   color: var(--rex-components-TextButton-colorNormalHover);
   background-color: undefined;
   border-color: undefined;
 }
 
-.c0.rex-btn-link.rex-btn-normal:not(.rex-disabled):focus {
-  outline: 2px auto undefined;
-}
-
-.c0.rex-btn-link.rex-btn-normal:not(.rex-disabled).rex-selected {
+.c0.rex-btn-link.rex-btn-normal:not(.rex-disabled):active,
+.c0.rex-btn-link.rex-btn-normal:not(.rex-disabled) .rex-selected {
   color: undefined;
   background-color: undefined;
   border-color: undefined;
@@ -240,17 +307,19 @@ exports[`ui 1`] = `
   border-color: var(--rex-components-WarningButton-borderColorNormal);
 }
 
-.c0.rex-btn-warning.rex-btn-normal:not(.rex-disabled):hover {
+.c0.rex-btn-warning.rex-btn-normal:not(.rex-disabled):focus {
+  outline: 0;
+  box-shadow: 0 0 0 3px var(--rex-components-WarningButton-outline);
+}
+
+.c0.rex-btn-warning.rex-btn-normal:not(.rex-disabled).rex-hover {
   color: var(--rex-components-WarningButton-textNormalHover);
   background-color: var(--rex-components-WarningButton-bgNormalHover);
   border-color: var(--rex-components-WarningButton-borderColorNormalHover);
 }
 
-.c0.rex-btn-warning.rex-btn-normal:not(.rex-disabled):focus {
-  outline: 2px auto var(--rex-components-WarningButton-borderColorNormalActive);
-}
-
-.c0.rex-btn-warning.rex-btn-normal:not(.rex-disabled).rex-selected {
+.c0.rex-btn-warning.rex-btn-normal:not(.rex-disabled):active,
+.c0.rex-btn-warning.rex-btn-normal:not(.rex-disabled) .rex-selected {
   color: var(--rex-components-WarningButton-textNormalActive);
   background-color: var(--rex-components-WarningButton-bgNormalActive);
   border-color: var(--rex-components-WarningButton-borderColorNormalActive);
@@ -262,17 +331,19 @@ exports[`ui 1`] = `
   border-color: var(--rex-components-WarningButton-borderColorPrimary);
 }
 
-.c0.rex-btn-warning.rex-btn-primary:not(.rex-disabled):hover {
+.c0.rex-btn-warning.rex-btn-primary:not(.rex-disabled):focus {
+  outline: 0;
+  box-shadow: 0 0 0 3px var(--rex-components-WarningButton-outline);
+}
+
+.c0.rex-btn-warning.rex-btn-primary:not(.rex-disabled).rex-hover {
   color: var(--rex-components-WarningButton-textPrimaryHover);
   background-color: var(--rex-components-WarningButton-bgPrimaryHover);
   border-color: var(--rex-components-WarningButton-borderColorPrimaryHover);
 }
 
-.c0.rex-btn-warning.rex-btn-primary:not(.rex-disabled):focus {
-  outline: 2px auto var(--rex-components-WarningButton-borderColorPrimaryActive);
-}
-
-.c0.rex-btn-warning.rex-btn-primary:not(.rex-disabled).rex-selected {
+.c0.rex-btn-warning.rex-btn-primary:not(.rex-disabled):active,
+.c0.rex-btn-warning.rex-btn-primary:not(.rex-disabled) .rex-selected {
   color: var(--rex-components-WarningButton-textPrimaryActive);
   background-color: var(--rex-components-WarningButton-bgPrimaryActive);
   border-color: var(--rex-components-WarningButton-borderColorPrimaryActive);
@@ -282,6 +353,10 @@ exports[`ui 1`] = `
   class="c0 rex-btn rex-btn-solid rex-btn-normal rex-btn-medium"
   type="button"
 >
-  Hello
+  <span
+    class="rext-btn-children"
+  >
+    Hello
+  </span>
 </button>
 `;

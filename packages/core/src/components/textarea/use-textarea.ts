@@ -32,7 +32,7 @@ export function useTextarea(props: UseTextareaProps) {
     className,
   );
 
-  const getInputProps = (props, ref) => {
+  const getInputProps = (props: any, ref: any) => {
     return {
       placeholder: '请输入',
       ...htmlProps,
