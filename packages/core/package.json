@@ -1,6 +1,6 @@
 {
   "name": "@rexd/core",
-  "version": "0.3.0-alpha.2",
+  "version": "0.3.0-alpha.3",
   "description": "A responsive and adaptive components library, with ability to config theme and color mode.",
   "module": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
@@ -24,11 +24,10 @@
     "access": "public"
   },
   "dependencies": {
-    "@popperjs/core": "^2.6.0",
     "@emotion/serialize": "^1.0.2",
     "@emotion/sheet": "^1.0.1",
-    "stylis": "^4.0.10",
-    "@rexd/icon": "^0.3.0-alpha.1",
+    "@popperjs/core": "^2.6.0",
+    "@rexd/icon": "^0.3.0-alpha.2",
     "@rexd/one": "^0.3.0-alpha.1",
     "@types/d3": "^6.3.0",
     "@types/react": "^16.9.56",
@@ -47,7 +46,8 @@
     "react-use-gesture": "^9.1.3",
     "resize-observer-polyfill": "^1.5.1",
     "rxjs": "^6.6.3",
-    "styled-system": "^5.1.5"
+    "styled-system": "^5.1.5",
+    "stylis": "^4.0.10"
   },
   "peerDependencies": {
     "react": "^16.8.6 || ^17.0.1",
