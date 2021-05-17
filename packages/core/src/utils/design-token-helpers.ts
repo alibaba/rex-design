@@ -2,11 +2,40 @@ import { get } from 'lodash';
 import { StringOrNumber } from '../types';
 import { isNull } from './assertion';
 
+const hexRegex = /^#[a-fA-F0-9]{6}$/;
+const rgbRegex = /^rgb\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$/;
+const rgbaRegex = /^rgba\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*([-+]?[0-9]*[.]?[0-9]+)\s*\)$/i;
+
+function parseToRGB(color: string) {
+  if (color.match(hexRegex)) {
+    return {
+      red: parseInt(`${color[1]}${color[2]}`, 16),
+      green: parseInt(`${color[3]}${color[4]}`, 16),
+      blue: parseInt(`${color[5]}${color[6]}`, 16),
+    };
+  }
+  throw new Error('color is not a valid hex value');
+}
+
+/**
+ * background: ${rgba('#ffffff', 0.4)};
+ * @param hexColor
+ * @param alpha
+ */
+export function rgba(hexColor: string, alpha: number) {
+  const rgbValue = parseToRGB(hexColor);
+  return `rgba(${rgbValue.red},${rgbValue.green},${rgbValue.blue},${alpha})`;
+}
+
 /**
  * color token to css variables
  * @param token
  */
 export function colors(token: string) {
+  if (hexRegex.test(token) || rgbRegex.test(token) || rgbaRegex.test(token)) {
+    return token;
+  }
+
   if (typeof token === 'string' && token.split('.').length > 1) {
     const list = token.split('.');
     list.unshift('--rex', 'colors');
@@ -155,28 +184,4 @@ export function getTokenValue(token: string, themeObject = {}) {
   }
 
   return val;
-}
-
-const hexRegex = /^#[a-fA-F0-9]{6}$/;
-
-function parseToRGB(color: string) {
-  // const normalizedColor = nameToHex(color);
-  if (color.match(hexRegex)) {
-    return {
-      red: parseInt(`${color[1]}${color[2]}`, 16),
-      green: parseInt(`${color[3]}${color[4]}`, 16),
-      blue: parseInt(`${color[5]}${color[6]}`, 16),
-    };
-  }
-  throw new Error('color is not a valid hex value');
-}
-
-/**
- * background: ${rgba('#ffffff', 0.4)};
- * @param hexColor
- * @param alpha
- */
-export function rgba(hexColor: string, alpha: number) {
-  const rgbValue = parseToRGB(hexColor);
-  return `rgba(${rgbValue.red},${rgbValue.green},${rgbValue.blue},${alpha})`;
 }

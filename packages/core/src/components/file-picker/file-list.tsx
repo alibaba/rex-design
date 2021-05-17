@@ -32,8 +32,8 @@ export function FileList(props: FileListProps) {
 
 const getItemBg = (status: FileStatusType) => {
   const map = {
-    success: 'green.10',
-    error: 'red.10',
+    success: 'rgba(50, 179, 87, .1)',
+    error: 'rgba(235, 65, 65, .1)',
   };
   return map[status] || 'fill.layer1';
 };

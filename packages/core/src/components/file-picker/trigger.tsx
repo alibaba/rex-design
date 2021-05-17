@@ -18,7 +18,7 @@ const SelectorLabel = styled.span`
   background-color: var(--rex-colors-fill-layer1);
   font-size: var(--rex-fontSizes-body);
   height: var(--rex-sizes-formHeights-m);
-  width: ${getToken('FilePicker.normalTriggerWidth')};
+  min-width: ${getToken('FilePicker.normalTriggerWidth')};
   padding-left: var(--rex-space-m);
   padding-right: var(--rex-space-m);
 

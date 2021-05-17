@@ -183,7 +183,7 @@ const components = {
 
   FilePicker: {
     normalTriggerDisplay: 'inline-flex',
-    normalTriggerWidth: '240px',
+    normalTriggerWidth: '120px',
   },
 
   Radio: {
