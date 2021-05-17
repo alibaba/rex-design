@@ -55,7 +55,8 @@ const buttonType = (
       border-color: ${hoverBorderColor};
     }
 
-    &:active, .rex-selected {
+    &:active,
+    &.rex-selected {
       color: ${selectedColor};
       background-color: ${selectedBg};
       border-color: ${selectedBorderColor};
@@ -338,7 +339,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>((props, r
       [`rex-btn-${shape}`]: shape,
       [`rex-btn-${type}`]: type,
       [`rex-btn-${size}`]: size,
-      [`rex-selected`]: isSelected,
+      'rex-selected': isSelected,
       [`rex-disabled`]: disabled,
       [`rex-hover`]: isHover,
     },
