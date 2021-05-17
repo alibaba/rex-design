@@ -1,4 +1,5 @@
-import { ChangeEvent, useCallback } from 'react';
+import { ChangeEvent, HTMLAttributes, useCallback } from 'react';
+import cx from 'classnames';
 import { callAllHandlers } from '../../utils';
 
 export interface UseRadioProps {
@@ -12,7 +13,7 @@ export interface UseRadioProps {
 }
 
 export function useRadio(props: UseRadioProps) {
-  const { checked, readOnly, disabled, onChange, value, name, ...htmlProps } = props;
+  const { checked, readOnly, disabled, onChange, value, name, className, ...htmlProps } = props;
 
   const handleChange = useCallback(
     (event) => {
@@ -42,8 +43,24 @@ export function useRadio(props: UseRadioProps) {
     [name, value, handleChange, checked],
   );
 
+  const clazz = cx(
+    {
+      'rex-radio': true,
+      'rex-disabled': disabled,
+    },
+    className,
+  );
+
+  const getRootProps = () => {
+    return {
+      ...htmlProps,
+      disabled,
+      className: clazz,
+    } as HTMLAttributes<HTMLLabelElement>;
+  };
+
   return {
     getInputProps,
-    htmlProps,
+    getRootProps,
   };
 }

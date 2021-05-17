@@ -61,7 +61,7 @@ const ColumnStepContent = styled(Box)`
 const getColorByStatus = (status: StatusType) => {
   return {
     complete: 'brand.normal',
-    incomplete: 'primary.10',
+    incomplete: 'emphasis.40',
     error: 'error.normal',
     warning: 'warning.normal',
     success: 'success.normal',

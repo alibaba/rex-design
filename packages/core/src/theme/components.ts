@@ -187,9 +187,9 @@ const components = {
   },
 
   Radio: {
-    radioSize: '16px',
+    radioSize: '14px',
     radioMarkSize: '6px',
-    radioMarkOffset: '4px', // (size - markSize - 2)/2
+    radioMarkOffset: '3px', // (size - markSize - 2)/2
   },
 
   Checkbox: {

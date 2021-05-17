@@ -1,11 +1,10 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { View } from '@rexd/one';
 import { useRadio, UseRadioProps } from './use-radio';
 import { useRadioGroupContext } from './context';
 import { getToken } from '../../utils';
 
-const RexRadio = styled(View)`
+const RexRadio = styled.label`
   display: inline-flex;
   align-items: center;
   vertical-align: top;
@@ -34,7 +33,7 @@ const RexRadio = styled(View)`
       width: ${getToken('Radio.radioMarkSize')};
       height: ${getToken('Radio.radioMarkSize')};
       border-radius: 50%;
-      background: #fff;
+      background: var(--rex-colors-emphasis-0);
     }
   }
 
@@ -52,6 +51,22 @@ const RexRadio = styled(View)`
     font-size: var(--rex-fontSizes-body);
     margin-left: var(--rex-space-m);
     margin-right: var(--rex-space-m);
+  }
+
+  &.rex-disabled {
+    .rex-radio-label {
+      color: var(--rex-colors-text-disabled);
+    }
+
+    .rex-radio-checkmark {
+      border-color: var(--rex-colors-line-disabled);
+      background-color: var(--rex-colors-fill-disabled);
+    }
+
+    .rex-radio-input:checked ~ .rex-radio-checkmark {
+      border-color: var(--rex-colors-brand-disabled);
+      background-color: var(--rex-colors-brand-disabled);
+    }
   }
 `;
 
@@ -81,7 +96,7 @@ export const Radio = React.forwardRef<HTMLInputElement, RadioProps>((props, ref)
 
   const name = props?.name ?? group?.name;
 
-  const { getInputProps } = useRadio({
+  const { getInputProps, getRootProps } = useRadio({
     ...others,
     value: valueProp,
     name,
@@ -91,7 +106,7 @@ export const Radio = React.forwardRef<HTMLInputElement, RadioProps>((props, ref)
   const inputProps = getInputProps({}, ref);
 
   return (
-    <RexRadio as="label">
+    <RexRadio {...getRootProps()}>
       <input className="rex-radio-input" {...inputProps} />
       <div className="rex-radio-checkmark" />
       {children && <div className="rex-radio-label">{children}</div>}
