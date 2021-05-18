@@ -3667,96 +3667,6 @@
     resolve-from "^5.0.0"
     store2 "^2.7.1"
 
-"@styled-system/background@^5.1.2":
-  version "5.1.2"
-  resolved "https://registry.npm.taobao.org/@styled-system/background/download/@styled-system/background-5.1.2.tgz#75c63d06b497ab372b70186c0bf608d62847a2ba"
-  integrity sha1-dcY9BrSXqzcrcBhsC/YI1ihHoro=
-  dependencies:
-    "@styled-system/core" "^5.1.2"
-
-"@styled-system/border@^5.1.5":
-  version "5.1.5"
-  resolved "https://registry.npm.taobao.org/@styled-system/border/download/@styled-system/border-5.1.5.tgz#0493d4332d2b59b74bb0d57d08c73eb555761ba6"
-  integrity sha1-BJPUMy0rWbdLsNV9CMc+tVV2G6Y=
-  dependencies:
-    "@styled-system/core" "^5.1.2"
-
-"@styled-system/color@^5.1.2":
-  version "5.1.2"
-  resolved "https://registry.npm.taobao.org/@styled-system/color/download/@styled-system/color-5.1.2.tgz#b8d6b4af481faabe4abca1a60f8daa4ccc2d9f43"
-  integrity sha1-uNa0r0gfqr5KvKGmD42qTMwtn0M=
-  dependencies:
-    "@styled-system/core" "^5.1.2"
-
-"@styled-system/core@^5.1.2":
-  version "5.1.2"
-  resolved "https://registry.npm.taobao.org/@styled-system/core/download/@styled-system/core-5.1.2.tgz#b8b7b86455d5a0514f071c4fa8e434b987f6a772"
-  integrity sha1-uLe4ZFXVoFFPBxxPqOQ0uYf2p3I=
-  dependencies:
-    object-assign "^4.1.1"
-
-"@styled-system/css@^5.1.5":
-  version "5.1.5"
-  resolved "https://registry.npm.taobao.org/@styled-system/css/download/@styled-system/css-5.1.5.tgz#0460d5f3ff962fa649ea128ef58d9584f403bbbc"
-  integrity sha1-BGDV8/+WL6ZJ6hKO9Y2VhPQDu7w=
-
-"@styled-system/flexbox@^5.1.2":
-  version "5.1.2"
-  resolved "https://registry.npm.taobao.org/@styled-system/flexbox/download/@styled-system/flexbox-5.1.2.tgz#077090f43f61c3852df63da24e4108087a8beecf"
-  integrity sha1-B3CQ9D9hw4Ut9j2iTkEICHqL7s8=
-  dependencies:
-    "@styled-system/core" "^5.1.2"
-
-"@styled-system/grid@^5.1.2":
-  version "5.1.2"
-  resolved "https://registry.npm.taobao.org/@styled-system/grid/download/@styled-system/grid-5.1.2.tgz#7165049877732900b99cd00759679fbe45c6c573"
-  integrity sha1-cWUEmHdzKQC5nNAHWWefvkXGxXM=
-  dependencies:
-    "@styled-system/core" "^5.1.2"
-
-"@styled-system/layout@^5.1.2":
-  version "5.1.2"
-  resolved "https://registry.npm.taobao.org/@styled-system/layout/download/@styled-system/layout-5.1.2.tgz#12d73e79887e10062f4dbbbc2067462eace42339"
-  integrity sha1-Etc+eYh+EAYvTbu8IGdGLqzkIzk=
-  dependencies:
-    "@styled-system/core" "^5.1.2"
-
-"@styled-system/position@^5.1.2":
-  version "5.1.2"
-  resolved "https://registry.npm.taobao.org/@styled-system/position/download/@styled-system/position-5.1.2.tgz#56961266566836f57a24d8e8e33ce0c1adb59dd3"
-  integrity sha1-VpYSZlZoNvV6JNjo4zzgwa21ndM=
-  dependencies:
-    "@styled-system/core" "^5.1.2"
-
-"@styled-system/shadow@^5.1.2":
-  version "5.1.2"
-  resolved "https://registry.npm.taobao.org/@styled-system/shadow/download/@styled-system/shadow-5.1.2.tgz#beddab28d7de03cd0177a87ac4ed3b3b6d9831fd"
-  integrity sha1-vt2rKNfeA80Bd6h6xO07O22YMf0=
-  dependencies:
-    "@styled-system/core" "^5.1.2"
-
-"@styled-system/space@^5.1.2":
-  version "5.1.2"
-  resolved "https://registry.npm.taobao.org/@styled-system/space/download/@styled-system/space-5.1.2.tgz#38925d2fa29a41c0eb20e65b7c3efb6e8efce953"
-  integrity sha1-OJJdL6KaQcDrIOZbfD77bo786VM=
-  dependencies:
-    "@styled-system/core" "^5.1.2"
-
-"@styled-system/typography@^5.1.2":
-  version "5.1.2"
-  resolved "https://registry.npm.taobao.org/@styled-system/typography/download/@styled-system/typography-5.1.2.tgz#65fb791c67d50cd2900d234583eaacdca8c134f7"
-  integrity sha1-Zft5HGfVDNKQDSNFg+qs3KjBNPc=
-  dependencies:
-    "@styled-system/core" "^5.1.2"
-
-"@styled-system/variant@^5.1.5":
-  version "5.1.5"
-  resolved "https://registry.npm.taobao.org/@styled-system/variant/download/@styled-system/variant-5.1.5.tgz#8446d8aad06af3a4c723d717841df2dbe4ddeafd"
-  integrity sha1-hEbYqtBq86THI9cXhB3y2+Td6v0=
-  dependencies:
-    "@styled-system/core" "^5.1.2"
-    "@styled-system/css" "^5.1.5"
-
 "@svgr/babel-plugin-add-jsx-attribute@^5.4.0":
   version "5.4.0"
   resolved "https://registry.npm.taobao.org/@svgr/babel-plugin-add-jsx-attribute/download/@svgr/babel-plugin-add-jsx-attribute-5.4.0.tgz#81ef61947bb268eb9d50523446f9c638fb355906"
@@ -4743,13 +4653,6 @@
   dependencies:
     "@types/hoist-non-react-statics" "*"
     "@types/react" "*"
-    csstype "^3.0.2"
-
-"@types/styled-system@^5.1.10":
-  version "5.1.11"
-  resolved "https://registry.npm.taobao.org/@types/styled-system/download/@types/styled-system-5.1.11.tgz#158849f3b14cdf8bf27a10f0cf87a2c3a89eb680"
-  integrity sha1-FYhJ87FM34vyehDwz4eiw6ietoA=
-  dependencies:
     csstype "^3.0.2"
 
 "@types/tapable@^1", "@types/tapable@^1.0.5":
@@ -17898,25 +17801,6 @@ style-to-object@0.3.0, style-to-object@^0.3.0:
     hoist-non-react-statics "^3.0.0"
     shallowequal "^1.1.0"
     supports-color "^5.5.0"
-
-styled-system@^5.1.5:
-  version "5.1.5"
-  resolved "https://registry.npm.taobao.org/styled-system/download/styled-system-5.1.5.tgz#e362d73e1dbb5641a2fd749a6eba1263dc85075e"
-  integrity sha1-42LXPh27VkGi/XSabroSY9yFB14=
-  dependencies:
-    "@styled-system/background" "^5.1.2"
-    "@styled-system/border" "^5.1.5"
-    "@styled-system/color" "^5.1.2"
-    "@styled-system/core" "^5.1.2"
-    "@styled-system/flexbox" "^5.1.2"
-    "@styled-system/grid" "^5.1.2"
-    "@styled-system/layout" "^5.1.2"
-    "@styled-system/position" "^5.1.2"
-    "@styled-system/shadow" "^5.1.2"
-    "@styled-system/space" "^5.1.2"
-    "@styled-system/typography" "^5.1.2"
-    "@styled-system/variant" "^5.1.5"
-    object-assign "^4.1.1"
 
 stylehacks@^4.0.0:
   version "4.0.3"

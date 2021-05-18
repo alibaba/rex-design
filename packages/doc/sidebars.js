@@ -63,7 +63,7 @@ module.exports = {
           type: 'category',
           collapsed: false,
           label: '表格',
-          items: ['base-table', 'pro-table', 'cross-table', 'cross-tree-table'],
+          items: ['base-table', 'pro-table'],
         },
       ],
     },
