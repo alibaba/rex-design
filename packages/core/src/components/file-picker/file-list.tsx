@@ -4,9 +4,10 @@ import { Icon } from '@rexd/icon';
 import { Box, Text } from '../layout';
 import { Link } from '../link';
 import { Button } from '../button';
-import { noop } from '../../utils';
+import { noop, rgba } from '../../utils';
 import { FileStatusType } from './types';
 import { FileListProps, FileListItemProps } from './types';
+import { useTheme } from '../../providers';
 
 const ListWrapper = styled.ul`
   list-style: none;
@@ -32,15 +33,17 @@ export function FileList(props: FileListProps) {
 
 const getItemBg = (status: FileStatusType) => {
   const map = {
-    success: 'rgba(50, 179, 87, .1)',
-    error: 'rgba(235, 65, 65, .1)',
+    success: 'colors.success.normal',
+    error: 'colors.error.normal',
   };
-  return map[status] || 'fill.layer1';
+  return map[status] || 'colors.fill.layer1';
 };
 
 function FileListItem(props: FileListItemProps) {
   const { file, onRemove, disabled } = props;
-  const bg = getItemBg(file.status);
+  const { getValue } = useTheme();
+  const bgToken = getItemBg(file.status);
+  const bg = ['error', 'success'].includes(file.status) ? rgba(getValue(bgToken), 0.1) : bgToken;
 
   return (
     <Box
