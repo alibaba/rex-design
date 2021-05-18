@@ -137,7 +137,7 @@ function transformProps<T>(props: T) {
   return o;
 }
 
-export const Box = React.forwardRef<HTMLDivElement, BoxProps>((props, ref) => {
+export const Box = React.forwardRef<HTMLElement, BoxProps>((props, ref) => {
   const _props = useMemo(() => transformProps<BoxProps>(props), [props]);
   return <StyledBox ref={ref} {..._props} />;
 });

@@ -1,40 +1,51 @@
 import React from 'react';
-import { Box, Badge, DemoGroup } from '@rexd/core';
+import { Box, Badge, Group } from '@rexd/core';
 
 export default { title: 'Badge' };
 
-export const basic = () => (
-  <DemoGroup>
+export const Basic = () => (
+  <Group>
+    <Badge shape="pill">99</Badge>
+    <Badge shape="dot" />
+    <Badge shape="badge">普通标签</Badge>
+  </Group>
+);
+
+export const StatusBadge = () => (
+  <Group>
+    <Badge status="normal">普通</Badge>
     <Badge status="success">成功</Badge>
     <Badge status="error">错误</Badge>
     <Badge status="warning">警告</Badge>
-  </DemoGroup>
+  </Group>
 );
 
-export const customColor = () => (
-  <Badge color="#fff" bg="deeppink" fontSize="14px">
-    自定义
-  </Badge>
+export const CustomColor = () => (
+  <Group>
+    <Badge bg="#BADA55" color="#FFF">
+      #BADA55
+    </Badge>
+    <Badge bg="#FFA500" color="#FFF">
+      #FFA500
+    </Badge>
+    <Badge bg="#0000FF" color="#FFF">
+      #0000FF
+    </Badge>
+  </Group>
 );
 
 export const NumberBadge = () => (
-  <DemoGroup>
-    <Badge status="error" isPill>
-      1
-    </Badge>
-    <Badge status="error" isPill>
-      99
-    </Badge>
-    <Badge status="error" isPill>
-      129
-    </Badge>
-  </DemoGroup>
+  <Group>
+    <Badge shape="pill">1</Badge>
+    <Badge shape="pill">99</Badge>
+    <Badge shape="pill">129</Badge>
+  </Group>
 );
 
 export const TopRight = () => (
   <div>
     <Box display="inline-block" size="40px" borderRadius="2px" bg="#aaa" />
-    <Badge status="error" isPill style={{ verticalAlign: 'top', position: 'absolute' }}>
+    <Badge shape="pill" style={{ verticalAlign: 'top', position: 'absolute' }}>
       99+
     </Badge>
   </div>
