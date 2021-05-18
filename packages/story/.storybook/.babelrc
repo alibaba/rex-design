@@ -1,0 +1,31 @@
+{
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "loose": true,
+        "targets": {
+          "chrome": "90"
+        },
+        "include": [
+          "@babel/plugin-proposal-nullish-coalescing-operator",
+          "@babel/plugin-proposal-logical-assignment-operators"
+        ]
+      }
+    ],
+    "@babel/preset-react",
+    [
+      "@babel/preset-typescript",
+      {
+        "isTSX": true,
+        "allExtensions": true
+      }
+    ]
+  ],
+  "plugins": [
+    ["@babel/plugin-proposal-class-properties", { "loose": true }],
+    ["@babel/plugin-proposal-private-methods", { "loose": true }],
+    ["@babel/plugin-proposal-private-property-in-object", { "loose": true }],
+    "babel-plugin-styled-components"
+  ]
+}

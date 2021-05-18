@@ -19,11 +19,6 @@ class IgnoreNotFoundExportPlugin {
 }
 
 module.exports = {
-  // todo webpack5
-  // core: {
-  //   builder: 'webpack5',
-  // },
-
   stories: ['../src/**/*.stories.tsx'],
 
   addons: [
@@ -35,11 +30,6 @@ module.exports = {
       },
     },
   ],
-
-  babel: async (config) => {
-    config.plugins.push('babel-plugin-styled-components');
-    return config;
-  },
 
   webpack: async (config) => {
     if (config.mode === 'production') {
