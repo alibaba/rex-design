@@ -2,14 +2,10 @@ import cx from 'classnames';
 import React, { forwardRef } from 'react';
 import styled from 'styled-components';
 import { Icon } from '@rexd/icon';
-import { colors } from '../../utils';
+import { colors, rgba } from '../../utils';
 import { Button } from '../button';
 import { Box } from '../layout';
-
-const NoticeBox = styled.div`
-  padding: var(--rex-space-m);
-  background-color: var(--rex-notice-bg);
-`;
+import { useTheme } from '../../providers';
 
 const AlertHead = styled.div`
   display: flex;
@@ -25,6 +21,7 @@ const AlertTitle = styled.div`
 
   > svg {
     color: var(--rex-notice-iconColor);
+    font-size: 20px;
   }
 `;
 
@@ -43,16 +40,12 @@ const AlertContent = styled.div`
 `;
 
 function getMeta(status: string) {
-  const get = (icon: string, bg: string, color: string) => {
-    return [icon, colors(bg), colors(color)];
-  };
-
   return (
     {
-      error: get('error', 'red.10', 'red.50'),
-      success: get('success', 'green.10', 'green.50'),
-      warning: get('warning', 'yellow.10', 'yelllow.50'),
-      info: get('prompt', 'primary.10', 'primary.50'),
+      error: ['error', 'colors.red.10', 'colors.red.50'],
+      success: ['success', 'colors.green.10', 'colors.green.50'],
+      warning: ['prompt', 'colors.yellow.10', 'colors.yellow.50'],
+      info: ['prompt', 'colors.primary.10', 'colors.primary.50'],
     }[status] || status
   );
 }
@@ -73,12 +66,15 @@ export interface NoticeProps {
 
 export const Notice = forwardRef<HTMLDivElement, NoticeProps>((props, ref) => {
   const { status, title, extra, closeable, onClose, style: styleProp, className, children, ...rest } = props;
+  const { getValue } = useTheme();
   const [icon, bg, color] = getMeta(status);
   const style = {
-    ['--rex-notice-bg']: bg,
-    ['--rex-notice-iconColor']: color,
+    ['--rex-notice-iconColor']: colors(color),
     ...styleProp,
   };
+
+  const bgColor = rgba(getValue(bg), 0.55);
+
   const clazz = cx(
     {
       [`rex-${status}`]: status,
@@ -86,7 +82,7 @@ export const Notice = forwardRef<HTMLDivElement, NoticeProps>((props, ref) => {
     className,
   );
   return (
-    <NoticeBox ref={ref} className={clazz} style={style} {...rest}>
+    <Box borderRadius="s" p="l" bg={bgColor} ref={ref} className={clazz} style={style} {...rest}>
       <AlertHead>
         <AlertTitle>
           <Icon type={icon as any} />
@@ -102,6 +98,6 @@ export const Notice = forwardRef<HTMLDivElement, NoticeProps>((props, ref) => {
         </AlertExtra>
       </AlertHead>
       {children && <AlertContent>{children}</AlertContent>}
-    </NoticeBox>
+    </Box>
   );
 });

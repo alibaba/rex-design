@@ -38,7 +38,10 @@ export function colors(token: string) {
 
   if (typeof token === 'string' && token.split('.').length > 1) {
     const list = token.split('.');
-    list.unshift('--rex', 'colors');
+    if (list[0] !== 'colors') {
+      list.unshift('colors');
+    }
+    list.unshift('--rex');
     return `var(${list.join('-')})`;
   }
   return token;

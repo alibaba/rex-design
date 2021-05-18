@@ -193,7 +193,7 @@ const components = {
   },
 
   Checkbox: {
-    size: '16px',
+    size: '14px',
     iconSize: '8px',
   },
 

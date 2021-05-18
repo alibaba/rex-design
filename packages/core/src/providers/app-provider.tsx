@@ -3,6 +3,7 @@ import { ThemeProvider as StyledComponentsThemeProvider } from 'styled-component
 import { OverlayAnimationStyles } from '../components/overlays/overlay-utils/animations';
 import { OverlayGlobalStyles } from '../components/overlays/overlay-utils/OverlayGlobalStyles';
 import { THEMES } from '../theme';
+import { getTokenValue } from '../utils';
 import { ConfigProvider } from './config-provider';
 import { CssVariables, Normalize } from './global-styles';
 
@@ -46,6 +47,14 @@ const AppContext = React.createContext<AppContextType>({
 export const useAppContext = () => useContext(AppContext);
 export const useColorMode = () => useAppContext().colorMode;
 export const useDevice = () => useAppContext().device;
+export const useTheme = () => {
+  const { theme } = useAppContext();
+  const getValue = (path: string) => getTokenValue(path, theme);
+  return {
+    theme,
+    getValue,
+  };
+};
 
 export interface AppProviderProps extends Omit<Partial<AppContextType>, 'underRoot'> {
   /** 是否为 root AppProvider */
