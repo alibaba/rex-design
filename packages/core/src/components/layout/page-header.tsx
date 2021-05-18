@@ -1,6 +1,5 @@
 import React from 'react';
-import { Box } from '../layout';
-import { BoxProps } from './Box';
+import { Box, BoxProps } from './Box';
 
 export interface PageHeaderProps extends Omit<BoxProps, 'title'> {
   title?: React.ReactNode;

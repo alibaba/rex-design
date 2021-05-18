@@ -1,10 +1,10 @@
 import React from 'react';
-import { Box } from '../layout';
-import { AdaptivePopup, PopupProps } from '../overlays';
-import { Menu, MenuProps } from '../menu';
 import { useVisible } from '../../hooks';
 import { useDevice } from '../../providers';
 import { callAll } from '../../utils';
+import { Box, Panel } from '../layout';
+import { Menu, MenuProps } from '../menu';
+import { AdaptivePopup, PopupProps } from '../overlays';
 
 export interface ActionSheetProps {
   /**
@@ -33,15 +33,17 @@ export function ActionSheet(props: ActionSheetProps) {
       onRequestClose={onClose}
       target={target}
       renderChildren={(arg: any) => (
-        <Box {...arg} boxShadow="lowDown" borderRadius="m">
+        <Panel {...arg}>
           {arg.arrow}
           {title && (
             <Box py="m" textAlign="center" fontSize="body">
               {title}
             </Box>
           )}
-          <Menu className="minimal" dataSource={dataSource} onItemClick={callAll(onItemClick, onClose)} />
-        </Box>
+          <Menu.Panel boxShadow="none">
+            <Menu.Inner dataSource={dataSource} onItemClick={callAll(onItemClick, onClose)} />
+          </Menu.Panel>
+        </Panel>
       )}
     />
   );

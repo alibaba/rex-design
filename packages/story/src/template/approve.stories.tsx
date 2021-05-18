@@ -1,5 +1,6 @@
 import React from 'react';
-import { Box, PageHeader, Panel, Timeline, TimelineItem, FooterToolbar, Description } from '@rexd/core';
+import { Box, PageHeader, Timeline, TimelineItem, FooterToolbar, Description } from '@rexd/core';
+import { Panel } from './panel';
 
 export default {
   title: 'Template/Approve',

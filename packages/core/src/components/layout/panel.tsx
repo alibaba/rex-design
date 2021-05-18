@@ -1,30 +1,23 @@
+import cx from 'classnames';
 import React from 'react';
-import { Box } from '../layout';
-import { BoxProps } from './Box';
+import { Box, BoxProps } from './Box';
 
-export interface PanelProps extends Omit<BoxProps, 'title'> {
-  title?: React.ReactNode;
-}
+export interface PanelProps extends BoxProps {}
 
-// TODO: Panel 只提供容器 ??
-// TODO: 折叠 panel
-// TODO: 组合 panel，类似于 accordion
-export function Panel(props: PanelProps) {
-  const { title, children, ...rest } = props;
+/** 用于表达海拔的组件；亮色下使用阴影进行表达，暗色下使用背景色进行表达。 */
+export const Panel = React.forwardRef<HTMLElement, PanelProps>((props, ref) => {
+  const { className, children, borderRadius = 's', boxShadow = 'lowDown', ...rest } = props;
 
   return (
-    <Box boxShadow="lowDown" borderRadius="l" bg="emphasis.0" {...rest}>
-      {title && <PanelHeader>{title}</PanelHeader>}
-      <Box p="l">{children}</Box>
-    </Box>
-  );
-}
-
-function PanelHeader(props: BoxProps) {
-  const { children } = props;
-  return (
-    <Box px="l" pt="m" fontSize="title1" color="title">
+    <Box
+      ref={ref}
+      className={cx('rex-panel', className)}
+      boxShadow={boxShadow}
+      borderRadius={borderRadius}
+      bgColor="var(--rex-overlay-depth-m)"
+      {...rest}
+    >
       {children}
     </Box>
   );
-}
+});

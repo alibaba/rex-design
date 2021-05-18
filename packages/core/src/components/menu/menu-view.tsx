@@ -3,6 +3,7 @@ import cx from 'classnames';
 import React from 'react';
 import styled from 'styled-components';
 import { composeHandlers } from '../../utils';
+import { Panel } from '../layout';
 import { Overlay, Popup, PopupInteractionKind } from '../overlays';
 import { TickIcon } from '../select/icons';
 
@@ -26,17 +27,8 @@ export interface MenuItem {
   children?: MenuItem[];
 }
 
-const MenuDiv = styled.div.withConfig({ componentId: 'rex-menu' })`
-  list-style: none;
-  padding: ${MENU_VERTICAL_PADDING}px 4px;
-  margin: 0;
+const RexMenuInnerDiv = styled.div`
   min-width: 180px;
-
-  :not(.minimal) {
-    border-radius: var(--rex-radii-m);
-    box-shadow: var(--rex-shadows-lowDown);
-    background: var(--rex-overlay-depth-m);
-  }
 
   .rex-menu-divider {
     margin: 8px 12px;
@@ -50,6 +42,12 @@ const MenuDiv = styled.div.withConfig({ componentId: 'rex-menu' })`
     padding: 0 12px;
     font-size: 12px;
   }
+`;
+
+export const MenuPanel = styled(Panel)`
+  list-style: none;
+  padding: ${MENU_VERTICAL_PADDING}px 4px;
+  margin: 0;
 `;
 
 const MenuItemDiv = styled.div.withConfig({ componentId: 'rex-menu-item' })`
@@ -149,9 +147,8 @@ function flattenDataSource(items: MenuItem[]) {
   }
 }
 
-// 菜单视图组件（提供菜单视图，完全受控组件）
-export const MenuView = React.forwardRef<HTMLDivElement, MenuViewProps>(
-  ({ dataSource = [], interactionKind = 'hover', openKeys, onOpen, ...others }, ref) => {
+export const MenuViewInner = React.forwardRef<HTMLDivElement, MenuViewProps>(
+  ({ dataSource = [], interactionKind = 'hover', openKeys, onOpen, style, className }, ref) => {
     const openPopup = (key: string) => {
       const nextOpenKeys = [...openKeys, key];
       onOpen(nextOpenKeys);
@@ -226,9 +223,18 @@ export const MenuView = React.forwardRef<HTMLDivElement, MenuViewProps>(
     }
 
     return (
-      <MenuDiv ref={ref} {...others}>
+      <RexMenuInnerDiv ref={ref} className={cx('rex-menu-inner', className)} style={style}>
         {flattenDataSource(dataSource).map(renderItem)}
-      </MenuDiv>
+      </RexMenuInnerDiv>
     );
   },
 );
+
+// 菜单视图组件（提供菜单视图，完全受控组件）
+export const MenuView = React.forwardRef<HTMLDivElement, MenuViewProps>(({ className, style, ...props }, ref) => {
+  return (
+    <MenuPanel className={cx('rex-menu', className)} style={style} ref={ref}>
+      <MenuViewInner {...props} />
+    </MenuPanel>
+  );
+});

@@ -1,7 +1,8 @@
 import React, { useState, useRef } from 'react';
-import { PageHeader, Panel, Box, BaseTable, ActionList, Toolbar, Search } from '@rexd/core';
+import { PageHeader, Box, BaseTable, ActionList, Toolbar, Search } from '@rexd/core';
 // import { SearchForm, FormItem } from '@rexd/form';
 import { listData } from './dataset';
+import { Panel } from './panel';
 
 // todo 在 xform 中添加对 SearchForm 的支持
 

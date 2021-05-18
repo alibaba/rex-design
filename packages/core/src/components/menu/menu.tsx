@@ -1,7 +1,8 @@
 import { makeRecursiveMapper } from 'ali-react-table';
+import cx from 'classnames';
 import React, { useState } from 'react';
 import { composeHandlers, composeState, noop } from '../../utils';
-import { MenuItem, MenuView, MenuViewProps } from './menu-view';
+import { MenuItem, MenuPanel, MenuViewInner, MenuViewProps } from './menu-view';
 
 function processMenuDataSource(
   input: MenuItem[],
@@ -106,7 +107,7 @@ export interface MenuProps extends Omit<MenuViewProps, 'openKeys' | 'onOpen'> {
   defaultSelectedKeys?: string[];
 }
 
-export const Menu = React.forwardRef<HTMLDivElement, MenuProps>((props, ref) => {
+export const MenuInner = React.forwardRef<HTMLDivElement, MenuProps>((props, ref) => {
   const {
     defaultOpenKeys,
     openKeys: openKeysProp,
@@ -147,5 +148,20 @@ export const Menu = React.forwardRef<HTMLDivElement, MenuProps>((props, ref) => 
     onOpen,
   });
 
-  return <MenuView ref={ref} dataSource={dataSource} {...others} openKeys={openKeys} onOpen={onOpen} />;
+  return <MenuViewInner ref={ref} dataSource={dataSource} {...others} openKeys={openKeys} onOpen={onOpen} />;
 });
+
+type MenuType = React.ForwardRefExoticComponent<
+  React.PropsWithoutRef<MenuProps> & React.RefAttributes<HTMLDivElement>
+> & { Inner?: typeof MenuInner; Panel?: typeof MenuPanel };
+
+export const Menu: MenuType = React.forwardRef<HTMLDivElement, MenuProps>(({ className, style, ...props }, ref) => {
+  return (
+    <Menu.Panel className={cx('rex-menu', className)} style={style} ref={ref}>
+      <Menu.Inner {...props} />
+    </Menu.Panel>
+  );
+});
+
+Menu.Inner = MenuInner;
+Menu.Panel = MenuPanel;
