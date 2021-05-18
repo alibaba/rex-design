@@ -19,22 +19,25 @@ const SimpleSearchButton = styled(Box)`
   }
 `;
 
-export interface SearchProps extends UseSearchProps {}
+export interface SearchProps extends UseSearchProps {
+  searchText?: React.ReactNode;
+}
 
-export interface MixSearchProps extends UseSearchProps {
+export interface MixSearchProps extends SearchProps {
   shape?: 'normal' | 'simple';
 }
 
 export function Search(props: MixSearchProps) {
-  const { shape, ...rest } = props;
+  const { shape, searchText = '搜索', ...rest } = props;
   if (shape === 'simple') {
     return <SimpleSearch {...rest} />;
   }
-  return <NormalSearch {...rest} />;
+  return <NormalSearch searchText={searchText} {...rest} />;
 }
 
 function NormalSearch(props: SearchProps) {
-  const { htmlProps, getInputProps, getSubmitProps } = useSearch(props);
+  const { searchText, ...rest } = props;
+  const { htmlProps, getInputProps, getSubmitProps } = useSearch(rest);
 
   const inputProps = getInputProps();
   const submitProps = getSubmitProps();
@@ -42,7 +45,9 @@ function NormalSearch(props: SearchProps) {
   return (
     <Group isAttached {...htmlProps}>
       <Input {...inputProps} />
-      <Button {...submitProps}>搜索</Button>
+      <Button type="primary" {...submitProps}>
+        {searchText}
+      </Button>
     </Group>
   );
 }

@@ -1,7 +1,7 @@
-import React from 'react';
 import { isFunction } from '../../utils';
 import { useControllableState } from '../../hooks';
 import { InputProps } from '../input';
+import { ButtonProps } from '../button';
 
 export interface UseSearchProps {
   value?: string;
