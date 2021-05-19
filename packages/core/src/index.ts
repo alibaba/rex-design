@@ -26,7 +26,7 @@ export * from './components/table';
 export * from './components/radio';
 export * from './components/range';
 export * from './components/search';
-export * from './components/tag';
+export * from './components/tag'; // TODO: 删除掉
 export * from './components/textarea';
 export * from './components/time-picker';
 export * from './components/timeline';
