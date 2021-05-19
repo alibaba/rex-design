@@ -1,5 +1,5 @@
 import React from 'react';
-import { DemoGroup, ActionList } from '@rexd/core';
+import { ActionList } from '@rexd/core';
 
 export default { title: 'ActionList' };
 
@@ -35,11 +35,7 @@ export const Icons = () => {
     { key: 'import', icon: 'import' },
   ];
 
-  return (
-    <DemoGroup>
-      <ActionList actions={actions} onSelect={console.log} />
-    </DemoGroup>
-  );
+  return <ActionList actions={actions} onSelect={console.log} />;
 };
 
 export const Custom = () => {
@@ -54,9 +50,5 @@ export const Custom = () => {
     },
   ];
 
-  return (
-    <DemoGroup>
-      <ActionList actions={actions} onSelect={console.log} />
-    </DemoGroup>
-  );
+  return <ActionList actions={actions} onSelect={console.log} />;
 };

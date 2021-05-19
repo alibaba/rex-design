@@ -1,5 +1,5 @@
 import React from 'react';
-import { Textarea, Flex, DemoGroup } from '@rexd/core';
+import { Textarea, Flex, Group } from '@rexd/core';
 
 export default { title: 'Textarea' };
 
@@ -21,10 +21,10 @@ export function Basic() {
 
 export function Rows() {
   return (
-    <DemoGroup>
+    <Group>
       <Textarea rows={2} />
       <Textarea rows={5} />
-    </DemoGroup>
+    </Group>
   );
 }
 

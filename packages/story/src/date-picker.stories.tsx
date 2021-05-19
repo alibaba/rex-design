@@ -1,26 +1,26 @@
 import React from 'react';
-import { DemoGroup, DatePicker, DateRangePicker, dayjs } from '@rexd/core';
+import { Group, DatePicker, DateRangePicker, dayjs } from '@rexd/core';
 
 export default { title: 'DatePicker' };
 
 export function Basic() {
   return (
-    <DemoGroup>
+    <Group>
       <DatePicker onChange={console.log} defaultValue="2021-03-15" />
       <DateRangePicker defaultValue={['2021-03-12', '2021-04-02']} onChange={console.log} />
-    </DemoGroup>
+    </Group>
   );
 }
 
 export function HasTime() {
   return (
-    <DemoGroup>
+    <Group>
       <DatePicker hasTime onChange={console.log} />
 
       <DatePicker hasTime timeProps={{ mode: 'normal' }} onChange={console.log} />
 
       <DateRangePicker hasTime onChange={console.log} />
-    </DemoGroup>
+    </Group>
   );
 }
 

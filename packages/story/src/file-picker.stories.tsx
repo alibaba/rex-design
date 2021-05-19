@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { DemoGroup, FilePicker, MediaPicker } from '@rexd/core';
+import { Group, FilePicker, MediaPicker } from '@rexd/core';
 
 export default { title: 'FilePicker' };
 
@@ -37,20 +37,20 @@ const getRequest = (options: any) =>
   });
 
 export const Basic = () => (
-  <DemoGroup>
+  <Group>
     <FilePicker defaultValue={files} request={getRequest} onChange={console.log} />
 
     <FilePicker defaultValue={files} disabled onChange={console.log} />
-  </DemoGroup>
+  </Group>
 );
 
 export const Media = () => {
   return (
-    <DemoGroup>
+    <Group>
       <MediaPicker defaultValue={files} request={getRequest} onChange={console.log} />
 
       <MediaPicker defaultValue={files} request={getRequest} onChange={console.log} disabled />
-    </DemoGroup>
+    </Group>
   );
 };
 
@@ -59,10 +59,10 @@ export const Media = () => {
  */
 export const DragFile = () => {
   return (
-    <DemoGroup>
+    <Group>
       <FilePicker triggerType="drag" request={getRequest} onChange={console.log} />
       <FilePicker triggerType="drag" request={getRequest} onChange={console.log} disabled />
-    </DemoGroup>
+    </Group>
   );
 };
 
@@ -88,10 +88,10 @@ export const Status = () => {
     },
   ];
   return (
-    <DemoGroup>
+    <Group>
       <FilePicker defaultValue={files} onChange={console.log} />
       <MediaPicker defaultValue={files} onChange={console.log} />
-    </DemoGroup>
+    </Group>
   );
 };
 

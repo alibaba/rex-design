@@ -1,26 +1,26 @@
 import React, { useState } from 'react';
-import { DemoGroup, CheckboxGroup, Checkbox, DemoTitle } from '@rexd/core';
+import { Group, CheckboxGroup, Checkbox } from '@rexd/core';
 
 export default { title: 'Checkbox' };
 
 export const Basic = () => (
-  <DemoGroup>
+  <Group>
     <Checkbox onChange={console.log}>订阅</Checkbox>
     <Checkbox disabled>订阅（禁用）</Checkbox>
     <Checkbox defaultChecked>订阅</Checkbox>
-  </DemoGroup>
+  </Group>
 );
 
 export const Value = () => {
   const [checked, setChecked] = useState();
 
   return (
-    <DemoGroup>
+    <Group>
       <Checkbox defaultChecked>订阅（非受控）</Checkbox>
       <Checkbox checked={checked} onChange={(val) => setChecked(checked)}>
         订阅（受控）
       </Checkbox>
-    </DemoGroup>
+    </Group>
   );
 };
 
@@ -32,17 +32,17 @@ const dataSource = [
   { label: '师傅', value: '03' },
 ];
 
-export const Group = () => {
+export const GroupDemo = () => {
   const [val, setVal] = useState([]);
 
   return (
-    <DemoGroup>
-      <DemoTitle>非受控</DemoTitle>
+    <Group>
+      <h3>非受控</h3>
       <CheckboxGroup dataSource={dataSource} defaultValue={['01']} onChange={console.log} />
 
-      <DemoTitle>受控</DemoTitle>
+      <h3>受控</h3>
       <CheckboxGroup dataSource={dataSource} value={val} onChange={(val) => setVal(val)} />
-    </DemoGroup>
+    </Group>
   );
 };
 
@@ -51,7 +51,7 @@ export const Examples = () => {
   const [indeterminate, setIndeterminate] = useState<boolean>(true);
 
   return (
-    <DemoGroup>
+    <Group>
       <Checkbox>默认</Checkbox>
       <Checkbox disabled>禁用状态</Checkbox>
       <Checkbox defaultChecked>默认选中</Checkbox>
@@ -74,6 +74,6 @@ export const Examples = () => {
       <p>样式</p>
       <Checkbox style={{ background: '#999' }}>自定义 style</Checkbox>
       <Checkbox className="this-is-my-classname">自定义 className</Checkbox>
-    </DemoGroup>
+    </Group>
   );
 };

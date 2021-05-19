@@ -1,18 +1,18 @@
 import React from 'react';
-import { DemoGroup, DemoTitle, Flex, NumberInput } from '@rexd/core';
+import { Group, NumberInput } from '@rexd/core';
 
 export default { title: 'NumberInput' };
 
 export function Basic() {
   return (
-    <DemoGroup>
-      <DemoTitle title="普通" />
+    <Group>
+      <h3>普通</h3>
       <NumberInput defaultValue={20} onChange={console.log} />
-      <DemoTitle title="输入框只读" />
+      <h3>输入框只读</h3>
       <NumberInput defaultValue={20} onChange={console.log} readOnly />
-      <DemoTitle title="禁用" />
+      <h3>禁用</h3>
       <NumberInput defaultValue={20} onChange={console.log} disabled />
-    </DemoGroup>
+    </Group>
   );
 }
 
@@ -26,9 +26,9 @@ export function Precision() {
 
 export function Format() {
   return (
-    <DemoGroup>
+    <Group>
       <NumberInput defaultValue={999999} onChange={console.log} />
       <NumberInput defaultValue={0.05} step={0.01} onChange={console.log} formatOptions={{ style: 'percent' }} />
-    </DemoGroup>
+    </Group>
   );
 }

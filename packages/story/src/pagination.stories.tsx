@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Pagination, DemoGroup } from '@rexd/core';
+import { Pagination, Group } from '@rexd/core';
 
 export default { title: 'Pagination' };
 

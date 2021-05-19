@@ -1,11 +1,11 @@
 import React from 'react';
-import { Switch, DemoGroup } from '@rexd/core';
+import { Switch, Group } from '@rexd/core';
 
 export default { title: 'Switch' };
 
 export function Basic() {
   return (
-    <DemoGroup>
+    <Group>
       <Switch defaultChecked onChange={console.log} />
 
       <Switch defaultChecked={false} onChange={console.log} />
@@ -13,27 +13,27 @@ export function Basic() {
       <Switch disabled />
 
       <Switch checked disabled />
-    </DemoGroup>
+    </Group>
   );
 }
 
 export function HasLabel() {
   return (
-    <DemoGroup>
+    <Group>
       <Switch hasLabel onChange={console.log} />
       <Switch hasLabel defaultChecked onChange={console.log} />
-    </DemoGroup>
+    </Group>
   );
 }
 
 export function Size() {
   return (
-    <DemoGroup>
+    <Group>
       <Switch size="small" onChange={console.log} />
       <Switch size="small" defaultChecked onChange={console.log} />
 
       <Switch size="medium" onChange={console.log} />
       <Switch size="medium" defaultChecked onChange={console.log} />
-    </DemoGroup>
+    </Group>
   );
 }
