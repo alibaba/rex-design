@@ -7,11 +7,11 @@ import * as advancedExamples from 'story/src/xform/2-advanced-examples.stories';
 
 本页主要介绍 xform 的一些进阶用法，包括嵌套的表单数据结构（对象或数组），分形与对应的 model/field API 等。
 
-## `Form.Object`
+## 表单片段复用
 
-`<Form.Object name={name} />` 以当前 model 为基础，为其子节点提供一个新的 sub model，并将子节点中的表单值收集到当前 model 中 `name` 对应的位置。
+我们可以利用 `Form.Object` 来实现表单片段的复用。
 
-示例： 在下面的家庭信息登记表中，「个人信息」、「父亲」等部分的表单是完全相同的，此时我们可以将这些相同部分抽取到 PersonForm 中，并用 Form.Object 来指定其在上层 model 中的数据字段。
+例如，在下面的家庭信息登记表中，「个人信息」、「父亲」等部分的表单是完全相同的，此时我们可以将这些相同部分抽取到 PersonForm 中，并用 Form.Object 来指定其在上层 model 中的数据字段。
 
 ```jsx
 function PersonForm({ name, label }) {
@@ -41,111 +41,71 @@ function FamilyForm() {
 
 <Story fn={advancedExamples.ObjectExample} />
 
-:::tip
-为 Form.Object 设置 `name="&"`， 可以将当前 model 透传至子节点（相当于没写 Form.Object）。
-:::
+### `Form.Object`
 
-## `Form.Array`
+`<Form.Object name={name} />`： 以当前 model 为基础，为其子节点提供一个新的 sub model，并将子节点中的表单值收集到当前 model 中 `name` 对应的位置。
 
-API: `<Form.Array name={name} itemFactory={itemFactory} layout={layout} />`
+为 Form.Object 设置 `name="&"` 时，可以将当前 model 透传至子节点（相当于没写 Form.Object）。
 
-`<Form.Array name={name} />`： 以当前 model 为基础，为其子节点提供一个新的 sub model，并将子节点中的表单值收集到当前 model 中 `{name}.{itemIndex}` 对应的位置。
+## 数组类型的数据
 
-:::note
-Form.Array 与 Form.Object 非常类似，但用于处理数组。
+我们可以利用 `Form.Array` 来处理数组类型的数据。
 
-注意 Form.Array 为其子节点提供的 sub model 包含两层下标 `{name}.{itemIndex}`： `name` 表示数组所在的字段名称， `itemIndex` 表示数组元素下标。
-:::
-
-Form.Array 其他参数：
-
-- `layout` 控制表单如何对数组进行布局，包括数组中每一个元素的布局 以及 相关的操作按钮（添加、删除、上移、下移等）
-  - xform 提供一些内置的数组布局，如果不满足你的需求，你也可以在上层实现新的数组布局
-- `itemFactory` 用于设置数组中新增元素的初始值
-
-示例： 在下面的「客户满意度调查列表」中，我们用 Form.Array 包裹了多个 FormItem。
+例如，在下面的「客户满意度调查列表」中，我们用 Form.Array 包裹了多个 FormItem。
 
 ```jsx
 <Form.Array name="tickets" layout={arrayCard({ showItemOrder: true })}>
   <FormItem label="客户名称" name="name" />
   <FormItem label="购买日期" name="date" />
   <FormItem label="品牌" name="brand" />
-  {/* 调查结果表单内容 */}
+  {/* 其他调查结果表单内容 */}
 </Form.Array>
 ```
 
 <Story fn={advancedExamples.ArrayExample} />
 
-## 分形
+### `Form.Array`
 
-所谓分形，指的就是 ~~表单套娃~~ `Form.Object` 与 `Form.Array` 相互嵌套。
+`<Form.Array name={name} itemFactory={itemFactory} layout={layout} />`
 
-**视图分形**： 每个 `Form.Object`，`Form.Array`，`FormItem` 中 name 属性描述「相对于上层 model 的数据索引」。
+Form.Array 会以当前 model 为基础，为其子节点提供一个新的 sub model，并将子节点中的表单值收集到当前 model 中 `{name}.{itemIndex}` 对应的位置。
 
-**模型分形**： 模型的数据结构和 API 可以满足分形视图的需求。详见下方。
+Form.Array 与 Form.Object 非常类似，但用于处理数组。 注意 Form.Array 为其子节点提供的 sub model 包含两层下标 `{name}.{itemIndex}`： `name` 表示数组所在的字段名称， `itemIndex` 表示数组元素下标。
 
-## IModel
+其他参数：
 
-IModel 表示「一个对象或数组对应的表单模型部分」。 IModel 是一个 interface， `FormModel`（根节点）和 `SubModel`（子节点） 实现了该 interface.
+- `layout` 控制表单如何对数组进行布局，包括数组中每一个元素的布局 以及 相关的操作按钮（添加、删除、上移、下移等）
+  - xform 提供一些内置的数组布局，如果不满足你的需求，你也可以在上层实现新的数组布局
+- `itemFactory` 用于设置数组中新增元素的初始值
 
-与分形视图类似，整个 model 的结构也是分形的。所有的 model 都是从 FormModel 开始的，FormModel 一般由上层开发者手动创建。
+## 处理嵌套数据结构
 
-### `model.getSubModel(name): SubModel`
+`Form.Object` 与 `Form.Array` 允许相互嵌套，灵活使用两者，我们可以组合出非常复杂的表单结构。在模型层面， xform 提供了适合「分形」的 API。
 
-获取一个子模型。 **即使 name 对应的子模型尚不存在，该方法也总是会返回一个 SubModel 对象。**
+通过 `new FormModel(values)` 创建 formModel 之后，我们可以使用 `formModel.getSubModel(name)` 来获取 `name` 对应的子模型 subModel，对 subModel.values 的读写会自动变为对 formModel.values 的读写（背后基于 mobx computed），确保 formModel.values 是整个表单 values 的唯一可信来源。
 
-所有对 subModel.values 的读写都会变为对 parentModel.values 的读写，这样我们可以确保 `formModel.values` 是整个表单 values 的唯一可信来源。
+FormModel（根节点）和 SubModel（子节点）都实现了 [`IModel` interface](api#imodel)，两者拥有几乎相同的方法和属性。大部分情况下，我们不需要区分 FormModel 或 SubModel，而是采用统一的 IModel api 进行开发即可。IModel 提供了 getSubModel 方法，意味着我们可以获取子模型的子模型，甚至是子模型的子模型的子模型…… 在实际进行开发时，我们可以根据情况灵活选取子模型，然后基于子模型进行开发。
 
-例如， `me = familyModel.getSubModel('me')` 可以获取到 familyModel 中 me 对应的子模型， 对 me.values 的修改会转变为 familyModel.values 的修改。
+(todo 更完善的介绍)
 
-### `model.getSubArray(name): SubModel`
+## 主动处理 model 与 field
 
-获取一个子模型，但获取的子模型的数据格式为数组。
-
-例如对于「客户满意度调查列表」中的 `tickets`，我们应该使用 `familyModel.getSubArray('tickets')`，而不是使用 getSubModel.
-
-### model 中的其他属性/方法
-
-- `model.root: FormModel` 指向模型根节点 FormModel
-- `model.path: string[]` 从根节点 FormModel 到当前 model 的数据路径
-- `model.parent: IModel` 指向上一级的 model
-  - 示例：若 `model.path = ['a', 'b', 'c']`，则 `model.parent.path = ['a', 'b']`
-- `model.values` 模型上的数据
-  - 对 SubModel.values 的读写其实是对 `model.parent.values` 的读写
-- `model.getValue(name, defaultValue)` 以当前模型为起始路径，读取 name 处的数据
-- `model.setValue(name, value)` 以当前模型为起始路径，修改 name 处的数据
-- `model.state` 模型级别的状态，这是一个 mobx observable 对象，默认为 `{}`，一般用来管理一些表单的 UI 状态。
-  - 每个 SubModel 都有独立的 state
-  - 更新 parentModel.state 不会影响 subModel.state
-  - 更新 subModel.state 也不会影响 parentModel.state
-- `model.id: string` 模型在所属表单内的唯一 id
-
-## Field
-
-field 用来表示「一个 视图控件 对应的表单模型部分」。model.values 一般为一个数组或一个对象，而 field.value 则往往比较简单，一般只是一个字符串或数字。
-
-field 对象需要从 model 中获取： `field = model.getField(name)` 获取 model 中 name 对应的字段对象；name 可以是像 `.foo` 这样的简单标识符，也可以是 `.cart.items.0.sku` 这样的一个嵌套索引。 **即使 name 对应的字段尚不存在，该方法也总是会返回一个 Field 对象**。
-
-获取 Field 对象后我们使用下列方法操作字段：
-
-`field.value` 读取或设置字段的值。 Field 对象本身不会记录 value，所有对 field.value 的读写都会变为对 model.values 的读写，这样我们可以确保根节点 `formModel.values` 是整个表单 values 的唯一可信来源。
-
-`field.state` 字段状态，这是一个 mobx observable 对象，默认为 `{}`。目前，我们约定了 `field.state.error` 作为该字段上的错误状态，当 state.error 有值时，页面中就会展示对应的出错提示。
-
-`field.config` 字段配置信息，反映该字段对应的控件最近一次被渲染时 React Element 上的 props，包含 config, required, defaultValue 等属性。
-
-其他不常用的属性：
-
-- `field.id: string` 字段在所属表单内的唯一 id
-- `field.mountCount: number` 字段对应的控件的加载数量
-  - 一般为 0 或 1，表示字段对应的控件是否渲染在视图中
-  - 多个指向同一个字段的控件被同时渲染时， mountCount 会大于 1
-- `field.path: string[]` 从 FormModel 到该字段的完整路径
-- `field.parent: IModel` 指向上一级的 model
-  - 例如：如果 `field` 的路径为 `['a', 'b', 'c']`，则 `field.parent` 的路径为 `['a', 'b']`
-
-## modelUtils & fieldUtils
+modelUtils & fieldUtils
 
 当你想要在上层主动对 model 或 field 进行操作时（例如主动触发表单的校验、清空某个字段上的错误等），可以使用 modelUtils / fieldUtils 中的工具方法，具体用法详见 [API](api#modelutilsclearerror).
 
 (TODO 添加自定义表单组件)
+
+## 一个字段对应多个视图
+
+`field.getFork(forkName :string)`
+
+(todo)
+
+## 异步数据源
+
+(todo) makeAsyncValue
+
+## 复杂联动
+
+(todo)

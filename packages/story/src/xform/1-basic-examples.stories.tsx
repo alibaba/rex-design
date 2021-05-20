@@ -1,5 +1,5 @@
 import { Button, dayjs } from '@rexd/core';
-import { Form, FormItem, modelUtils, FormModel } from '@rexd/xform';
+import { Form, FormItem, FormModel, modelUtils } from '@rexd/xform';
 import { action } from 'mobx';
 import React from 'react';
 import { ValuePreview } from './helpers';

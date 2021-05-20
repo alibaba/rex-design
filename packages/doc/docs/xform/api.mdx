@@ -15,11 +15,11 @@ import { Form, FormItem } from '@rexd/xform';
 
 - FormEnvProvider：表单的环境变量，子组件可以通过 [`useFormEnv`](#useformenv) 获取这些环境变量
 - ModelProvider：模型对象，子组件可以通过 [`useModel`](#usemodel) 获取模型对象
-- FormLayout： 来自 `@rexd/core` 的表单布局能力
+- FormLayout： 表单布局
 
 <PropsTable component={Form} />
 
-:::info @alife/hippo-xform
+:::note @alife/hippo-xform
 注意因为底层组件库不同，@alife/hippo-xform 提供了不同的 layout 参数。详见 [hippo-xform](hippo-xform).
 :::
 
@@ -30,9 +30,10 @@ import { Form, FormItem } from '@rexd/xform';
 <PropsTable
   props={[
     { name: 'component', required: true, type: 'string', description: '组件类型' },
-    { name: 'name', required: true, type: 'string', description: '字段数据索引' },
+    { name: 'name', required: false, type: 'string', description: '字段数据索引' },
+    { name: 'field', required: false, type: 'Field', description: 'Field 对象，提供后将覆盖 name 属性' },
     { name: 'label', required: true, type: 'ReactNode', description: '字段的显示名称' },
-    { name: 'labelWidth', type: 'string', description: '标签宽度' },
+    { name: 'tip', type: 'ReactNode', description: '提示信息' },
     { name: 'help', type: 'ReactNode', description: '帮助文本' },
     { name: 'defaultValue', description: '字段值为空时，组件展示用的默认值' },
     { name: 'componentProps', description: '组件的 props' },
@@ -89,6 +90,12 @@ import { Form, FormItem } from '@rexd/xform';
     { category: '{🚀}', name: 'onChange', description: '覆盖表单项默认的 onChange' },
     { category: '{🚀}', name: 'onBlur', description: '覆盖表单项默认的 onBlur' },
     { category: '{🚀}', name: 'renderPreview', description: '覆盖表单项默认的 预览态渲染方法' },
+    {
+      category: '{🚀}',
+      name: 'isEmpty',
+      type: '(value: any) => boolean',
+      description: '覆盖表单项默认的判断为空的逻辑',
+    },
   ]}
 />
 
@@ -140,12 +147,19 @@ import { Form, FormItem } from '@rexd/xform';
 
 `<Form.Effect watch={watch} effect={effect} />`
 
-创建表单联动，每当 watch 对应的值发生变化时，effect 都会被调用。注意嵌套字段的变更也会触发 effect。
+创建表单联动，每当 watch 对应的值发生变化时，effect 都会被调用。
 
 effect 被调用时，可以获取到两个参数：
 
 - `value: any` 新的值
 - `detail: { prev: any, model: IModel, next: any }` 一个对象，包含旧的值，新的值，以及当前模型
+
+watch 支持以下用法：
+
+- `string` 监听对应数据索引处 value 变化（注意嵌套字段的变更也会触发 effect）
+- `Feild` 监听对应 Field 的 value 变化
+- `Array<string | Field>` 监听多个「数据索引」或「字段」的 value 变化；effect 被调用时，将用一个数组包裹这些数据索引或字段的值
+- `() => any` 自定义函数用法，用法同 [mobx reaction](https://mobx.js.org/api.html#reaction) 的第一个参数
 
 ### `Form.Array`
 
@@ -176,11 +190,53 @@ effect 被调用时，可以获取到两个参数：
 
 <PropsTable props={[{ name: 'name', type: 'string', required: true, description: '字段索引' }]} />
 
-### `Form.Field`
+### `Form.ItemGroup`
 
-{🚀} 用于创建自定义的表单项组件。
+布局组件，可将多个 FormItem 分为一组。
 
-(TODO 用法介绍)
+```jsx
+<Form.ItemGroup label="分组名称" inline labelWidth={50} controlWidth={200}>
+  <FormItem component="input" />
+  <FormItem component="select" />
+</Form.ItemGroup>
+```
+
+<PropsTable
+  props={[
+    { name: 'label', type: 'ReactNode', description: '分组的标签' },
+    { name: 'inline', type: 'boolean', description: '是否使用内联布局' },
+    { name: 'labelWidth', type: 'number | string', description: '分组内 FormItem 的标签宽度' },
+    { name: 'controlWidth', type: 'number | string', description: '分组内 FormItem 的控件宽度' },
+    { name: 'style', type: 'React.CSSProperties', description: '内联样式' },
+    { name: 'className', type: 'string', description: 'className' },
+  ]}
+/>
+
+### `Form.ItemView`
+
+表单项视图组件。通过 `Form.ItemView` 可以让自定义的组件和普通 FormItem 使用相同的布局。
+
+```jsx
+// 普通 FormItem
+<FormItem label="标签标签" component="select" />
+
+// 利用 Form.ItemView 让自定义内容使用与 FormItem 相同的布局
+<Form.ItemView label="标签标签">
+  <MyCustomSelect value={...} onChange={...} />
+</Form.ItemView>
+```
+
+<PropsTable
+  props={[
+    { name: 'label', type: 'ReactNode', description: '标签' },
+    { name: 'help', type: 'boolean', description: '帮助文本' },
+    { name: 'tip', type: 'boolean', description: '提示信息' },
+    { name: 'required', type: 'boolean', description: '是否展示「*」' },
+    { name: 'error', type: 'boolean', description: '错误信息' },
+    { name: 'style', type: 'React.CSSProperties', description: '内联样式' },
+    { name: 'className', type: 'string', description: 'className' },
+  ]}
+/>
 
 ## contexts & hooks
 
@@ -248,6 +304,10 @@ FormEnvProvider 接受任意的 props，设置后子组件可以通过 `useFormE
 
 {🚀} 卡片布局
 
+:::note
+卡片布局 仍在完善中。
+:::
+
 ```tsx
 interface ArrayCardOptions {
   title?: string;
@@ -260,6 +320,10 @@ interface ArrayCardOptions {
 ### `arrayTable`
 
 {🚀} 表格布局
+
+:::note
+表格布局 仍在完善中。
+:::
 
 ```tsx
 interface ArrayTableOptions {
@@ -301,9 +365,10 @@ Field 用来表示「一个 视图控件 对应的表单模型部分」。
     - `field.state.cancelValidation()` 取消上次校验的方法
 - `field.config` 字段配置信息，反映该字段对应的控件最近一次被渲染时 React Element 上的 props
 - `field.id: string` 字段在所属表单内的唯一 id
-- `field.mountCount: number` 字段对应的控件的加载数量
+- `field.isMounted: boolean` 对应的控件是否渲染在视图中
 - `field.path: string[]` 从 FormModel 到该字段的完整路径
 - `field.parent: IModel` 指向上一级的 model
+- `field.getFork(forkName)` 获取 field 的 fork，详见 [](advanced#) 用于在视图中多次渲染「同一个数据索引」
 
 ### `modelUtils.clearError`
 
@@ -321,6 +386,34 @@ modelUtils.validateAll(
 ```
 
 mobx action. 执行 model 上所有的校验，并返回一个 Promise 表示所有的报错信息；trigger 用于指定所要执行的 validator，默认为 `'*'`。
+
+### `modelUtils.submit`
+
+```
+modelUtils.submit(
+  model: IModel,
+  options: {
+    valueFilter: 'mounted' | 'all',
+    onError: Function,
+    onSubmit: Function,
+  }
+): void
+```
+
+mobx action. 主动触发 [`Form.Submit`](#formsubmit) 被点击的流程。 options.valueFilter 可以控制 submit 回填哪些值。
+
+### `modelUtils.reset`
+
+```
+modelUtils.reset(
+  model: IModel,
+  options: {
+    onReset: Function,
+  }
+): void
+```
+
+mobx action. 主动触发 [`Form.Reset`](#formreset) 被点击的流程。
 
 ### `fieldUtils.validate`
 
@@ -345,6 +438,139 @@ mobx action. blur 事件处理函数，一般在创建自定义的表单项组�
 
 mobx action. change 事件处理函数，一般在创建自定义的表单项组件时使用。
 
+### `createFormItem`
+
+{🚀} `createFormItem(options: FormItemCreationOptions): FormItem`
+
+创建表单项组件。
+
+**用法示例**
+
+```jsx
+// 自定义组件
+const CitySelect = ({ value, onChange, onBlur }) => {
+  return (
+    <div>
+      <p>请选择居住城市：</p>
+      <Select value={value} onChange={onChange} onBlur={onBlur} dataSource={CITY_LIST} />
+    </div>
+  );
+};
+
+// 使用 createFormItem 创建一个自定义 FormItem
+const CustomFormItem = createFormItem({
+  name: 'myCitySelect',
+  component: CitySelect,
+  isEmpty(value) {
+    return value == null;
+  },
+  fallbackValue: null,
+});
+
+// 像普通 FormItem 一样使用 CustomFormItem
+<Form>
+  <FormItem component="input" label="姓名" name="name" validator={isValidateName} />
+  <CustomFormItem label="城市" name="city" validator={isValidCity} />
+</Form>;
+```
+
+**类型信息：**
+
+```tsx
+export interface FormItemCreationOptions {
+  /** 名称 */
+  name: string;
+
+  /** 控件对应的 React 组件，例如 `<FormItem component="select" />` 对应 `Select` 组件. */
+  component?: React.ComponentType<FormItemComponentProps>;
+
+  /** 控件渲染方法，与 component 参数二选一，优先级高于 component */
+  render?(arg: FormItemComponentProps): React.ReactElement;
+
+  /** 组件值的属性名称，默认为 `'value'` */
+  valuePropName?: string;
+
+  /** 组件状态值的属性名称，默认为 `'status'` */
+  statusPropName?: string;
+
+  /** 预览态下组件的渲染方法。如果不设置该方法，预览态下将使用 render/component 作为后备方案. */
+  renderPreview?(props: FormItemComponentProps): React.ReactNode;
+
+  /** 当模型中的字段值为空（undefined）时，渲染控件所使用的值 */
+  fallbackValue: any;
+
+  /** 组件类型默认的空值判断方法 */
+  isEmpty(value: any): boolean;
+}
+```
+
+### `FormItem.register`
+
+{🚀} `FormItem.register(options: FormItemCreationOptions): void`
+
+向 FormItem 中注册新的组件。 options 参数类型见上方。 `options.name` 会与已有的组件共享一个命名空间，注意避免冲突。
+
+```jsx
+// 自定义组件
+const CitySelect = ({ value, onChange, onBlur }) => {
+  return (
+    <div>
+      <p>请选择居住城市：</p>
+      <Select value={value} onChange={onChange} onBlur={onBlur} dataSource={CITY_LIST} />
+    </div>
+  );
+};
+
+// 注册
+FormItem.register({
+  name: 'myCitySelect',
+  component: CitySelect,
+  isEmpty(value) {
+    return value == null;
+  },
+  fallbackValue: null,
+});
+
+// 使用
+<FormItem component="myCitySelect" name="city" label="城市" />;
+```
+
 ### `makeAsyncValue`
 
-{🚀} (TODO 开发中)
+`makeAsyncValue<T>(fetcher: () => Promise<T>, initValue?: T): AsyncValue<T>`
+
+基于 `fetcher` 创建定义一个 AsyncValue，用于声明式地定义异步数据源。
+
+当 `asyncValue.current` 或 `asyncValue.status` 或 `asyncValue.error` 被订阅时， fetcher 将被首次调用， 其返回结果将作为 `asyncValue.current` 的值。
+
+调用 fetcher 的过程中会进行依赖收集，每当这些依赖的值发生变化时，fetcher 都会被重新触发。
+
+```tsx
+export interface AsyncValue<T> {
+  /** 状态，可为以下值 'loading' | 'ready' | 'error' */
+  readonly status: AsyncValueStatus;
+
+  /** 当前值 */
+  readonly current: T;
+
+  /** 错误 */
+  readonly error?: any;
+
+  /** 销毁 AsyncValue */
+  dispose(): void;
+
+  /** 重新触发 fetcher */
+  refresh(): void;
+}
+```
+
+<details>
+
+<summary>具体规则：</summary>
+
+1. 每次 fetcher 被调用时， status 就会变为 loading，并等待 fetcher 返回的 Promise resolve 或 reject；
+2. 当 fetcher 返回的 Promise resolve 时， status 变为 ready，同时 current 字段变为最新的值；
+3. 当 fetcher 返回的 Promise reject 时， status 变为 error，同时 error 字段记录本次错误；
+4. 当 fetcher 返回的 Promise 仍处于 pending 状态时，若 fetcher 再次被调用，已有的 promise 将被忽略，将会回到 1.
+
+</details>

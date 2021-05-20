@@ -34,7 +34,7 @@
     "@types/react-dom": "^16.9.9",
     "@types/styled-components": "^5.1.7",
     "@types/styled-system": "^5.1.10",
-    "ali-react-table": "^2.4.0",
+    "ali-react-table": "^2.5.1",
     "classnames": "^2.2.6",
     "csstype": "^3.0.7",
     "d3-color": "^2.0.0",

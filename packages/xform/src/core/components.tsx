@@ -10,9 +10,9 @@ export const ModelProvider = ModelContext.Provider;
 // 导出该类型，允许上层通过 interface merge 拓展该类型
 export interface FormEnvContextType {
   isPreview?: boolean;
-  onSubmit?(submitValues: any, model: FormModel): void;
-  onError?(errors: any, model: FormModel): void;
-  onReset?(model: FormModel): void;
+  onSubmit?(submitValues: any, model: IModel): void;
+  onError?(errors: any, model: IModel): void;
+  onReset?(model: IModel): void;
 }
 const FormEnvContext = React.createContext<FormEnvContextType>({});
 

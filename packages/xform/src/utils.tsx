@@ -101,7 +101,7 @@ export const modelUtils = {
 
   submit: action(
     (
-      root: FormModel,
+      root: IModel,
       {
         onError,
         onSubmit,

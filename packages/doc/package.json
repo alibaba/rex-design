@@ -20,7 +20,7 @@
     "@types/react-beautiful-dnd": "^13.0.0",
     "@types/react-helmet": "^6.1.0",
     "@types/react-router-dom": "^5.1.6",
-    "ali-react-table": "^2.4.0",
+    "ali-react-table": "^2.5.1",
     "classnames": "^2.2.6",
     "clsx": "^1.1.1",
     "constate": "^3.2.0",

@@ -13,20 +13,21 @@ mobx 是一个非常优秀的状态管理工具。一是它采用了 Proxy 魔�
 
 另一方面，大而全的表单方案，其开发成本、维护成本、答疑成本非常高，rex design 作为以组件库为主的技术产品，不应该、也不需要提供过于复杂的表单方案。我们需要一个拥抱 mobx 的、高性能的、较为精简的表单方案。
 
-所以，xform 作为 rex design 中全新的表单方哦，其核心部分的设计思路如下：
+所以，xform 作为 rex design 中全新的表单方案，其核心部分的设计思路如下：
 
 - 拥抱 mobx
   - 表单内核采用 mobx 提供的数据结构，无缝对接 mobx 生态（例如 mobx-utils）
   - 精确渲染（只渲染那些必须要渲染的组件），能够承载大表单场景
-- 上手成本要低一些
+- 降低上手成本
   - 避免那些解释起来费劲的概念或用法
   - 即使开发者不熟悉 mobx，也能使用该表单方案的大部分功能
   - 表单代码（JSX）、表单视图、表单数据 三者结构相同/相似，缩小「所见」与「所得」的差异
+- **简单好用**
+  - 灵活的、符合直觉的 model 与 field API
+  - 按需生成的内部数据结构，有效避免大量的非空判断，同时放宽代码书写限制（无 react hooks 限制，移除部分 mobx 依赖收集的限制）
 - 分形
   - 提升表单代码的可复用性
-  - ~~有谁不喜欢表单套娃呢？~~
-- 无头 (headless) 内核
-  - 内核不渲染额外的 UI 元素，由上层控制布局
+  - 能够优雅地进行表单套娃
 
 ## 编程模型
 
@@ -35,7 +36,7 @@ mobx 是一个非常优秀的状态管理工具。一是它采用了 Proxy 魔�
 通过 `new FormModel(values)` 创建 model，并将 model 传递给视图后，「模型与视图」就会进行双向绑定：
 
 - 视图总是反映模型中的最新值
-- 视图上的操作会实时更新模型
+- 视图上的操作会直接更新模型
 
 用户在表单上的交互可以看做是对 model.values 的修改：
 
@@ -47,13 +48,17 @@ model.values.foo = 'abc';
 
 // 用户在购物车(cart) 中添加了 2瓶快乐水
 model.values.cart.items = [];
-model.values.cart.items.push({ sku: '快乐水', count: 2 });
+model.values.cart.items.push({ sku: '快乐水' });
+model.values.cart.items.push({ sku: '快乐水' });
+
+// 用户重置了表单
+model.values = {};
 ```
 
 因为空值的存在，`.cart.items` 这样的用法很容易报错，所以 model 提供了 getValue 和 setValue 的方法：
 
 - `model.getValue('foo.bar')` 等价于 `model.values.foo.bar`，但会处理空值情况
-- `model.setValue('foo.bar', buzz)` 等价于 `model.values.foo.bar = buzz`，但会处理空值情况
+- `model.setValue('foo.bar', buzz)` 等价于 `model.values.foo.bar = buzz`，但会处理空值情况（根据数据索引名称会创建新的对象或数组）
 
 ### 主动更新模型
 
@@ -84,6 +89,8 @@ import { action } from 'mobx';
   重置表单
 </Button>;
 ```
+
+**我们可以认为「用户交互」和「主动更新模型」都是对一个「大对象」（即 model.values）的原地修改，每当这个大对象发生变化时，视图会进行更新以反映大对象的最新值。**
 
 ### 监听变化
 
@@ -120,6 +127,8 @@ model.values 只记录了表单内各个字段的值，但在实际使用过程�
 不同的 UI 控件会带来不同的状态，我们很难在内核中枚举出所有可能的状态。其他的表单方案往往会给出一套预先定义好的状态（例如 [formily](https://github.com/alibaba/formily/blob/d772523574bda50a9ecf42e92ca6f17a0f4a6422/packages/core/src/models/Field.ts#L121-L146)），来满足 95.2871% 的情况。
 
 而 xform core 采用了另一种方式：**xform core 不定义预设的状态，而是只提供状态的容器**，容器内具体放什么状态由上层决定（一般是在组件库对接 xform core 的时候进行决定）。 所以 xform core 的字段模型对象仅包含一些针对字段本身的描述和方法，整个模型非常轻量，学习成本很低 🤓。
+
+(todo Field 介绍)
 
 ## 分形
 
