@@ -135,7 +135,10 @@ function getFromAsyncValue<T>(x: AsyncValue<T>): T {
   return x.current;
 }
 
-export function makeAsyncValue<T>(getter: (get: typeof getFromAsyncValue) => Promise<T>, initValue?: T): AsyncValue<T> {
+export function createAsyncValue<T>(
+  getter: (get: typeof getFromAsyncValue) => Promise<T>,
+  initValue?: T,
+): AsyncValue<T> {
   const atom = mobx.createAtom('atom@asyncSelect');
   const disposers: mobx.Lambda[] = [];
 

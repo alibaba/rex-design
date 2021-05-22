@@ -14,30 +14,14 @@ function PersonForm({
     <div {...others} style={{ border: '1px dashed var(--rex-colors-emphasis-30)', ...others.style }}>
       <p style={{ fontWeight: 'bold', margin: '12px 0 8px 8px' }}>{label}</p>
       <Form.Object name={name}>
-        <FormItem component="input" name="name" label="姓名" required componentProps={{ style: { width: 150 } }} />
-        <FormItem component="input" name="age" label="年龄" required componentProps={{ style: { width: 100 } }} />
-        <FormItem
-          component="testButtonGroup"
-          name="gender"
-          required
-          label="性别"
-          componentProps={{ items: ['男', '女'] }}
-        />
-        <FormItem
-          component="input"
-          name="contact"
-          label="联系方式"
-          required
-          componentProps={{ style: { width: 200 } }}
-        />
+        <FormItem component="input" name="name" label="姓名" required />
+        <FormItem component="input" name="contact" label="联系方式" />
         <FormItem
           component="singleSelect"
           name="address.city"
           label="居住城市"
-          required
-          componentProps={{ dataSource: '杭州，上海，北京，深圳，广州，武汉，成都'.split('，'), style: { width: 200 } }}
+          componentProps={{ dataSource: '杭州，上海，北京，深圳，广州，武汉，成都'.split('，'), style: { width: 240 } }}
         />
-        <FormItem component="input" name="address.detail" label="详细地址" componentProps={{ style: { width: 240 } }} />
       </Form.Object>
     </div>
   );
@@ -49,8 +33,6 @@ export function ObjectExample() {
       defaultValue={{
         me: {
           name: 'rex design',
-          gender: '男',
-          age: '1',
           contact: 'alibaba.github.io/rex-design/',
           address: { city: '杭州' },
         },
@@ -61,7 +43,7 @@ export function ObjectExample() {
         <PersonForm name="me" label="个人信息" />
         <PersonForm name="father" label="父亲" />
         <PersonForm name="mother" label="母亲" />
-        <PersonForm name="urgency" label="其他紧急联系人" />
+        <PersonForm name="other" label="其他紧急联系人" />
       </div>
 
       <ValuePreview />

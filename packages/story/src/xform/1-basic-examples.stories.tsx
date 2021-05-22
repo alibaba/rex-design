@@ -39,7 +39,7 @@ export function BasicUncontrolled() {
       <FormItem component="input" label="电话" name="phone" required />
       <FormItem component="input" label="地址" name="address" />
 
-      <div style={{ marginTop: 8, display: 'flex', gap: 8 }}>
+      <div style={{ marginLeft: 100, display: 'flex', gap: 8 }}>
         <Form.Submit />
         <Form.Reset />
       </div>
@@ -65,7 +65,7 @@ export function Validation() {
         name="商品编码"
         required
         componentProps={{ placeholder: '请输入商品编码' }}
-        validator={(value: string) => {
+        validate={(value: string) => {
           let error;
           if (!value) {
             error = '该字段必填';
@@ -165,14 +165,7 @@ export function WithActions() {
       <div style={{ display: 'flex', gap: 8, marginBottom: 12 }}>
         <Button onClick={() => modelUtils.validateAll(model)}>校验全部</Button>
         <Button onClick={() => modelUtils.clearError(model)}>清空错误</Button>
-        <Button
-          onClick={action(() => {
-            model.values = {} as any;
-            modelUtils.clearError(model);
-          })}
-        >
-          重置表单
-        </Button>
+        <Button onClick={() => modelUtils.reset(model)}>重置表单</Button>
       </div>
 
       <Form model={model}>

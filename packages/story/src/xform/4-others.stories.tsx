@@ -81,7 +81,7 @@ function ItemList({ name }: { name: string }) {
             name="test.idType"
             required
             componentProps={{ items: ['身份证', '护照', '行驶证'] }}
-            validator={(value) => {
+            validate={(value) => {
               if (value === '行驶证') {
                 return '不可以用行驶证哦';
               }
@@ -108,7 +108,7 @@ function ItemList({ name }: { name: string }) {
             defaultValue={4}
             label="NPS"
             componentProps={{ min: 0, max: 10, step: 1 }}
-            validator={(v) => {
+            validate={(v) => {
               if (v < 5) {
                 return `给 ${v + 1} 分行不行`;
               }
@@ -156,7 +156,7 @@ const ArrayExampleInner = observer(() => {
                   hasClear: true,
                   dataSource: SHOPS,
                 }}
-                validator={(v) => (v.length > 3 ? '门店数据不能超过3个' : null)}
+                validate={(v) => (v.length > 3 ? '门店数据不能超过3个' : null)}
               />
             )
           );
@@ -246,7 +246,7 @@ const Candidate = observer(() => {
         component="input"
         required
         componentProps={{ style: { width: 200 } }}
-        validator={(v) => (/[\d-]{11,13}/.test(v) ? null : '请输入有效的手机号码')}
+        validate={(v) => (/[\d-]{11,13}/.test(v) ? null : '请输入有效的手机号码')}
       />
       <FormItem
         name="gender"

@@ -10,7 +10,7 @@ export const fieldUtils = {
     }
 
     const {
-      validator,
+      validate,
       required,
       defaultValue,
       isEmpty,
@@ -31,7 +31,7 @@ export const fieldUtils = {
     const checks = [
       (trigger === '*' || trigger === 'change') && changeValidator?.(val, field),
       (trigger === '*' || trigger === 'blur') && blurValidator?.(val, field),
-      validator?.(val, field),
+      validate?.(val, field),
     ].filter(Boolean);
 
     let cancelled = false;
@@ -136,7 +136,7 @@ export const modelUtils = {
     },
   ),
 
-  reset: action((root: FormModel, { onReset }: Pick<FormEnvContextType, 'onReset'>) => {
+  reset: action((root: FormModel, { onReset }: Pick<FormEnvContextType, 'onReset'> = {}) => {
     root.values = {};
     modelUtils.clearError(root);
     onReset?.(root);

@@ -45,11 +45,10 @@ module.exports = {
       ],
     },
 
-    // algolia: {
-    //   // todo 等开源发布后替换 algolia apiKey
-    //   apiKey: '10375f97d074db729b52cd376905287c',
-    //   indexName: 'ali-react-table',
-    // },
+    algolia: {
+      apiKey: 'b001b6083928a00b297494b4fb30a228',
+      indexName: 'rex-design',
+    },
   },
 
   presets: [

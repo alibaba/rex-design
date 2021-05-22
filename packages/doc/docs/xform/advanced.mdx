@@ -5,13 +5,17 @@ title: xform 进阶
 
 import * as advancedExamples from 'story/src/xform/2-advanced-examples.stories';
 
-本页主要介绍 xform 的一些进阶用法，包括嵌套的表单数据结构（对象或数组），分形与对应的 model/field API 等。
+本页将介绍 xform 的一些进阶用法，包括表单片段复用、数组类型表单、嵌套表单数据结构等。
+
+:::danger
+文档内容较多，书写龟速，目前还非常粗糙。
+:::
 
 ## 表单片段复用
 
-我们可以利用 `Form.Object` 来实现表单片段的复用。
+先看以下示例，在家庭信息登记表中，「个人信息」、「父亲」等部分的表单内容是完全相同的，但它们的数据存放路径不同。
 
-例如，在下面的家庭信息登记表中，「个人信息」、「父亲」等部分的表单是完全相同的，此时我们可以将这些相同部分抽取到 PersonForm 中，并用 Form.Object 来指定其在上层 model 中的数据字段。
+此时我们将表单中的相同部分抽取到 PersonForm 中，并利用 Form.Object 来指定其中的 FormItem 的**数据索引前缀**。 在 FamilyForm 中，我们为多个 PersonForm 指定不同的 name，即可实现表单片段的复用。 在更复杂的情况下，我们可以为 PersonForm 添加更多 props，使片段复用变得更加灵活。
 
 ```jsx
 function PersonForm({ name, label }) {
@@ -19,9 +23,9 @@ function PersonForm({ name, label }) {
     <div>
       <p>{label}</p>
       <Form.Object name={name}>
-        <FormItem name="name" label="姓名" />
-        <FormItem name="age" label="年龄" />
-        <FormItem name="gender" label="性别" items={['男', '女']} />
+        <FormItem name="name" label="姓名" required />
+        <FormItem name="contact" label="联系方式" />
+        <FormItem name="address.city" label="居住城市" />
       </Form.Object>
     </div>
   );
@@ -33,7 +37,7 @@ function FamilyForm() {
       <PersonForm name="me" label="个人信息" />
       <PersonForm name="father" label="父亲" />
       <PersonForm name="mother" label="母亲" />
-      <PersonForm name="urgency" label="其他紧急联系人" />
+      <PersonForm name="other" label="其他紧急联系人" />
     </div>
   );
 }
@@ -47,11 +51,13 @@ function FamilyForm() {
 
 为 Form.Object 设置 `name="&"` 时，可以将当前 model 透传至子节点（相当于没写 Form.Object）。
 
-## 数组类型的数据
+## 列表类型的数据
 
-我们可以利用 `Form.Array` 来处理数组类型的数据。
+我们可以利用 `Form.Array` 来处理列表类型的数据。
 
 例如，在下面的「客户满意度调查列表」中，我们用 Form.Array 包裹了多个 FormItem。
+
+从 Form.Array 这个名字中也可以看出，表单提交时将会生成一个数组，数组中每个元素包含 name，date，brand 等字段。
 
 ```jsx
 <Form.Array name="tickets" layout={arrayCard({ showItemOrder: true })}>
@@ -68,7 +74,7 @@ function FamilyForm() {
 
 `<Form.Array name={name} itemFactory={itemFactory} layout={layout} />`
 
-Form.Array 会以当前 model 为基础，为其子节点提供一个新的 sub model，并将子节点中的表单值收集到当前 model 中 `{name}.{itemIndex}` 对应的位置。
+Form.Array 会根据列表长度（即 `model.values.length`），渲染同样次数的子节点（指 props.children）。Form.Array 会以当前 model 为基础，为其子节点提供一个新的 sub model，并将子节点中的表单值收集到当前 model 中 `{name}.{itemIndex}` 对应的位置。
 
 Form.Array 与 Form.Object 非常类似，但用于处理数组。 注意 Form.Array 为其子节点提供的 sub model 包含两层下标 `{name}.{itemIndex}`： `name` 表示数组所在的字段名称， `itemIndex` 表示数组元素下标。
 
@@ -76,36 +82,161 @@ Form.Array 与 Form.Object 非常类似，但用于处理数组。 注意 Form.A
 
 - `layout` 控制表单如何对数组进行布局，包括数组中每一个元素的布局 以及 相关的操作按钮（添加、删除、上移、下移等）
   - xform 提供一些内置的数组布局，如果不满足你的需求，你也可以在上层实现新的数组布局
+  - 和 Form.Object 一样，Form.Array 本身不会提供任何布局
 - `itemFactory` 用于设置数组中新增元素的初始值
 
 ## 处理嵌套数据结构
 
-`Form.Object` 与 `Form.Array` 允许相互嵌套，灵活使用两者，我们可以组合出非常复杂的表单结构。在模型层面， xform 提供了适合「分形」的 API。
+`Form.Object` 与 `Form.Array` 允许相互嵌套，灵活使用两者，我们可以组合出非常复杂的表单结构。
+
+而在数据处理方面， xform 提供了非常灵活的、「分形」的 API。
 
 通过 `new FormModel(values)` 创建 formModel 之后，我们可以使用 `formModel.getSubModel(name)` 来获取 `name` 对应的子模型 subModel，对 subModel.values 的读写会自动变为对 formModel.values 的读写（背后基于 mobx computed），确保 formModel.values 是整个表单 values 的唯一可信来源。
 
-FormModel（根节点）和 SubModel（子节点）都实现了 [`IModel` interface](api#imodel)，两者拥有几乎相同的方法和属性。大部分情况下，我们不需要区分 FormModel 或 SubModel，而是采用统一的 IModel api 进行开发即可。IModel 提供了 getSubModel 方法，意味着我们可以获取子模型的子模型，甚至是子模型的子模型的子模型…… 在实际进行开发时，我们可以根据情况灵活选取子模型，然后基于子模型进行开发。
+FormModel（根节点）和 SubModel（子节点）均实现了 [`IModel` interface](api#imodel)，两者拥有几乎相同的方法和属性。大部分情况下，我们不需要区分 FormModel 或 SubModel。通过 `IModel#getSubModel` 方法，我们可以获取子模型的子模型，甚至是子模型的子模型的子模型…… 在实际进行开发时，我们可以根据情况灵活选取子模型，然后在适当的数据层级进行开发。
+
+### 示例 1
+
+我们可以用一个 FormModel 来管理「分步表单」。
+
+虽然这种方式并不常见，但它有一些独特的优势：
+
+- 复用了表单已有的提交按钮（Form.Submit）和提交成功回调（onSubmit），快速实现「点击下一步触发校验，校验通过后跳转到下一步」功能
+- 可以通过 root 来进行全局管理，例如……
+  - 调用 `modelUtils.reset(root)` 来重置所有步骤
+  - root.values 记录了整体数据，向后端发送请求时只需要发送 root.values 即可
+
+```jsx
+const root = new FormModel({ step1: {}, step2: {}, step3: {} });
+
+// STEP-1 Component
+<Step>
+  <Form model={root.getSubModel('step1')} onSubmit={jumpToStep2}>
+    <FormItem name="foo" />
+    <FormItem name="bar" />
+    <Form.Submit>下一步</Form.Submit>
+  </Form>
+</Step>;
+
+// STEP-2 Component
+<Step>
+  <Form model={root.getSubModel('step2')} onSubmit={jumpToStep3}>
+    <FormItem name="hello" />
+    <FormItem name="world" />
+    <Form.Submit>下一步</Form.Submit>
+  </Form>
+</Step>;
+
+// STEP-3 Component 省略代码
+```
 
 (todo 更完善的介绍)
 
-## 主动处理 model 与 field
+## 接入自定义组件
 
-modelUtils & fieldUtils
+随着业务需求变得复杂，xform 自带的表单组件也许将无法满足你的需求，此时你可以通过接入自定义组件来拓展 xform。
 
-当你想要在上层主动对 model 或 field 进行操作时（例如主动触发表单的校验、清空某个字段上的错误等），可以使用 modelUtils / fieldUtils 中的工具方法，具体用法详见 [API](api#modelutilsclearerror).
+### 视图接入
 
-(TODO 添加自定义表单组件)
+当自定义组件不需要接入表单内部的校验系统时，你可以使用 [`<Form.ItemView />`](api#formitemview) 来接入表单布局，让自定义内容与普通 FormItem 展示一致。此时，你可以通过 [Field](api#field) 来为自定义组件设置 value/onChange：
 
-## 一个字段对应多个视图
+```jsx
+const cityField = model.getField('city');
 
-`field.getFork(forkName :string)`
+<Form model={model}>
+  <FormItem component="input" name="foo" />
+  <FormItem component="select" name="bar" />
+  <FormItemView label="城市" tip="请选择你的居住城市" asterisk={true} error="必须选择陆地">
+    <MyPowerCitySelect selectdCity={cityField.value} onChangeSelectedCity={cityField.handleChange} />
+  </FormItemView>
+</Form>;
+```
 
-(todo)
+### 自定义的表单组件
+
+通过 createFormItem 你可以创建全新的表单组件。创建后，可以像普通的 FormItem 一样来使用自定义的表单组件，比如通过 name 来指定所要绑定的数据索引，通过 validate 来设置校验方法等。
+
+```jsx
+// 创建
+const PowerCityFormItem = createFormItem({
+  name: 'powerCitySelect',
+  fallbackValue: null,
+  isEmpty: () => false,
+  render({ value, onChange }) {
+    return <MyPowerCitySelect selectdCity={value} onChangeSelectedCity={onChange} />;
+  },
+});
+
+// 使用
+<Form model={model}>
+  <FormItem component="input" name="foo" />
+  <FormItem component="select" name="bar" />
+  <PowerCityFormItem name="city" required validate={isBeautifulCity} validateOnChange={false} />
+</Form>;
+```
+
+### 注册为内置表单组件
+
+如果你期望自定义组件以 `<FormItem component="powerCitySelect" name="..." />` 的形式被使用，你可以通过 `FormItem.register(...)` 来进行注册。新注册的名称会与已有的名称共享一个命名空间，注意避免冲突。
+
+```jsx
+// 注册
+FormItem.register({
+  name: 'powerCitySelect',
+  fallbackValue: null,
+  isEmpty: () => false,
+  render: ___,
+});
+
+// 使用
+<Form model={model}>
+  <FormItem component="input" name="foo" />
+  <FormItem component="select" name="bar" />
+  <FormItem component="powerCitySelect" name="city" required validate={isBeautifulCity} validateOnChange={false} />
+</Form>;
+```
+
+## 相同数据索引对应多个视图
+
+**当通过 `name="..."` 来指定 FormItem 关联的数据索引时， 一个数据索引最多只能对应一个 FormItem。**
+
+当多个 FormItem 的 name 相同时，这些 FormItem 将会使用同一个 Field 对象。但因不同 FormItem 的配置不同（例如设置了不同的 required 或 validate），后渲染的 FormItem 的配置将会覆盖先渲染的 FormItem 配置，Field 对象上的校验就会出问题。例如下面的示例中就出现了两个互斥的校验方法，导致校验永远无法通过：
+
+```jsx
+// ❌ 错误用法
+<FormItem name="foo" required validate={v => v < 3 ? '不能小于3' : null}} />
+<FormItem name="foo" required={false} validate={v => v > 3 ? '不能大于3' : null} />
+```
+
+但在实际场景中，我们无法避免类似「相同数据索引对应多个视图」这样的需求。为此，xform 提供了 field fork 能力：
+
+API： `field.getFork(forkName :string): Field`
+
+该方法根据已有的 field（original field）返回一个**新的** field 对象（fork field），fork 与 original 使用相同的数据索引（意味着两者 .value 总是相等），但除此之外的其他状态互相隔离。
+
+创建 fork field 之后，我们就可以为不同的 FormItem 设置不同的 field 了：
+
+```jsx
+// ✅ 正确用法
+const fooField = model.getField('foo')
+const fooFork = fooField.getFork('fooFork')
+
+<FormItem field={fooField} required validate={v => v < 3 ? '不能小于3' : null}} />
+<FormItem field={fooFork} required={false} validate={v => v > 3 ? '不能大于3' : null} />
+```
+
+### fork field 特点
+
+我们通过 `model.getField(name)` 获取到的 field 对象总为 _original fork_，该 field 的 forkName 总是为 `'original'`。
+
+同一个数据索引下，不同的 forks 共享一个命名空间，互相之间可以通过 `field.getFork(forkName)` 进行访问；该方法调用过程中，如果 forkName 对应的 fork field 不存在，则会初始化对应的 fork field，并将其返回。
+
+我们可以认为 original fork 是默认存在的一个 fork，当想要使用新的 fork 时，就换一个 forkName；而当想要获取到 original fork 时，则通过 `forkField.getFork('original')` 进行获取。
 
 ## 异步数据源
 
-(todo) makeAsyncValue
+(todo) createAsyncValue
 
 ## 复杂联动
 
-(todo)
+(todo reactive + imperative)
