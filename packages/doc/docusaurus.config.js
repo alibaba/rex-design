@@ -49,6 +49,11 @@ module.exports = {
       apiKey: 'b001b6083928a00b297494b4fb30a228',
       indexName: 'rex-design',
     },
+
+    gtag: {
+      trackingID: 'G-9XMWYPJLZN',
+      anonymizeIP: true,
+    },
   },
 
   presets: [
