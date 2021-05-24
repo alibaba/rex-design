@@ -1,4 +1,4 @@
-import { DemoGroup, DemoTitle, Flex, Group, Input, InputAddon, useDevice } from '@rexd/core';
+import { Flex, Group, Input, InputAddon, useDevice } from '@rexd/core';
 import { Icon } from '@rexd/icon';
 import React, { useState } from 'react';
 
@@ -64,12 +64,12 @@ export function Password() {
 
 export function AutoCompleteOff() {
   return (
-    <DemoGroup>
-      <DemoTitle>禁用表单自动填充</DemoTitle>
+    <Group>
+      <h3>禁用表单自动填充</h3>
       <Input autoComplete="off" />
-      <DemoTitle>阻止密码字段的自动填充</DemoTitle>
+      <h3>阻止密码字段的自动填充</h3>
       <Input autoComplete="new-password" />
-    </DemoGroup>
+    </Group>
   );
 }
 

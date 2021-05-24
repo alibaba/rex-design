@@ -2,7 +2,7 @@ import React, { forwardRef } from 'react';
 import { Box, BoxProps } from './Box';
 import { useDevice } from '../../providers';
 import { StringOrNumber, ResponsiveType } from '../../types';
-import { getResponsive, isNumber } from '../../utils';
+import { getResponsive, isNumber, space } from '../../utils';
 
 export interface GridProps extends BoxProps {
   columns?: ResponsiveType;
@@ -38,9 +38,9 @@ export const Grid = forwardRef<HTMLDivElement, GridProps>((props, ref) => {
   return (
     <Box
       display="grid"
-      gridGap={toPx(spacing)}
-      gridColumnGap={toPx(spacingX)}
-      gridRowGap={toPx(spacingY)}
+      gridGap={space(spacing)}
+      gridColumnGap={space(spacingX)}
+      gridRowGap={space(spacingY)}
       gridTemplateColumns={templateColumnsProp || templateColumns}
       gridTemplateRows={templateRows}
       gridArea={area}

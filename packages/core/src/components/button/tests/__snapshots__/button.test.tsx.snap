@@ -142,7 +142,7 @@ exports[`ui 1`] = `
 }
 
 .c0.rex-btn-solid.rex-btn-primary:not(.rex-disabled):active,
-.c0.rex-btn-solid.rex-btn-primary:not(.rex-disabled) .rex-selected {
+.c0.rex-btn-solid.rex-btn-primary:not(.rex-disabled).rex-selected {
   color: var(--rex-components-Button-textPrimaryActive);
   background-color: var(--rex-components-Button-bgPrimaryActive);
   border-color: var(--rex-components-Button-borderColorPrimaryActive);
@@ -166,7 +166,7 @@ exports[`ui 1`] = `
 }
 
 .c0.rex-btn-solid.rex-btn-secondary:not(.rex-disabled):active,
-.c0.rex-btn-solid.rex-btn-secondary:not(.rex-disabled) .rex-selected {
+.c0.rex-btn-solid.rex-btn-secondary:not(.rex-disabled).rex-selected {
   color: var(--rex-components-Button-textSecondaryActive);
   background-color: var(--rex-components-Button-bgSecondaryActive);
   border-color: var(--rex-components-Button-borderColorSecondaryActive);
@@ -190,7 +190,7 @@ exports[`ui 1`] = `
 }
 
 .c0.rex-btn-solid.rex-btn-normal:not(.rex-disabled):active,
-.c0.rex-btn-solid.rex-btn-normal:not(.rex-disabled) .rex-selected {
+.c0.rex-btn-solid.rex-btn-normal:not(.rex-disabled).rex-selected {
   color: var(--rex-components-Button-textNormalActive);
   background-color: var(--rex-components-Button-bgNormalActive);
   border-color: var(--rex-components-Button-borderColorNormalActive);
@@ -223,7 +223,7 @@ exports[`ui 1`] = `
 }
 
 .c0.rex-btn-text.rex-btn-primary:not(.rex-disabled):active,
-.c0.rex-btn-text.rex-btn-primary:not(.rex-disabled) .rex-selected {
+.c0.rex-btn-text.rex-btn-primary:not(.rex-disabled).rex-selected {
   color: var(--rex-components-TextButton-colorPrimaryActive);
   background-color: var(--rex-components-TextButton-bgPrimaryActive);
   border-color: undefined;
@@ -247,7 +247,7 @@ exports[`ui 1`] = `
 }
 
 .c0.rex-btn-text.rex-btn-normal:not(.rex-disabled):active,
-.c0.rex-btn-text.rex-btn-normal:not(.rex-disabled) .rex-selected {
+.c0.rex-btn-text.rex-btn-normal:not(.rex-disabled).rex-selected {
   color: var(--rex-components-TextButton-colorNormalActive);
   background-color: var(--rex-components-TextButton-bgNormalActive);
   border-color: undefined;
@@ -271,7 +271,7 @@ exports[`ui 1`] = `
 }
 
 .c0.rex-btn-link.rex-btn-primary:not(.rex-disabled):active,
-.c0.rex-btn-link.rex-btn-primary:not(.rex-disabled) .rex-selected {
+.c0.rex-btn-link.rex-btn-primary:not(.rex-disabled).rex-selected {
   color: undefined;
   background-color: undefined;
   border-color: undefined;
@@ -295,7 +295,7 @@ exports[`ui 1`] = `
 }
 
 .c0.rex-btn-link.rex-btn-normal:not(.rex-disabled):active,
-.c0.rex-btn-link.rex-btn-normal:not(.rex-disabled) .rex-selected {
+.c0.rex-btn-link.rex-btn-normal:not(.rex-disabled).rex-selected {
   color: undefined;
   background-color: undefined;
   border-color: undefined;
@@ -319,7 +319,7 @@ exports[`ui 1`] = `
 }
 
 .c0.rex-btn-warning.rex-btn-normal:not(.rex-disabled):active,
-.c0.rex-btn-warning.rex-btn-normal:not(.rex-disabled) .rex-selected {
+.c0.rex-btn-warning.rex-btn-normal:not(.rex-disabled).rex-selected {
   color: var(--rex-components-WarningButton-textNormalActive);
   background-color: var(--rex-components-WarningButton-bgNormalActive);
   border-color: var(--rex-components-WarningButton-borderColorNormalActive);
@@ -343,7 +343,7 @@ exports[`ui 1`] = `
 }
 
 .c0.rex-btn-warning.rex-btn-primary:not(.rex-disabled):active,
-.c0.rex-btn-warning.rex-btn-primary:not(.rex-disabled) .rex-selected {
+.c0.rex-btn-warning.rex-btn-primary:not(.rex-disabled).rex-selected {
   color: var(--rex-components-WarningButton-textPrimaryActive);
   background-color: var(--rex-components-WarningButton-bgPrimaryActive);
   border-color: var(--rex-components-WarningButton-borderColorPrimaryActive);

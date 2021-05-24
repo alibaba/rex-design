@@ -4,7 +4,7 @@ import { Box } from '@rexd/core';
 export default { title: 'Layout/Box' };
 
 export const Simple = () => (
-  <Box bg="brand.normal" p="m" color="body" borderRadius="m">
+  <Box bg="brand.normal" p="m" color="emphasis.0" border="solid" borderColor="line.border" borderRadius="m">
     This is a simple box.
   </Box>
 );

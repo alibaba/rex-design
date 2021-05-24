@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Button, Group, DemoGroup } from '@rexd/core';
+import { Box, Button, Group } from '@rexd/core';
 import { Icon } from '@rexd/icon';
 
 export default { title: 'Button' };
@@ -118,7 +118,7 @@ export const AddIcon = () => (
  * 仅图标的按钮
  */
 export const OnlyIcon = () => (
-  <DemoGroup>
+  <Group>
     <Button size="small" isIconOnly>
       <Icon type="calendar" />
     </Button>
@@ -138,36 +138,38 @@ export const OnlyIcon = () => (
     <Button shape="text" size="large" isIconOnly>
       <Icon type="calendar" />
     </Button>
-  </DemoGroup>
+  </Group>
 );
 
 export const Loading = () => {
   const [loading, setLoading] = useState(false);
   return (
-    <DemoGroup>
+    <Group>
       <Button loading={loading} onClick={() => setLoading(!loading)}>
         点击切换加载状态
       </Button>
       <Button type="primary" loading={loading} onClick={() => setLoading(!loading)}>
         点击切换加载状态
       </Button>
-    </DemoGroup>
+    </Group>
   );
 };
 
 export const ButtonGroup = () => (
-  <DemoGroup>
+  <Group>
     <Group isAttached>
       <Button>Left Button</Button>
       <Button>Center Button</Button>
       <Button>Right Button</Button>
     </Group>
+    <br />
+    <br />
     <Group>
       <Button>Left Button</Button>
       <Button>Center Button</Button>
       <Button>Right Button</Button>
     </Group>
-  </DemoGroup>
+  </Group>
 );
 
 export const Toggle = () => {
@@ -181,7 +183,7 @@ export const Toggle = () => {
 
 export const Toggled = () => {
   return (
-    <DemoGroup>
+    <Group>
       <Button isSelected>已订阅</Button>
       <Button isSelected type="primary">
         已订阅
@@ -195,14 +197,14 @@ export const Toggled = () => {
       <Button isSelected type="primary" shape="text">
         已订阅
       </Button>
-    </DemoGroup>
+    </Group>
   );
 };
 
 export const ToggleGroup = () => {
   const [active, setActive] = useState('pc');
   return (
-    <DemoGroup>
+    <Group>
       <Group isAttached>
         <Button isSelected={active === 'pc'} onClick={() => setActive('pc')}>
           <Icon type="electronics" />
@@ -214,6 +216,6 @@ export const ToggleGroup = () => {
           <Icon type="mobile-phone" />
         </Button>
       </Group>
-    </DemoGroup>
+    </Group>
   );
 };

@@ -7,7 +7,6 @@ export * from './components/breadcrumb';
 export * from './components/button';
 export * from './components/checkbox';
 export * from './components/date-picker';
-export * from './components/demo';
 export * from './components/description';
 export * from './components/file-picker';
 export * from './components/form-layout';
@@ -27,7 +26,7 @@ export * from './components/table';
 export * from './components/radio';
 export * from './components/range';
 export * from './components/search';
-export * from './components/tag';
+export * from './components/tag'; // TODO: 删除掉
 export * from './components/textarea';
 export * from './components/time-picker';
 export * from './components/timeline';

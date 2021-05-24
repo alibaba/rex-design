@@ -1,8 +1,7 @@
-import { get } from 'lodash';
+import { get, isNil, isNull, isUndefined } from 'lodash';
 import { StringOrNumber } from '../types';
-import { isNull } from './assertion';
 
-const hexRegex = /^#[a-fA-F0-9]{6}$/;
+const hexRegex = /^#[a-fA-F0-9]{3,6}$/;
 const rgbRegex = /^rgb\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$/;
 const rgbaRegex = /^rgba\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*([-+]?[0-9]*[.]?[0-9]+)\s*\)$/i;
 
@@ -27,6 +26,43 @@ export function rgba(hexColor: string, alpha: number) {
   return `rgba(${rgbValue.red},${rgbValue.green},${rgbValue.blue},${alpha})`;
 }
 
+const THEME_TOKEN_PATTERN = /^(colors|fontSizes|lineHeights|borders|radii|shadows|space|sizes|zIndices|components)./;
+
+type ThemeKeyType =
+  | 'colors'
+  | 'fontSizes'
+  | 'lineHeights'
+  | 'borders'
+  | 'radii'
+  | 'shadows'
+  | 'space'
+  | 'sizes'
+  | 'zIndices'
+  | 'components';
+
+const tokenPathToVariable = (token: string) => {
+  return `var(--rex-${token.split('.').join('-')})`;
+};
+
+/**
+ * 获取 token 对应的 css variable
+ * @param token
+ * @param themeKey
+ */
+export function tokenVar(token: string, themeKey?: ThemeKeyType) {
+  if (!token) {
+    return;
+  }
+
+  if (THEME_TOKEN_PATTERN.test(token)) {
+    return tokenPathToVariable(token);
+  }
+
+  const mergedPath = [themeKey, token].join('.');
+
+  return tokenPathToVariable(mergedPath);
+}
+
 /**
  * color token to css variables
  * @param token
@@ -36,15 +72,7 @@ export function colors(token: string) {
     return token;
   }
 
-  if (typeof token === 'string' && token.split('.').length > 1) {
-    const list = token.split('.');
-    if (list[0] !== 'colors') {
-      list.unshift('colors');
-    }
-    list.unshift('--rex');
-    return `var(${list.join('-')})`;
-  }
-  return token;
+  return tokenVar(token, 'colors');
 }
 
 /**
@@ -52,7 +80,7 @@ export function colors(token: string) {
  * @param token
  */
 export function borders(token: string, color?: string) {
-  if (isNull(token)) {
+  if (isNil(token)) {
     return;
   }
 
@@ -64,7 +92,8 @@ export function borders(token: string, color?: string) {
     return token;
   }
 
-  const arr = [`var(--rex-borders-${token})`];
+  const border = tokenVar(token, 'borders');
+  const arr = [border];
 
   if (color) {
     arr.push(colors(color));
@@ -74,15 +103,11 @@ export function borders(token: string, color?: string) {
 }
 
 export function shadows(token: string) {
-  if (!token) {
-    return;
-  }
-
-  if (token.split(' ').length > 4) {
+  if (token && token.split(' ').length > 4) {
     return token;
   }
 
-  return `var(--rex-shadows-${token})`;
+  return tokenVar(token, 'shadows');
 }
 
 /**
@@ -97,7 +122,7 @@ const SIZE_UNIT_VALUE = /^\d+(\.\d+)?(px|vw|vh|%)$/;
  * @param token
  * @param prefix
  */
-export function sizes(token: StringOrNumber, prefix = '--rex-sizes') {
+export function sizes(token: StringOrNumber, themeKey: ThemeKeyType = 'sizes') {
   if (typeof token === 'number') {
     return `${token}px`;
   }
@@ -106,15 +131,16 @@ export function sizes(token: StringOrNumber, prefix = '--rex-sizes') {
     return token;
   }
 
+  // TODO: 哪里这么传了 ???
   if (typeof token === 'string' && token.startsWith('var(')) {
     return token;
   }
 
-  if (typeof token === 'string') {
-    return `var(${prefix}-${token.split('.').join('-')})`;
-  }
+  // if (typeof token === 'string') {
+  //   return `var(${prefix}-${token.split('.').join('-')})`;
+  // }
 
-  return token;
+  return tokenVar(token, themeKey);
 }
 
 /**
@@ -122,7 +148,7 @@ export function sizes(token: StringOrNumber, prefix = '--rex-sizes') {
  * @param token
  */
 export function space(token: StringOrNumber) {
-  return sizes(token, '--rex-space');
+  return sizes(token, 'space');
 }
 
 /**
@@ -130,7 +156,7 @@ export function space(token: StringOrNumber) {
  * @param token
  */
 export function radii(token: StringOrNumber) {
-  return sizes(token, '--rex-radii');
+  return sizes(token, 'radii');
 }
 
 /**
@@ -138,7 +164,7 @@ export function radii(token: StringOrNumber) {
  * @param token
  */
 export function fontSizes(token?: StringOrNumber) {
-  return sizes(token, '--rex-fontSizes');
+  return sizes(token, 'fontSizes');
 }
 
 const REX_TOKEN_PATTERN = /^([a-zA-Z]+\.)+(\w+\.?)+$/;

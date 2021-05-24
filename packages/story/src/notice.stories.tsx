@@ -1,5 +1,5 @@
 import React from 'react';
-import { Notice, DemoGroup, Box, Link, useVisible } from '@rexd/core';
+import { Notice, Grid, Box, Link, useVisible } from '@rexd/core';
 
 export default { title: 'Notice' };
 
@@ -30,10 +30,10 @@ export const Content = () => (
 );
 
 export const Status = () => (
-  <DemoGroup>
+  <Grid spacingY="l" columns={1}>
     <Notice status="error" title="发起的请求出现错误"></Notice>
     <Notice status="success" title="文件已上传成功"></Notice>
     <Notice status="warning" title="你的账号密码似乎已经过期，请尽快更换"></Notice>
     <Notice status="info" title="Hippo 将在 2021 年 3 月发布新版本更新"></Notice>
-  </DemoGroup>
+  </Grid>
 );

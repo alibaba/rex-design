@@ -1,23 +1,23 @@
 import React from 'react';
-import { DemoGroup, Image } from '@rexd/core';
+import { Group, Image } from '@rexd/core';
 
 export default { title: 'Image' };
 
 export function Basic() {
   return (
-    <DemoGroup>
+    <Group>
       <Image src="https://img.alicdn.com/tfs/TB1gjPyp9slXu8jSZFuXXXg7FXa-750-272.png" width="400px" />
-    </DemoGroup>
+    </Group>
   );
 }
 
 export function Size() {
   const sourceUrl = 'https://img.alicdn.com/tfs/TB1atWRDgHqK1RjSZFkXXX.WFXa-460-462.png';
   return (
-    <DemoGroup>
+    <Group>
       <Image width="100px" height="100px" src={sourceUrl} />
       <Image width="150px" height="150px" src={sourceUrl} />
-    </DemoGroup>
+    </Group>
   );
 }
 

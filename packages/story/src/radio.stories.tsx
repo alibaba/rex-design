@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Radio, RadioGroup, DemoGroup, DemoTitle } from '@rexd/core';
+import { Radio, RadioGroup, Group } from '@rexd/core';
 
 export default { title: 'Radio' };
 
@@ -12,25 +12,25 @@ const dataSource = [
 
 export function Basic() {
   return (
-    <DemoGroup>
+    <Group>
       <Radio>盒马先生</Radio>
       <Radio checked>盒马先生</Radio>
       <Radio disabled>盒马迷你</Radio>
       <Radio checked disabled>
         盒马会员店
       </Radio>
-    </DemoGroup>
+    </Group>
   );
 }
 
-export function Group() {
+export function GroupDemo() {
   return (
-    <DemoGroup>
-      <DemoTitle>无默认值</DemoTitle>
+    <Group>
+      <h3>无默认值</h3>
       <RadioGroup dataSource={dataSource} onChange={console.log} />
-      <DemoTitle>有默认值</DemoTitle>
+      <h3>有默认值</h3>
       <RadioGroup defaultValue="mini" dataSource={dataSource} onChange={console.log} />
-    </DemoGroup>
+    </Group>
   );
 }
 

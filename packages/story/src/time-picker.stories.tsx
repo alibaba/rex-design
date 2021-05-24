@@ -1,19 +1,19 @@
 import React from 'react';
-import { TimePicker, DemoGroup } from '@rexd/core';
+import { TimePicker, Group } from '@rexd/core';
 
 export default { title: 'TimePicker' };
 
 export const Basic = () => (
-  <DemoGroup>
+  <Group>
     <TimePicker onChange={console.log} />
     <TimePicker defaultValue="12:30:00" onChange={console.log} />
-  </DemoGroup>
+  </Group>
 );
 
 export const Simple = () => (
-  <DemoGroup>
+  <Group>
     <TimePicker mode="simple" onChange={console.log} />
-  </DemoGroup>
+  </Group>
 );
 
 export const CustomTimeItems = () => {
@@ -27,19 +27,19 @@ export const CustomTimeItems = () => {
   }
 
   return (
-    <DemoGroup>
+    <Group>
       <TimePicker
         getHourItems={() => [8, 9, 10, 11, 12].map((item) => ({ label: item, value: item }))}
         getMinuteItems={() => [0, 15, 30, 45].map((item) => ({ label: item, value: item }))}
         getSecondItems={() => [0, 59].map((item) => ({ label: item, value: item }))}
       />
       <TimePicker mode="simple" getQuickItems={() => items} />
-    </DemoGroup>
+    </Group>
   );
 };
 
 export const CustomTimePanels = () => (
-  <DemoGroup>
+  <Group>
     <TimePicker hasSeconds={false} format="HH:mm" />
-  </DemoGroup>
+  </Group>
 );
