@@ -22,3 +22,4 @@ export { FullscreenDialog, FullscreenDialogProps, AdaptiveDialog } from './adapt
 export { Drawer, DrawerProps } from './drawer';
 export { Position, PositionPlacement, PositionOffset } from './position';
 export { Toaster, ToasterProps } from './toaster';
+export { AffixProps, Affix } from './affix';

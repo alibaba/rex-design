@@ -248,4 +248,5 @@ export const domUtils = {
   applyScrollDelta,
   fromScrollEvent,
   fromResizeEvent,
+  accumulateScrollOffset,
 };

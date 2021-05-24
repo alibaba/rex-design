@@ -1,4 +1,5 @@
-import { get, isNil, isNull, isUndefined } from 'lodash';
+import { get, hasIn, isNil } from 'lodash';
+import { THEMES } from '../theme';
 import { StringOrNumber } from '../types';
 
 const hexRegex = /^#[a-fA-F0-9]{3,6}$/;
@@ -54,13 +55,18 @@ export function tokenVar(token: string, themeKey?: ThemeKeyType) {
     return;
   }
 
-  if (THEME_TOKEN_PATTERN.test(token)) {
+  if (themeKey) {
+    const themedToken = [themeKey, token].join('.');
+    if (hasIn(THEMES.base, themedToken)) {
+      return tokenPathToVariable(themedToken);
+    }
+  }
+
+  if (hasIn(THEMES.base, token)) {
     return tokenPathToVariable(token);
   }
 
-  const mergedPath = [themeKey, token].join('.');
-
-  return tokenPathToVariable(mergedPath);
+  return token;
 }
 
 /**

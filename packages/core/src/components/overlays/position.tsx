@@ -1,7 +1,7 @@
 import React from 'react';
 import { BehaviorSubject, combineLatest, merge, Observable, of, Subscription } from 'rxjs';
 import * as op from 'rxjs/operators';
-import { DOCUMENT_BODY } from '../../providers/overlay-behavior';
+import { DOCUMENT_BODY } from '../../providers';
 import { shallowEqual } from '../../utils';
 import { domUtils } from '../virtual-list/dom-utils';
 

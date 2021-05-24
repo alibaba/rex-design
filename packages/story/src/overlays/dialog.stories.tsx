@@ -236,12 +236,7 @@ export function QuickTools() {
       <Button
         onClick={() => {
           Dialog.alert({
-            title: (
-              <div style={{ display: 'flex', alignItems: 'center' }}>
-                删除失败
-                <Icon type="error" style={{ marginLeft: 'auto', color: 'var(--rex-colors-error-normal)' }} />
-              </div>
-            ),
+            title: '删除失败',
             content: '关闭文件后再重新尝试删除文件',
           }).then((alertResult) => {
             console.log('alertResult:', alertResult);
