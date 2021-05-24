@@ -20,6 +20,7 @@ export function Basic() {
     {
       label: '退款原因',
       content: '无理由退货',
+      color: 'error.normal',
     },
     {
       label: '交易金额',

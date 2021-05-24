@@ -37,18 +37,19 @@ export function Description(props: DescriptionProps) {
 
 interface CellProps extends DescriptionItemType {
   width?: string;
+  color?: string;
 }
 
 function Cell(props: CellProps) {
   // TODO: labelPosition
-  const { span = 1, label, content, renderContent, width } = props;
+  const { span = 1, label, content, renderContent, width, color } = props;
   return (
     <CellWrapper colSpan={span}>
       <Box display="flex" alignItems="flex-start" py="s">
         <Box color="text.note" fontSize="body" mr="m" width={width}>
           {label}
         </Box>
-        <Box flex="1" fontSize="body">
+        <Box flex="1" fontSize="body" color={color}>
           {renderContent ? renderContent(props) : content}
         </Box>
       </Box>
