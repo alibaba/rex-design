@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import cx from 'classnames';
-import omit from 'lodash.omit';
+import { omit } from 'lodash';
 import { useControllableState } from '../../hooks';
 import { isNull } from '../../utils';
 import { TabProps } from './tab';

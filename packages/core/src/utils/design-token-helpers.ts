@@ -1,4 +1,4 @@
-import { get, isNil, isNull, isUndefined } from 'lodash';
+import { get, isNil } from 'lodash';
 import { StringOrNumber } from '../types';
 
 const hexRegex = /^#[a-fA-F0-9]{3,6}$/;
