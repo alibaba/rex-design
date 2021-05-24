@@ -28,6 +28,8 @@ export function rgba(hexColor: string, alpha: number) {
 
 const THEME_TOKEN_PATTERN = /^(colors|fontSizes|lineHeights|borders|radii|shadows|space|sizes|zIndices|components)./;
 
+const CSS_FUNCTION_PATTERN = /^[a-z]+(-[a-z]*)?\(.+\)$/;
+
 type ThemeKeyType =
   | 'colors'
   | 'fontSizes'
@@ -52,6 +54,10 @@ const tokenPathToVariable = (token: string) => {
 export function tokenVar(token: string, themeKey?: ThemeKeyType) {
   if (!token) {
     return;
+  }
+
+  if (CSS_FUNCTION_PATTERN.test(token)) {
+    return token;
   }
 
   if (THEME_TOKEN_PATTERN.test(token)) {
