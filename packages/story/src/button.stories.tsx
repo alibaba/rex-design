@@ -81,13 +81,13 @@ export function Size() {
         </Button>
       </Group>
       <Group mt="l">
-        <Button size="small" isIconOnly>
+        <Button size="small" isIconButton>
           <Icon type="arrow-left-bold" />
         </Button>
-        <Button size="medium" isIconOnly>
+        <Button size="medium" isIconButton>
           <Icon type="arrow-left-bold" />
         </Button>
-        <Button size="large" isIconOnly>
+        <Button size="large" isIconButton>
           <Icon type="arrow-left-bold" />
         </Button>
       </Group>
@@ -119,23 +119,52 @@ export const AddIcon = () => (
  */
 export const OnlyIcon = () => (
   <Group>
-    <Button size="small" isIconOnly>
+    <h3>外观</h3>
+    <Button isIconButton>
+      <Icon type="arrow-right-bold" />
+    </Button>
+    <Button isIconButton type="secondary">
+      <Icon type="arrow-right-bold" />
+    </Button>
+    <Button isIconButton type="primary">
+      <Icon type="arrow-right-bold" />
+    </Button>
+    <Button isIconButton disabled>
+      <Icon type="arrow-right-bold" />
+    </Button>
+    <br />
+    <br />
+    <Button isIconButton shape="text">
+      <Icon type="close" />
+    </Button>
+    <Button isIconButton shape="text" type="secondary">
+      <Icon type="close" />
+    </Button>
+    <Button isIconButton shape="text" type="primary">
+      <Icon type="close" />
+    </Button>
+    <Button isIconButton shape="text" disabled>
+      <Icon type="close" />
+    </Button>
+
+    <h3>尺寸</h3>
+    <Button size="small" isIconButton>
       <Icon type="calendar" />
     </Button>
-    <Button size="medium" isIconOnly>
+    <Button size="medium" isIconButton>
       <Icon type="calendar" />
     </Button>
-    <Button size="large" isIconOnly>
+    <Button size="large" isIconButton>
       <Icon type="calendar" />
     </Button>
     <br />
-    <Button shape="text" size="small" isIconOnly>
+    <Button shape="text" size="small" isIconButton>
       <Icon type="calendar" />
     </Button>
-    <Button shape="text" size="medium" isIconOnly>
+    <Button shape="text" size="medium" isIconButton>
       <Icon type="calendar" />
     </Button>
-    <Button shape="text" size="large" isIconOnly>
+    <Button shape="text" size="large" isIconButton>
       <Icon type="calendar" />
     </Button>
   </Group>

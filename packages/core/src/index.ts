@@ -6,6 +6,7 @@ export * from './components/badge';
 export * from './components/breadcrumb';
 export * from './components/button';
 export * from './components/checkbox';
+export * from './components/confirm';
 export * from './components/date-picker';
 export * from './components/description';
 export * from './components/file-picker';

@@ -2,9 +2,7 @@ import React, { useMemo } from 'react';
 import cx from 'classnames';
 import styled from 'styled-components';
 import { ActionSheet } from '../action-sheet';
-import { ActionItem } from './action-item';
-import { IconType } from '@rexd/icon';
-import { ButtonProps } from '../button';
+import { ActionItem, ActionItemProps } from './action-item';
 
 const Divider = styled.span`
   display: inline-block;
@@ -13,16 +11,10 @@ const Divider = styled.span`
   background-color: var(--rex-colors-line-divider);
 `;
 
-interface ActionItemProps {
-  label?: string;
+interface ActionListItemProps extends ActionItemProps {
   key?: string;
-  icon?: IconType;
-  shape?: ButtonProps['shape'];
-  type?: ButtonProps['type'];
-  disabled?: boolean;
-  hasConfirm?: boolean;
   render?: any;
-  children?: ActionItemProps[];
+  children?: ActionListItemProps[];
   props?: any;
 }
 
@@ -30,7 +22,7 @@ export interface UseActionListProps {
   /**
    * 行动点列表
    */
-  actions?: ActionItemProps[];
+  actions?: ActionListItemProps[];
   /**
    * 用户选择行动点时的回调
    */
@@ -47,7 +39,7 @@ export function useActionList(props: UseActionListProps) {
   const actionNodes = useMemo(() => {
     const lastIndex = actions.length - 1;
     return actions.map((item, index) => {
-      const { key, shape = 'link', type = 'primary', render: Render, children, props: itemProps, ...rest } = item;
+      const { key, render: Render, children, props: itemProps, ...rest } = item;
       const hasDivider = hasDividerProp && index !== lastIndex;
       const handleSelect = () => {
         if (typeof onSelect === 'function') {
@@ -56,8 +48,6 @@ export function useActionList(props: UseActionListProps) {
       };
 
       const pass = {
-        shape,
-        type,
         ...rest,
         ...itemProps,
       };

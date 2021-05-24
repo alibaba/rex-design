@@ -67,7 +67,7 @@ function FileListItem(props: FileListItemProps) {
       <Button
         shape="text"
         size="small"
-        isIconOnly
+        isIconButton
         onClick={() => onRemove(file.id, { data: file })}
         disabled={disabled}
       >
