@@ -132,7 +132,7 @@ export const TreeSelectView = React.forwardRef<HTMLDivElement, TreeSelectViewPro
         />
       )}
       renderChildren={({ ref }: any) => (
-        <SelectPanelDiv ref={ref as React.RefObject<HTMLDivElement>}>
+        <SelectPanelDiv className="rex-select-panel" ref={ref as React.RefObject<HTMLDivElement>}>
           {showSearch && (
             <Input
               className="rex-select-search"

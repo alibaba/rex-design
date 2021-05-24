@@ -1,14 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Panel } from '../layout';
 import { IOverlayLifecycles, Overlay } from './overlay';
 import { Popup, PopupProps } from './popup';
 
-const TooltipDiv = styled.div.withConfig({ componentId: 'rex-tooltip' })`
+const TooltipDiv = styled(Panel)`
   font-size: var(--rex-fontSizes-body);
-  border-radius: 2px;
   padding: 8px;
   transform-origin: var(--rex-popup-arrow-position);
-  box-shadow: var(--rex-shadows-lowDown);
 `;
 
 const animation = {
@@ -49,7 +48,7 @@ export function Tooltip({
       target={children}
       {...others}
       renderChildren={({ ref, arrow }) => (
-        <TooltipDiv ref={ref as React.RefObject<HTMLDivElement>}>
+        <TooltipDiv ref={ref as React.RefObject<HTMLDivElement>} className="rex-tooltip">
           {arrow}
           {title}
         </TooltipDiv>

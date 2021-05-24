@@ -1,5 +1,4 @@
 import * as Popper from '@popperjs/core';
-import cx from 'classnames';
 import React from 'react';
 import { composeHandlers, pick } from '../../utils';
 import {
@@ -508,7 +507,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
             <div
               // todo autoFocus 浮层打开时 自动获取焦点
               // todo enforceFocus 浮层打开状态下，焦点始终在浮层内
-              className={cx('rex-popup-content', className)}
+              className={className}
               style={style}
               ref={this.contentRef as React.RefObject<HTMLDivElement>}
               // 注意这里注册的是 React 管理的回调，mouseEnter/mouseLeave 事件在冒泡时会按照 react portal 来进行

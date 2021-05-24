@@ -2,6 +2,7 @@ import cx from 'classnames';
 import React, { useState } from 'react';
 import { useDevice } from '../../providers';
 import { composeHandlers, composeState, pick } from '../../utils';
+import { Panel, PanelProps } from '../layout';
 import { Dialog, DialogProps } from './dialog';
 import { Popup, PopupProps, PopupTargetRenderArgs } from './popup';
 
@@ -18,6 +19,7 @@ export interface FullscreenPopupProps
       | 'autoHeight'
       | 'autoWidth'
       | 'hasArrow'
+      | 'children'
     >,
     Pick<DialogProps, 'placement'> {
   renderTarget?(arg0: Partial<PopupTargetRenderArgs[0]>, arg1: PopupTargetRenderArgs[1]): React.ReactNode;
@@ -46,7 +48,6 @@ export function FullscreenPopup(props: FullscreenPopupProps) {
     targetStyle,
     renderTarget = Popup.defaultRenderTarget as never /* never 用于推断 TS 类型 */,
     renderChildren,
-    children,
     canCloseByOutSideClick = true,
     canCloseByEsc = true,
     animation,
@@ -67,13 +68,6 @@ export function FullscreenPopup(props: FullscreenPopupProps) {
       {renderedTarget}
       <Dialog
         placement={placement}
-        className={cx('rex-fullscreen-popup', props.className)}
-        style={{
-          minWidth: '30%',
-          maxWidth: '90%',
-          ...props.style,
-        }}
-        minimal
         visible={visible}
         footer={null}
         onRequestClose={onRequestClose}
@@ -87,9 +81,8 @@ export function FullscreenPopup(props: FullscreenPopupProps) {
         backdropClassName={backdropClassName}
         hasBackdrop={hasBackdrop}
         {...overlayLifecycles}
-        // TODO 检查 props 透传是否有遗漏……
         renderChildren={renderChildren}
-        children={children}
+        // TODO 检查 props 透传是否有遗漏……
       />
     </>
   );
@@ -111,3 +104,16 @@ export function AdaptivePopup({
   };
   return <PopupComponent {...props} />;
 }
+
+/** 和 AdaptivePopup 搭配使用的 Panel 组件，在 phone 端下会追加额外的样式 */
+AdaptivePopup.Panel = React.forwardRef<HTMLElement, PanelProps>((props, ref) => {
+  const { className, children, ...rest } = props;
+
+  const device = useDevice();
+
+  return (
+    <Panel ref={ref} className={cx({ 'rex-fullscreen-popup-panel': device.name === 'phone' }, className)} {...rest}>
+      {children}
+    </Panel>
+  );
+});

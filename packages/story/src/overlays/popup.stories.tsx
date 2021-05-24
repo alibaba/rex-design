@@ -1,15 +1,14 @@
 import { Placement } from '@popperjs/core';
-import { Button, Group, Popup } from '@rexd/core';
+import { Button, Group, Panel, Popup } from '@rexd/core';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
 export default { title: 'overlays / Popup' };
 
-const ShadowedDiv = styled.div`
+const ShadowedDiv = styled(Panel)`
   min-width: 300px;
   min-height: 100px;
   padding: 10px;
-  box-shadow: var(--rex-shadows-lowDown);
 `;
 
 function SomeText() {

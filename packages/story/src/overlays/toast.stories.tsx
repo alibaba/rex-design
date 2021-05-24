@@ -4,11 +4,11 @@ import React, { useReducer, useState } from 'react';
 export default { title: 'overlays / Toast' };
 
 export function Basic() {
-  const [toaster, contextPlaceholder] = Toaster.useToaster({ placement: 'top-right' });
+  const [toaster, contextHolder] = Toaster.useToaster({ placement: 'top-right' });
 
   return (
     <div>
-      {contextPlaceholder}
+      {contextHolder}
       <Button
         onClick={() => {
           toaster.show({ content: 'hello!' });

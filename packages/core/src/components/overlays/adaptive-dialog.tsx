@@ -85,7 +85,13 @@ export function FullscreenDialog(props: FullscreenDialogProps) {
     >
       <div className="rex-fullscreen-dialog-title">{title}</div>
       <div className="rex-fullscreen-dialog-body">{children}</div>
-      {Dialog.renderDialogFooter({ footer, onOk, onCancel, onRequestClose }, 'rex-fullscreen-dialog-footer')}
+      <Dialog.Footer
+        className="rex-fullscreen-dialog-footer"
+        footer={footer}
+        onOk={onOk}
+        onCancel={onCancel}
+        onRequestClose={onRequestClose}
+      />
     </StyledDrawer>
   );
 }

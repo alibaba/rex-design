@@ -10,11 +10,11 @@ import * as stories from 'story/src/overlays/toast.stories';
 
 ## 使用场景
 
-~~在系统四个角显示通知提醒信息。经常用于以下情况：~~
+在系统四个角显示通知提醒信息。经常用于以下情况：
 
-- ~~较为复杂的通知内容。~~
-- ~~带有交互的通知，给出用户下一步的行动点。~~
-- ~~系统主动推送。~~
+- 较为复杂的通知内容。
+- 带有交互的通知，给出用户下一步的行动点。
+- 系统主动推送。
 
 ## 使用方式
 
@@ -52,17 +52,15 @@ import * as stories from 'story/src/overlays/toast.stories';
 
 关闭所有提示信息。
 
-### Dialog.useDialog()
+### Toaster.useToaster()
 
-当你需要使用 Context 时，可以通过 Dialog.useDialog 创建一个 contextHolder 插入子节点中。通过 hooks 创建的临时 Dialog 将会得到 contextHolder 所在位置的所有上下文。创建的 dialog 对象拥有与 Dialog.method 相同的创建通知方法。
+当你需要使用 Context 时，可以通过 Toaster.useToaster() 创建一个 contextHolder 插入子节点中。通过 hooks 创建的临时 Toaster 将会得到 contextHolder 所在位置的上下文。创建的 toaster 对象拥有与默认 Toaster 相同的方法（show/close/closeAll）。
 
 ```jsx
-const [dialog, contextHolder] = Dialog.useDialog();
+const [toaster, contextHolder] = Dialog.useDialog();
 
 React.useEffect(() => {
-  dialog.confirm({
-    // ...
-  });
+  toaster.show({ content: 'hello!' });
 }, []);
 
 return <div>{contextHolder}</div>;

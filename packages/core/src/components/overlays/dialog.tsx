@@ -1,9 +1,10 @@
-import { Icon } from '@rexd/icon';
 import cx from 'classnames';
 import React, { useMemo } from 'react';
 import { useOverlayBehavior } from '../../providers';
 import { noop, useMemoizedMergeRefs } from '../../utils';
-import { Button, ButtonProps } from '../button';
+import { ButtonProps } from '../button';
+import { Panel, PanelProps } from '../layout';
+import { DialogFooter, DialogInner } from './dialog-inner';
 import { makeDialogQuickTools } from './dialog-quick-tools';
 import {
   IOverlayAnimationProps,
@@ -14,9 +15,16 @@ import {
   Overlay,
 } from './overlay';
 import { animations } from './overlay-utils/animations';
-import { batchedUpdates } from './overlay-utils/batchUpdate';
 import { makeDetachedRenderContainer, useRenderContainerFactory } from './overlay-utils/render-containers';
 import { Position, PositionOffset, PositionPlacement } from './position';
+
+const DialogPanel = React.forwardRef<HTMLDivElement, PanelProps>(
+  ({ children, bg = 'var(--rex-overlay-depth-l)', ...props }, ref) => (
+    <Panel ref={ref} bg={bg} {...props}>
+      {children}
+    </Panel>
+  ),
+);
 
 export interface DialogProps
   extends IOverlayCloseActions,
@@ -31,7 +39,7 @@ export interface DialogProps
   content?: React.ReactNode;
   children?: React.ReactNode;
 
-  /** 使用 render prop 的形式指定弹层内容，用于精确控制 DOM 结构，只能在 minimal 模式下使用 */
+  /** 使用 render prop 的形式指定弹层内容，用于精确控制 DOM 结构 */
   renderChildren?(pass: { ref: React.Ref<Element> }): React.ReactNode;
   title?: React.ReactNode;
 
@@ -55,99 +63,32 @@ export interface DialogProps
 
   /** 是否显示对话框关闭图标 */
   canCloseByIcon?: boolean;
-
-  /** 是否使用极简样式，极简样式下不会生成对话框的内部结构，会直接渲染 children */
-  minimal?: boolean;
 }
 
-function renderDialogFooter(
-  footerWithConfig: Pick<DialogProps, 'footer' | 'onOk' | 'onCancel' | 'onRequestClose'>,
-  className = 'rex-dialog-footer',
-) {
-  const { footer, onRequestClose, onCancel, onOk } = footerWithConfig;
+export function Dialog(props: DialogProps) {
+  const {
+    visible,
+    children,
+    content = children,
+    renderChildren,
+    title,
+    footer,
+    onRequestClose,
+    hasBackdrop,
+    onCancel,
+    onOk,
+    canCloseByEsc,
+    canCloseByOutSideClick,
+    disableScroll,
+    canCloseByIcon,
+    className,
+    style,
+    portalContainer: portalContainerProp,
+    placement,
+    offset,
+    ...overlayProps
+  } = props;
 
-  if (footer === null) {
-    return null;
-  }
-
-  if (Array.isArray(footer)) {
-    return (
-      <div className={className}>
-        {footer.map((item, index) => {
-          if (item.component === 'button') {
-            return (
-              <Button
-                key={index}
-                type={item.type}
-                onClick={(event) => {
-                  batchedUpdates(() => {
-                    item.onClick(event);
-                    if (item.autoCloseDialog) {
-                      onRequestClose('auto-close');
-                    }
-                  });
-                }}
-              >
-                {item.label}
-              </Button>
-            );
-          }
-        })}
-      </div>
-    );
-  }
-
-  if (footer === undefined) {
-    return (
-      <div className={className}>
-        <Button
-          type="normal"
-          onClick={() => {
-            onCancel();
-            onRequestClose('ok');
-          }}
-        >
-          取消
-        </Button>
-        <Button
-          type="primary"
-          onClick={() => {
-            onOk();
-            onRequestClose('cancel');
-          }}
-        >
-          确认
-        </Button>
-      </div>
-    );
-  }
-
-  return <div className={className}>{footer}</div>;
-}
-
-export function Dialog({
-  visible,
-  children,
-  content = children,
-  renderChildren,
-  title,
-  footer,
-  onRequestClose,
-  hasBackdrop = true,
-  onCancel = noop,
-  onOk = noop,
-  canCloseByEsc = false,
-  canCloseByOutSideClick = false,
-  disableScroll = true,
-  canCloseByIcon = false,
-  className,
-  style,
-  portalContainer: portalContainerProp,
-  placement = 'center',
-  offset,
-  minimal,
-  ...overlayProps
-}: DialogProps) {
   const overlayBehavior = useOverlayBehavior();
   const portalContainer = portalContainerProp ?? overlayBehavior.portalContainer;
   const mergeRefs = useMemoizedMergeRefs();
@@ -167,54 +108,45 @@ export function Dialog({
         <Position placement={placement} offset={offset} container={portalContainer}>
           {(positionTargetRef) => {
             const ref = mergeRefs(overlayContentRef, positionTargetRef);
-            return (minimal ? renderMinimalDialogContent : renderNormalDialogContent)(ref);
+            if (renderChildren != null) {
+              return renderChildren({ ref });
+            }
+
+            return (
+              <Dialog.Panel ref={ref} style={props.style} className={cx('rex-dialog', props.className)}>
+                <Dialog.Inner
+                  title={title}
+                  content={content}
+                  footer={footer}
+                  onOk={onOk}
+                  onCancel={onCancel}
+                  canCloseByIcon={canCloseByIcon}
+                  onRequestClose={onRequestClose}
+                />
+              </Dialog.Panel>
+            );
           }}
         </Position>
       )}
     />
   );
-
-  // TODO  需要改为 Dialog.Inner 和 Dialog， minimal 模式下使用 Inner 直接渲染即可
-  function renderMinimalDialogContent(ref: React.RefCallback<Element>) {
-    if (typeof renderChildren === 'function') {
-      return <div className="rex-popup-content">{renderChildren({ ref })}</div>;
-    }
-
-    throw new Error('minimal 模式下只支持使用 renderChildren');
-  }
-
-  function renderCloseIcon() {
-    return (
-      canCloseByIcon && (
-        <div className="rex-dialog-close" onClick={onRequestClose}>
-          <Icon type="close" className="rex-dialog-close-icon" />
-        </div>
-      )
-    );
-  }
-
-  function renderNormalDialogContent(ref: React.RefCallback<Element>) {
-    return (
-      <div ref={ref} className={cx('rex-dialog', className)} style={style}>
-        {renderDialogHeader()}
-        {renderDialogBody()}
-        {renderDialogFooter({ footer, onOk, onCancel, onRequestClose })}
-        {renderCloseIcon()}
-      </div>
-    );
-
-    function renderDialogHeader() {
-      return title && <div className="rex-dialog-header">{title}</div>;
-    }
-
-    function renderDialogBody() {
-      return <div className="rex-dialog-body">{content}</div>;
-    }
-  }
 }
 
+Dialog.defaultProps = {
+  hasBackdrop: true,
+  onCancel: noop,
+  onOk: noop,
+  canCloseByEsc: false,
+  canCloseByOutSideClick: false,
+  disableScroll: true,
+  canCloseByIcon: false,
+  placement: 'center',
+};
 Dialog.defaultAnimation = { in: animations.zoomIn, out: animations.zoomOut };
-Dialog.renderDialogFooter = renderDialogFooter;
+
+Dialog.Panel = DialogPanel;
+Dialog.Inner = DialogInner;
+Dialog.Footer = DialogFooter;
 
 const staticQuickTools = makeDialogQuickTools(makeDetachedRenderContainer);
 Dialog.show = staticQuickTools.show;

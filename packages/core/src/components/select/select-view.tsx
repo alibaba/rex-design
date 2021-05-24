@@ -1,7 +1,7 @@
 import cx from 'classnames';
 import React, { useRef } from 'react';
 import styled from 'styled-components';
-import { omit, pick } from '../../utils';
+import { pick } from '../../utils';
 import { Input } from '../input';
 import { AdaptivePopup, PopupChildrenRenderArg, PopupTargetRenderArgs } from '../overlays';
 import { VirtualList, VirtualListAlign } from '../virtual-list';
@@ -16,13 +16,11 @@ import {
   SelectItem,
 } from './types';
 
-export const SelectPanelDiv = styled.div.withConfig({ componentId: 'rex-select-panel' })`
+export const SelectPanelDiv = styled(AdaptivePopup.Panel)`
   max-height: 350px;
   overflow: hidden;
   display: flex;
   flex-flow: column;
-  border-radius: 2px;
-  box-shadow: var(--rex-shadows-lowDown);
 
   *[data-popper-placement^='top'] > & {
     box-shadow: var(--rex-shadows-lowUp);
@@ -174,6 +172,7 @@ export const SelectView = React.forwardRef<HTMLDivElement, SelectViewProps>((pro
   function renderSelectPanel(arg: PopupChildrenRenderArg) {
     return (
       <SelectPanelDiv
+        className="rex-select-panel"
         ref={arg.ref as React.RefObject<HTMLDivElement>}
         // @ts-ignore
         $showSearch={showSearch}

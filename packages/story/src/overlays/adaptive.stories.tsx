@@ -8,8 +8,8 @@ const StyledDiv = styled.div`
   min-width: 300px;
   min-height: 100px;
   padding: 10px;
-  background: var(--rex-colors-emphasis-10);
-  box-shadow: var(--rex-shadows-lowDown);
+  //background: var(--rex-colors-emphasis-10);
+  //box-shadow: var(--rex-shadows-lowDown);
 `;
 
 function BalaBala() {

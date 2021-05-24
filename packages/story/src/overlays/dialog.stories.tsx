@@ -203,11 +203,10 @@ export function Minimal() {
         canCloseByOutSideClick
         canCloseByEsc
         canCloseByIcon
-        minimal
         renderChildren={({ ref }) => (
-          <div ref={ref as React.Ref<HTMLDivElement>} style={{ width: '80%', padding: 16 }}>
+          <Dialog.Panel ref={ref as React.Ref<HTMLDivElement>} style={{ width: '80%', padding: 16 }}>
             {hippoIntroduction}
-          </div>
+          </Dialog.Panel>
         )}
       />
     </div>

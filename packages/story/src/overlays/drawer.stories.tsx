@@ -22,11 +22,8 @@ export function Basic() {
         title="页面抽屉"
         visible={visible}
         onRequestClose={() => setVisible(false)}
-        footer={
-          <Button onClick={() => setVisible(false)} type="primary">
-            关闭
-          </Button>
-        }
+        footer={<Button onClick={() => setVisible(false)}>关闭</Button>}
+        canCloseByIcon
       >
         {hippoIntroduction}
       </Drawer>
@@ -144,13 +141,15 @@ export function Minimal() {
       <Drawer
         visible={visible}
         onRequestClose={() => setVisible(false)}
-        minimal
         style={{ paddingRight: 16, paddingLeft: 12 }}
-      >
-        <p>{alibabaIntroduction}</p>
-        <p>{alibabaIntroduction}</p>
-        <p>{alibabaIntroduction}</p>
-      </Drawer>
+        renderChildren={(arg) => (
+          <Drawer.Panel {...arg}>
+            <p>{alibabaIntroduction}</p>
+            <p>{alibabaIntroduction}</p>
+            <p>{alibabaIntroduction}</p>
+          </Drawer.Panel>
+        )}
+      />
     </div>
   );
 }

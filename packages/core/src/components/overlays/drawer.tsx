@@ -2,6 +2,7 @@ import { Icon } from '@rexd/icon';
 import cx from 'classnames';
 import React from 'react';
 import { useOverlayBehavior } from '../../providers';
+import { Panel, PanelProps } from '../layout';
 import {
   IOverlayAnimationProps,
   IOverlayBackdropProps,
@@ -11,6 +12,26 @@ import {
   Overlay,
 } from './overlay';
 import { animations } from './overlay-utils/animations';
+
+const DrawerPanel = React.forwardRef<HTMLDivElement, PanelProps>((props, ref) => (
+  <Panel ref={ref} borderRadius="none" {...props} className={cx('rex-drawer', props.className)} />
+));
+
+type DrawerInnerProps = Pick<DrawerProps, 'title' | 'content' | 'footer' | 'canCloseByIcon' | 'onRequestClose'>;
+// todo add rex-drawer-wrapper & forwardRef
+const DrawerInner = ({ title, footer, content, onRequestClose, canCloseByIcon }: DrawerInnerProps) => (
+  <React.Fragment>
+    {title && <div className="rex-drawer-header">{title}</div>}
+    <div className="rex-drawer-body">{content}</div>
+    {footer && <div className="rex-drawer-footer">{footer}</div>}
+
+    {canCloseByIcon && (
+      <div className="rex-drawer-close" onClick={onRequestClose}>
+        <Icon type="close" className="rex-drawer-close-icon" />
+      </div>
+    )}
+  </React.Fragment>
+);
 
 export interface DrawerProps
   extends IOverlayCloseActions,
@@ -33,8 +54,13 @@ export interface DrawerProps
   /** 抽屉标题 */
   title?: React.ReactNode;
 
-  /** 抽屉内容 */
   children?: React.ReactNode;
+  content?: React.ReactNode;
+  /** 使用 render prop 的形式指定弹层内容，用于精确控制 DOM 结构 */
+  renderChildren?(pass: {
+    ref: React.Ref<HTMLDivElement>;
+    'data-placement': DrawerProps['placement'];
+  }): React.ReactNode;
 
   /** 弹窗页脚 */
   footer?: React.ReactNode;
@@ -44,10 +70,7 @@ export interface DrawerProps
   /** 是否显示对话框关闭图标 */
   canCloseByIcon?: boolean;
 
-  // TODO canCloseBySlide??
-
-  /** 是否使用极简样式，极简样式下不会生成抽屉的内部结构，会直接渲染 children */
-  minimal?: boolean;
+  // TODO canCloseBySlide
 }
 
 function resolveDrawerAnimation(
@@ -63,10 +86,7 @@ function resolveDrawerAnimation(
     } else if (placement === 'top') {
       animation = { in: animations.slideInTop, out: animations.slideOutTop };
     } else {
-      animation = {
-        in: animations.slideInBottom,
-        out: animations.slideOutBottom,
-      };
+      animation = { in: animations.slideInBottom, out: animations.slideOutBottom };
     }
   }
 
@@ -77,7 +97,9 @@ export function Drawer({
   style,
   className,
   visible,
-  children,
+  children: _children,
+  content = _children,
+  renderChildren,
   title,
   footer,
   placement = 'right',
@@ -93,8 +115,7 @@ export function Drawer({
   disableScroll = true,
   wrapperRef,
   animation,
-  minimal,
-  ...lifeCycles
+  ...lifecycles
 }: DrawerProps) {
   const overlayBehavior = useOverlayBehavior();
   const portalContainer = portalContainerProp ?? overlayBehavior.portalContainer;
@@ -114,42 +135,32 @@ export function Drawer({
       portalContainer={portalContainer}
       disableScroll={disableScroll}
       wrapperRef={wrapperRef}
-      {...lifeCycles}
+      {...lifecycles}
       renderChildren={({ ref }) => {
-        return minimal ? (
-          <div
-            ref={ref as React.RefObject<HTMLDivElement>}
-            data-placement={placement}
-            className={cx('rex-drawer', 'rex-drawer-minimal', className)}
+        if (renderChildren != null) {
+          return renderChildren({ ref: ref as React.Ref<HTMLDivElement>, 'data-placement': placement });
+        }
+
+        return (
+          <DrawerPanel
+            ref={ref as React.Ref<HTMLDivElement>}
             style={{ position, ...style }}
-          >
-            {children}
-            {renderCloseIcon()}
-          </div>
-        ) : (
-          <div
-            ref={ref as React.RefObject<HTMLDivElement>}
+            className={className}
             data-placement={placement}
-            className={cx('rex-drawer', className)}
-            style={{ position, ...style }}
           >
-            {title && <div className="rex-drawer-header">{title}</div>}
-            <div className="rex-drawer-body">{children}</div>
-            {footer && <div className="rex-drawer-footer">{footer}</div>}
-            {renderCloseIcon()}
-          </div>
+            <DrawerInner
+              title={title}
+              content={content}
+              footer={footer}
+              canCloseByIcon={canCloseByIcon}
+              onRequestClose={onRequestClose}
+            />
+          </DrawerPanel>
         );
       }}
     />
   );
-
-  function renderCloseIcon() {
-    return (
-      canCloseByIcon && (
-        <div className="rex-drawer-close" onClick={onRequestClose}>
-          <Icon type="close" className="rex-drawer-close-icon" />
-        </div>
-      )
-    );
-  }
 }
+
+Drawer.Panel = DrawerPanel;
+Drawer.Inner = DrawerInner;

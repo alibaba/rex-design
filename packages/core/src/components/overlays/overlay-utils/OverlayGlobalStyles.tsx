@@ -120,15 +120,12 @@ const drawerStyles = css`
   .rex-drawer {
     position: fixed;
     background: var(--rex-overlay-depth-l);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
 
-    :not(.rex-drawer-minimal) {
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-    }
+    ${drawerPlacementsMixin};
   }
-
-  ${drawerPlacementsMixin};
 
   .rex-drawer-close {
     position: absolute;
@@ -151,19 +148,21 @@ const drawerStyles = css`
     font-size: var(--rex-fontSizes-title);
     font-weight: bold;
     padding: 12px 16px;
-    border-bottom: 1px solid var(--rex-colors-line-border);
+    border-bottom: 1px solid var(--rex-colors-emphasis-30);
+    color: var(--rex-colors-text-title);
   }
 
   .rex-drawer-body {
     flex: auto;
     font-size: var(--rex-fontSizes-body);
-    padding: 16px;
+    margin: 16px;
     overflow: auto;
+    color: var(--rex-colors-text-body);
   }
 
   .rex-drawer-footer {
     flex: 0 0 auto;
-    border-top: 1px solid var(--rex-colors-line-border);
+    border-top: 1px solid var(--rex-colors-emphasis-30);
     display: flex;
     justify-content: center;
     padding: 12px;
@@ -172,35 +171,28 @@ const drawerStyles = css`
 
 const dialogStyles = css`
   .rex-dialog {
-    z-index: 1000;
-    position: absolute;
     // 400px 为默认宽度，实际宽度可以被 style.width 覆盖
     width: 400px;
     max-width: 70%;
-
-    background: var(--rex-overlay-depth-l);
-    border-radius: 2px;
-    box-shadow: var(--rex-shadows-medianDown);
-    overflow: hidden;
   }
 
   .rex-dialog-header {
     font-size: var(--rex-fontSizes-title);
-    margin: 24px 24px 0 24px;
-    padding-bottom: 16px;
+    padding: 12px 16px;
+    margin-bottom: 12px;
     border-bottom: 1px solid var(--rex-colors-emphasis-30);
     color: var(--rex-colors-text-title);
   }
 
   .rex-dialog-body {
     font-size: var(--rex-fontSizes-body);
-    margin: 16px 24px 32px;
+    margin: 12px 16px;
     color: var(--rex-colors-text-body);
   }
 
   .rex-dialog-footer {
     display: flex;
-    margin: 16px 24px 24px 24px;
+    margin: 12px 16px;
     justify-content: flex-end;
 
     > * {
@@ -210,8 +202,8 @@ const dialogStyles = css`
 
   .rex-dialog-close {
     position: absolute;
-    top: 24px;
-    right: 24px;
+    top: 14px;
+    right: 14px;
     width: 24px;
     height: 24px;
     display: flex;
@@ -231,15 +223,6 @@ const popupStyles = css`
     display: inline-block;
   }
 
-  .rex-popup-content {
-    position: absolute;
-    z-index: 1000;
-
-    > * {
-      background-color: var(--rex-popup-bgcolor, var(--rex-overlay-depth-m));
-    }
-  }
-
   .rex-popup-arrow {
     user-select: none;
 
@@ -250,7 +233,7 @@ const popupStyles = css`
       height: ${ARROW_SIZE}px;
       transform-origin: center center;
       transform: translate(-50%, -50%) rotate(45deg);
-      background-color: var(--rex-popup-bgcolor, var(--rex-overlay-depth-m));
+      background: var(--rex-popup-arrow-color, var(--rex-overlay-depth-m));
     }
 
     &[data-popper-placement^='top']::before {
@@ -296,6 +279,11 @@ export const OverlayGlobalStyles = createGlobalStyle`
     background-color: rgba(0, 0, 0, 0.2);
     user-select: none;
     box-shadow: var(--rex-shadows-lowDown);
+  }
+
+  .rex-fullscreen-popup-panel {
+    min-width: 30%;
+    max-width: 90%;
   }
 
   ${dialogStyles};

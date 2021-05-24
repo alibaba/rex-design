@@ -141,8 +141,6 @@ export default function PropsTable({ component, props }: { component?: any; prop
           }}
         >
           你正在查看开发阶段下的 {component.displayName ?? component.name} API 表格。生产环境下该信息将隐藏。
-          <br />
-          如果出现 props「显示不正确」或「无法显示」的情况，请联系飞超。
         </p>
       )}
       {renderInner(component.__docgenInfo)}

@@ -33,7 +33,7 @@ export function ActionSheet(props: ActionSheetProps) {
       onRequestClose={onClose}
       target={target}
       renderChildren={(arg: any) => (
-        <Panel {...arg}>
+        <AdaptivePopup.Panel {...arg}>
           {arg.arrow}
           {title && (
             <Box py="m" textAlign="center" fontSize="body">
@@ -43,7 +43,7 @@ export function ActionSheet(props: ActionSheetProps) {
           <Menu.Panel boxShadow="none">
             <Menu.Inner dataSource={dataSource} onItemClick={callAll(onItemClick, onClose)} />
           </Menu.Panel>
-        </Panel>
+        </AdaptivePopup.Panel>
       )}
     />
   );

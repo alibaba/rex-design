@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box } from '../layout';
+import { AdaptivePopup } from '../overlays';
 import { DateCard, DateCardProps } from './date-card';
 
 export interface DatePanelProps extends DateCardProps {
@@ -9,8 +9,8 @@ export interface DatePanelProps extends DateCardProps {
 export function DatePanel(props: DatePanelProps) {
   const { forwardedRef, ...rest } = props;
   return (
-    <Box ref={forwardedRef} className="rex-date-picker" boxShadow="lowDown" borderRadius="m">
+    <AdaptivePopup.Panel ref={forwardedRef} className="rex-date-picker" borderRadius="m">
       <DateCard {...rest} />
-    </Box>
+    </AdaptivePopup.Panel>
   );
 }
