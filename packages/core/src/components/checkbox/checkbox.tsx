@@ -2,14 +2,12 @@ import cx from 'classnames';
 import React from 'react';
 import styled from 'styled-components';
 import { Icon } from '@rexd/icon';
-import { Label } from '@rexd/one';
 import { Dict } from '../../types';
 import { useCheckboxGroupContext } from './context';
 import { useCheckbox, UseCheckboxProps } from './use-checkbox';
-import { getToken } from '../../utils';
+import { componentTokenVar } from '../../utils';
 
-// TODO: 这里样式实现有些复杂，建议重写
-const RexCheckbox = styled(Label)<Dict<any>>`
+const RexCheckbox = styled.label<Dict<any>>`
   display: inline-flex;
   align-items: center;
   cursor: pointer;
@@ -25,9 +23,9 @@ const RexCheckbox = styled(Label)<Dict<any>>`
     transition: all 0.1s linear;
     color: #fff;
 
-    font-size: ${getToken('Checkbox.iconSize')};
-    width: ${getToken('Checkbox.size')};
-    height: ${getToken('Checkbox.size')};
+    font-size: ${componentTokenVar('Checkbox.iconSize')};
+    width: ${componentTokenVar('Checkbox.size')};
+    height: ${componentTokenVar('Checkbox.size')};
     border-radius: var(--rex-radii-s);
     border: var(--rex-borders-solid) var(--rex-colors-line-border);
   }
@@ -132,7 +130,7 @@ export const Checkbox = React.forwardRef<HTMLSpanElement, CheckboxProps>((props,
     {
       'rex-disabled': disabled,
       'rex-indeterminate': state.indeterminate,
-      'rex-checked': checked,
+      'rex-checked': state.checked,
     },
     className,
   );

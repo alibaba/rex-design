@@ -1,7 +1,7 @@
-import { ChangeEvent, useCallback, useState } from 'react';
-import { useControllableProp } from '../../hooks';
-import { StringOrNumber } from '../../types';
-import { callAllHandlers } from '../../utils';
+import { ChangeEvent, useCallback } from 'react';
+import { useControllableState } from '../../hooks';
+import { FormControlOnChangeHandler, StringOrNumber } from '../../types';
+import { isFunction } from '../../utils';
 
 export interface UseCheckboxProps {
   value?: StringOrNumber;
@@ -9,29 +9,70 @@ export interface UseCheckboxProps {
   defaultChecked?: boolean;
   disabled?: boolean;
   indeterminate?: boolean;
+  defaultIndeterminate?: boolean;
   size?: 'small' | 'medium' | 'large';
   name?: string;
   style?: React.CSSProperties;
   className?: string;
-  onChange?: (nextValue: boolean, detail?: { event: React.ChangeEvent<HTMLInputElement> }) => void;
+  onChange?: FormControlOnChangeHandler<boolean>;
 }
 
 export type UseCheckboxReturn = ReturnType<typeof useCheckbox>;
+
+type CheckboxActionType = 'unchecked' | 'checked';
+
+interface CheckboxState {
+  checked: boolean;
+  indeterminate: boolean;
+}
+
+function normalizeCheckedState(state: CheckboxState) {
+  if (!state.checked && !state.indeterminate) {
+    return undefined;
+  }
+
+  return state;
+}
+
+function getCheckboxState(state: CheckboxState, action: CheckboxActionType) {
+  if (action === 'checked') {
+    return { checked: true, indeterminate: false };
+  }
+  if (action === 'unchecked') {
+    return { checked: false, indeterminate: false };
+  }
+}
 
 export function useCheckbox(props: UseCheckboxProps) {
   const {
     value,
     checked: checkedProp,
     defaultChecked = false,
+    indeterminate: indeterminateProp,
+    defaultIndeterminate = false,
     disabled = false,
-    indeterminate,
     name,
     onChange,
     ...htmlProps
   } = props;
 
-  const [checkedState, setChecked] = useState<boolean>(defaultChecked);
-  const [isControlled, checked] = useControllableProp(checkedProp, checkedState);
+  const checkedState = normalizeCheckedState({
+    checked: checkedProp,
+    indeterminate: indeterminateProp,
+  });
+
+  const defaultCheckedState = normalizeCheckedState({
+    checked: defaultChecked,
+    indeterminate: defaultIndeterminate,
+  });
+
+  const [checkedStateValue, updateCheckedStateValue] = useControllableState({
+    value: checkedState,
+    defaultValue: defaultCheckedState || { checked: false, indeterminate: false },
+    onChange(nextValue) {
+      isFunction(onChange) && onChange(nextValue.checked, nextValue);
+    },
+  });
 
   const handleChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
@@ -40,13 +81,11 @@ export function useCheckbox(props: UseCheckboxProps) {
         return;
       }
 
-      if (!isControlled) {
-        setChecked(e.target.checked);
-      }
-
-      onChange?.(e.target.checked, { event: e });
+      const action: CheckboxActionType = checkedStateValue.checked ? 'unchecked' : 'checked';
+      const nextState = getCheckboxState(checkedStateValue, action);
+      updateCheckedStateValue(nextState);
     },
-    [isControlled, disabled, onChange],
+    [checkedStateValue, updateCheckedStateValue, disabled],
   );
 
   const getInputProps = useCallback(
@@ -55,18 +94,18 @@ export function useCheckbox(props: UseCheckboxProps) {
         type: 'checkbox',
         name,
         value,
-        onChange: callAllHandlers(props?.onChange, handleChange),
-        checked,
+        onChange: handleChange,
+        checked: checkedStateValue.checked,
         ref: forwardedRef,
+        ...props,
       };
     },
-    [name, value, handleChange, checked],
+    [name, value, handleChange, checkedStateValue.checked],
   );
 
   return {
     state: {
-      checked,
-      indeterminate: !checked ? indeterminate : undefined,
+      ...checkedStateValue,
     },
     getInputProps,
     htmlProps,
