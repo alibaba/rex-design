@@ -1,5 +1,5 @@
 import React from 'react';
-import { Description, Box, Image, BaseTable } from '@rexd/core';
+import { Description, Group, Image, BaseTable } from '@rexd/core';
 
 export default { title: 'Description' };
 
@@ -20,6 +20,7 @@ export function Basic() {
     {
       label: '退款原因',
       content: '无理由退货',
+      color: 'error.normal',
     },
     {
       label: '交易金额',
@@ -81,13 +82,13 @@ export function Complex() {
         },
       ],
       span: 3,
-      renderContent: ({ content }) => {
+      renderContent: ({ content }: { content: any[] }) => {
         return (
-          <Box>
+          <Group>
             {content.map((item, index) => (
-              <Image key={index} src={item.url} mr="m" width="100px" height="100px" />
+              <Image key={index} src={item.url} width="100px" height="100px" />
             ))}
-          </Box>
+          </Group>
         );
       },
     },
@@ -104,7 +105,7 @@ export function Complex() {
         },
       ],
       span: 3,
-      renderContent: ({ content }) => {
+      renderContent: ({ content }: { content: any[] }) => {
         return (
           <BaseTable
             dataSource={content}
@@ -117,7 +118,7 @@ export function Complex() {
       },
     },
   ];
-  return <Description items={items} />;
+  return <Description items={items as any[]} />;
 }
 
 export function ChangeColumn() {

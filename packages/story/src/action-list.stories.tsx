@@ -11,7 +11,7 @@ const actions = [
   {
     label: '删除',
     key: 'remove',
-    hasConfirm: true,
+    confirm: true,
   },
   {
     label: '更多',
@@ -26,7 +26,24 @@ const actions = [
 
 export const Basic = () => <ActionList actions={actions} onSelect={console.log} />;
 
-export const Shape = () => <ActionList actions={actions} shape="solid" onSelect={console.log} />;
+export const CustomConfirm = () => {
+  return (
+    <ActionList
+      actions={[
+        {
+          label: '编辑',
+          key: 'edit',
+        },
+        {
+          label: '删除',
+          key: 'remove',
+          confirm: '确认删除吗？',
+        },
+      ]}
+      onSelect={console.log}
+    />
+  );
+};
 
 export const Icons = () => {
   const actions = [
@@ -42,11 +59,11 @@ export const Custom = () => {
   const actions = [
     {
       key: 'custom1',
-      render: () => <button>自定义按钮</button>,
+      render: ({ onClick }) => <button onClick={onClick}>自定义按钮</button>,
     },
     {
       key: 'custom2',
-      render: () => <button>自定义按钮</button>,
+      render: ({ onClick }) => <button onClick={onClick}>自定义按钮</button>,
     },
   ];
 

@@ -118,13 +118,23 @@ export function DateTable(props: DateTableProps) {
           >
             {visibleMonth.year()}年
           </Button>
-          <Button shape="text" size="small" isIconOnly onClick={() => ctx.onSelectMonth(visibleMonth.add(-1, 'month'))}>
+          <Button
+            shape="text"
+            size="small"
+            isIconButton
+            onClick={() => ctx.onSelectMonth(visibleMonth.add(-1, 'month'))}
+          >
             <Icon type="arrow-left-bold" />
           </Button>
           <Button shape="text" size="small" style={monthButtonStyle} onClick={() => ctx.onChangeMode('month')}>
             {locale.months[visibleMonth.month()]}
           </Button>
-          <Button shape="text" size="small" isIconOnly onClick={() => ctx.onSelectMonth(visibleMonth.add(1, 'month'))}>
+          <Button
+            shape="text"
+            size="small"
+            isIconButton
+            onClick={() => ctx.onSelectMonth(visibleMonth.add(1, 'month'))}
+          >
             <Icon type="arrow-right-bold" />
           </Button>
         </Box>

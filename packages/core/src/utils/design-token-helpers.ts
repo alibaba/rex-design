@@ -27,8 +27,6 @@ export function rgba(hexColor: string, alpha: number) {
   return `rgba(${rgbValue.red},${rgbValue.green},${rgbValue.blue},${alpha})`;
 }
 
-const THEME_TOKEN_PATTERN = /^(colors|fontSizes|lineHeights|borders|radii|shadows|space|sizes|zIndices|components)./;
-
 type ThemeKeyType =
   | 'colors'
   | 'fontSizes'

@@ -9,7 +9,7 @@
     "build:core": "yarn workspace @rexd/core build",
     "build:story": "yarn workspace story build",
     "build:doc": "yarn workspace doc build",
-    "test:core": "yarn workspace @rexd/core test",
+    "test": "yarn workspace @rexd/core test",
     "test:watch": "yarn workspace @rexd/core test:watch",
     "postinstall": "is-ci || husky install"
   },

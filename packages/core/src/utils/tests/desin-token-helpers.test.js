@@ -6,6 +6,10 @@ test('colors', () => {
   expect(colors('#FFFFFF')).toEqual('#FFFFFF');
   expect(colors('primary.10')).toEqual('var(--rex-colors-primary-10)');
   expect(colors('primary')).toEqual('var(--rex-colors-primary)');
+  expect(colors('var(--rex-colors-test)')).toEqual('var(--rex-colors-test)');
+  expect(colors('url(/images/image.jpg)')).toEqual('url(/images/image.jpg)');
+  expect(colors('rgb(255, 0, 0)')).toEqual('rgb(255, 0, 0)');
+  expect(colors('rgba(255, 0, 0, 0.5)')).toEqual('rgba(255, 0, 0, 0.5)');
 });
 
 test('borders', () => {
@@ -24,7 +28,9 @@ test('shadows', () => {
 
 test('sizes', () => {
   expect(sizes()).toBeUndefined();
+  expect(sizes(0)).toEqual('0px');
   expect(sizes('2px')).toEqual('2px');
+  expect(sizes('calc(100% - 20px)')).toEqual('calc(100% - 20px)');
   expect(sizes(99)).toEqual('99px');
   expect(sizes('s1')).toEqual('var(--rex-sizes-s1)');
 });

@@ -297,11 +297,14 @@ export interface ButtonProps extends Omit<React.ComponentPropsWithRef<'button'>,
   type?: 'primary' | 'secondary' | 'normal';
   size?: 'small' | 'medium' | 'large';
   htmlType?: 'button' | 'submit' | 'reset';
+  /**
+   * 按钮长度是否占满容器
+   */
   isFullWidth?: boolean;
   /**
-   * 是否为纯图标按钮
+   * 是否为仅包含单个图标的按钮
    */
-  isIconOnly?: boolean;
+  isIconButton?: boolean;
   isSelected?: boolean;
   loading?: boolean;
   className?: string;
@@ -316,7 +319,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>((props, r
     size = 'medium',
     htmlType = 'button',
     isFullWidth = false,
-    isIconOnly = false,
+    isIconButton = false,
     isSelected = false,
     loading,
     disabled,
@@ -335,7 +338,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>((props, r
     {
       'rex-btn': true,
       'rex-btn-loading': loading,
-      'rex-btn-iconOnly': isIconOnly,
+      'rex-btn-iconOnly': isIconButton,
       [`rex-btn-${shape}`]: shape,
       [`rex-btn-${type}`]: type,
       [`rex-btn-${size}`]: size,

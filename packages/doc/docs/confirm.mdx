@@ -1,0 +1,23 @@
+---
+id: confirm
+title: Confirm 二次确认气泡
+---
+
+import { Confirm } from '@rexd/core';
+import * as stories from 'story/src/confirm.stories';
+
+## 使用场景
+
+目标元素的操作需要用户进一步的确认时，在目标元素附近弹出浮层提示，询问用户。
+
+## 示例
+
+### 基本用法
+
+Children 元素必须是单元素，不支持多个元素。
+
+<Story fn={stories.Basic} />
+
+## API
+
+<PropsTable component={Confirm} />

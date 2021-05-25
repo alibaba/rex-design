@@ -39,7 +39,7 @@ export interface AppContextType {
 const AppContext = React.createContext<AppContextType>({
   underRoot: false,
   device: DESKTOP_DEVICE,
-  config: {}, // TODO pc default config
+  config: undefined, // use internal config
   theme: THEMES.light.desktop,
   colorMode: 'light',
 });

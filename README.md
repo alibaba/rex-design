@@ -20,6 +20,20 @@ yarn
 yarn start:story
 ```
 
+## 测试
+
+```bash
+yarn test
+```
+
+自定义传参，只运行个别目录
+
+```bash
+yarn test src/utils --watch
+```
+
+详细命令行参数参考：https://jestjs.io/docs/cli
+
 ## 提交代码
 
 提交代码需要编写符合约定的 commit message 规范，格式如下：
