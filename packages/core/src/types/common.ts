@@ -23,6 +23,7 @@ export interface FormEventDetail {
   event?: any;
   data?: any;
   reason?: string;
+  [key: string]: any;
 }
 
 export type FormControlOnChangeHandler<T> = (nextValue: T, detail?: FormEventDetail) => void;

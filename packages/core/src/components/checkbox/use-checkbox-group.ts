@@ -1,8 +1,13 @@
 import cx from 'classnames';
 import { useControllableState } from '../../hooks';
 import { FormControlOnChangeHandler, StringOrNumber } from '../../types';
+import { FlexProps } from '../layout';
 
 export interface UseCheckboxGroupProps {
+  /**
+   * 元素排列方向，水平/垂直
+   */
+  direction?: 'row' | 'column';
   /**
    * 分组名，用于当页面存在多个 Group 时进行区分
    */
@@ -26,7 +31,7 @@ export interface UseCheckboxGroupProps {
 }
 
 export function useCheckboxGroup(props: UseCheckboxGroupProps) {
-  const { value: valueProp, defaultValue = [], onChange, name, className, ...htmlProps } = props;
+  const { value: valueProp, defaultValue = [], onChange, name, direction = 'row', className, ...htmlProps } = props;
 
   const [value, updateValue] = useControllableState({
     name: 'CheckboxGroup',
@@ -39,9 +44,10 @@ export function useCheckboxGroup(props: UseCheckboxGroupProps) {
     return {
       ...htmlProps,
       ...props,
+      direction,
       className: cx('rex-checkbox-group', className),
       role: 'checkbox-group',
-    };
+    } as FlexProps;
   };
 
   const getContextValue = () => {

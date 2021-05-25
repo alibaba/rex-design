@@ -1,8 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import cx from 'classnames';
-import { Button as OneButton, View } from '@rexd/one';
-import { Dict } from '../../types';
 import { space, getToken, mergeProps } from '../../utils';
 import { Loading } from '../loading';
 import { useHover } from '../../hooks/use-hover';
@@ -64,7 +62,7 @@ const buttonType = (
   `;
 };
 
-const StyledButton = styled(OneButton)<any>`
+const StyledButton = styled.button<any>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -274,7 +272,7 @@ const StyledButton = styled(OneButton)<any>`
   }
 `;
 
-const IconBox = styled(View)<Dict<any>>`
+const IconBox = styled.span<any>`
   display: flex;
   align-items: center;
   margin-left: ${(props) => space(props.ml)};
@@ -293,9 +291,30 @@ const formatChildren = (text: any) => {
 };
 
 export interface ButtonProps extends Omit<React.ComponentPropsWithRef<'button'>, 'type'> {
+  as?: 'button' | 'a';
+  /**
+   * 仅在 as="a" 时生效
+   */
+  href?: string;
+  /**
+   * 仅在 as="a" 时生效
+   */
+  target?: '_blank' | '_self' | '_parent' | '_top' | string;
+  /**
+   * 外观
+   */
   shape?: 'solid' | 'text' | 'link' | 'ghost' | 'warning';
+  /**
+   * 级别
+   */
   type?: 'primary' | 'secondary' | 'normal';
+  /**
+   * 尺寸
+   */
   size?: 'small' | 'medium' | 'large';
+  /**
+   * html 原生类型
+   */
   htmlType?: 'button' | 'submit' | 'reset';
   /**
    * 按钮长度是否占满容器
@@ -305,10 +324,21 @@ export interface ButtonProps extends Omit<React.ComponentPropsWithRef<'button'>,
    * 是否为仅包含单个图标的按钮
    */
   isIconButton?: boolean;
+  /**
+   * 是否选中/激活
+   */
   isSelected?: boolean;
+  /**
+   * 是否载入中
+   */
   loading?: boolean;
-  className?: string;
+  /**
+   * 内部左侧元素
+   */
   leftElement?: React.ReactNode;
+  /**
+   * 内部右侧元素
+   */
   rightElement?: React.ReactNode;
 }
 

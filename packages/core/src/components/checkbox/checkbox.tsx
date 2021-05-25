@@ -2,14 +2,12 @@ import cx from 'classnames';
 import React from 'react';
 import styled from 'styled-components';
 import { Icon } from '@rexd/icon';
-import { Label } from '@rexd/one';
 import { Dict } from '../../types';
 import { useCheckboxGroupContext } from './context';
 import { useCheckbox, UseCheckboxProps } from './use-checkbox';
 import { getToken } from '../../utils';
 
-// TODO: 这里样式实现有些复杂，建议重写
-const RexCheckbox = styled(Label)<Dict<any>>`
+const RexCheckbox = styled.label<Dict<any>>`
   display: inline-flex;
   align-items: center;
   cursor: pointer;
@@ -99,7 +97,7 @@ export const Checkbox = React.forwardRef<HTMLSpanElement, CheckboxProps>((props,
   const group = useCheckboxGroupContext();
 
   let checked = checkedProp;
-  if (group?.value !== undefined && valueProp && group.value) {
+  if (group?.value !== undefined && valueProp) {
     checked = group.value.includes(valueProp);
   }
 
@@ -132,7 +130,7 @@ export const Checkbox = React.forwardRef<HTMLSpanElement, CheckboxProps>((props,
     {
       'rex-disabled': disabled,
       'rex-indeterminate': state.indeterminate,
-      'rex-checked': checked,
+      'rex-checked': state.checked,
     },
     className,
   );

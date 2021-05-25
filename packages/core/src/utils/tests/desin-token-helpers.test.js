@@ -1,4 +1,4 @@
-import { colors, borders, shadows, sizes, radii, space, fontSizes } from '../design-token-helpers';
+import { colors, borders, shadows, sizes, radii, space, fontSizes, getToken } from '../design-token-helpers';
 
 test('colors', () => {
   expect(colors()).toBeUndefined();
@@ -45,4 +45,9 @@ test('radii', () => {
 
 test('fontSizes', () => {
   expect(fontSizes('body')).toEqual('var(--rex-fontSizes-body)');
+});
+
+test('getToken', () => {
+  expect(getToken()).toBeUndefined();
+  expect(getToken('Button.height')).toEqual('var(--rex-components-Button-height)');
 });

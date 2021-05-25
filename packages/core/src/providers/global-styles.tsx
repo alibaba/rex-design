@@ -5,7 +5,7 @@ import { createGlobalStyle } from 'styled-components';
 // @ts-ignore
 import { compile, middleware, rulesheet, serialize, stringify } from 'stylis';
 import { Dict } from '../types';
-import { getToken, isValidTokenPath } from '../utils';
+import { isValidTokenPath, tokenVar } from '../utils';
 
 function themeToVariables(obj: Dict, prefix = '--rex') {
   let paths: string[][] = [];
@@ -16,7 +16,7 @@ function themeToVariables(obj: Dict, prefix = '--rex') {
       let val = obj[key];
 
       if (isValidTokenPath(val)) {
-        val = getToken(val, 'common');
+        val = tokenVar(val);
       }
 
       paths.push([keypath, val]);
