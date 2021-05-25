@@ -2,7 +2,7 @@ import cx from 'classnames';
 import React from 'react';
 import { BehaviorSubject, combineLatest, merge, of, Subscription } from 'rxjs';
 import * as op from 'rxjs/operators';
-import { shallowEqual } from '../../utils';
+import { noop, shallowEqual } from '../../utils';
 import { domUtils } from '../virtual-list/dom-utils';
 
 interface AffixInternalState {
@@ -11,11 +11,18 @@ interface AffixInternalState {
 }
 
 export interface AffixProps {
+  /** 指定吸附至滚动容器顶部的偏移量 */
   offsetTop?: number;
+
+  /** 指定吸附至滚动容器底部的偏移量 */
   offsetBottom?: number;
+
   children?: React.ReactNode;
   style?: React.CSSProperties;
   className?: string;
+
+  /** 吸附状态发生变化时的回调 */
+  onAffix?(affixed: boolean): void;
 }
 
 function getBoundingClientRect(target: HTMLElement | Window) {
@@ -39,6 +46,10 @@ export class Affix extends React.Component<AffixProps> {
   private subscription: Subscription;
   private targetRef = React.createRef<HTMLElement>();
 
+  static defaultProps = {
+    onAffix: noop,
+  };
+
   componentDidMount() {
     const instruction$ = this.props$.pipe(
       op.map(() => {
@@ -51,8 +62,7 @@ export class Affix extends React.Component<AffixProps> {
         const events$ = merge(
           of('init'),
           ...(domUtils.listScrollParents(target) as Array<HTMLElement | Window>)
-            // domUtils.listScrollParents 得到的最后一个元素总是为 visualViewport
-            // 这里我们不需要该元素
+            // domUtils.listScrollParents 得到的最后一个元素总是为 visualViewport，这里我们不需要该元素
             .slice(0, -1)
             .map(domUtils.fromScrollEvent),
         );
@@ -79,6 +89,7 @@ export class Affix extends React.Component<AffixProps> {
                 target.style.top = '';
                 target.style.width = '';
                 state.mode = 'none';
+                this.props.onAffix(false);
                 return;
               }
 
@@ -96,6 +107,7 @@ export class Affix extends React.Component<AffixProps> {
 
                 state.mode = 'top';
                 state.scrollThreshold = getScrollTop(container) - (offsetTop - actualOffsetTop);
+                this.props.onAffix(true);
                 return;
               }
             } else if (offsetBottom != null) {
@@ -105,6 +117,7 @@ export class Affix extends React.Component<AffixProps> {
                 target.style.top = '';
                 target.style.width = '';
                 state.mode = 'none';
+                this.props.onAffix(false);
                 return;
               }
 
@@ -122,6 +135,7 @@ export class Affix extends React.Component<AffixProps> {
 
                 state.mode = 'bottom';
                 state.scrollThreshold = getScrollTop(container) + (offsetBottom - actualOffsetBottom);
+                this.props.onAffix(true);
                 return;
               }
             }

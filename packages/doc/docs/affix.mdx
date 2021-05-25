@@ -1,0 +1,37 @@
+---
+id: affix
+title: Affix 固钉
+---
+
+import { Affix } from '@rexd/core';
+import * as stories from 'story/src/overlays/affix.stories';
+
+将页面元素钉在可视范围。
+
+## 使用场景
+
+当内容区域比较长，需要滚动页面时，这部分内容对应的操作或者导航需要在滚动范围内始终展现。常用于侧边菜单和按钮组合。
+
+页面可视范围过小时，慎用此功能以免遮挡页面内容。
+
+## 示例
+
+### 基本示例
+
+<Story fn={stories.AffixDocExample} />
+
+### 固定状态改变回调
+
+设置 onAffix 后，每当固定状态发生变化 onAffix 将被调用。
+
+<Story fn={stories.AffixDocExample2} />
+
+### 滚动容器用法
+
+Affix 会自动找到元素的最近滚动容器，然后在该滚动容器内发生固定。
+
+<Story fn={stories.AffixDocExample3} />
+
+## API
+
+<PropsTable component={Affix} />

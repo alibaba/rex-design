@@ -10,20 +10,19 @@ const StyledDiv = styled.div`
   padding: 10px;
   font-size: 12px;
   background: var(--rex-colors-emphasis-10);
-  box-shadow: var(--rex-shadows-lowDown);
 `;
 
 function BalaBala({ text }: { text?: string }) {
   return (
     <StyledDiv>
-      <h1 style={{ margin: 0 }}>
+      <p style={{ margin: 0, fontSize: 20 }}>
         <code>{text}</code>
-      </h1>
-      最近工作：高级经理｜招商银行
+      </p>
+      吸附内容.111
       <br />
-      工作职责：巴拉巴拉小魔仙
+      吸附内容.222
       <br />
-      联系方式：67676767
+      吸附内容.333
     </StyledDiv>
   );
 }
@@ -108,6 +107,54 @@ export function AffixBottomInContainer() {
       </div>
 
       {repeat('OUTER BOTTOM CONTENT', 15)}
+    </div>
+  );
+}
+
+export function AffixDocExample() {
+  return (
+    <div style={{ display: 'flex' }}>
+      <div style={{ flex: '0 0 70%', background: '#f2f2f2', height: 400 }} />
+      <div style={{ flex: '0 0 30%', background: '#ffebeb' }}>
+        <Affix offsetTop={40} style={{ zIndex: 1000 }}>
+          <BalaBala text="offsetTop={40}" />
+        </Affix>
+      </div>
+    </div>
+  );
+}
+
+export function AffixDocExample2() {
+  return (
+    <div style={{ display: 'flex' }}>
+      <div style={{ flex: '0 0 70%', background: '#f2f2f2', height: 400 }} />
+      <div style={{ flex: '0 0 30%', background: '#ffebeb', display: 'flex', alignItems: 'flex-end' }}>
+        <Affix
+          offsetBottom={20}
+          style={{ zIndex: 1000 }}
+          onAffix={(affix) => {
+            console.log('affix state change to', affix);
+          }}
+        >
+          <BalaBala text="offsetBottom={20}" />
+        </Affix>
+      </div>
+    </div>
+  );
+}
+
+export function AffixDocExample3() {
+  return (
+    <div>
+      <div style={{ height: 400, overflow: 'auto', background: '#d9e6ff' }}>
+        <div style={{ height: 100, background: '#d3f6ed' }} />
+
+        <Affix offsetTop={10}>
+          <BalaBala text="offsetTop={10}" />
+        </Affix>
+
+        <div style={{ height: 1000, background: '#d9eac6' }} />
+      </div>
     </div>
   );
 }

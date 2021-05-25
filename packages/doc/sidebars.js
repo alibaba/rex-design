@@ -67,7 +67,7 @@ module.exports = {
           type: 'category',
           collapsed: false,
           label: '浮层',
-          items: ['overlay', 'popup', 'tooltip', 'dialog', 'drawer', 'position', 'toaster'],
+          items: ['overlay', 'popup', 'tooltip', 'dialog', 'drawer', 'position', 'toaster', 'affix'],
         },
         {
           type: 'category',
