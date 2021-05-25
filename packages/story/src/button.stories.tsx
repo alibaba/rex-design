@@ -55,6 +55,17 @@ export function LinkButton() {
   );
 }
 
+/**
+ * 不推荐这么用，建议直接用 Link 组件
+ */
+export function AnchorButton() {
+  return (
+    <Button as="a" shape="link" href="https://taobao.com" target="_blank">
+      anchor button
+    </Button>
+  );
+}
+
 export function Size() {
   return (
     <Box>
