@@ -1,4 +1,5 @@
 import React from 'react';
+import { Flex } from '../layout';
 import { ListNode, StringOrNumber } from '../../types';
 import { Checkbox } from './checkbox';
 import { CheckboxGroupProvider } from './context';
@@ -14,13 +15,13 @@ export function CheckboxGroup(props: CheckboxGroupProps) {
 
   return (
     <CheckboxGroupProvider value={getContextValue()}>
-      <div {...getGroupProps()}>
+      <Flex {...getGroupProps()}>
         {dataSource.map((item) => (
           <Checkbox key={item.value} value={item.value}>
             {item.label}
           </Checkbox>
         ))}
-      </div>
+      </Flex>
     </CheckboxGroupProvider>
   );
 }

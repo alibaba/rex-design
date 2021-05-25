@@ -97,7 +97,7 @@ export const Checkbox = React.forwardRef<HTMLSpanElement, CheckboxProps>((props,
   const group = useCheckboxGroupContext();
 
   let checked = checkedProp;
-  if (group?.value !== undefined && valueProp && group.value) {
+  if (group?.value !== undefined && valueProp) {
     checked = group.value.includes(valueProp);
   }
 
