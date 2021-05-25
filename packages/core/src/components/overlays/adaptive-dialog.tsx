@@ -81,18 +81,23 @@ export function FullscreenDialog(props: FullscreenDialogProps) {
       {...others}
       // 强制指定的 props
       placement="bottom"
-      minimal
-    >
-      <div className="rex-fullscreen-dialog-title">{title}</div>
-      <div className="rex-fullscreen-dialog-body">{children}</div>
-      <Dialog.Footer
-        className="rex-fullscreen-dialog-footer"
-        footer={footer}
-        onOk={onOk}
-        onCancel={onCancel}
-        onRequestClose={onRequestClose}
-      />
-    </StyledDrawer>
+      renderChildren={(arg) => {
+        // TODO 需要重新再确认一下样式
+        return (
+          <Drawer.Panel {...arg}>
+            <div className="rex-fullscreen-dialog-title">{title}</div>
+            <div className="rex-fullscreen-dialog-body">{children}</div>
+            <Dialog.Footer
+              className="rex-fullscreen-dialog-footer"
+              footer={footer}
+              onOk={onOk}
+              onCancel={onCancel}
+              onRequestClose={onRequestClose}
+            />
+          </Drawer.Panel>
+        );
+      }}
+    />
   );
 }
 

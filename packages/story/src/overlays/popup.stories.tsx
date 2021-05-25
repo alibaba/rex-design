@@ -30,7 +30,7 @@ function SomeText() {
 export function Basic() {
   return (
     <Popup target={<Button>点击查看详情</Button>}>
-      <div style={{ border: '1px solid #999', padding: 8 }}>
+      <div style={{ border: '1px solid #999', padding: 8, background: 'var(--rex-colors-emphasis-10)' }}>
         <SomeText />
       </div>
     </Popup>
@@ -50,12 +50,12 @@ export function Controlled() {
       visible={visible}
       onRequestClose={onClose}
     >
-      <div style={{ border: '1px solid #999', padding: 8 }}>
+      <Panel style={{ padding: 8 }}>
         <Button onClick={onClose}>手动关闭</Button>
         <p>
           <SomeText />
         </p>
-      </div>
+      </Panel>
     </Popup>
   );
 }
@@ -340,8 +340,8 @@ export function NestedPopupInTallPage() {
 
 export function Arrow() {
   return (
-    <Popup target={<Button>点击查看详情</Button>} hasArrow wrapperStyle={{ '--rex-popup-bgcolor': '#333' } as any}>
-      <div style={{ color: 'white', padding: 12, fontSize: 14 }}>
+    <Popup target={<Button>点击查看详情</Button>} hasArrow wrapperStyle={{ '--rex-popup-arrow-color': '#333' } as any}>
+      <div style={{ color: 'white', background: '#333', padding: 12, fontSize: 14 }}>
         最近工作：高级经理｜招商银行丨杭州分行｜2009-07-01 至今
         <br />
         工作职责：巴拉巴拉小魔仙

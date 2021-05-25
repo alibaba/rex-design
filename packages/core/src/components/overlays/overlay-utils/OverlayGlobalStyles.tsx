@@ -1,5 +1,6 @@
 import * as d3 from 'd3-color';
 import { createGlobalStyle, css } from 'styled-components';
+import { ColorMode } from '../../../providers';
 import { OverlayManager } from './OverlayManager';
 
 const ARROW_SIZE = 10;
@@ -69,10 +70,6 @@ const darkModeOverlayBackground = css`
   // 对话框 24
   --rex-overlay-depth-xl: var(--rex-overlay-depth-24);
 `;
-
-const overlayBackground = (props: any) => {
-  return props.theme.colorMode === 'dark' ? darkModeOverlayBackground : lightModeOverlayBackground;
-};
 
 const drawerPlacementsMixin = css`
   &[data-placement='right'] {
@@ -251,7 +248,7 @@ const popupStyles = css`
   }
 `;
 
-export const OverlayGlobalStyles = createGlobalStyle`
+export const OverlayGlobalStyles = createGlobalStyle<{ colorMode: ColorMode }>`
   .${OverlayManager.REX_OVERFLOW_HIDDEN_CLS} {
     overflow: hidden;
   }
@@ -266,6 +263,12 @@ export const OverlayGlobalStyles = createGlobalStyle`
   }
 
   .rex-overlay-inner {
+    z-index: 1000;
+  }
+
+  // TODO 这个样式需要重新验证一下
+  .rex-popup-content {
+    position: absolute;
     z-index: 1000;
   }
 
@@ -293,6 +296,6 @@ export const OverlayGlobalStyles = createGlobalStyle`
   ${popupStyles};
 
   :root {
-    ${overlayBackground};
+    ${(props) => (props.colorMode === 'dark' ? darkModeOverlayBackground : lightModeOverlayBackground)};
   }
 `;

@@ -1,5 +1,4 @@
 import React, { useContext, useMemo } from 'react';
-import { ThemeProvider as StyledComponentsThemeProvider } from 'styled-components';
 import { OverlayAnimationStyles } from '../components/overlays/overlay-utils/animations';
 import { OverlayGlobalStyles } from '../components/overlays/overlay-utils/OverlayGlobalStyles';
 import { THEMES } from '../theme';
@@ -99,22 +98,14 @@ export function AppProvider(props: React.PropsWithChildren<AppProviderProps>) {
     underRoot,
   ]);
 
-  const themeContextValue = useMemo(() => ({ ...theme /* TODO 移除 theme */, colorMode, device }), [
-    colorMode,
-    device,
-    theme,
-  ]);
-
   return (
     <AppContext.Provider value={appContextValue}>
-      <StyledComponentsThemeProvider theme={themeContextValue}>
-        {includeNormalized && <Normalize />}
-        {root && <OverlayGlobalStyles />}
-        {root && <OverlayAnimationStyles />}
-        <CssVariables root={root} theme={theme} />
+      {includeNormalized && <Normalize />}
+      {root && <OverlayGlobalStyles colorMode={colorMode} />}
+      {root && <OverlayAnimationStyles />}
+      <CssVariables root={root} theme={theme} />
 
-        <ConfigProvider value={config}>{children}</ConfigProvider>
-      </StyledComponentsThemeProvider>
+      <ConfigProvider value={config}>{children}</ConfigProvider>
     </AppContext.Provider>
   );
 }

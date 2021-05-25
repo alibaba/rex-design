@@ -1,15 +1,13 @@
-import { AdaptiveDialog, AdaptivePopup, Button } from '@rexd/core';
+import { AdaptiveDialog, AdaptivePopup, Button, Panel } from '@rexd/core';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
 export default { title: 'overlays / Adaptive' };
 
-const StyledDiv = styled.div`
+const StyledDiv = styled(Panel)`
   min-width: 300px;
   min-height: 100px;
   padding: 10px;
-  //background: var(--rex-colors-emphasis-10);
-  //box-shadow: var(--rex-shadows-lowDown);
 `;
 
 function BalaBala() {
@@ -78,10 +76,12 @@ export function BasicAdaptiveDialog() {
         title="芭芭拉简历"
         visible={visible}
         onRequestClose={() => setVisible(false)}
+        canCloseByOutSideClick
+        canCloseByEsc
         renderChildren={(arg: any) => (
-          <div {...arg}>
+          <Panel {...arg}>
             <BalaBala />
-          </div>
+          </Panel>
         )}
       />
     </div>

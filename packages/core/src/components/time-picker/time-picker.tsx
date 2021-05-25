@@ -83,9 +83,9 @@ export function TimePicker(props: TimePickerProps) {
         />
       )}
       renderChildren={({ ref }: any) => (
-        <Box ref={ref} width={panelWidth} boxShadow="lowDown" borderRadius="m">
+        <AdaptivePopup.Panel ref={ref} width={panelWidth} borderRadius="m">
           <TimePanel value={value} onChange={(value: Dayjs) => updateValue(value)} mode={mode} {...restProps} />
-        </Box>
+        </AdaptivePopup.Panel>
       )}
     />
   );
