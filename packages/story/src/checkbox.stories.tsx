@@ -6,8 +6,12 @@ export default { title: 'Checkbox' };
 export const Basic = () => (
   <Group>
     <Checkbox onChange={console.log}>订阅</Checkbox>
-    <Checkbox defaultChecked>订阅</Checkbox>
-    <Checkbox defaultIndeterminate>订阅</Checkbox>
+    <Checkbox defaultChecked onChange={console.log}>
+      订阅
+    </Checkbox>
+    <Checkbox defaultIndeterminate onChange={console.log}>
+      订阅
+    </Checkbox>
     <Checkbox checked>订阅（受控）</Checkbox>
     <Checkbox indeterminate>订阅（受控）</Checkbox>
     <Checkbox disabled>订阅（禁用）</Checkbox>

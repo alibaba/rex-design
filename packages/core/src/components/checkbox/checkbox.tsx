@@ -5,7 +5,7 @@ import { Icon } from '@rexd/icon';
 import { Dict } from '../../types';
 import { useCheckboxGroupContext } from './context';
 import { useCheckbox, UseCheckboxProps } from './use-checkbox';
-import { componentTokenVar } from '../../utils';
+import { getToken } from '../../utils';
 
 const RexCheckbox = styled.label<Dict<any>>`
   display: inline-flex;
@@ -23,9 +23,9 @@ const RexCheckbox = styled.label<Dict<any>>`
     transition: all 0.1s linear;
     color: #fff;
 
-    font-size: ${componentTokenVar('Checkbox.iconSize')};
-    width: ${componentTokenVar('Checkbox.size')};
-    height: ${componentTokenVar('Checkbox.size')};
+    font-size: ${getToken('Checkbox.iconSize')};
+    width: ${getToken('Checkbox.size')};
+    height: ${getToken('Checkbox.size')};
     border-radius: var(--rex-radii-s);
     border: var(--rex-borders-solid) var(--rex-colors-line-border);
   }

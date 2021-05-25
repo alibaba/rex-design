@@ -42,6 +42,17 @@ type ThemeKeyType =
   | 'zIndices'
   | 'components';
 
+/**
+ * 是否为有效的 token path
+ * @param token
+ */
+export function isValidTokenPath(token: string) {
+  if (THEME_TOKEN_PATTERN.test(token)) {
+    return true;
+  }
+  return false;
+}
+
 const tokenPathToVariable = (token: string) => {
   return `var(--rex-${token.split('.').join('-')})`;
 };
@@ -173,37 +184,14 @@ export function fontSizes(token?: StringOrNumber) {
   return sizes(token, 'fontSizes');
 }
 
-const REX_TOKEN_PATTERN = /^([a-zA-Z]+\.)+(\w+\.?)+$/;
-
 /**
- * 是否为有效的 token path
- * @example foo.bar
- *
+ * 获取组件级的自定义 token variable
  * @param token
+ * @example getToken('Button.height')
+ * @example getToken('Button.bg')
  */
-export function isValidTokenPath(token: string) {
-  if (typeof token === 'string' && REX_TOKEN_PATTERN.test(token)) {
-    // TODO: check category
-    return true;
-  }
-  return false;
-}
-
-/**
- * TODO: rename to getTokenVariable
- * 获取组件级的 token
- * @param token
- */
-export function getToken(token: string, category: 'common' | 'components' = 'components') {
-  if (isValidTokenPath(token)) {
-    let val = token.replace(/\./g, '-');
-    if (category === 'components') {
-      val = `components-${val}`;
-    }
-    return `var(--rex-${val})`;
-  }
-
-  return token;
+export function getToken(token: string) {
+  return tokenVar(token, 'components');
 }
 
 /**
