@@ -10,6 +10,7 @@ export interface UseRadioProps {
   disabled?: boolean;
   readOnly?: boolean;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+  className?: string;
 }
 
 export function useRadio(props: UseRadioProps) {

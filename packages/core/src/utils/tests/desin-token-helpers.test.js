@@ -49,5 +49,6 @@ test('fontSizes', () => {
 
 test('getToken', () => {
   expect(getToken()).toBeUndefined();
-  expect(getToken('Button.height')).toEqual('var(--rex-components-Button-height)');
+  expect(getToken('Button.textSecondary')).toEqual('var(--rex-components-Button-textSecondary)');
+  expect(getToken('Button.someInvalidToken')).toEqual('Button.someInvalidToken');
 });
