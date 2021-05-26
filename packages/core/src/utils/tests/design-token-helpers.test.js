@@ -1,4 +1,20 @@
-import { colors, borders, shadows, sizes, radii, space, fontSizes, getToken } from '../design-token-helpers';
+import {
+  rgba,
+  colors,
+  borders,
+  shadows,
+  sizes,
+  radii,
+  space,
+  fontSizes,
+  getToken,
+  getTokenValue,
+} from '../design-token-helpers';
+
+test('rgba', () => {
+  expect(rgba()).toBeUndefined();
+  expect(rgba('#000000', '0.4')).toEqual('rgba(0,0,0,0.4)');
+});
 
 test('colors', () => {
   expect(colors()).toBeUndefined();
@@ -45,10 +61,24 @@ test('radii', () => {
 
 test('fontSizes', () => {
   expect(fontSizes('body')).toEqual('var(--rex-fontSizes-body)');
+  expect(fontSizes('fontSizes.icon.s')).toEqual('var(--rex-fontSizes-icon-s)');
 });
 
 test('getToken', () => {
   expect(getToken()).toBeUndefined();
   expect(getToken('Button.textSecondary')).toEqual('var(--rex-components-Button-textSecondary)');
   expect(getToken('Button.someInvalidToken')).toEqual('Button.someInvalidToken');
+});
+
+const mockTheme = {
+  colors: {
+    gray: {
+      0: '#FFFFFF',
+    },
+  },
+};
+
+test('getTokenValue', () => {
+  expect(getTokenValue()).toBeUndefined();
+  expect(getTokenValue('colors.gray.0', mockTheme)).toEqual('#FFFFFF');
 });

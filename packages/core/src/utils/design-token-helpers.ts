@@ -23,6 +23,10 @@ function parseToRGB(color: string) {
  * @param alpha
  */
 export function rgba(hexColor: string, alpha: number) {
+  if (!hexColor) {
+    return;
+  }
+
   const rgbValue = parseToRGB(hexColor);
   return `rgba(${rgbValue.red},${rgbValue.green},${rgbValue.blue},${alpha})`;
 }
@@ -41,12 +45,14 @@ type ThemeKeyType =
 
 const THEME_TOKEN_PATTERN = /^(colors|fontSizes|lineHeights|borders|radii|shadows|space|sizes|zIndices|components)./;
 
+const CSS_FUNCTION_PATTERN = /^[a-z]+(-[a-z]*)?\(.+\)$/;
+
 /**
  * 是否为有效的 token path
  * @param token
  */
 export function isValidTokenPath(token: string) {
-  if (THEME_TOKEN_PATTERN.test(token)) {
+  if (token && THEME_TOKEN_PATTERN.test(token)) {
     return true;
   }
   return false;
@@ -66,17 +72,26 @@ export function tokenVar(token: string, themeKey?: ThemeKeyType) {
     return;
   }
 
+  // 优先检查符合 tokenPath 规范，符合规范的直接转换，不检查有效性
+  if (isValidTokenPath(token)) {
+    return tokenPathToVariable(token);
+  }
+
+  // 再检查是不是 css function，如果是，直接返回
+  if (CSS_FUNCTION_PATTERN.test(token)) {
+    return token;
+  }
+
+  // 最后尝试加入 themeKey 在 theme 中寻找
   if (themeKey) {
     const themedToken = [themeKey, token].join('.');
+    // TODO: 无法解析到扩展的 theme
     if (hasIn(THEMES.base, themedToken)) {
       return tokenPathToVariable(themedToken);
     }
   }
 
-  if (hasIn(THEMES.base, token)) {
-    return tokenPathToVariable(token);
-  }
-
+  // 不符合条件的直接返回
   return token;
 }
 
@@ -147,15 +162,6 @@ export function sizes(token: StringOrNumber, themeKey: ThemeKeyType = 'sizes') {
   if (typeof token === 'string' && SIZE_UNIT_VALUE.test(token)) {
     return token;
   }
-
-  // TODO: 哪里这么传了 ???
-  if (typeof token === 'string' && token.startsWith('var(')) {
-    return token;
-  }
-
-  // if (typeof token === 'string') {
-  //   return `var(${prefix}-${token.split('.').join('-')})`;
-  // }
 
   return tokenVar(token, themeKey);
 }
