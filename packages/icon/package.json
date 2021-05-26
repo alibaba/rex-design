@@ -1,6 +1,6 @@
 {
   "name": "@rexd/icon",
-  "version": "0.3.0-alpha.2",
+  "version": "0.3.0-alpha.5",
   "description": "Icons for rex design.",
   "module": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
