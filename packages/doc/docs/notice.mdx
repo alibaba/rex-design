@@ -5,6 +5,7 @@ title: Notice 提示框
 
 import { Notice } from '@rexd/core';
 import * as stories from 'story/src/notice.stories';
+import * as quickToolsStories from 'story/src/overlays/notice-quick-tools.stories';
 
 ## 使用场景
 
@@ -27,6 +28,40 @@ import * as stories from 'story/src/notice.stories';
 ### 状态
 
 <Story fn={stories.Status} />
+
+### 快捷调用
+
+`Notice.show(config)`
+
+根据 config 打开一个 Notice Toast，config 中可以传递 Notice 的配置，也可以传递 [Toast](./toaster#toaster-props) 的配置。
+
+<Story fn={quickToolsStories.Basic} />
+
+快捷调用支持以下方法：
+
+- Notice.show
+- Notice.error
+- Notice.success
+- Notice.warning
+- Notice.info
+- Notice.config 同 Toaster.config;
+- Notice.getConfig 同 Toaster.getConfig;
+- Notice.close 同 Toaster.close;
+- Notice.closeAll 同 Toaster.closeAll;
+
+### Notice.useNotice()
+
+当你需要使用 Context 时，可以通过 Notice.useNotice() 创建一个 contextHolder 插入子节点中。通过 hooks 创建的临时 Notice 将会得到 contextHolder 所在位置的上下文。创建的 notice 对象拥有以下方法：show/error/success/warning/info/close/closeAll。
+
+```jsx
+const [notice, contextHolder] = Notice.useNotice();
+
+React.useEffect(() => {
+  notice.show({ content: 'hello!' });
+}, []);
+
+return <div>{contextHolder}</div>;
+```
 
 ## API
 

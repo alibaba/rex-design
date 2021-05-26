@@ -121,7 +121,7 @@ const StyledBox = styled(View)<Dict<any>>`
   box-shadow: ${(props) => shadows(props.$boxShadow)};
 `;
 
-const WHITE_LIST = ['style', 'className', 'children'];
+const WHITE_LIST = ['style', 'className', 'children', 'tabIndex', 'title'];
 
 function transformProps<T>(props: T) {
   const o = {};

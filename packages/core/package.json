@@ -9,7 +9,7 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "preversion": "yarn test && yarn build",
-    "prepublishOnly": "yarn build",
+    "prepublishOnly": "yarn clean && yarn build",
     "clean": "rimraf dist/",
     "build": "yarn build:esm",
     "build:esm": "tsc --project tsconfig.production.json --outDir dist/esm/ --module ES2015",

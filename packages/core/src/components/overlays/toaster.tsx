@@ -7,7 +7,7 @@ import { mergeRefs, noop, pick } from '../../utils';
 import { IOverlayAnimationProps, IOverlayPortalProps, Overlay, OverlayProps } from './overlay';
 import { makeDetachedRenderContainer, RenderContainer } from './overlay-utils/render-containers';
 import { Position, PositionOffset, PositionPlacement } from './position';
-import { Toast, ToastConfig, ToastConfigCommon } from './toast';
+import { Toast, ToastConfig, ToastConfigCommon, ToastRequest } from './toast';
 
 let nextToastId = 1;
 
@@ -36,7 +36,7 @@ interface ToastListProps extends IOverlayPortalProps, IOverlayAnimationProps {
   duration?: number;
 
   toaster: Toaster;
-  items: Array<Required<ToastConfig>>;
+  items: ToastConfig[];
 }
 
 class ToastList extends React.Component<ToastListProps> {
@@ -44,7 +44,7 @@ class ToastList extends React.Component<ToastListProps> {
   readonly context: OverlayBehaviorContextType;
 
   static defaultProps = {
-    placement: 'top-right',
+    placement: 'top',
   };
 
   static getDefaultOffsetByPlacement(placement: PositionPlacement): PositionOffset {
@@ -57,31 +57,17 @@ class ToastList extends React.Component<ToastListProps> {
   private mergeRefs = memoizeOne(mergeRefs);
 
   static getDefaultAnimationByPlacement(placement: PositionPlacement): OverlayProps['animation'] {
+    // todo 优化 toast 的默认动画效果
     if (placement === 'center') {
-      return {
-        in: Overlay.animations.zoomIn,
-        out: Overlay.animations.zoomOut,
-      };
+      return { in: Overlay.animations.zoomIn, out: Overlay.animations.zoomOut };
     } else if (placement === 'top') {
-      return {
-        in: Overlay.animations.bounceInDown,
-        out: Overlay.animations.bounceOutUp,
-      };
+      return { in: Overlay.animations.bounceInDown, out: Overlay.animations.bounceOutUp };
     } else if (placement === 'bottom') {
-      return {
-        in: Overlay.animations.bounceInUp,
-        out: Overlay.animations.bounceOutDown,
-      };
+      return { in: Overlay.animations.bounceInUp, out: Overlay.animations.bounceOutDown };
     } else if (placement.includes('left')) {
-      return {
-        in: Overlay.animations.bounceInLeft,
-        out: Overlay.animations.bounceOutLeft,
-      };
+      return { in: Overlay.animations.bounceInLeft, out: Overlay.animations.bounceOutLeft };
     } else {
-      return {
-        in: Overlay.animations.bounceInRight,
-        out: Overlay.animations.bounceOutRight,
-      };
+      return { in: Overlay.animations.bounceInRight, out: Overlay.animations.bounceOutRight };
     }
   }
 
@@ -138,11 +124,10 @@ class ToastList extends React.Component<ToastListProps> {
 }
 
 const DEFAULT_TOAST_COMMON: ToastConfigCommon = {
-  placement: 'top-right',
+  placement: 'top',
   duration: 5000,
   canCloseByIcon: true,
-  canCloseByClick: true,
-  hasProgressBar: true,
+  canCloseByClick: false,
 };
 
 const INHERITABLE_TOAST_KEYS = Object.keys(DEFAULT_TOAST_COMMON);
@@ -154,9 +139,9 @@ function useToaster(toasterProps: ToasterProps = {}) {
 
   return [
     {
-      show(item: Partial<ToastConfig>) {
+      show(req: ToastRequest) {
         // todo ref.current 为空的时候， fallback 为默认 Toast.show
-        return ref.current.show(item);
+        return ref.current.show(req);
       },
       close(key: string) {
         ref.current.close(key);
@@ -194,9 +179,9 @@ function makeStaticToasterQuickTools() {
       ensureMounted();
       container.render(<Toaster ref={ref} {...currentConfig} />);
     },
-    show(item: Partial<ToastConfig>) {
+    show(req: ToastRequest) {
       ensureMounted();
-      return ref.current.show(item);
+      return ref.current.show(req);
     },
     close(key: string) {
       ensureMounted();
@@ -216,7 +201,7 @@ const staticToasterQuickTools = makeStaticToasterQuickTools();
 
 export interface ToasterProps extends ToastConfigCommon, IOverlayPortalProps {}
 
-export class Toaster extends React.Component<ToasterProps, { items: Required<ToastConfig>[] }> {
+export class Toaster extends React.Component<ToasterProps, { items: ToastConfig[] }> {
   static show = staticToasterQuickTools.show;
   static close = staticToasterQuickTools.close;
   static closeAll = staticToasterQuickTools.closeAll;
@@ -226,51 +211,55 @@ export class Toaster extends React.Component<ToasterProps, { items: Required<Toa
   static useToaster = useToaster;
 
   state = {
-    items: [] as Required<ToastConfig>[],
+    items: [] as ToastConfig[],
   };
 
-  show(config: Partial<ToastConfig>) {
-    const key = config.key ?? getUniqueToastKey();
+  show(req: ToastRequest) {
+    const key = req.key ?? getUniqueToastKey();
 
     const inflatedConfig = {
       ...DEFAULT_TOAST_COMMON,
       ...pick(this.props, (INHERITABLE_TOAST_KEYS as unknown) as any),
       onClick: noop,
-      ...config,
+      ...req,
       key,
       visible: true,
-    } as Required<ToastConfig>;
+    } as ToastConfig;
 
-    const nextItems = this.state.items.concat([inflatedConfig]);
-    this.setState({ items: nextItems });
+    this.setState((prevState) => ({ items: prevState.items.concat([inflatedConfig]) }));
 
     return key;
   }
 
   close(key: string) {
-    const prevItems = this.state.items;
-    const index = prevItems.findIndex((item) => item.key === key);
-    if (index === -1) {
-      return;
-    }
-    const item = prevItems[index];
-    if (!item.visible) {
-      return;
-    }
-    const nextItems = [...prevItems.slice(0, index), { ...item, visible: false }, ...prevItems.slice(index + 1)];
-    this.setState({ items: nextItems });
+    this.setState((prev) => {
+      const prevItems = prev.items;
+      const index = prevItems.findIndex((item) => item.key === key);
+      if (index === -1) {
+        return null;
+      }
+      const item = prevItems[index];
+      if (!item.visible) {
+        return null;
+      }
+      const nextItems = [...prevItems.slice(0, index), { ...item, visible: false }, ...prevItems.slice(index + 1)];
+
+      return { items: nextItems };
+    });
   }
 
   closeAll() {
-    const prevItems = this.state.items;
-    const nextItems = prevItems.map((item) => ({ ...item, visible: false }));
-    this.setState({ items: nextItems });
+    this.setState((prev) => {
+      const nextItems = prev.items.map((item) => ({ ...item, visible: false }));
+      return { items: nextItems };
+    });
   }
 
   clear(key: string) {
-    const prevItems = this.state.items;
-    const nextItems = prevItems.filter((item) => item.key !== key);
-    this.setState({ items: nextItems });
+    this.setState((prev) => {
+      const nextItems = prev.items.filter((item) => item.key !== key);
+      return { items: nextItems };
+    });
   }
 
   clearAll() {

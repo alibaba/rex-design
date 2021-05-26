@@ -6,28 +6,23 @@ import { defer, fromEvent, merge, Observable, of, Subject, Subscription } from '
 import * as op from 'rxjs/operators';
 import styled from 'styled-components';
 import { mergeRefs } from '../../utils';
+import { Panel } from '../layout';
 import { IOverlayAnimationProps, Overlay } from './overlay';
 import { animationFrame$, startAnimate } from './overlay-utils/animate-utils';
 import { PositionPlacement } from './position';
 import { Toaster } from './toaster';
 
-// TODO 这个文件中的 Partial 和 Required 的用法需要优化
-
 function isFiniteDuration(duration: number) {
   return duration > 0 && Number.isFinite(duration);
 }
 
-const ToastDiv = styled.div.withConfig({
-  componentId: 'rex-toast',
-})`
+const ToastPanel = styled(Panel).attrs({ tabIndex: 1 })`
   position: relative;
   overflow: hidden;
   padding: 16px 12px;
   margin-bottom: 12px;
-  border-radius: 4px;
-  box-shadow: var(--rex-shadows-lowDown);
-  background: var(--rex-overlay-depth-l);
   pointer-events: all;
+  box-shadow: var(--rex-shadows-medianDown);
 
   &.rex-toast-clickable {
     cursor: pointer;
@@ -64,14 +59,24 @@ export interface ToastConfigCommon {
   duration?: number;
   canCloseByIcon?: boolean;
   canCloseByClick?: boolean;
-  hasProgressBar?: boolean;
 }
+
+export type ToastRequest = Partial<Omit<ToastConfig, 'visible'>>;
 
 export interface ToastConfig extends ToastConfigCommon {
   key: string;
   visible: boolean;
   content: React.ReactNode;
   onClick?(event: React.MouseEvent<HTMLDivElement>): void;
+  renderContent?(
+    arg: {
+      ref: React.Ref<Element>;
+      onClick(event: React.MouseEvent<HTMLDivElement>): void;
+      onMouseEnter(): void;
+      onMouseLeave(): void;
+    },
+    extra: { close?(): void },
+  ): React.ReactNode;
 }
 
 export interface ToastProps extends IOverlayAnimationProps {
@@ -119,6 +124,8 @@ class ToastHoverHelper {
 }
 
 export class Toast extends React.Component<ToastProps, ToastState> {
+  static Panel = ToastPanel;
+
   private subscription = new Subscription();
   private mergeRefs = memoizeOne(mergeRefs);
   private ref = React.createRef<HTMLDivElement>();
@@ -155,7 +162,7 @@ export class Toast extends React.Component<ToastProps, ToastState> {
     toaster.clear(item.key);
   };
 
-  private recordShrinkingSize = () => {
+  private beforeOverlayClose = () => {
     const element = this.ref.current;
     const computedStyle = window.getComputedStyle(element);
     const marginBottom = parseFloat(computedStyle.marginBottom);
@@ -168,11 +175,13 @@ export class Toast extends React.Component<ToastProps, ToastState> {
       marginBottom,
     };
 
-    return {};
-  };
+    const handle = setTimeout(() => {
+      this.setState({ shrinking: true });
+    }, 200);
 
-  private startShrinking = () => {
-    this.setState({ shrinking: true });
+    this.subscription.add(() => clearTimeout(handle));
+
+    return {};
   };
 
   componentDidMount() {
@@ -240,23 +249,38 @@ export class Toast extends React.Component<ToastProps, ToastState> {
         visible={item.visible}
         onRequestClose={this.close}
         usePortal={false}
-        beforeClose={this.recordShrinkingSize}
-        afterClose={this.startShrinking}
+        beforeClose={this.beforeOverlayClose}
         attachOverlayManager={false}
         animation={animation}
         animationDuration={animationDuration}
-        renderChildren={({ ref }) => (
-          <ToastDiv
-            className={cx({ 'rex-toast-clickable': item.canCloseByClick })}
-            ref={this.mergeRefs(ref as React.RefObject<HTMLDivElement>, this.ref)}
-            onClick={this.handleClick}
-            onMouseEnter={this.hoverHelper.handleMouseEnter}
-            onMouseLeave={this.hoverHelper.handleMouseLeave}
-          >
-            {item.content}
-            {this.renderCloseIcon()}
-          </ToastDiv>
-        )}
+        renderChildren={({ ref }) => {
+          const mergedRef = this.mergeRefs(ref, this.ref);
+
+          if (item.renderContent != null) {
+            return item.renderContent(
+              {
+                ref: mergedRef,
+                onClick: this.handleClick,
+                onMouseEnter: this.hoverHelper.handleMouseEnter,
+                onMouseLeave: this.hoverHelper.handleMouseLeave,
+              },
+              { close: this.close },
+            );
+          }
+
+          return (
+            <ToastPanel
+              className={cx('rex-toast', { 'rex-toast-clickable': item.canCloseByClick })}
+              ref={mergedRef}
+              onClick={this.handleClick}
+              onMouseEnter={this.hoverHelper.handleMouseEnter}
+              onMouseLeave={this.hoverHelper.handleMouseLeave}
+            >
+              {item.content}
+              {this.renderCloseIcon()}
+            </ToastPanel>
+          );
+        }}
       />
     );
   }
