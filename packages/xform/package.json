@@ -7,7 +7,7 @@
   "types": "dist/esm/index.d.ts",
   "scripts": {
     "preversion": "echo skip test && yarn build",
-    "prepublishOnly": "yarn build",
+    "prepublishOnly": "yarn clean && yarn build",
     "clean": "rimraf dist/",
     "build": "yarn build:esm",
     "build:esm": "tsc --project tsconfig.production.json --outDir dist/esm/ --module ES2015"
