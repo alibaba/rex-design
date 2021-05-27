@@ -1,6 +1,6 @@
 import { Icon } from '@rexd/icon';
 import cx from 'classnames';
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
 import { composeHandlers } from '../../utils';
 import { Panel } from '../layout';
@@ -28,8 +28,6 @@ export interface MenuItem {
 }
 
 const RexMenuInnerDiv = styled.div`
-  min-width: 180px;
-
   .rex-menu-divider {
     margin: 8px 12px;
     border-bottom: 1px solid var(--rex-colors-emphasis-30);
@@ -45,6 +43,7 @@ const RexMenuInnerDiv = styled.div`
 `;
 
 export const MenuPanel = styled(Panel)`
+  min-width: 180px;
   list-style: none;
   padding: ${MENU_VERTICAL_PADDING}px 4px;
   margin: 0;
@@ -111,7 +110,7 @@ export interface MenuViewProps {
   interactionKind?: PopupInteractionKind;
 
   openKeys: string[];
-  onOpen(nextOpenKeys: string[]): void;
+  onOpen: Dispatch<SetStateAction<string[]>>;
 }
 
 function renderItemInner(item: MenuItem, { hasArrow, hasSelect }: { hasArrow?: boolean; hasSelect?: boolean }) {
@@ -150,12 +149,10 @@ function flattenDataSource(items: MenuItem[]) {
 export const MenuViewInner = React.forwardRef<HTMLDivElement, MenuViewProps>(
   ({ dataSource = [], interactionKind = 'hover', openKeys, onOpen, style, className }, ref) => {
     const openPopup = (key: string) => {
-      const nextOpenKeys = [...openKeys, key];
-      onOpen(nextOpenKeys);
+      onOpen((prevOpenKeys) => [...prevOpenKeys, key]);
     };
     const closePopup = (key: string) => {
-      const nextOpenKeys = openKeys.filter((k) => k !== key);
-      onOpen(nextOpenKeys);
+      onOpen((prevOpenKeys) => prevOpenKeys.filter((k) => k !== key));
     };
 
     function renderItem(item: MenuItem): React.ReactElement {

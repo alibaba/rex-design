@@ -1,6 +1,7 @@
 import * as Popper from '@popperjs/core';
 import cx from 'classnames';
-import React from 'react';
+import React, { useContext } from 'react';
+import { OverlayBehaviorContext, OverlayBehaviorContextType } from '../../providers';
 import { composeHandlers, pick } from '../../utils';
 import {
   IOverlayAnimationProps,
@@ -164,6 +165,8 @@ export interface PopupProps
    * */
   canCloseByBlur?: boolean;
 
+  attachOverlayManager?: boolean;
+
   /**
    * 渲染目标元素的自定义方法。 该属性将覆盖 target/targetTagName/targetStyle
    * @displayType (htmlProps, partialPopupProps) => React.ReactNode
@@ -243,6 +246,15 @@ interface PopupState {
  * ```
  */
 export class Popup extends React.Component<PopupProps, PopupState> {
+  static readonly contextType = OverlayBehaviorContext;
+  context: OverlayBehaviorContextType;
+
+  // 通过 context 将 popup 实例传递给子节点，允许子节点通过该 context 直接关闭 popup
+  static readonly NearestPopupContext = React.createContext<Popup>(null);
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  static useNearestPopup = () => useContext(Popup.NearestPopupContext);
+
   static defaultRenderTarget = defaultRenderTarget;
 
   static defaultRenderChildren = defaultRenderChildren;
@@ -280,8 +292,8 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   private popper: Popper.Instance | null = null;
 
   private contentRef = React.createRef<HTMLElement>();
-
   private targetRef = React.createRef<Element>();
+  private overlayRef = React.createRef<Overlay>();
 
   /** 上次使用的定位参考元素，用于判断参照元素是否发生了变化，发生变化时需要重新创建 popper 实例 */
   private lastTarget: Element = null;
@@ -322,6 +334,18 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       this.props.onRequestOpen?.(reason);
     });
   };
+
+  /** 关闭当前弹层以及该弹层之后的所有弹层（这里的「之后」指的是在 OverlayManager.stack 中的先后顺序 */
+  dismissAfterwards() {
+    const portalContainer = this.props.portalContainer ?? this.context.portalContainer;
+    const manager = Overlay.getManager(portalContainer);
+    const selfIndex = manager.stack.indexOf(this.overlayRef.current);
+    if (selfIndex !== -1) {
+      for (const overlay of manager.stack.slice(selfIndex)) {
+        overlay.props.onRequestClose?.('dismiss');
+      }
+    }
+  }
 
   componentDidUpdate(prevProps: Readonly<PopupProps>, prevState: Readonly<PopupState>) {
     if (
@@ -449,6 +473,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       animationDuration,
       hasArrow,
       canCloseByEsc,
+      attachOverlayManager,
       canCloseByOutSideClick,
       disableScroll,
     } = this.props;
@@ -483,6 +508,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
         {renderedTarget}
 
         <Overlay
+          ref={this.overlayRef}
           className={wrapperClassName}
           style={wrapperStyle}
           usePortal={usePortal}
@@ -495,6 +521,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
           onRequestClose={this.onRequestClose}
           canCloseByOutSideClick={canCloseByOutSideClick}
           canCloseByEsc={canCloseByEsc}
+          attachOverlayManager={attachOverlayManager}
           disableScroll={disableScroll}
           animation={animation}
           animationDuration={animationDuration}
@@ -515,7 +542,9 @@ export class Popup extends React.Component<PopupProps, PopupState> {
               onMouseEnter={this.interactionManager.onContentMouseEnter}
               onMouseLeave={this.interactionManager.onContentMouseLeave}
             >
-              {renderChildren({ ref, children, arrow })}
+              <Popup.NearestPopupContext.Provider value={this}>
+                {renderChildren({ ref, children, arrow })}
+              </Popup.NearestPopupContext.Provider>
             </div>
           )}
         />

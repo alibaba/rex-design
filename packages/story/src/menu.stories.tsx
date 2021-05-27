@@ -1,4 +1,4 @@
-import { Button, Menu, MenuItem, Popup } from '@rexd/core';
+import { Button, Menu, MenuItem, Popup, Tooltip } from '@rexd/core';
 import React, { useState } from 'react';
 
 export default { title: 'Menu' };
@@ -19,7 +19,7 @@ export function Basic() {
   );
 }
 
-const groupAndSubMenuDataSource: MenuItem[] = [
+const menuItems: MenuItem[] = [
   { key: '1', label: '选项 1', selected: true, helper: 'Ctrl+P' },
   { key: '2', label: 'Option 2', disabled: true },
   { key: '3', type: 'divider' },
@@ -71,7 +71,7 @@ export function GroupAndSubMenu() {
   return (
     <Menu
       style={{ width: 200 }}
-      dataSource={groupAndSubMenuDataSource}
+      dataSource={menuItems}
       onItemClick={(key, detail) => {
         console.log('YOUR click', key, detail);
       }}
@@ -119,23 +119,13 @@ export function UncontrolledSingleSelect() {
 }
 
 export function DropdownMenu() {
-  // TODO 允许 menu 能够在组件内部直接关闭 popup
-  const [visible, setVisible] = useState(false);
-
   return (
-    <Popup
-      target={<Button>更多操作</Button>}
-      interactionKind="hover"
-      hasArrow
-      visible={visible}
-      onRequestOpen={() => setVisible(true)}
-      onRequestClose={() => setVisible(false)}
-    >
+    <Popup target={<Button>更多操作</Button>} hasArrow>
       <Menu
-        dataSource={groupAndSubMenuDataSource}
+        autoDismissPopup
+        dataSource={menuItems}
         onItemClick={(key) => {
           console.log('onItemClick', key);
-          setVisible(false);
         }}
       />
     </Popup>

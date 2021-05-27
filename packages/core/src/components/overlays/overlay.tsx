@@ -200,6 +200,22 @@ export class Overlay extends React.Component<OverlayProps, OverlayState> {
   // 故这里用一个 map 来管理所有的 manager
   private static managerMap = new Map<Element, OverlayManager>();
 
+  // 获取 portalContainer 对应的 OverlayManager 实例
+  static getManager(portalContainer: HTMLElement | typeof DOCUMENT_BODY) {
+    if (portalContainer === DOCUMENT_BODY) {
+      portalContainer = typeof document === 'undefined' ? null : document.body;
+    }
+    if (portalContainer == null) {
+      console.warn('[@rexd/core] Overlay.getManager(portalContainer) 调用参数 portalContainer 为 null');
+      return;
+    }
+
+    if (!Overlay.managerMap.has(portalContainer)) {
+      Overlay.managerMap.set(portalContainer, new OverlayManager(portalContainer));
+    }
+    return Overlay.managerMap.get(portalContainer);
+  }
+
   private resolvePortalContainer() {
     let result = this.props.portalContainer ?? this.context.portalContainer;
 
@@ -209,16 +225,6 @@ export class Overlay extends React.Component<OverlayProps, OverlayState> {
     }
 
     return result;
-  }
-
-  // 获取当前 portalContainer 对应的 OverlayManager 实例
-  private getManager() {
-    // getManager 是在 didMount 或 didUpdate 调用的，此时 portalContainer 一定非空
-    const portalContainer = this.resolvePortalContainer();
-    if (!Overlay.managerMap.has(portalContainer)) {
-      Overlay.managerMap.set(portalContainer, new OverlayManager(portalContainer));
-    }
-    return Overlay.managerMap.get(portalContainer);
   }
 
   constructor(props: OverlayProps) {
@@ -257,7 +263,7 @@ export class Overlay extends React.Component<OverlayProps, OverlayState> {
     const { beforeOpen, onOpen, afterOpen, attachOverlayManager } = this.props;
 
     if (attachOverlayManager) {
-      this.getManager().add(this);
+      Overlay.getManager(this.resolvePortalContainer()).add(this);
     }
 
     const inner = this.innerRef.current;
@@ -291,7 +297,7 @@ export class Overlay extends React.Component<OverlayProps, OverlayState> {
     const { beforeClose, onClose, afterClose, attachOverlayManager } = this.props;
 
     if (attachOverlayManager) {
-      this.getManager().delete(this);
+      Overlay.getManager(this.resolvePortalContainer()).delete(this);
     }
 
     const inner = this.innerRef.current;
@@ -345,7 +351,7 @@ export class Overlay extends React.Component<OverlayProps, OverlayState> {
   // 判断鼠标点击位置是否在浮层内部
   public isInsideClick = (clickNode: Node) => {
     // 背景层总是认为是外部
-    if ((clickNode as HTMLElement).classList?.contains?.('rex-overlay-backdrop')) {
+    if ((clickNode as Element).classList?.contains?.('rex-overlay-backdrop')) {
       return false;
     }
 

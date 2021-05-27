@@ -1,8 +1,5 @@
 import React from 'react';
-import { useVisible } from '../../hooks';
-import { useDevice } from '../../providers';
-import { callAll } from '../../utils';
-import { Box, Panel } from '../layout';
+import { Box } from '../layout';
 import { Menu, MenuProps } from '../menu';
 import { AdaptivePopup, PopupProps } from '../overlays';
 
@@ -20,17 +17,10 @@ export interface ActionSheetProps {
 
 export function ActionSheet(props: ActionSheetProps) {
   const { title, target, dataSource = [], onItemClick } = props;
-  const device = useDevice();
-  const { visible, onClose, onOpen } = useVisible({
-    defaultVisible: false,
-  });
 
   return (
     <AdaptivePopup
       hasArrow
-      visible={visible}
-      onRequestOpen={onOpen}
-      onRequestClose={onClose}
       target={target}
       renderChildren={(arg: any) => (
         <AdaptivePopup.Panel {...arg}>
@@ -41,7 +31,7 @@ export function ActionSheet(props: ActionSheetProps) {
             </Box>
           )}
           <Menu.Panel boxShadow="none">
-            <Menu.Inner dataSource={dataSource} onItemClick={callAll(onItemClick, onClose)} />
+            <Menu.Inner autoDismissPopup dataSource={dataSource} onItemClick={onItemClick} />
           </Menu.Panel>
         </AdaptivePopup.Panel>
       )}

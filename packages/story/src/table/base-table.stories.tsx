@@ -1,8 +1,7 @@
-import { BaseTable, Checkbox, Column } from '@rexd/core';
+import { BaseTable, Checkbox, Column, Menu, Popup } from '@rexd/core';
 import cx from 'classnames';
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { DropdownMenu } from './DropdownMenu';
 
 export default { title: 'Table / BaseTable' };
 
@@ -65,18 +64,22 @@ function renderOptions() {
       <div className="item danger">删除</div>
       <div className="sep" />
 
-      <DropdownMenu
+      <Popup
         target={
           <div className="item">
             更多
             <CaretDown style={{ color: '#A6A6A6' }} />
           </div>
         }
-        menuDataSource={'1,2,3,4'.split(',').map((n) => ({
-          key: `Option ${n}`,
-          label: `Option ${n}`,
-        }))}
-      />
+      >
+        <Menu
+          autoDismissPopup
+          dataSource={'1,2,3,4'.split(',').map((n) => ({
+            key: `Option ${n}`,
+            label: `Option ${n}`,
+          }))}
+        />
+      </Popup>
     </OperationsDiv>
   );
 }

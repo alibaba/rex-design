@@ -1,9 +1,8 @@
-import { Checkbox, Column, ProTable } from '@rexd/core';
+import { Checkbox, Column, Menu, Popup, ProTable } from '@rexd/core';
 import { ArtColumn, proto } from 'ali-react-table';
 import cx from 'classnames';
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { DropdownMenu } from './DropdownMenu';
 
 export default { title: 'Table / ProTable' };
 
@@ -65,18 +64,23 @@ function renderOptions() {
       <div className="item danger">删除</div>
       <div className="sep" />
 
-      <DropdownMenu
+      <Popup
         target={
           <div className="item">
             更多
             <CaretDown style={{ color: '#A6A6A6' }} />
           </div>
         }
-        menuDataSource={'1,2,3,4'.split(',').map((n) => ({
-          key: `Option ${n}`,
-          label: `Option ${n}`,
-        }))}
-      />
+      >
+        <Menu
+          autoDismissPopup
+          style={{ minWidth: 100 }}
+          dataSource={'1,2,3,4'.split(',').map((n) => ({
+            key: `Option ${n}`,
+            label: `Option ${n}`,
+          }))}
+        />
+      </Popup>
     </OperationsDiv>
   );
 }

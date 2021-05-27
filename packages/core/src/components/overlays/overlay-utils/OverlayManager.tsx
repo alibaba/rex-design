@@ -16,7 +16,7 @@ export class OverlayManager {
   }
 
   // 记录当前被打开的所有的浮层
-  private stack: Overlay[] = [];
+  readonly stack: Overlay[] = [];
 
   // 记录当前有多少个设置了 disableScroll=true 的浮层被打开了
   private disableScrollCount = 0;
@@ -126,11 +126,8 @@ export class OverlayManager {
 
       const { canCloseByOutSideClick, onRequestClose } = lastOpenOverlay.props;
 
-      if (canCloseByOutSideClick) {
-        const outsideClick = !lastOpenOverlay.isInsideClick(targetNode);
-        if (outsideClick) {
-          onRequestClose?.('outside click');
-        }
+      if (canCloseByOutSideClick && !lastOpenOverlay.isInsideClick(targetNode)) {
+        onRequestClose?.('outside-click');
       }
     });
   };

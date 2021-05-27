@@ -1,7 +1,8 @@
 import { makeRecursiveMapper } from 'ali-react-table';
 import cx from 'classnames';
-import React, { useState } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import { composeHandlers, composeState, noop } from '../../utils';
+import { Popup } from '../overlays';
 import { MenuItem, MenuPanel, MenuViewInner, MenuViewProps } from './menu-view';
 
 function processMenuDataSource(
@@ -12,7 +13,14 @@ function processMenuDataSource(
     onSelect,
     autoCloseSubmenus,
     onOpen,
-  }: Pick<MenuProps, 'selectedKeys' | 'onItemClick' | 'onSelect' | 'autoCloseSubmenus' | 'onOpen'>,
+    autoDismissPopup,
+    dismissPopup,
+  }: Pick<
+    MenuProps,
+    'selectedKeys' | 'onItemClick' | 'onSelect' | 'onOpen' | 'autoCloseSubmenus' | 'autoDismissPopup'
+  > & {
+    dismissPopup(): void;
+  },
 ) {
   const selectedKeySet = new Set(selectedKeys);
 
@@ -25,11 +33,16 @@ function processMenuDataSource(
       result.onClick,
       (event) => {
         const isEnabledMenuItem = !item.disabled && item.type !== 'submenu';
-        if (autoCloseSubmenus && isEnabledMenuItem) {
-          onOpen([]);
-        }
-        if (onItemClick != null && isEnabledMenuItem) {
-          onItemClick(item.key, { item, event });
+
+        if (isEnabledMenuItem) {
+          if (autoDismissPopup) {
+            dismissPopup();
+          } else if (autoCloseSubmenus) {
+            onOpen([]);
+          }
+          if (onItemClick != null) {
+            onItemClick(item.key, { item, event });
+          }
         }
       },
       (event) => {
@@ -58,7 +71,8 @@ export interface MenuProps extends Omit<MenuViewProps, 'openKeys' | 'onOpen'> {
    * 子菜单打开或关闭的回调函数
    * @category 子菜单
    * */
-  onOpen?(nextOpenKeys: string[]): void;
+  onOpen?: Dispatch<SetStateAction<string[]>>;
+
   /** 默认打开的子菜单 */
   defaultOpenKeys?: string[];
 
@@ -68,6 +82,13 @@ export interface MenuProps extends Omit<MenuViewProps, 'openKeys' | 'onOpen'> {
    * @category 子菜单
    * */
   autoCloseSubmenus?: boolean;
+
+  /**
+   * 点击菜单项时，是否自动关闭包含菜单的弹层；该 prop 设置为 true 时，autoCloseSubmenus 的行为将被覆盖
+   * @default false
+   * @category 子菜单
+   * */
+  autoDismissPopup?: boolean;
 
   /** 菜单项点击回调 */
   onItemClick?(
@@ -119,6 +140,7 @@ export const MenuInner = React.forwardRef<HTMLDivElement, MenuProps>((props, ref
     onItemClick,
     selectMode = 'none',
     autoCloseSubmenus = true,
+    autoDismissPopup = false,
     ...others
   } = props;
 
@@ -140,12 +162,16 @@ export const MenuInner = React.forwardRef<HTMLDivElement, MenuProps>((props, ref
     onSelect = composeHandlers(onSelectProp, _onSelect);
   }
 
+  const nearestPopup = Popup.useNearestPopup();
+
   const dataSource = processMenuDataSource(dataSourceProp, {
     selectedKeys,
     onItemClick,
     onSelect,
     autoCloseSubmenus,
     onOpen,
+    autoDismissPopup,
+    dismissPopup: () => nearestPopup?.dismissAfterwards(),
   });
 
   return <MenuViewInner ref={ref} dataSource={dataSource} {...others} openKeys={openKeys} onOpen={onOpen} />;
