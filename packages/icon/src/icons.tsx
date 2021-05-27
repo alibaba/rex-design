@@ -1,6 +1,6 @@
 import React from 'react';
 import * as icons from './components';
-import { IconType, iconTypes } from './types';
+import { IconType, iconTypes as ICON_TYPE_LIST } from './types';
 
 export interface IconProps extends React.SVGProps<SVGSVGElement> {
   type: IconType;
@@ -18,7 +18,7 @@ export const Icon = React.forwardRef<SVGSVGElement, IconProps>((props, ref) => {
   }
 });
 
-export { iconTypes, IconType };
+export { ICON_TYPE_LIST, IconType };
 
 /**
  * 中划线命名转大驼峰命名
