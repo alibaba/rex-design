@@ -16,6 +16,7 @@ const InputWrapper = styled(Box)`
   height: var(--rex-sizes-formHeights-m);
   width: ${(props) => props.width || getToken('Input.width')};
   padding-left: var(--rex-space-l);
+  transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
 
   input {
     flex: 1;

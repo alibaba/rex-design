@@ -10,7 +10,7 @@ module.exports = {
           type: 'category',
           collapsed: false,
           label: '布局',
-          items: ['box', 'flex', 'grid', 'group', 'text'],
+          items: ['box', 'flex', 'grid', 'group', 'text', 'form-layout'],
         },
         {
           type: 'category',

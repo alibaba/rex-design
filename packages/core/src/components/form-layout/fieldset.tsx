@@ -5,14 +5,13 @@ import { useFormLayout } from './form-layout';
 import { ResponsiveType } from '../../types';
 
 const Title = styled.div`
-  font-size: var(--rex-fontSizes-body);
+  font-size: var(--rex-fontSizes-subtitle);
   font-weight: bold;
   margin: var(--rex-space-m) 0;
 `;
 
 export interface FieldSetProps extends Omit<BoxProps, 'title'> {
   title?: React.ReactNode;
-  // TODO: columns to column
   columns?: ResponsiveType;
 }
 
