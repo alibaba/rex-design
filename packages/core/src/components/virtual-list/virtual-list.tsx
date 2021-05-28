@@ -128,8 +128,6 @@ export class VirtualList<Row> extends React.Component<VirtualListProps<Row>, Vir
   }
 
   componentDidUpdate() {
-    // todo 异步地读取每一行的高度并且延迟更新?
-
     this.trySubscribeRichVisibleRects();
 
     if (!this.subscription) {

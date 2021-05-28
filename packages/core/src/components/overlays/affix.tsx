@@ -7,7 +7,7 @@ import { domUtils } from '../virtual-list/dom-utils';
 
 interface AffixInternalState {
   mode: 'none' | 'top' | 'bottom';
-  scrollThreshold: number;
+  dy: number;
 }
 
 export interface AffixProps {
@@ -23,22 +23,6 @@ export interface AffixProps {
 
   /** 吸附状态发生变化时的回调 */
   onAffix?(affixed: boolean): void;
-}
-
-function getBoundingClientRect(target: HTMLElement | Window) {
-  if (domUtils.isWindow(target)) {
-    return { left: 0, top: 0, width: window.innerWidth, height: window.innerHeight };
-  } else {
-    return target.getBoundingClientRect();
-  }
-}
-
-function getScrollTop(target: HTMLElement | Window) {
-  if (domUtils.isWindow(target)) {
-    return target.scrollY;
-  } else {
-    return target.scrollTop;
-  }
 }
 
 export class Affix extends React.Component<AffixProps> {
@@ -64,7 +48,7 @@ export class Affix extends React.Component<AffixProps> {
           ...(domUtils.listScrollParents(target) as Array<HTMLElement | Window>)
             // domUtils.listScrollParents 得到的最后一个元素总是为 visualViewport，这里我们不需要该元素
             .slice(0, -1)
-            .map(domUtils.fromScrollEvent),
+            .map((scrollParent) => domUtils.fromPassiveScrollEvent(scrollParent)),
         );
 
         const config$ = this.props$.pipe(
@@ -72,71 +56,51 @@ export class Affix extends React.Component<AffixProps> {
           op.distinctUntilChanged(shallowEqual),
         );
 
-        const state: AffixInternalState = { mode: 'none', scrollThreshold: 0 };
+        const state: AffixInternalState = { mode: 'none', dy: 0 };
 
         return combineLatest([events$, config$]).pipe(
           op.tap(([_event, { offsetTop, offsetBottom }]) => {
-            const targetRect = getBoundingClientRect(target);
-            const containerRect = getBoundingClientRect(container);
+            const targetRect = domUtils.getBoundingClientRect(target);
+            const containerRect = domUtils.getBoundingClientRect(container);
             const actualOffsetTop = targetRect.top - containerRect.top;
             const actualOffsetBottom = containerRect.top + containerRect.height - (targetRect.top + targetRect.height);
-            const containerScroll = getScrollTop(container);
 
             if (offsetTop != null) {
-              // top --> none
-              if (state.mode === 'top' && containerScroll < state.scrollThreshold) {
-                target.style.position = '';
-                target.style.top = '';
-                target.style.width = '';
-                state.mode = 'none';
-                this.props.onAffix(false);
-                return;
-              }
-
-              // re-affix if parent container scrolls
-              if (state.mode === 'top' && actualOffsetTop !== offsetTop) {
-                target.style.top = `${containerRect.top + offsetTop}px`;
-                return;
-              }
-
-              // none --> top
               if (state.mode === 'none' && actualOffsetTop < offsetTop) {
-                target.style.position = 'fixed';
-                target.style.top = `${containerRect.top + offsetTop}px`;
-                target.style.width = `${targetRect.width}px`;
-
                 state.mode = 'top';
-                state.scrollThreshold = getScrollTop(container) - (offsetTop - actualOffsetTop);
+                state.dy = offsetTop - actualOffsetTop;
+                target.style.transform = `translate3d(0, ${state.dy}px, 0)`;
                 this.props.onAffix(true);
-                return;
+              } else if (state.mode === 'top' && actualOffsetTop !== offsetTop) {
+                state.dy += offsetTop - actualOffsetTop;
+                if (state.dy < 0) {
+                  // top --> none
+                  state.mode = 'none';
+                  target.style.transform = '';
+                  this.props.onAffix(false);
+                } else {
+                  // re-affix
+                  target.style.transform = `translate3d(0, ${state.dy}px, 0)`;
+                }
               }
             } else if (offsetBottom != null) {
-              // bottom --> none
-              if (state.mode === 'bottom' && containerScroll > state.scrollThreshold) {
-                target.style.position = '';
-                target.style.top = '';
-                target.style.width = '';
-                state.mode = 'none';
-                this.props.onAffix(false);
-                return;
-              }
-
-              // re-affix if parent container scrolls
-              if (state.mode === 'bottom' && actualOffsetBottom !== offsetBottom) {
-                target.style.top = `${containerRect.top + containerRect.height - offsetBottom - targetRect.height}px`;
-                return;
-              }
-
-              // none --> bottom
               if (state.mode === 'none' && actualOffsetBottom < offsetBottom) {
-                target.style.position = 'fixed';
-                target.style.top = `${containerRect.top + containerRect.height - offsetBottom - targetRect.height}px`;
-                target.style.width = `${targetRect.width}px`;
-
+                // none --> bottom
                 state.mode = 'bottom';
-                state.scrollThreshold = getScrollTop(container) + (offsetBottom - actualOffsetBottom);
+                state.dy = actualOffsetBottom - offsetBottom;
+                target.style.transform = `translate3d(0, ${state.dy}px, 0)`;
                 this.props.onAffix(true);
-                return;
+              } else if (state.mode === 'bottom' && actualOffsetBottom !== offsetBottom) {
+                state.dy += actualOffsetBottom - offsetBottom;
+                if (state.dy > 0) {
+                  // bottom --> none
+                  state.mode = 'none';
+                  target.style.transform = '';
+                  this.props.onAffix(false);
+                } else {
+                  // re-affix
+                  target.style.transform = `translate3d(0, ${state.dy}px, 0)`;
+                }
               }
             }
           }),
@@ -144,7 +108,7 @@ export class Affix extends React.Component<AffixProps> {
       }),
     );
 
-    this.subscription = instruction$.subscribe();
+    this.subscription = instruction$.subscribe(/* 逻辑放在了 tap 中，这里进行空订阅即可 */);
   }
 
   componentDidUpdate() {

@@ -1,5 +1,7 @@
 import { SideObject } from '@popperjs/core';
 
+// todo 文件重构
+
 // todo 从 @popperjs/core/lib/dom-utils/* 引入了太多 API，可以去掉没用到的 API
 import getClippingRect from '@popperjs/core/lib/dom-utils/getClippingRect';
 import getCompositeRect from '@popperjs/core/lib/dom-utils/getCompositeRect';
@@ -120,6 +122,14 @@ function findCommonOffsetAncestor(target: HTMLElement, scrollParent: HTMLElement
   return getOffsetParent(scrollParent);
 }
 
+function getBoundingClientRect(target: HTMLElement | Window) {
+  if (domUtils.isWindow(target)) {
+    return { left: 0, top: 0, width: window.innerWidth, height: window.innerHeight };
+  } else {
+    return target.getBoundingClientRect();
+  }
+}
+
 // 列出 target 元素上层的所有 offset parents
 function listOffsetParents(target: Element | Window) {
   const result: Array<Element | Window> = [];
@@ -138,6 +148,10 @@ function listOffsetParents(target: Element | Window) {
 
 function fromScrollEvent(element: HTMLElement | Window) {
   return fromEvent(element, 'scroll');
+}
+
+function fromPassiveScrollEvent(element: HTMLElement | Window) {
+  return fromEvent(element, 'scroll', { passive: true });
 }
 
 function fromResizeEvent(element: HTMLElement | Window): Observable<Event | ResizeObserverEntry[]> {
@@ -247,6 +261,8 @@ export const domUtils = {
   getRichVisibleRectsStream,
   applyScrollDelta,
   fromScrollEvent,
+  fromPassiveScrollEvent,
   fromResizeEvent,
   accumulateScrollOffset,
+  getBoundingClientRect,
 };
