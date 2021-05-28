@@ -3,7 +3,7 @@ import _ from 'lodash';
 import React from 'react';
 import styled from 'styled-components';
 
-export default { title: 'overlays / Affix' };
+export default { title: 'Affix' };
 
 const StyledDiv = styled.div`
   width: 100%;

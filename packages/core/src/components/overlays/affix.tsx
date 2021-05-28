@@ -1,6 +1,6 @@
 import cx from 'classnames';
 import React from 'react';
-import { BehaviorSubject, combineLatest, merge, of, Subscription } from 'rxjs';
+import { BehaviorSubject, combineLatest, EMPTY, merge, of, Subscription } from 'rxjs';
 import * as op from 'rxjs/operators';
 import { noop, shallowEqual } from '../../utils';
 import { domUtils } from '../virtual-list/dom-utils';
@@ -17,12 +17,15 @@ export interface AffixProps {
   /** 指定吸附至滚动容器底部的偏移量 */
   offsetBottom?: number;
 
+  /** 是否启用 JS 进行定位 */
+  useJS?: boolean; // todo escapeFromParent ??
+
   children?: React.ReactNode;
   style?: React.CSSProperties;
   className?: string;
 
   /** 吸附状态发生变化时的回调 */
-  onAffix?(affixed: boolean): void;
+  onAffix?(affixed: boolean): void; // todo remove it
 }
 
 export class Affix extends React.Component<AffixProps> {
@@ -32,17 +35,27 @@ export class Affix extends React.Component<AffixProps> {
 
   static defaultProps = {
     onAffix: noop,
+    useJS: false,
   };
 
   componentDidMount() {
     const instruction$ = this.props$.pipe(
-      op.map(() => {
+      op.map(({ useJS }) => {
+        if (!useJS) {
+          return null;
+        }
         const target = this.targetRef.current;
         const container = domUtils.listScrollParents(target)[0] as HTMLElement | Window;
         return { container, target };
       }),
       op.distinctUntilChanged(shallowEqual),
-      op.switchMap(({ target, container }) => {
+      op.switchMap((elements) => {
+        if (elements == null) {
+          return EMPTY;
+        }
+
+        const { target, container } = elements;
+
         const events$ = merge(
           of('init'),
           ...(domUtils.listScrollParents(target) as Array<HTMLElement | Window>)
@@ -121,9 +134,17 @@ export class Affix extends React.Component<AffixProps> {
   }
 
   render() {
-    const { children, style, className } = this.props;
+    const { children, style, className, offsetTop, offsetBottom, useJS } = this.props;
+    const cssStickyStyle: React.CSSProperties = useJS
+      ? null
+      : { position: 'sticky', top: offsetTop, bottom: offsetBottom };
+
     return (
-      <div ref={this.targetRef as React.RefObject<HTMLDivElement>} className={cx('rex-affix', className)} style={style}>
+      <div
+        ref={this.targetRef as React.RefObject<HTMLDivElement>}
+        className={cx('rex-affix', className)}
+        style={{ ...cssStickyStyle, ...style }}
+      >
         {children}
       </div>
     );

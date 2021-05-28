@@ -2,6 +2,7 @@
 
 export * from './components/action-list';
 export * from './components/action-sheet';
+export * from './components/anchor';
 export * from './components/badge';
 export * from './components/breadcrumb';
 export * from './components/button';
