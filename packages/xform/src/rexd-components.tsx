@@ -98,6 +98,7 @@ register(Checkbox, {
   name: 'checkbox',
   renderPreview: renderBooleanPreview,
   fallbackValue: false,
+  valuePropName: 'checked',
   isEmpty: isFalsy,
 });
 

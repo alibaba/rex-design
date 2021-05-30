@@ -1,20 +1,9 @@
-import { Button, Toaster, Confirm, Switch, Notice } from '@rexd/core';
-import {
-  arrayCard,
-  arrayHelpers,
-  arrayTable,
-  Form,
-  FormEnvProvider,
-  FormItem,
-  FormModel,
-  modelUtils,
-  useModel,
-} from '@rexd/xform';
+import { Button, Confirm, Notice, Switch } from '@rexd/core';
+import { arrayCard, arrayHelpers, arrayTable, Form, FormItem, FormModel, modelUtils, useModel } from '@rexd/xform';
 import { action, toJS } from 'mobx';
-import { observer, Observer } from 'mobx-react-lite';
+import { observer } from 'mobx-react-lite';
 import React from 'react';
-import ReactJson from 'react-json-view';
-import { ValuePreview } from './helpers';
+import { BrowserOnlyReactJson, ValuePreview } from './helpers';
 
 export default { title: 'XForm / 业务示例' };
 
@@ -51,46 +40,13 @@ export function TableLayout() {
 // 数组元素内的显示/隐藏控制
 export function VisibilityControlInArrayItem() {
   return (
-    <Form defaultValue={{ array: [{ show: true }, { show: false }] }}>
-      <Form.Array
-        name="array"
-        layout={arrayCard({ showItemOrder: true })}
-        itemFactory={(arrayModel) => {
-          return { show: arrayModel.values.length % 2 === 0 };
-        }}
-      >
-        <FormItem component="switch" name="show" label="是否显示 输入框" fallbackValue={false} />
+    <Form defaultValue={{ array: [{ show: true }] }}>
+      <Form.Array name="array" layout={arrayCard({ showItemOrder: true })}>
+        <FormItem component="checkbox" name="show" label="是否显示 输入框" />
         <Form.ModelConsumer>
-          {(mod) => mod.getValue('show') && <FormItem component="input" name="input" label="输入框" required />}
+          {(mod) => mod.getValue('show') && <FormItem component="input" name="input" label="输入框" />}
         </Form.ModelConsumer>
       </Form.Array>
-    </Form>
-  );
-}
-
-export function LogicsWithinArrayItem() {
-  return (
-    <Form style={{ fontSize: 12 }} defaultValue={{ primary: {}, users: [{}, { username: 'My Name', preview: true }] }}>
-      <Form.Array name="users" layout={arrayCard({ showItemOrder: true })}>
-        <Observer>
-          {() => {
-            // eslint-disable-next-line react-hooks/rules-of-hooks
-            const model = useModel();
-
-            return (
-              <>
-                <FormItem component="switch" name="preview" label="开启预览" />
-                <FormEnvProvider isPreview={model.getValue('preview')}>
-                  <FormItem component="input" name="username" label="用户名" />
-                  <FormItem component="numberInput" name="age" label="年龄" fallbackValue={18} />
-                </FormEnvProvider>
-              </>
-            );
-          }}
-        </Observer>
-      </Form.Array>
-
-      <ValuePreview />
     </Form>
   );
 }
@@ -242,7 +198,7 @@ const CandidateListFormInner = observer(() => {
         显示 ReactJSON
       </div>
 
-      {model.state.showReactJson && <ReactJson src={toJS(model.values)} />}
+      {model.state.showReactJson && <BrowserOnlyReactJson src={toJS(model.values)} />}
     </div>
   );
 });

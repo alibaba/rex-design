@@ -25,8 +25,8 @@ import * as basicExamples from 'story/src/xform/1-basic-examples.stories';
 
 ### 数据索引名称限制
 
-- 字段名称不能包含 `.`
-- 字段名称不能为 `&`
+- 不能包含 `.`
+- 不能为 `&`
 
 ## 开始使用
 
@@ -54,9 +54,9 @@ export function Basic() {
 }
 ```
 
-<details>
+### 与 MobX store 一起使用
 
-<summary>如果你使用 mobx 管理应用状态，那么可以在 store 中创建 FormModel 对象：</summary>
+如果你使用 mobx 管理应用状态，那么可以在 store 中创建 FormModel 对象：
 
 ```jsx
 import { observable, computed, makeObservable } from 'mobx';
@@ -81,8 +81,6 @@ class Store {
 }
 ```
 
-</details>
-
 ## 示例
 
 ### 基本示例
@@ -99,7 +97,7 @@ xform 支持非受控用法，此时我们用 `defaultValue` 来设置表单的�
 
 xform 支持使用 `name="foo.bar.buzz"` 的形式来使用嵌套的数据索引。注意数据索引的名称有一定的限制。
 
-<Story fn={basicExamples.NestedField} />
+<Story fn={basicExamples.NestedDataIndex} />
 
 ### 字段校验
 
@@ -109,9 +107,7 @@ xform 支持使用 `name="foo.bar.buzz"` 的形式来使用嵌套的数据索引
 
 ### 联动
 
-使用 `<Form.Effect watch={watch} effect={effect} />` 后，每当 `watch` 对应的值发生变化时，effect 都会被调用，你可以由此来创建简单的联动。
-
-除了字符串（表示数据索引）之外，watch 也支持接受 [`Field`](api#field)， [`AsyncValue`](api#asyncvalue)，或是这些对象组成的一个数组。具体用法详见 [`Form.Effect` api](api#formeffect).
+使用 `<Form.Effect watch={watch} effect={effect} />` 后，每当 `watch` 对应的值发生变化时，effect 都会被调用。
 
 <Story fn={basicExamples.BasicEffect} />
 
@@ -119,7 +115,7 @@ xform 支持使用 `name="foo.bar.buzz"` 的形式来使用嵌套的数据索引
 
 FormItem 与普通元素（div，p，span）一起使用，实现自定义的表单内布局。
 
-<Story fn={basicExamples.InnerLayout} />
+<Story fn={basicExamples.LayoutWithCustomDiv} />
 
 ### 对表单进行操作
 

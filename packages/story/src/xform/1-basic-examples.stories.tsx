@@ -80,7 +80,13 @@ export function ItemGroup() {
 export function NestedDataIndex() {
   return (
     <Form>
-      <FormItem component="input" label="名称" name="foo.bar.buzz" required />
+      <FormItem
+        component="input"
+        label="名称"
+        name="foo.bar.buzz"
+        required
+        tip="输入后在下方的 json 查看器中检查嵌套数据索引"
+      />
       <ValuePreview defaultShow />
     </Form>
   );
@@ -116,7 +122,7 @@ const ALL_CITIES = [
   { prov: '福建', cities: '厦门、福州、莆田、三明、其他'.split('、') },
 ];
 
-const model2 = new FormModel({ prov: '浙江', cities: [] });
+const model2 = new FormModel({ prov: '浙江', cities: ['杭州', '绍兴'] });
 
 export function BasicEffect() {
   const prov = model2.getField('prov');

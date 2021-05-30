@@ -7,15 +7,19 @@ import * as advancedExamples from 'story/src/xform/2-advanced-examples.stories';
 
 本页将介绍 xform 的一些进阶用法，包括表单片段复用、数组类型表单、嵌套表单数据结构等。
 
+表单联动相关内容的请查看 [xform 联动](effects).
+
 :::danger
-文档内容较多，书写龟速，目前还非常粗糙。
+文档内容较多，书写龟速 (￣３￣)a。
 :::
 
 ## 表单片段复用
 
-先看以下示例，在家庭信息登记表中，「个人信息」、「父亲」等部分的表单内容是完全相同的，但它们的数据存放路径不同。
+先看以下示例，在家庭信息登记表中，「个人信息」、「父亲」、「母亲」等部分的表单内容是完全相同的，但它们的数据存放路径不同。
 
-此时我们将表单中的相同部分抽取到 PersonForm 中，并利用 Form.Object 来指定其中的 FormItem 的**数据索引前缀**。 在 FamilyForm 中，我们为多个 PersonForm 指定不同的 name，即可实现表单片段的复用。 在更复杂的情况下，我们可以为 PersonForm 添加更多 props，使片段复用变得更加灵活。
+<Story fn={advancedExamples.ObjectExample} />
+
+我们将表单中的相同部分抽取到 PersonForm 中，并利用 Form.Object 来指定其中 FormItem 的**数据索引前缀**。 在 FamilyForm 中，我们渲染多个 PersonForm 并指定不同的 name 和 label，实现表单片段的复用。 除了 label 和 name 之外，我们可以按需添加更多其他 props，使片段复用更加灵活。
 
 ```jsx
 function PersonForm({ name, label }) {
@@ -42,8 +46,6 @@ function FamilyForm() {
   );
 }
 ```
-
-<Story fn={advancedExamples.ObjectExample} />
 
 ### `Form.Object`
 
@@ -95,11 +97,9 @@ Form.Array 与 Form.Object 非常类似，但用于处理数组。 注意 Form.A
 
 FormModel（根节点）和 SubModel（子节点）均实现了 [`IModel` interface](api#imodel)，两者拥有几乎相同的方法和属性。大部分情况下，我们不需要区分 FormModel 或 SubModel。通过 `IModel#getSubModel` 方法，我们可以获取子模型的子模型，甚至是子模型的子模型的子模型…… 在实际进行开发时，我们可以根据情况灵活选取子模型，然后在适当的数据层级进行开发。
 
-### 示例 1
+### 示例 1 分步表单
 
-我们可以用一个 FormModel 来管理「分步表单」。
-
-虽然这种方式并不常见，但它有一些独特的优势：
+我们可以用一个 FormModel 来管理「分步表单」。虽然这种方式并不常见，但它有一些独特的优势：
 
 - 复用了表单已有的提交按钮（Form.Submit）和提交成功回调（onSubmit），快速实现「点击下一步触发校验，校验通过后跳转到下一步」功能
 - 可以通过 root 来进行全局管理，例如……
@@ -130,11 +130,11 @@ const root = new FormModel({ step1: {}, step2: {}, step3: {} });
 // STEP-3 Component 省略代码
 ```
 
-(todo 更完善的介绍)
+(todo 更多示例)
 
 ## 接入自定义组件
 
-随着业务需求变得复杂，xform 自带的表单组件也许将无法满足你的需求，此时你可以通过接入自定义组件来拓展 xform。
+随着业务需求变得复杂，xform 自带的表单组件将很难满足全部需求，此时你可以通过接入自定义组件来拓展 xform。
 
 ### 视图接入
 
@@ -232,11 +232,3 @@ const fooFork = fooField.getFork('fooFork')
 同一个数据索引下，不同的 forks 共享一个命名空间，互相之间可以通过 `field.getFork(forkName)` 进行访问；该方法调用过程中，如果 forkName 对应的 fork field 不存在，则会初始化对应的 fork field，并将其返回。
 
 我们可以认为 original fork 是默认存在的一个 fork，当想要使用新的 fork 时，就换一个 forkName；而当想要获取到 original fork 时，则通过 `forkField.getFork('original')` 进行获取。
-
-## 异步数据源
-
-(todo) createAsyncValue
-
-## 复杂联动
-
-(todo reactive + imperative)

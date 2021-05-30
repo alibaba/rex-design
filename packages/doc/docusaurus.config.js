@@ -17,8 +17,7 @@ module.exports = {
       isCloseable: false,
       backgroundColor: '#fffae6',
       textColor: '#5c3b0d',
-      content:
-        'ReX Design alpha 版本迭代中，敬请期待。所有组件支持S和L两种尺寸的切换，S号尺寸目前只支持在移动端查看，L号尺寸只支持在PC端查看，请根据需要进行体验。',
+      content: 'ReX Design alpha 版本迭代中，敬请期待。',
     },
     colorMode: {
       defaultMode: 'light',

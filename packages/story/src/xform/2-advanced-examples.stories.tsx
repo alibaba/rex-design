@@ -1,5 +1,5 @@
 import { Box, Toaster } from '@rexd/core';
-import { arrayCard, createAsyncValue, Form, FormEnvProvider, FormItem, FormModel } from '@rexd/xform';
+import { arrayCard, createAsyncValue, Form, FormItem, FormModel } from '@rexd/xform';
 import { observer } from 'mobx-react-lite';
 import dayjs from 'moment';
 import React from 'react';
@@ -16,32 +16,19 @@ function PersonForm({
     <div {...others} style={{ padding: 8, border: '1px dashed #aaa', ...others.style }}>
       <p style={{ fontWeight: 'bold', margin: '0 0 8px 8px' }}>{label}</p>
       <Form.Object name={name}>
-        <FormItem component="input" name="name" label="姓名" required />
-        <FormItem component="input" name="age" label="年龄" required componentProps={{ style: { width: 100 } }} />
+        <FormItem component="input" name="name" label="姓名" componentProps={{ style: { width: 120 } }} />
+        <FormItem component="input" name="contact" label="联系方式" componentProps={{ style: { width: 180 } }} />
         <FormItem
-          component="testButtonGroup"
-          name="gender"
+          style={{ marginBottom: 0 }}
+          component="singleSelect"
+          name="address.city"
+          label="居住城市"
           required
-          label="性别"
-          componentProps={{ items: ['男', '女'] }}
+          componentProps={{
+            style: { width: 100 },
+            dataSource: '杭州，上海，北京，深圳，广州，武汉，成都'.split('，'),
+          }}
         />
-        <FormEnvProvider>
-          <FormItem
-            component="input"
-            name="contact"
-            label="联系方式"
-            required
-            componentProps={{ style: { width: 200 } }}
-          />
-          <FormItem
-            component="singleSelect"
-            name="address.city"
-            label="居住城市"
-            required
-            componentProps={{ dataSource: '杭州，上海，北京，深圳，广州，武汉，成都'.split('，') }}
-          />
-        </FormEnvProvider>
-        <FormItem component="input" name="address.detail" label="详细地址" />
       </Form.Object>
     </div>
   );
@@ -59,9 +46,10 @@ export function ObjectExample() {
           address: { city: '杭州' },
         },
       }}
+      layout={{ labelWidth: 80, formItemGap: 8 }}
     >
       <h4>家庭信息登记表</h4>
-      <div style={{ display: 'grid', grid: 'auto-flow / repeat(auto-fill, minmax(360px, auto))', gap: 8 }}>
+      <div style={{ display: 'grid', grid: 'auto-flow / repeat(auto-fill, minmax(280px, auto))', gap: 8 }}>
         <PersonForm name="me" label="个人信息" />
         <PersonForm name="father" label="父亲" />
         <PersonForm name="mother" label="母亲" />
@@ -218,20 +206,20 @@ const AsyncEffectInner = observer(() => {
         component="multiSelect"
         label="城市(多选)"
         name="cities"
+        help={cityDataSource$.status === 'loading' ? <span style={{ color: 'red' }}>loading...</span> : undefined}
         componentProps={{
           hasClear: true,
           dataSource: cityDataSource$.current,
-          state: cityDataSource$.status === 'loading' ? 'loading' : undefined,
         }}
       />
       <FormItem
         component="multiSelect"
         label="行政区(多选)"
         name="districts"
+        help={districtDataSource$.status === 'loading' ? <span style={{ color: 'red' }}>loading...</span> : undefined}
         componentProps={{
           hasClear: true,
           dataSource: districtDataSource$.current,
-          state: districtDataSource$.status === 'loading' ? 'loading' : undefined,
         }}
       />
 
@@ -251,7 +239,7 @@ const AsyncEffectInner = observer(() => {
         }}
       />
 
-      {/* 切换城市时，移除不合理的值 */}
+      {/* 切换城市时，移除无效的行政区 */}
       <Form.Effect
         watch={cities}
         effect={(cities) => {

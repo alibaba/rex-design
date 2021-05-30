@@ -15,6 +15,7 @@ const FormLayoutContainer = styled.div`
   --label-width: auto;
   --control-width: auto;
   --form-item-gap: 0;
+  font-size: 12px;
 
   .form-item {
     margin-bottom: var(--form-item-gap);
@@ -76,6 +77,8 @@ const FormLayoutContainer = styled.div`
   .tip {
     margin-left: 4px;
     color: #999;
+    height: 18px;
+    vertical-align: top;
   }
 
   .help {
@@ -216,16 +219,12 @@ export const FormItemGroup = ({
   );
 };
 
-const Tip = ({ align, title }: { align?: any; title?: React.ReactNode }) => (
+const Tip = ({ title }: { align?: any; title?: React.ReactNode }) => (
   <Tooltip
-    // closable={false}
-    // triggerType="hover"
-    // align={align}
     interactionKind="hover"
     title={title}
-  >
-    <Icon type="prompt" className="tip" />
-  </Tooltip>
+    renderTarget={(arg) => <Icon {...arg} type="prompt" className="tip" />}
+  />
 );
 
 export interface FormItemViewProps {

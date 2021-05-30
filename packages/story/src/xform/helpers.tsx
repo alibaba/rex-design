@@ -1,4 +1,4 @@
-import { Checkbox } from '@rexd/core';
+import { Switch } from '@rexd/core';
 import { useModel } from '@rexd/xform';
 import { action, toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
@@ -40,15 +40,14 @@ export const ValuePreview = observer(
 
     return (
       <div style={style}>
-        <div>
-          <Checkbox
-            checked={showReactJson}
+        <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+          <Switch
+            checked={Boolean(showReactJson)}
             onChange={action((b) => {
               model.state.showReactJson = b;
             })}
-          >
-            显示 JSON
-          </Checkbox>
+          />
+          显示 JSON
         </div>
         {showReactJson && <BrowserOnlyReactJson name="表单状态预览" src={data} />}
       </div>
