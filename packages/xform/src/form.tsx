@@ -1,27 +1,29 @@
-import { Button, ButtonProps, FormLayout } from '@rexd/core';
-import { action, observable, reaction, toJS } from 'mobx';
+import { reaction, toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
-import React, { useEffect, useState } from 'react';
-import { FormEnvProvider, IModel, FormModel, useFormEnv, useModel } from './core';
-import { ModelProvider, XFormArray, XFormField, XFormObject } from './core/components';
-import { composeState, observableSetIn } from './core/utils';
-import { modelUtils } from './utils';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { AsyncValue, isAsyncValue } from './async-value';
+import { composeState } from './common-utils';
+import { FormItemGroup, FormItemView, FormLayout, FormLayoutParams, FormReset, FormSubmit } from './form-ui';
+import { Field, FormModel, IModel, SubModel } from './models';
 
-export interface FormProps {
-  /** 受控用法。 xform 模型对象，一般由上层通过 new FormModel(...) 创建而成 */
-  model?: IModel;
+export const ModelContext = React.createContext<IModel<any>>(null);
+ModelContext.displayName = 'ModelContext';
+const ModelProvider = ModelContext.Provider;
 
-  /** 非受控用法。 表单的默认值 */
-  defaultValue?: any;
+export function useModel<T = any>() {
+  return useContext(ModelContext) as IModel<T>;
+}
 
+// 导出该类型，允许上层通过 interface merge 拓展该类型
+export interface FormEnvContextType {
   /** 提交表单时的回调函数，需配合 <Form.Submit /> 使用 */
-  onSubmit?(submitValues: any, model: FormModel): void;
+  onSubmit?(submitValues: any, model: IModel<any>): void;
 
   /** 提交表单时的出错回调函数，需配合 <Form.Submit /> 使用 */
-  onError?(errors: any, model: FormModel): void;
+  onError?(errors: any, model: IModel<any>): void;
 
   /** 清空表单时的回调函数，需配合 <Form.Reset /> 使用 */
-  onReset?(model: FormModel): void;
+  onReset?(model: IModel<any>): void;
 
   /**
    * 是否为预览态
@@ -30,16 +32,43 @@ export interface FormProps {
   isPreview?: boolean;
 
   /**
-   * 布局参数
-   * @category 布局
-   **/
-  layout?: {
-    /** 是否内联布局 */
-    isInline?: boolean;
+   * 组件加载时是否触发校验
+   * @default false
+   * */
+  validateOnMount?: boolean;
 
-    /** 标签位置 */
-    labelPosition?: 'top' | 'left';
-  };
+  /**
+   * 值修改时是否触发校验
+   * @default true
+   * */
+  validateOnChange?: boolean;
+
+  /**
+   * 组件失去焦点时是否触发校验
+   * @default true
+   * */
+  validateOnBlur?: boolean;
+}
+
+const FormEnvContext = React.createContext<FormEnvContextType>({
+  isPreview: false,
+  validateOnMount: false,
+  validateOnBlur: true,
+  validateOnChange: true,
+});
+FormEnvContext.displayName = 'FormEnvContext';
+export const useFormEnv = () => useContext(FormEnvContext);
+export const FormEnvProvider = ({ children, ...override }: FormEnvContextType & { children: React.ReactNode }) => {
+  const parent = useFormEnv();
+  return <FormEnvContext.Provider value={{ ...parent, ...override }}>{children}</FormEnvContext.Provider>;
+};
+
+export interface FormProps<T> extends FormEnvContextType {
+  /** 受控用法。 xform 模型对象，一般由上层通过 new FormModel(...) 创建而成 */
+  model?: IModel<T>;
+
+  /** 非受控用法。 表单的默认值 */
+  defaultValue?: T;
 
   /** @category 布局 */
   style?: React.CSSProperties;
@@ -47,28 +76,31 @@ export interface FormProps {
   /** @category 布局 */
   className?: string;
 
+  /**
+   * 表单布局参数
+   * @category 布局
+   * */
+  layout?: FormLayoutParams;
+
   children?: React.ReactNode;
 }
 
-export function Form({
+export function Form<T>({
   model: modelProp,
   defaultValue,
-  isPreview,
-  layout = { labelPosition: 'left' },
-  onSubmit,
-  onError,
-  onReset,
   children,
   className,
   style,
-}: FormProps) {
+  layout,
+  ...envProps
+}: FormProps<T>) {
   const [_model] = useState(() => new FormModel(defaultValue));
   const model = composeState(modelProp, _model);
 
   return (
-    <FormEnvProvider isPreview={isPreview} onError={onError} onReset={onReset} onSubmit={onSubmit}>
+    <FormEnvProvider {...envProps}>
       <ModelProvider value={model}>
-        <FormLayout {...layout} style={style} className={className}>
+        <FormLayout style={style} className={className} {...layout}>
           {children}
         </FormLayout>
       </ModelProvider>
@@ -76,53 +108,104 @@ export function Form({
   );
 }
 
-function FormSubmit({ type = 'primary', children = '提交', ...props }: ButtonProps) {
-  const root = useModel().root;
-  const formEnv = useFormEnv();
+export interface FormEffectProps<T = any> {
+  watch: (() => T) | string | Field<T> | AsyncValue<T> | Array<string | Field | AsyncValue<any>>;
+  effect(value: T, detail: { prev: T; next: T; model: IModel<any> }): void;
+  fireImmediately?: boolean;
+}
 
-  return (
-    <Button
-      onClick={() => modelUtils.submit(root, { ...formEnv, valueFilter: 'mounted' })}
-      type={type}
-      children={children}
-      {...props}
-    />
+const FormEffect = observer(function FormEffect<T = any>({ watch, effect, fireImmediately }: FormEffectProps<T>) {
+  const model = useModel();
+
+  const boundEffect = useCallback(
+    (next: T, prev: T) => {
+      return effect(next, { model, prev, next });
+    },
+    [model, effect],
   );
-}
 
-function FormReset({ children = '重置', ...props }: ButtonProps) {
-  const root = useModel().root;
-  const formEnv = useFormEnv();
-
-  return <Button onClick={action(() => modelUtils.reset(root, formEnv))} children={children} {...props} />;
-}
-
-const FormEffect = observer(
-  ({ watch, effect }: { watch: string; effect(value: any, detail: { prev: any; next: any; model: IModel }): void }) => {
-    const model = useModel();
-    const field = model.getField(watch);
-
-    useEffect(() => {
+  useEffect(() => {
+    if (typeof watch === 'string') {
+      return reaction(() => toJS(model.getValue(watch)) as T, boundEffect, { fireImmediately });
+    } else if (typeof watch === 'function') {
+      return reaction(watch, boundEffect);
+    } else if (watch instanceof Field) {
+      return reaction(() => watch.value, boundEffect, { fireImmediately });
+    } else if (isAsyncValue(watch)) {
+      return reaction(() => watch.current, boundEffect, { fireImmediately });
+    } else if (Array.isArray(watch)) {
       return reaction(
-        () => toJS(field.value),
-        (next, prev) => effect(next, { model, prev, next }),
+        () => {
+          return watch.map((t) => {
+            if (typeof t === 'string') {
+              return toJS(model.getValue(t));
+            } else if (isAsyncValue(t)) {
+              return t.current;
+            } else {
+              return t.value;
+            }
+          }) as any;
+        },
+        boundEffect,
+        { fireImmediately },
       );
-    }, [model, watch, field, effect]);
+    }
+  }, [model, watch, boundEffect, fireImmediately]);
 
-    return null as React.ReactElement;
-  },
-);
+  return null as React.ReactElement;
+});
 
-const FormModelConsumer = observer(({ children }: React.ConsumerProps<IModel>) => {
+const FormModelConsumer = observer(({ children }: React.ConsumerProps<IModel<any>>) => {
   const model = useModel();
   return children(model) as React.ReactElement;
+});
+
+export interface FormArrayLayoutInput {
+  arrayModel: SubModel<unknown[]>;
+  itemCount: number;
+  itemContent: React.ReactNode;
+  itemFactory(arrayModel: SubModel<unknown[]>): any;
+}
+
+export interface FormArrayProps {
+  name: string;
+  layout(input: FormArrayLayoutInput): React.ReactElement;
+  children: React.ReactNode;
+  itemFactory?(arrayModel: SubModel<unknown[]>): any;
+}
+
+/** 对象数组表单 */
+const FormArray = observer(({ name, children, layout, itemFactory }: FormArrayProps) => {
+  const parent = useModel();
+  if (name === '&') {
+    throw new Error(`XFormArray 不支持 name=&. path=(${parent.path.join('.') || 'root'})`);
+  }
+  const arrayModel = parent.getSubModel(name) as SubModel<unknown[]>;
+  const itemCount = arrayModel.values?.length ?? 0;
+
+  return (
+    <ModelProvider value={arrayModel as IModel}>
+      {layout({ arrayModel, itemCount, itemContent: children, itemFactory })}
+    </ModelProvider>
+  );
+});
+
+/** 为该组件下的 XFormField 添加一个数据字段前缀 */
+const FormObject = observer(({ name, children }: { children: React.ReactNode; name: string }) => {
+  const parent = useModel();
+  if (name === '&') {
+    return <>{children}</>;
+  }
+  return <ModelProvider value={parent.getSubModel(name)} children={children} />;
 });
 
 Form.Submit = FormSubmit;
 Form.Reset = FormReset;
 Form.Effect = FormEffect;
-Form.Array = XFormArray;
-Form.Object = XFormObject;
-Form.Field = XFormField;
+Form.Array = FormArray;
+Form.Object = FormObject;
 Form.ModelProvider = ModelProvider;
 Form.ModelConsumer = FormModelConsumer;
+Form.Layout = FormLayout;
+Form.ItemGroup = FormItemGroup;
+Form.ItemView = FormItemView;

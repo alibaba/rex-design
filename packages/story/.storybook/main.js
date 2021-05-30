@@ -21,6 +21,10 @@ class IgnoreNotFoundExportPlugin {
 module.exports = {
   stories: ['../src/**/*.stories.tsx'],
 
+  typescript: {
+    reactDocgen: false,
+  },
+
   addons: [
     {
       name: '@storybook/addon-essentials',

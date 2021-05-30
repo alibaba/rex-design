@@ -1,6 +1,8 @@
-import { dayjs, Group, Toaster } from '@rexd/core';
-import { arrayCard, Form, FormItem, FormModel } from '@rexd/xform';
-import React, { useState } from 'react';
+import { Box, Toaster } from '@rexd/core';
+import { arrayCard, createAsyncValue, Form, FormEnvProvider, FormItem, FormModel } from '@rexd/xform';
+import { observer } from 'mobx-react-lite';
+import dayjs from 'moment';
+import React from 'react';
 import { ValuePreview } from './helpers';
 
 export default { title: 'XForm / 进阶示例' };
@@ -11,17 +13,35 @@ function PersonForm({
   ...others
 }: { name: string; label: React.ReactNode } & React.DelHTMLAttributes<HTMLDivElement>) {
   return (
-    <div {...others} style={{ border: '1px dashed var(--rex-colors-emphasis-30)', ...others.style }}>
-      <p style={{ fontWeight: 'bold', margin: '12px 0 8px 8px' }}>{label}</p>
+    <div {...others} style={{ padding: 8, border: '1px dashed #aaa', ...others.style }}>
+      <p style={{ fontWeight: 'bold', margin: '0 0 8px 8px' }}>{label}</p>
       <Form.Object name={name}>
         <FormItem component="input" name="name" label="姓名" required />
-        <FormItem component="input" name="contact" label="联系方式" />
+        <FormItem component="input" name="age" label="年龄" required componentProps={{ style: { width: 100 } }} />
         <FormItem
-          component="singleSelect"
-          name="address.city"
-          label="居住城市"
-          componentProps={{ dataSource: '杭州，上海，北京，深圳，广州，武汉，成都'.split('，'), style: { width: 240 } }}
+          component="testButtonGroup"
+          name="gender"
+          required
+          label="性别"
+          componentProps={{ items: ['男', '女'] }}
         />
+        <FormEnvProvider>
+          <FormItem
+            component="input"
+            name="contact"
+            label="联系方式"
+            required
+            componentProps={{ style: { width: 200 } }}
+          />
+          <FormItem
+            component="singleSelect"
+            name="address.city"
+            label="居住城市"
+            required
+            componentProps={{ dataSource: '杭州，上海，北京，深圳，广州，武汉，成都'.split('，') }}
+          />
+        </FormEnvProvider>
+        <FormItem component="input" name="address.detail" label="详细地址" />
       </Form.Object>
     </div>
   );
@@ -33,6 +53,8 @@ export function ObjectExample() {
       defaultValue={{
         me: {
           name: 'rex design',
+          gender: '男',
+          age: '1',
           contact: 'alibaba.github.io/rex-design/',
           address: { city: '杭州' },
         },
@@ -43,7 +65,7 @@ export function ObjectExample() {
         <PersonForm name="me" label="个人信息" />
         <PersonForm name="father" label="父亲" />
         <PersonForm name="mother" label="母亲" />
-        <PersonForm name="other" label="其他紧急联系人" />
+        <PersonForm name="urgency" label="其他紧急联系人" />
       </div>
 
       <ValuePreview />
@@ -56,6 +78,7 @@ const STYLES = '通勤，百搭，时尚，休闲，原创设计，复古，民�
 
 function showSubmitToast(values: any) {
   Toaster.show({
+    placement: 'top-right',
     content: (
       <div>
         <p style={{ marginBottom: 4, color: '--rex-colors-green-60' }}>正在提交...</p>
@@ -67,6 +90,7 @@ function showSubmitToast(values: any) {
 
 function showErrorToast(errors: any) {
   Toaster.show({
+    placement: 'top-right',
     content: (
       <div>
         <p style={{ marginBottom: 4, color: 'var(--rex-colors-red-60)' }}>表单中包含错误！</p>
@@ -121,25 +145,126 @@ export function ArrayExample() {
         <FormItem component="input" label="客户联系地址" name="address" />
       </Form.Array>
 
-      <Group mt="m">
+      <Box mt="m">
         <Form.Submit />
         <Form.Reset />
-      </Group>
+      </Box>
 
       <ValuePreview />
     </Form>
   );
 }
 
-export function SelfReference() {
-  const [root] = useState(new FormModel({ texts: [] as string[] }));
-
+export function ArrayOfString() {
   return (
-    <Form model={root}>
+    <Form defaultValue={{ texts: [] }}>
       <Form.Array name="texts" layout={arrayCard({ showItemOrder: true })} itemFactory={() => ''}>
         <FormItem component="input" label="姓名" name="&" componentProps={{ placeholder: '请输入你的名字' }} />
       </Form.Array>
       <ValuePreview />
     </Form>
   );
+}
+
+const ALL_CITIES = [
+  { prov: '浙江', cities: '杭州、绍兴、宁波、嘉兴、其他'.split('、') },
+  { prov: '江苏', cities: '南京、常州、镇江、苏州、其他'.split('、') },
+  { prov: '福建', cities: '厦门、福州、莆田、三明、其他'.split('、') },
+];
+
+const delay = (ms: number) =>
+  new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+
+const model3 = new FormModel({
+  prov: '浙江',
+  cities: [] as string[],
+  districts: [] as string[],
+});
+
+const cityDataSource$ = createAsyncValue(async () => {
+  // 依赖收集需要发生在同步代码块中
+  const prov = model3.getValue('prov');
+
+  // 根据省份拉取城市列表， 1000ms 延迟用于模拟实际情况
+  await delay(1000);
+  return ALL_CITIES.find((item) => item.prov === prov).cities;
+}, []);
+
+const districtDataSource$ = createAsyncValue(async () => {
+  // 依赖收集需要发生在同步代码块中
+  const cities: string[] = model3.getValue('cities');
+
+  // 根据省份拉取城市列表， 1000ms 延迟用于模拟实际情况
+  await delay(1000);
+  return cities.flatMap((city) => [`${city}_001区`, `${city}_002区`, `${city}_003区`]);
+}, []);
+
+const AsyncEffectInner = observer(() => {
+  const prov = model3.getField('prov');
+  const cities = model3.getField('cities');
+  const districts = model3.getField('districts');
+
+  return (
+    <Form model={model3}>
+      <FormItem
+        component="singleSelect"
+        label="省份(单选)"
+        name="prov"
+        componentProps={{ dataSource: ALL_CITIES.map((item) => item.prov) }}
+      />
+      <FormItem
+        component="multiSelect"
+        label="城市(多选)"
+        name="cities"
+        componentProps={{
+          hasClear: true,
+          dataSource: cityDataSource$.current,
+          state: cityDataSource$.status === 'loading' ? 'loading' : undefined,
+        }}
+      />
+      <FormItem
+        component="multiSelect"
+        label="行政区(多选)"
+        name="districts"
+        componentProps={{
+          hasClear: true,
+          dataSource: districtDataSource$.current,
+          state: districtDataSource$.status === 'loading' ? 'loading' : undefined,
+        }}
+      />
+
+      {/* 切换「省份」时，清空城市 */}
+      <Form.Effect
+        watch={prov}
+        effect={() => {
+          cities.value = [];
+        }}
+      />
+
+      {/* 城市列表加载完成时，自动设置为第一个城市 */}
+      <Form.Effect
+        watch={cityDataSource$}
+        effect={(cityList) => {
+          cities.value = cityList.slice(0, 1);
+        }}
+      />
+
+      {/* 切换城市时，移除不合理的值 */}
+      <Form.Effect
+        watch={cities}
+        effect={(cities) => {
+          const isValid = (district: string) => cities.includes(district.slice(0, 2));
+          districts.value = districts.value.filter(isValid);
+        }}
+      />
+
+      <ValuePreview />
+    </Form>
+  );
+});
+
+export function AsyncEffect() {
+  return <AsyncEffectInner />;
 }

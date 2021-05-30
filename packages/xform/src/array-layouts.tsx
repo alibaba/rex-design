@@ -1,9 +1,11 @@
-import { BaseTable, Button, Column } from '@rexd/core';
+import { BaseTable, Button } from '@rexd/core';
+import { ArtColumn as Column } from 'ali-react-table';
+import cx from 'classnames';
 import { action } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { arrayHelpers, XFormArrayLayoutInput } from './core';
-import { XFormObject } from './core/components';
+import { arrayHelpers } from './array-helpers';
+import { Form, FormArrayLayoutInput } from './form';
 import { FormItem } from './form-item';
 
 const range = (n: number) => {
@@ -14,17 +16,15 @@ const range = (n: number) => {
   return result;
 };
 
-export const arrayCard = ({
-  title,
-  showItemCount,
-  showItemOrder,
-  style,
-}: {
+export interface ArrayCardOptions {
   title?: string;
   showItemCount?: boolean;
   showItemOrder?: boolean;
   style?: React.CSSProperties;
-} = {}) => {
+  className?: string;
+}
+
+export const arrayCard = ({ title, showItemCount, showItemOrder, style, className }: ArrayCardOptions = {}) => {
   const arrayItemActionsStyle: React.CSSProperties = {
     position: 'absolute',
     top: 8,
@@ -34,10 +34,10 @@ export const arrayCard = ({
     zIndex: 20,
   };
 
-  return (input: XFormArrayLayoutInput): React.ReactElement => {
+  return (input: FormArrayLayoutInput): React.ReactElement => {
     const { arrayModel, itemContent, itemCount, itemFactory } = input;
     return (
-      <div className="xform-array" style={{ marginTop: 16, marginBottom: 8, ...style }}>
+      <div className={cx('xform-array', className)} style={{ marginTop: 16, marginBottom: 8, ...style }}>
         {(title || showItemCount) && (
           <h2>
             {title ?? '列表'} {showItemCount && `(${itemCount})`}
@@ -87,7 +87,7 @@ const ArrayItemActions = observer(
     itemCount,
     itemIndex,
     style,
-  }: XFormArrayLayoutInput & { itemIndex: number; style?: React.CSSProperties }) => {
+  }: FormArrayLayoutInput & { itemIndex: number; style?: React.CSSProperties }) => {
     return (
       <div style={style}>
         <Button
@@ -136,7 +136,7 @@ export const arrayTable = ({
 } = {}) => {
   const arrayItemActionsStyle = { display: 'flex', gap: 0 } as const;
 
-  return (input: XFormArrayLayoutInput) => {
+  return (input: FormArrayLayoutInput) => {
     const { arrayModel, itemContent, itemCount, itemFactory } = input;
     const formItems: any[] = React.Children.toArray(itemContent).filter((item: any) => item.type === FormItem);
 
@@ -144,12 +144,14 @@ export const arrayTable = ({
       name: typeof item.props.label === 'string' ? item.props.label : null,
       title: item.props.label,
       ...item.props['x-table-column'],
-      render(_, row) {
+      render(_: any, row: any) {
         // TODO XFormObject 最好是能够放到 tr 元素上，需要 ali-react-table 进行支持
         return (
-          <XFormObject name={String(row.itemIndex)}>
-            {React.cloneElement(item, { label: null, isInline: true })}
-          </XFormObject>
+          <Form.Object name={String(row.itemIndex)}>
+            {React.cloneElement(item, {
+              className: cx(item.className, 'minimal'),
+            })}
+          </Form.Object>
         );
       },
     }));
@@ -169,7 +171,7 @@ export const arrayTable = ({
       columns.push({
         name: '',
         ...operationColumn,
-        render(_, row) {
+        render(_: any, row: any) {
           return <ArrayItemActions {...input} itemIndex={row.itemIndex} style={arrayItemActionsStyle} />;
         },
       });
@@ -186,6 +188,9 @@ export const arrayTable = ({
             itemIndex,
           }))}
           columns={columns}
+          style={{
+            '--cell-padding': '8px',
+          }}
         />
         <div
           style={{

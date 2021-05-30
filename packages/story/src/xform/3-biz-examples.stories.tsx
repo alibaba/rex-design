@@ -1,10 +1,24 @@
-import { arrayCard, arrayTable, Form, FormEnvProvider, FormItem, useModel } from '@rexd/xform';
-import { observer } from 'mobx-react-lite';
+import { Button, Toaster, Confirm, Switch, Notice } from '@rexd/core';
+import {
+  arrayCard,
+  arrayHelpers,
+  arrayTable,
+  Form,
+  FormEnvProvider,
+  FormItem,
+  FormModel,
+  modelUtils,
+  useModel,
+} from '@rexd/xform';
+import { action, toJS } from 'mobx';
+import { observer, Observer } from 'mobx-react-lite';
 import React from 'react';
+import ReactJson from 'react-json-view';
 import { ValuePreview } from './helpers';
 
 export default { title: 'XForm / 业务示例' };
 
+// 表格布局
 export function TableLayout() {
   const layout = arrayTable({
     defaultColumnWidth: 180,
@@ -18,13 +32,13 @@ export function TableLayout() {
         <FormItem component="input" name="aa" label="字段1" required />
         <FormItem component="input" name="bb" label="字段2" />
         <FormItem component="input" name="cc" label="字段3" />
-        <FormItem component="dateRangePicker" name="dd" label="字段4" required x-table-column={{ width: 240 }} />
+        <FormItem component="dateRangePicker" name="dd" label="字段4" required x-table-column={{ width: 280 }} />
       </Form.Array>
 
       <Form.ModelConsumer>
         {(mod) =>
           mod.getValue('array', []).length > 3 && (
-            <div style={{ color: 'var(--rex-colors-red-50)', marginTop: 4 }}>表格内的条目数量不能大于3</div>
+            <div style={{ color: 'red', marginTop: 4 }}>表格内的条目数量不能大于3</div>
           )
         }
       </Form.ModelConsumer>
@@ -45,7 +59,7 @@ export function VisibilityControlInArrayItem() {
           return { show: arrayModel.values.length % 2 === 0 };
         }}
       >
-        <FormItem component="switch" name="show" label="是否显示 输入框" defaultValue={false} />
+        <FormItem component="switch" name="show" label="是否显示 输入框" fallbackValue={false} />
         <Form.ModelConsumer>
           {(mod) => mod.getValue('show') && <FormItem component="input" name="input" label="输入框" required />}
         </Form.ModelConsumer>
@@ -54,61 +68,184 @@ export function VisibilityControlInArrayItem() {
   );
 }
 
-// 内部订阅, 监听 person.effects.aaa 值改变，当变为 123 时，ddd 的值被设置
-export function DeclarativeEffect() {
-  return (
-    <Form>
-      <Form.Effect
-        watch="person.effects.aaa"
-        effect={(value, { model }) => {
-          if (value === '123') {
-            model.setValue('ddd', 'this is linkage relationship');
-          } else if (value === '') {
-            model.setValue('ddd', '');
-          }
-        }}
-      />
-
-      <p>内部订阅, 监听 person.effects.aaa 值改变，当变为 123 时，ddd 的值被设置；当 aaa 变为空时，ddd 也被清空</p>
-
-      <Form.Object name="person.effects">
-        <FormItem component="input" name="aaa" label="person.effects.aaa" />
-        <FormItem component="input" name="bbb" label="person.effects.bbb" />
-      </Form.Object>
-      <FormItem component="input" name="ccc" label="ccc" />
-      <FormItem component="input" name="ddd" label="ddd" />
-
-      <ValuePreview />
-    </Form>
-  );
-}
-
-const SubGroup = observer(() => {
-  const model = useModel();
-
-  return (
-    <>
-      <FormItem component="switch" name="preview" label="开启预览" />
-      <FormEnvProvider isPreview={model.getValue('preview')}>
-        <FormItem component="input" name="username" label="用户名" />
-        <FormItem component="numberInput" name="age" label="年龄" defaultValue={18} />
-      </FormEnvProvider>
-    </>
-  );
-});
-
 export function LogicsWithinArrayItem() {
   return (
     <Form style={{ fontSize: 12 }} defaultValue={{ primary: {}, users: [{}, { username: 'My Name', preview: true }] }}>
-      <Form.Object name="primary">
-        <SubGroup />
-      </Form.Object>
-
       <Form.Array name="users" layout={arrayCard({ showItemOrder: true })}>
-        <SubGroup />
+        <Observer>
+          {() => {
+            // eslint-disable-next-line react-hooks/rules-of-hooks
+            const model = useModel();
+
+            return (
+              <>
+                <FormItem component="switch" name="preview" label="开启预览" />
+                <FormEnvProvider isPreview={model.getValue('preview')}>
+                  <FormItem component="input" name="username" label="用户名" />
+                  <FormItem component="numberInput" name="age" label="年龄" fallbackValue={18} />
+                </FormEnvProvider>
+              </>
+            );
+          }}
+        </Observer>
       </Form.Array>
 
       <ValuePreview />
     </Form>
   );
 }
+
+const model = new FormModel({
+  activeIndex: 0,
+  items: [
+    { id: 1001, name: '小明', gender: '男', phone: '18866668888' },
+    { id: 1002, name: '小红', gender: '女', phone: '' },
+  ],
+});
+
+const Candidate = observer(() => {
+  const mod = useModel();
+  return (
+    <>
+      <FormItem name="name" label="姓名" component="input" required componentProps={{ style: { width: 120 } }} />
+      <FormItem
+        name="phone"
+        label="联系电话"
+        component="input"
+        required
+        componentProps={{ style: { width: 200 } }}
+        validate={(v) => (/[\d-]{11,13}/.test(v) ? null : '请输入有效的手机号码（11位数字）')}
+      />
+      <FormItem
+        name="gender"
+        label="性别"
+        component="testButtonGroup"
+        required
+        componentProps={{ items: ['男', '女'] }}
+      />
+      <FormItem
+        name="originType"
+        label="来源"
+        component="testButtonGroup"
+        required
+        componentProps={{ items: ['校园招聘', '社会招聘'] }}
+      />
+      {mod.getValue('originType') === '校园招聘' ? (
+        <>
+          <FormItem
+            name="school"
+            label="毕业院校"
+            required
+            component="singleSelect"
+            componentProps={{
+              dataSource: '清华大学，北京大学，浙江大学，南京大学，复旦大学，上海交通大学，其他'.split('，'),
+              style: { width: 150 },
+            }}
+          />
+          <FormItem
+            name="graduateDate"
+            label="毕业时间"
+            required
+            component="datePicker"
+            componentProps={{
+              format: 'YYYY-MM',
+            }}
+          />
+        </>
+      ) : (
+        <FormItem
+          name="experience"
+          label="工作年限"
+          component="numberInput"
+          fallbackValue={0}
+          componentProps={{ min: 0, max: 30 }}
+        />
+      )}
+      <FormItem name="address" label="地址" component="input" />
+    </>
+  );
+});
+
+const CandidateListFormInner = observer(() => {
+  const data = model.values;
+  const arrayModel = model.getSubModel('items');
+
+  const addCandidate = action(() => {
+    const mod = arrayModel.getSubModel(model.values.activeIndex);
+
+    modelUtils.validateAll(mod).then(
+      action((result) => {
+        if (result.hasError) {
+          Notice.warning({ title: '请先完成当前表单', closeable: true });
+          return;
+        }
+
+        arrayHelpers.append(arrayModel);
+        model.values.activeIndex = model.values.items.length - 1;
+      }),
+    );
+  });
+
+  return (
+    <div>
+      <div style={{ display: 'flex', height: 400, border: 'solid 1px #ccc' }}>
+        <div style={{ display: 'flex', flex: '0 0 250px', flexDirection: 'column' }}>
+          {data.items.map((item, index) => (
+            <div
+              key={arrayHelpers.getKey(arrayModel, index)}
+              onClick={action(() => {
+                model.values.activeIndex = index;
+              })}
+              style={{
+                cursor: 'pointer',
+                paddingLeft: 16,
+                height: 48,
+                display: 'flex',
+                alignItems: 'center',
+                backgroundColor: data.activeIndex === index ? '#ccc' : '',
+              }}
+            >
+              <div>{item.name ?? <span style={{ color: '#999' }}>[未填写姓名]</span>}</div>
+
+              <Confirm
+                title={`确定要删除 ${item.name} 么？`}
+                onOk={() => {
+                  arrayHelpers.delete(arrayModel, index);
+                  if (arrayModel.values.length === 0) {
+                    addCandidate();
+                  }
+                }}
+              >
+                <Button size="small" style={{ marginLeft: 'auto', marginRight: 16 }}>
+                  移除
+                </Button>
+              </Confirm>
+            </div>
+          ))}
+          <Button onClick={addCandidate}>新增候选人</Button>
+        </div>
+
+        <div style={{ flex: 'auto', padding: 16, borderLeft: 'solid 1px #ccc' }}>
+          <Form model={model.getSubModel('items').getSubModel(model.values.activeIndex)}>
+            <Candidate />
+          </Form>
+        </div>
+      </div>
+
+      <div style={{ margin: 4 }}>
+        <Switch
+          checked={model.state.showReactJson}
+          onChange={action((b) => {
+            model.state.showReactJson = b;
+          })}
+        />
+        显示 ReactJSON
+      </div>
+
+      {model.state.showReactJson && <ReactJson src={toJS(model.values)} />}
+    </div>
+  );
+});
+
+export const CandidateListForm = () => <CandidateListFormInner />;
+CandidateListForm.storyName = '候选人名单';

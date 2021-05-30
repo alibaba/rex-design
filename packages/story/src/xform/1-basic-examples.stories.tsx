@@ -1,12 +1,14 @@
-import { Button, dayjs } from '@rexd/core';
+import { Button } from '@rexd/core';
 import { Form, FormItem, FormModel, modelUtils } from '@rexd/xform';
 import { action } from 'mobx';
+import { Observer } from 'mobx-react-lite';
+import moment from 'moment';
 import React from 'react';
 import { ValuePreview } from './helpers';
 
 export default { title: 'XForm / 基本示例' };
 
-const simpleFormModel = new FormModel({
+const model1 = new FormModel({
   name: '小河马',
   phone: '188-8888-8888',
   address: '杭州市余杭区文一西路969号',
@@ -14,7 +16,7 @@ const simpleFormModel = new FormModel({
 
 export function Basic() {
   return (
-    <Form model={simpleFormModel}>
+    <Form model={model1}>
       <FormItem component="input" label="姓名" name="name" required />
       <FormItem component="input" label="电话" name="phone" required />
       <FormItem component="input" label="地址" name="address" />
@@ -34,12 +36,13 @@ export function BasicUncontrolled() {
       onSubmit={(values) => console.log('onSubmit:', values)}
       onError={(errors) => console.log('onError:', errors)}
       onReset={() => console.log('onReset')}
+      layout={{ labelPosition: 'top' }}
     >
       <FormItem component="input" label="姓名" name="name" required />
       <FormItem component="input" label="电话" name="phone" required />
       <FormItem component="input" label="地址" name="address" />
 
-      <div style={{ marginLeft: 100, display: 'flex', gap: 8 }}>
+      <div style={{ display: 'flex', gap: 16 }}>
         <Form.Submit />
         <Form.Reset />
       </div>
@@ -47,7 +50,34 @@ export function BasicUncontrolled() {
   );
 }
 
-export function NestedField() {
+export function ItemGroup() {
+  return (
+    <Form>
+      <FormItem component="input" label="实验姓名" name="name" required />
+
+      <Form.ItemGroup label="实验目标2" labelWidth={50} controlWidth={200}>
+        <FormItem
+          label="从"
+          component="select"
+          required
+          name="arg.from"
+          componentProps={{ hasClear: true, dataSource: '1234'.split('') }}
+        />
+        <FormItem
+          label="至"
+          component="select"
+          name="arg.to"
+          componentProps={{ hasClear: true, dataSource: '1234'.split('') }}
+          required
+        />
+      </Form.ItemGroup>
+
+      <ValuePreview defaultShow />
+    </Form>
+  );
+}
+
+export function NestedDataIndex() {
   return (
     <Form>
       <FormItem component="input" label="名称" name="foo.bar.buzz" required />
@@ -55,6 +85,7 @@ export function NestedField() {
     </Form>
   );
 }
+NestedDataIndex.storyName = '嵌套的数据索引';
 
 export function Validation() {
   return (
@@ -79,51 +110,55 @@ export function Validation() {
   );
 }
 
-export function BasicEffect() {
-  return (
-    <Form defaultValue={{ subsidiary: '北京', shops: ['杭州东新东路店'] }}>
-      <Form.Effect
-        watch="subsidiary"
-        effect={(value, { model }) => {
-          model.setValue('shops', []);
-        }}
-      />
-      <FormItem
-        component="singleSelect"
-        label="子公司 (切换子公司后，门店将被清空)"
-        name="subsidiary"
-        componentProps={{
-          dataSource: '北京，上海，浙江，广州'.split('，'),
-        }}
-      />
-      <FormItem
-        component="multiSelect"
-        name="shops"
-        label="门店"
-        componentProps={{
-          hasClear: true,
-          dataSource: [
-            '杭州东新东路店',
-            '盒马杭州解百店',
-            '杭州临平中都店',
-            '杭州亲橙里店',
-            '杭州庆春店',
-            '杭州下沙银泰店',
-            '杭州星光大道店',
-            '杭州西溪龙湖店',
-            '杭州闸弄口店',
-          ],
-        }}
-      />
+const ALL_CITIES = [
+  { prov: '浙江', cities: '杭州、绍兴、宁波、嘉兴、其他'.split('、') },
+  { prov: '江苏', cities: '南京、常州、镇江、苏州、其他'.split('、') },
+  { prov: '福建', cities: '厦门、福州、莆田、三明、其他'.split('、') },
+];
 
-      <ValuePreview />
-    </Form>
+const model2 = new FormModel({ prov: '浙江', cities: [] });
+
+export function BasicEffect() {
+  const prov = model2.getField('prov');
+  const cities = model2.getField('cities');
+
+  return (
+    <Observer>
+      {() => (
+        <Form model={model2}>
+          <FormItem
+            component="singleSelect"
+            label="省份(单选)"
+            field={prov}
+            componentProps={{ dataSource: ALL_CITIES.map((item) => item.prov) }}
+          />
+          <FormItem
+            component="multiSelect"
+            label="城市(多选)"
+            field={cities}
+            componentProps={{
+              hasClear: true,
+              dataSource: ALL_CITIES.find((item) => item.prov === prov.value).cities,
+            }}
+          />
+
+          <Form.Effect
+            watch={prov}
+            effect={() => {
+              cities.value = [];
+            }}
+          />
+
+          <ValuePreview />
+        </Form>
+      )}
+    </Observer>
   );
 }
 
-export function InnerLayout() {
+export function LayoutWithCustomDiv() {
   return (
-    <Form>
+    <Form layout={{ labelPosition: 'left' }}>
       <div style={{ border: '1px dashed #ccc', padding: 8 }}>
         <p style={{ marginBottom: 8, fontWeight: 'bold' }}>商品参数</p>
         <FormItem component="input" label="SKU code" name="sku.code" required />
@@ -136,14 +171,14 @@ export function InnerLayout() {
           component="datePicker"
           label="查询日期"
           name="date.current"
-          defaultValue={dayjs().format('YYYY-MM-DD')}
+          fallbackValue={moment().format('YYYY-MM-DD')}
           componentProps={{ format: 'YYYY-MM-DD' }}
         />
         <FormItem
           component="datePicker"
           label="对比日期"
           name="date.compare"
-          defaultValue={dayjs().subtract(1, 'day').format('YYYY-MM-DD')}
+          fallbackValue={moment().subtract(1, 'day').format('YYYY-MM-DD')}
           componentProps={{ format: 'YYYY-MM-DD' }}
         />
       </div>
@@ -152,7 +187,7 @@ export function InnerLayout() {
   );
 }
 
-const model = new FormModel({
+const model4 = new FormModel({
   name: '小河马',
   phone: '',
   address: '杭州市余杭区文一西路969号',
@@ -163,14 +198,29 @@ export function WithActions() {
   return (
     <div>
       <div style={{ display: 'flex', gap: 8, marginBottom: 12 }}>
-        <Button onClick={() => modelUtils.validateAll(model)}>校验全部</Button>
-        <Button onClick={() => modelUtils.clearError(model)}>清空错误</Button>
-        <Button onClick={() => modelUtils.reset(model)}>重置表单</Button>
+        <Button onClick={() => modelUtils.validateAll(model4)}>校验全部</Button>
+        <Button onClick={() => modelUtils.clearError(model4)}>清空错误</Button>
+        <Button
+          onClick={action(() => {
+            model4.values = {} as any;
+            modelUtils.clearError(model4);
+          })}
+        >
+          重置表单
+        </Button>
       </div>
 
-      <Form model={model}>
-        <FormItem component="input" label="姓名" name="name" required />
-        <FormItem component="input" label="电话" name="phone" required />
+      <Form model={model4}>
+        <FormItem
+          component="input"
+          label="姓名"
+          name="name"
+          required
+          help="help text...."
+          tip="tip content"
+          componentProps={{ hasClear: true }}
+        />
+        <FormItem component="input" label="电话" name="phone" required help />
         <FormItem component="input" label="地址" name="address" />
         <ValuePreview />
       </Form>
