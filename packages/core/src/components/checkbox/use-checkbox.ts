@@ -91,14 +91,14 @@ export function useCheckbox(props: UseCheckboxProps) {
   );
 
   const getInputProps = useCallback(
-    (props, forwardedRef = null) => {
+    (props) => {
       return {
         type: 'checkbox',
         name,
         value,
         onChange: handleChange,
         checked: checkedStateValue.checked,
-        ref: forwardedRef,
+        // ref: forwardedRef,
         ...props,
       };
     },

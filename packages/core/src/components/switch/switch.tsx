@@ -62,7 +62,13 @@ const SwitchSlider = styled.span`
 `;
 
 export interface SwitchProps extends Omit<UseCheckboxProps, 'indeterminate' | 'value'> {
+  /**
+   * 非受控初值
+   */
   defaultValue?: boolean;
+  /**
+   * 受控值
+   */
   value?: boolean;
   /**
    * 是否显示标签图标
@@ -105,7 +111,7 @@ export function Switch(props: SwitchProps) {
   }
   return (
     <SwitchBox as="label" style={switchStyle} className={clazz}>
-      <input {...getInputProps(props)} />
+      <input {...getInputProps({})} />
       <SwitchTrack className="rex-switch-track" $justify={state.checked ? 'flex-start' : 'flex-end'}>
         {trackContent}
       </SwitchTrack>

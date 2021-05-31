@@ -166,10 +166,22 @@ export function MultiColumnFormFieldSet() {
 export function BasicSearchFormLayout() {
   return (
     <SearchFormLayout>
-      <FormControl label="电子邮箱" required help="辅助文本">
+      <FormControl label="订单号" required labelTips="请输入 16 位订单编码">
         <Input placeholder="请输入" />
       </FormControl>
-      <FormControl label="电话" required error="必填字段">
+      <FormControl label="仓库" required>
+        <Input placeholder="请输入" />
+      </FormControl>
+      <FormControl label="商家" required>
+        <Input placeholder="请输入" />
+      </FormControl>
+      <FormControl label="门店" required>
+        <Input placeholder="请输入" />
+      </FormControl>
+      <FormControl label="创建人" required>
+        <Input placeholder="请输入" />
+      </FormControl>
+      <FormControl label="更新人" required>
         <Input placeholder="请选择" />
       </FormControl>
     </SearchFormLayout>

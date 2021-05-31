@@ -123,7 +123,7 @@ export const Checkbox = React.forwardRef<HTMLSpanElement, CheckboxProps>((props,
     ...rest,
   });
 
-  const inputProps = getInputProps({}, ref);
+  const inputProps = getInputProps({});
 
   const clazz = cx(
     'rex-checkbox',
