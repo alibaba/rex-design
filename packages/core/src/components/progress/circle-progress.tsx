@@ -34,7 +34,7 @@ export function CircleProgress(props: CircularProgressProps) {
     value = 0,
     min = 0,
     max = 100,
-    diameter = '116px',
+    size = '116px',
     strokeWidth = '8px',
     color = 'brand.normal',
     trackColor = 'fill.layer1',
@@ -54,7 +54,7 @@ export function CircleProgress(props: CircularProgressProps) {
 
   return (
     <Wrapper {...rest}>
-      <svg viewBox="0 0 100 100" width={diameter} height={diameter}>
+      <svg viewBox="0 0 100 100" width={size} height={size}>
         <Circle stroke={colors(trackColor)} strokeWidth={strokeWidth} />
         <Circle stroke={colors(color)} strokeWidth={strokeWidth} strokeLinecap="round" {...indicatorProps} />
       </svg>

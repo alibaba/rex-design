@@ -24,9 +24,9 @@ export function Circle() {
 export function CircleSize() {
   return (
     <Group>
-      <CircleProgress value={50} diameter="50px" renderLabel={() => null} />
-      <CircleProgress value={50} diameter="100px" renderLabel={({ value }) => <Text fontSize="24px">{value}%</Text>} />
-      <CircleProgress value={50} diameter="200px" renderLabel={({ value }) => <Text fontSize="48px">{value}%</Text>} />
+      <CircleProgress value={50} size="50px" renderLabel={() => null} />
+      <CircleProgress value={50} size="100px" renderLabel={({ value }) => <Text fontSize="24px">{value}%</Text>} />
+      <CircleProgress value={50} size="200px" renderLabel={({ value }) => <Text fontSize="48px">{value}%</Text>} />
     </Group>
   );
 }

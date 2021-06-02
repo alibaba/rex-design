@@ -10,7 +10,6 @@ export interface ProgressProps {
   value?: number;
   /**
    * 进度条颜色值
-   * @default #
    */
   color?: string;
   /**
@@ -30,9 +29,9 @@ export interface CircularProgressProps extends ProgressProps {
    */
   max?: number;
   /**
-   * 圆的直径
+   * 圆的大小
    */
-  diameter?: string;
+  size?: string;
   /**
    * 线条粗细
    */
