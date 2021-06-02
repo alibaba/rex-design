@@ -19,7 +19,7 @@ export interface ProgressProps {
   renderLabel?: (payload: RenderLabelPayload) => React.ReactNode;
 }
 
-export interface CircularProgressProps extends ProgressProps {
+export interface CircleProgressProps extends ProgressProps {
   /**
    * 最小值
    */

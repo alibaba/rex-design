@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { colors } from '../../utils';
 import { Box } from '../layout';
-import { CircularProgressProps, RenderLabelPayload } from './interfaces';
+import { CircleProgressProps, RenderLabelPayload } from './interfaces';
 
 const Wrapper = styled(Box)`
   position: relative;
@@ -29,7 +29,7 @@ function valueToPercent(value: number, min: number, max: number) {
   return ((value - min) * 100) / (max - min);
 }
 
-export function CircleProgress(props: CircularProgressProps) {
+export function CircleProgress(props: CircleProgressProps) {
   const {
     value = 0,
     min = 0,
