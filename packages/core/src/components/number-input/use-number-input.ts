@@ -14,19 +14,14 @@ export function useNumberInput(props: UseNumberInputProps) {
   const counter = useCounter(props);
   const { update, increment, decrement, correct, numberStore } = counter;
 
-  const [display, updateDisplay] = useState<string>(() => {
-    return counter.value ? numberStore.format(counter.value) : '';
-  });
-
   const getInputProps = () => {
     return {
       type: 'text',
       status,
       readOnly,
       disabled,
-      value: display,
+      value: numberStore.format(counter.value),
       onChange: (input: string) => {
-        updateDisplay(input);
         update(numberStore.parse(input));
       },
       onBlur: () => {
@@ -34,7 +29,6 @@ export function useNumberInput(props: UseNumberInputProps) {
         if (val !== counter.value) {
           update(val);
         }
-        updateDisplay(numberStore.format(val));
       },
     };
   };
@@ -43,8 +37,7 @@ export function useNumberInput(props: UseNumberInputProps) {
     return {
       disabled: disabled || counter.isAtMax,
       onClick: () => {
-        const next = increment();
-        updateDisplay(numberStore.format(next));
+        increment();
       },
     };
   };
@@ -53,8 +46,7 @@ export function useNumberInput(props: UseNumberInputProps) {
     return {
       disabled: disabled || counter.isAtMin,
       onClick: () => {
-        const next = decrement();
-        updateDisplay(numberStore.format(next));
+        decrement();
       },
     };
   };

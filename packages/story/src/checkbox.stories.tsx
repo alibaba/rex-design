@@ -50,6 +50,6 @@ export const GroupDemo = () => {
 };
 
 export const ControlledGroup = () => {
-  const [val, setVal] = useState([]);
+  const [val, setVal] = useState(null);
   return <CheckboxGroup dataSource={dataSource} value={val} onChange={(val) => setVal(val)} />;
 };
