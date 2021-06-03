@@ -64,7 +64,7 @@ const HozDot = styled(Box)`
   }
 `;
 
-type TimlineAlignType = 'double' | 'right';
+export type TimePostionType = 'left' | 'right';
 
 type TimelineStatusType = 'success' | 'error' | 'process';
 
@@ -78,11 +78,14 @@ export interface TimelineItemProps {
    */
   title?: React.ReactNode;
   /**
-   * 标签
+   * 时间文本
    */
   label?: React.ReactNode;
+  /**
+   * 时间文本的位置
+   */
+  labelPosition?: TimePostionType;
   showDotLine?: boolean;
-  align?: TimlineAlignType;
   children?: React.ReactNode;
 }
 
@@ -124,10 +127,10 @@ const getDotProps = ({ style, status, showDotLine, ...rest }: any) => {
 };
 
 export function TimelineItem(props: TimelineItemProps) {
-  const { status, label, title, showDotLine, align, children, ...rest } = props;
+  const { status, label, labelPosition, title, showDotLine, children, ...rest } = props;
   const dotProps = getDotProps({ status, showDotLine });
 
-  const alignRight = align === 'right';
+  const alignRight = labelPosition === 'right';
   const labelNode = <LeftNode>{label}</LeftNode>;
 
   return (

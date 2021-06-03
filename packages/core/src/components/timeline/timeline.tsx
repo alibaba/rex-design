@@ -1,15 +1,15 @@
 import React from 'react';
 import { useConfig } from '../../providers';
 import { Box } from '../layout';
-import { HozTimelineItem } from './timeline-item';
+import { HozTimelineItem, TimePostionType } from './timeline-item';
 
 export interface TimelineProps extends React.ComponentPropsWithoutRef<'ul'> {
   direction?: 'row' | 'column';
-  align?: 'double' | 'right';
+  labelPosition?: TimePostionType;
 }
 
 export function Timeline(props: TimelineProps) {
-  const { direction, align, children, ...rest } = useConfig('Timeline', props);
+  const { direction = 'column', labelPosition = 'left', children, ...rest } = useConfig('Timeline', props);
   const display = direction === 'row' ? 'flex' : 'table';
   const total = React.Children.count(children);
 
@@ -25,7 +25,7 @@ export function Timeline(props: TimelineProps) {
           return <HozTimelineItem showDotLine={showDotLine} {...child.props} />;
         }
         return React.cloneElement(child, {
-          align,
+          labelPosition,
           showDotLine,
         });
       })}
