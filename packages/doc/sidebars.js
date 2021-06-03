@@ -22,7 +22,7 @@ module.exports = {
           type: 'category',
           collapsed: false,
           label: '导航',
-          items: ['breadcrumb', 'pagination', 'steps', 'menu', 'tabs', 'timeline'],
+          items: ['breadcrumb', 'pagination', 'steps', 'menu', 'tabs', 'timeline', 'anchor'],
         },
         {
           type: 'category',

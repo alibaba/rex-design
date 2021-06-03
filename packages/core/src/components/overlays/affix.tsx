@@ -2,7 +2,7 @@ import cx from 'classnames';
 import React from 'react';
 import { BehaviorSubject, combineLatest, EMPTY, merge, of, Subscription } from 'rxjs';
 import * as op from 'rxjs/operators';
-import { noop, shallowEqual } from '../../utils';
+import { shallowEqual } from '../../utils';
 import { domUtils } from '../virtual-list/dom-utils';
 
 interface AffixInternalState {
@@ -23,18 +23,14 @@ export interface AffixProps {
   children?: React.ReactNode;
   style?: React.CSSProperties;
   className?: string;
-
-  /** 吸附状态发生变化时的回调 */
-  onAffix?(affixed: boolean): void; // todo remove it
 }
 
 export class Affix extends React.Component<AffixProps> {
   private props$ = new BehaviorSubject<AffixProps>(this.props);
   private subscription: Subscription;
-  private targetRef = React.createRef<HTMLElement>();
+  readonly targetRef = React.createRef<HTMLElement>();
 
   static defaultProps = {
-    onAffix: noop,
     useJS: false,
   };
 
@@ -83,14 +79,12 @@ export class Affix extends React.Component<AffixProps> {
                 state.mode = 'top';
                 state.dy = offsetTop - actualOffsetTop;
                 target.style.transform = `translate3d(0, ${state.dy}px, 0)`;
-                this.props.onAffix(true);
               } else if (state.mode === 'top' && actualOffsetTop !== offsetTop) {
                 state.dy += offsetTop - actualOffsetTop;
                 if (state.dy < 0) {
                   // top --> none
                   state.mode = 'none';
                   target.style.transform = '';
-                  this.props.onAffix(false);
                 } else {
                   // re-affix
                   target.style.transform = `translate3d(0, ${state.dy}px, 0)`;
@@ -102,14 +96,12 @@ export class Affix extends React.Component<AffixProps> {
                 state.mode = 'bottom';
                 state.dy = actualOffsetBottom - offsetBottom;
                 target.style.transform = `translate3d(0, ${state.dy}px, 0)`;
-                this.props.onAffix(true);
               } else if (state.mode === 'bottom' && actualOffsetBottom !== offsetBottom) {
                 state.dy += actualOffsetBottom - offsetBottom;
                 if (state.dy > 0) {
                   // bottom --> none
                   state.mode = 'none';
                   target.style.transform = '';
-                  this.props.onAffix(false);
                 } else {
                   // re-affix
                   target.style.transform = `translate3d(0, ${state.dy}px, 0)`;

@@ -1,0 +1,46 @@
+---
+id: anchor
+title: Anchor 锚点
+---
+
+import { Anchor } from '@rexd/core';
+import * as stories from 'story/src/anchor.stories';
+
+## 使用场景
+
+需要展现当前页面上可供跳转的锚点链接，以及快速在锚点之间跳转。
+
+## 示例
+
+### 独立使用
+
+```jsx live
+<Anchor style={{ marginLeft: 12 }}>
+  <Anchor.Item title="使用场景" href="#test_usage">
+    <Anchor.Item title="注意事项" href="#test_caution" />
+    <Anchor.Item title="拓展功能" href="#test_extensions" />
+    <Anchor.Item title="虚拟滚动" href="#test_virtual" />
+  </Anchor.Item>
+  <Anchor.Item title="用法示例" href="#test_examples">
+    <Anchor.Item title="基本表格" href="#test_basic" />
+    <Anchor.Item title="表格样式" href="#test_style" />
+    <Anchor.Item title="数据加载状态数据加载状态" href="#test_loading" />
+    <Anchor.Item title="树形表格" href="#test_tree" />
+  </Anchor.Item>
+  <Anchor.Item title="API" href="#test_api" />
+</Anchor>
+```
+
+### 页面内跳转
+
+<Story fn={stories.Basic2} />
+
+## API
+
+### Anchor
+
+<PropsTable component={Anchor} />
+
+### Anchor.Item
+
+<PropsTable component={Anchor.Item} />
