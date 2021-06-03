@@ -1,8 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Button, ButtonProps } from '../button';
+import { Button } from '../button';
 import { Box } from '../layout';
+import { SingleSelect, SingleSelectProps } from '../select';
 import { usePagination, UsePaginationProps } from './use-pagination';
+import { isFunction } from '../../utils';
 
 const Wrapper = styled(Box)`
   display: inline-flex;
@@ -14,48 +16,68 @@ const Wrapper = styled(Box)`
   }
 `;
 
-export interface PaginationProps extends UsePaginationProps {
-  // TODO 分页器 支持原来的单页条目数量切换
-  onPageSizeChange?(nextPageSize: number): void;
-}
+export interface PaginationProps extends UsePaginationProps {}
 
 export function Pagination(props: PaginationProps) {
   const { items } = usePagination(props);
   return (
     <Wrapper>
-      {items.map((item, index) => (
-        <PaginationItem key={index} {...item} />
-      ))}
+      {items.map(({ variant, label, ...rest }, index) => {
+        if (variant === 'pageSizeSelect') {
+          return <PageSizeSelect key={index} label={label} {...rest} />;
+        }
+
+        if (variant === 'ellipsis') {
+          return (
+            <Box as="span" fontSize="body">
+              {label}
+            </Box>
+          );
+        }
+
+        return (
+          <Button key={index} {...rest}>
+            {label}
+          </Button>
+        );
+      })}
     </Wrapper>
   );
 }
 
-interface PaginationItemProps extends ButtonProps {
-  /**
-   * 类型变化
-   */
-  variant: 'ellipsis' | 'page' | 'controller';
-  /**
-   * 文案
-   */
-  label: any;
+interface PageSizeSelectProps {
+  label: React.ReactNode;
+  value?: number;
+  dataSource?: SingleSelectProps['dataSource'];
+  onChange?: (pageSize: number) => void;
+  disabled?: boolean;
+  size?: SingleSelectProps['size'];
 }
 
-function PaginationItem(props: PaginationItemProps) {
-  const { variant, label, ...rest } = props;
+const selectStyle = {
+  width: 80,
+};
 
-  if (variant === 'ellipsis') {
-    return (
-      <Box as="span" fontSize="body">
-        {label}
-      </Box>
-    );
-  }
+function PageSizeSelect(props: PageSizeSelectProps) {
+  const { label, dataSource = [], value, onChange, disabled, size } = props;
+
+  const handleChange = (value: string) => {
+    isFunction(onChange) && onChange(Number(value));
+  };
 
   return (
-    <Button {...rest}>
-      {variant === 'page' && label}
-      {variant === 'controller' && label}
-    </Button>
+    <Box display="inline-flex" alignItems="center" ml="xl">
+      <Box display="inline-block" mr="m" fontSize="body">
+        {label}
+      </Box>
+      <SingleSelect
+        dataSource={dataSource}
+        value={String(value)}
+        onChange={handleChange}
+        size={size}
+        disabled={disabled}
+        style={selectStyle}
+      />
+    </Box>
   );
 }

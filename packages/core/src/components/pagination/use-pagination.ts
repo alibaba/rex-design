@@ -1,5 +1,7 @@
 import { useCallback } from 'react';
 import { useControllableState } from '../../hooks';
+import { ButtonProps } from '../button';
+import { SingleSelectProps } from '../select/single-select';
 
 // https://dev.to/namirsab/comment/2050
 const range = (start: number, end: number) => {
@@ -8,6 +10,10 @@ const range = (start: number, end: number) => {
 };
 
 export interface UsePaginationProps {
+  /**
+   * 分页器按钮尺寸
+   */
+  size?: ButtonProps['size'];
   /**
    * 外观类型
    */
@@ -54,6 +60,23 @@ export interface UsePaginationProps {
    */
   hasPrevButton?: boolean;
   /**
+   * 每页数据的个数，需受控使用
+   */
+  pageSize?: number;
+  /**
+   * 没页个数选择的列表
+   */
+  pageSizeList?: SingleSelectProps['dataSource'];
+  /**
+   * 是否有页数选择列表
+   */
+  hasPageSizeList?: boolean;
+  /**
+   * 每页个数变化时的回调
+   * @param nextPageSize 变化后的每页数据个数
+   */
+  onPageSizeChange?(nextPageSize: number): void;
+  /**
    * 页码变化时的回调
    */
   onChange?: (nextValue: number) => void;
@@ -71,21 +94,23 @@ const defaultLocale = {
   next: '下一页',
 };
 
-/**
- * Reference https://github.com/mui-org/material-ui/blob/next/packages/material-ui/src/usePagination/usePagination.js
- */
 export function usePagination(props: UsePaginationProps) {
   const {
+    size = 'medium',
     shape = 'normal',
     activePage: activePageProp,
     defaultActivePage = 1,
     onChange: onChangeProp,
     boundaryCount = 1,
+    siblingCount = 1,
     pageCount = 1,
     disabled,
     hasNextButton = true,
     hasPrevButton = true,
-    siblingCount = 1,
+    hasPageSizeList = false,
+    pageSize = 20,
+    pageSizeList = ['10', '20', '40'],
+    onPageSizeChange,
     locale = defaultLocale,
     ...htmlProps
   } = props;
@@ -137,6 +162,7 @@ export function usePagination(props: UsePaginationProps) {
 
       ...endPages,
       ...(hasNextButton ? [locale.next] : []),
+      ...(hasPageSizeList ? ['pageSizeSelect'] : []),
     ];
   }
 
@@ -156,6 +182,18 @@ export function usePagination(props: UsePaginationProps) {
 
   // 转换为 PaginationItem 的属性对象
   const paginationItems = itemList.map((item) => {
+    if (item === 'pageSizeSelect') {
+      return {
+        variant: 'pageSizeSelect',
+        label: '每页显示',
+        value: pageSize,
+        dataSource: pageSizeList,
+        onChange: onPageSizeChange,
+        size,
+        disabled,
+      };
+    }
+
     // 是一个省略号
     if (item === 'ellipsis') {
       return { variant: 'ellipsis' as any, label: '...' };
@@ -178,6 +216,7 @@ export function usePagination(props: UsePaginationProps) {
         variant: 'page' as any,
         isSelected: item === page,
         label: item,
+        size,
       };
     }
 
@@ -190,6 +229,7 @@ export function usePagination(props: UsePaginationProps) {
       label: item,
       isSelected: false,
       disabled: disabled || (item === locale.previous && page <= 1) || (item === locale.next && page >= pageCount),
+      size,
     };
   });
 
