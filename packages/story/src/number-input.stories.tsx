@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Group, NumberInput, Button } from '@rexd/core';
 
-export default { title: 'NumberInput' };
+export default { title: 'NumberInput', component: NumberInput };
 
 export function Basic() {
   return (

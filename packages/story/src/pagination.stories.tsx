@@ -1,10 +1,24 @@
 import React, { useState } from 'react';
-import { Pagination, Group } from '@rexd/core';
+import { Grid, Pagination } from '@rexd/core';
 
-export default { title: 'Pagination' };
+export default { title: 'Pagination', component: Pagination };
 
 export function Basic() {
   return <Pagination pageCount={10} onChange={console.log} />;
+}
+
+export function Size() {
+  return (
+    <Grid columns={1} spacingY="l">
+      <Pagination size="small" pageCount={10} onChange={console.log} />
+      <Pagination size="medium" pageCount={10} onChange={console.log} />
+      <Pagination size="large" pageCount={10} onChange={console.log} />
+    </Grid>
+  );
+}
+
+export function PageSizeList() {
+  return <Pagination hasPageSizeList pageCount={10} onChange={console.log} />;
 }
 
 export function Light() {
