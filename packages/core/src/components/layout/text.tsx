@@ -6,9 +6,13 @@ import { Dict, TypographyProps } from '../../types';
 import { colors, fontSizes } from '../../utils';
 
 const SystemText = styled(BaseText)<Dict<any>>`
+  /* Color */
   color: ${(props) => colors(props.$color)};
+
+  /* Typography */
   text-align: ${(props) => props.$textAlign || props.$align};
   font-size: ${(props) => fontSizes(props.$fontSize)};
+  font-weight: ${(props) => props.$fontWeight};
   line-height: ${(props) => props.$lineHeight};
 
   &.rex-truncated {
@@ -31,6 +35,7 @@ export interface TextProps extends TypographyProps {
   as?: any;
   color?: string;
   fontSize?: TypographyProps['fontSize'];
+  fontWeight?: TypographyProps['fontWeight'];
   align?: TypographyProps['textAlign'];
   textAlign?: TypographyProps['textAlign'];
   isTruncated?: boolean;
@@ -41,7 +46,18 @@ export interface TextProps extends TypographyProps {
 }
 
 export const Text = React.forwardRef<HTMLSpanElement, TextProps>((props, ref) => {
-  const { color = 'text.body', fontSize, align, lineHeight, isTruncated, noOfLines, className, style, ...rest } = props;
+  const {
+    color = 'text.body',
+    fontSize,
+    fontWeight,
+    align,
+    lineHeight,
+    isTruncated,
+    noOfLines,
+    className,
+    style,
+    ...rest
+  } = props;
 
   const clazz = cx(
     {
@@ -60,6 +76,7 @@ export const Text = React.forwardRef<HTMLSpanElement, TextProps>((props, ref) =>
       $textAlign={align}
       $lineHeight={lineHeight}
       $fontSize={fontSize}
+      $fontWeight={fontWeight}
       $noOfLines={noOfLines}
       {...rest}
     />
