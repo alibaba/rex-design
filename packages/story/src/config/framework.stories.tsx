@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Box, Text, theme } from '@rexd/core';
+import { Box, Text, THEMES } from '@rexd/core';
 import ThemeStore from './token-store';
 import { Header, SectionHeader, ConfigBox } from './components';
 import { getPxValue, toPxValue } from './utils';
@@ -103,16 +103,16 @@ function FrameworkConfig({ store: tokenStore }: FrameworkConfigProps) {
 }
 
 export function PC() {
-  const tokenStore = new ThemeStore('pcTokens', theme);
+  const tokenStore = new ThemeStore('pcTokens', THEMES.light.desktop);
   return <FrameworkConfig store={tokenStore} />;
 }
 
 export function Pad() {
-  const tokenStore = new ThemeStore('padTokens', theme);
+  const tokenStore = new ThemeStore('padTokens', THEMES.light.tablet);
   return <FrameworkConfig store={tokenStore} />;
 }
 
 export function Phone() {
-  const tokenStore = new ThemeStore('phoneTokens', theme);
+  const tokenStore = new ThemeStore('phoneTokens', THEMES.light.phone);
   return <FrameworkConfig store={tokenStore} />;
 }

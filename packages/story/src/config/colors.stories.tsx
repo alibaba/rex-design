@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from 'react';
-import { AppProvider, Grid, GridItem, Box, Text, theme, darkTheme, getThemeValue } from '@rexd/core';
+import { AppProvider, Grid, GridItem, Box, Text, THEMES, getThemeValue } from '@rexd/core';
 import { get } from 'lodash';
 
 import TokenStore from './token-store';
@@ -107,7 +107,7 @@ const generateTokenDataSource = (theme: any = {}, cates: string[] = []) => {
 };
 
 export const Light = () => {
-  const lightStore = new TokenStore('lightColors', theme);
+  const lightStore = new TokenStore('lightColors', THEMES.base);
 
   const ctx = {
     store: lightStore,
@@ -163,7 +163,7 @@ export const Light = () => {
 };
 
 export const Dark = () => {
-  const darkStore = new TokenStore('darkColors', darkTheme);
+  const darkStore = new TokenStore('darkColors', THEMES.dark.desktop);
 
   const ctx = {
     store: darkStore,
@@ -188,7 +188,7 @@ export const Dark = () => {
 
   return (
     <ThemeContext.Provider value={ctx}>
-      <AppProvider colorMode="dark" theme={darkTheme}>
+      <AppProvider colorMode="dark" theme={THEMES.dark.desktop}>
         <Box bg="black" p="xl">
           <Header
             title="基础色板"
