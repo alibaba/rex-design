@@ -31,6 +31,7 @@ module.exports = {
       options: {
         actions: false,
         backgrounds: false,
+        controls: false,
       },
     },
   ],

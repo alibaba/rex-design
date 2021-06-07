@@ -12,7 +12,9 @@ import * as stories from 'story/src/affix.stories';
 
 当内容区域比较长，需要滚动页面时，这部分内容对应的操作或者导航需要在滚动范围内始终展现。常用于侧边菜单和按钮组合。
 
-页面可视范围过小时，慎用此功能以免遮挡页面内容。
+:::note
+默认情况下，Affix 会采用 CSS sticky 定位，上层元素设置的 overflow=hidden/auto 可能导致定位不生效。此时可以设置 `<Affix useJS />` 来启用 JavaScript 定位。
+:::
 
 ## 示例
 

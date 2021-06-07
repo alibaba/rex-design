@@ -1,4 +1,4 @@
-import { MultiSelect, Select, SingleSelect } from '@rexd/core';
+import { Button, Flex, MultiSelect, Select, SingleSelect } from '@rexd/core';
 import _ from 'lodash';
 import React, { useState } from 'react';
 
@@ -87,5 +87,50 @@ export function Multiple() {
         { value: '飞猪2', label: '飞猪2', disabled: true },
       ]}
     />
+  );
+}
+
+export function Disabled() {
+  return (
+    <Select
+      style={{ width: 300 }}
+      hasClear
+      hasArrow
+      disabled
+      value="淘宝2"
+      dataSource={[
+        '盒马1',
+        '淘宝1',
+        '天猫1',
+        { value: '飞猪1', label: '飞猪1', disabled: true },
+        '盒马2',
+        '淘宝2',
+        '天猫2',
+        { value: '飞猪2', label: '飞猪2', disabled: true },
+      ]}
+    />
+  );
+}
+
+export function PlaceWithButtons() {
+  return (
+    <Flex spacing={8}>
+      <Button>left</Button>
+      <Select
+        style={{ width: 300 }}
+        hasArrow
+        dataSource={[
+          '盒马1',
+          '淘宝1',
+          '天猫1',
+          { value: '飞猪1', label: '飞猪1', disabled: true },
+          '盒马2',
+          '淘宝2',
+          '天猫2',
+          { value: '飞猪2', label: '飞猪2', disabled: true },
+        ]}
+      />
+      <Button>right</Button>
+    </Flex>
   );
 }

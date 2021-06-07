@@ -17,11 +17,11 @@ import * as basicExamples from 'story/src/xform/1-basic-examples.stories';
 
 ## 特点
 
-- 上手简单，搭配 mobx 可以进行快速开发
-- 精确渲染，轻松应对大表单场景
 - **重度依赖 [mobx](https://mobx.js.org/)，继承 mobx 的优缺点**
   - 表单内核采用 mobx 提供的数据结构，无缝对接 mobx 生态
-- 概念较少，学习成本较低
+- 概念精简，上手轻松
+  - 当然你需要对 mobx 有所一定程度的了解
+- 精确渲染，高性能，大表单场景下交互流畅
 
 ### 数据索引名称限制
 
@@ -30,7 +30,7 @@ import * as basicExamples from 'story/src/xform/1-basic-examples.stories';
 
 ## 开始使用
 
-在使用表单之前，我们需要先创建一个 FormModel 对象，然后通过 props.model 传递给 Form：
+在使用表单之前，你需要先创建一个 FormModel 对象，然后通过 props.model 传递给 Form：
 
 ```jsx
 import { Form, FormItem, FormModel } from '@rexd/xform';
@@ -54,26 +54,60 @@ export function Basic() {
 }
 ```
 
-### 与 MobX store 一起使用
+### 创建 FormModel 的时机
 
-如果你使用 mobx 管理应用状态，那么可以在 store 中创建 FormModel 对象：
+:::danger
+初始化 FormModel 的过程需要放在 render 函数之外，保证前后两次渲染使用同一个 FormModel 对象。
+:::
+
+#### 创建与组件生命周期一致的 FormModel
+
+(todo)
 
 ```jsx
-import { observable, computed, makeObservable } from 'mobx';
+import { useState } from 'react';
+import { makeObservable, observable } from 'mobx';
+import { observer } from 'mobx-react-lite';
+import { Form, FormItem, FormModel } from '@rexd/xform';
+
+class MyComponentStore {
+  model = new FormModel({ name: '小河马', phone: '188-8888-8888' });
+
+  // 这里可以定义其他状态
+  someOtherState = {};
+
+  constructor() {
+    makeObservable(this, {
+      model: observable,
+      someOtherState: observable,
+    });
+  }
+}
+
+export const MyComponent = observer(() => {
+  const [store] = useState(() => new MyComponentStore());
+
+  return (
+    <Form model={store.model}>
+      <FormItem component="input" label="姓名" name="name" required />
+      <FormItem component="input" label="电话" name="phone" required />
+      <FormItem component="input" label="地址" name="address" />
+    </Form>
+  );
+});
+```
+
+#### 创建全局 FormModel
+
+如果你使用 mobx 管理应用的全局状态，那么可以在 Store 中创建 FormModel 对象：
+
+```jsx
+import { observable, makeObservable } from 'mobx';
 import { FormModel } from '@rexd/xform';
 
 class Store {
   @observable
-  formModel = new FormModel({
-    name: '小河马',
-    phone: '188-8888-8888',
-    address: '杭州市余杭区文一西路969号',
-  });
-
-  @computed
-  get formValues() {
-    return formModel.values;
-  }
+  formModel = new FormModel({ name: '小河马', phone: '188-8888-8888' });
 
   constructor() {
     makeObservable(this);

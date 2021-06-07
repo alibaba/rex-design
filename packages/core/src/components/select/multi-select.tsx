@@ -11,9 +11,16 @@ export interface MultiSelectProps
   value?: string[];
   onChange?(nextValue: string[], detail: { event: React.MouseEvent<HTMLDivElement> }): void;
 
+  /** 是否禁用 */
   disabled?: boolean;
+
+  /**
+   * 数据源
+   *
+   * @displayType Array<string | { label, value }>
+   * */
   dataSource?: (string | SelectItem)[];
-  defaultVisible?: boolean;
+
   defaultSearchValue?: string;
 }
 

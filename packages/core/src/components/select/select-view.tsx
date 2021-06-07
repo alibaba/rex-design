@@ -27,8 +27,9 @@ export const SelectPanelDiv = styled(AdaptivePopup.Panel)`
   }
 
   .rex-select-search {
-    margin: 8px 4px 0;
+    margin: 8px;
     flex: 0 0 auto;
+    width: auto;
   }
 
   .rex-select-item-list-wrapper {
@@ -41,6 +42,10 @@ export const SelectPanelDiv = styled(AdaptivePopup.Panel)`
     }
   }
 
+  .rex-select-search + .rex-select-item-list-wrapper {
+    margin-top: 0;
+  }
+
   ${({ theme, $showSearch: showSearch }: any) => {
     if (theme.device?.name === 'phone') {
       return { width: '90vw', height: showSearch ? 350 : undefined };
@@ -48,7 +53,7 @@ export const SelectPanelDiv = styled(AdaptivePopup.Panel)`
   }}
 `;
 
-const SelectItemDiv = styled.div.withConfig({ componentId: 'rex-select-item' })`
+const SelectItemDiv = styled.div`
   font-size: var(--rex-fontSizes-body);
   height: var(--rex-components-Select-rowHeight);
   padding: 0 8px;
@@ -114,7 +119,6 @@ export const SelectView = React.forwardRef<HTMLDivElement, SelectViewProps>((pro
     onRequestClose,
     visible,
     popupProps,
-    // TODO
     disabled,
     autoScrollToFirstItemWhenOpen = true,
     autoCloseAfterSelect = selectMode === 'single',
@@ -161,6 +165,7 @@ export const SelectView = React.forwardRef<HTMLDivElement, SelectViewProps>((pro
           popupTargetRenderArg={arg as PopupTargetRenderArgs[0]}
           selectMode={selectMode}
           getLabelByValue={getLabelByValue}
+          disabled={disabled}
           {...appearance}
         />
       )}
@@ -206,7 +211,7 @@ export const SelectView = React.forwardRef<HTMLDivElement, SelectViewProps>((pro
               return (
                 <SelectItemDiv
                   key={row.value}
-                  className={cx({
+                  className={cx('rex-select-item', {
                     selected: selected,
                     disabled: row.disabled,
                   })}

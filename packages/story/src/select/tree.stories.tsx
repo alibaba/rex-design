@@ -13,9 +13,9 @@ import {
 import { collectNodes } from 'ali-react-table';
 import React, { useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { useCateTree } from './test-tree-data';
+import { useCateTree } from '../test-tree-data';
 
-export default { title: 'Tree' };
+export default { title: 'Select / Tree' };
 
 const StyledTree = styled(Tree)`
   width: 200px;

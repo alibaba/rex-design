@@ -129,13 +129,7 @@ export function AffixDocExample2() {
     <div style={{ display: 'flex' }}>
       <div style={{ flex: '0 0 70%', background: '#f2f2f2', height: 400 }} />
       <div style={{ flex: '0 0 30%', background: '#ffebeb', display: 'flex', alignItems: 'flex-end' }}>
-        <Affix
-          offsetBottom={20}
-          style={{ zIndex: 1000 }}
-          onAffix={(affix) => {
-            console.log('affix state change to', affix);
-          }}
-        >
+        <Affix offsetBottom={20} style={{ zIndex: 1000 }}>
           <BalaBala text="offsetBottom={20}" />
         </Affix>
       </div>
@@ -144,16 +138,18 @@ export function AffixDocExample2() {
 }
 
 export function AffixDocExample3() {
+  const jpg5050Repeat = 'url("https://img.alicdn.com/tfs/TB1AbJXSpXXXXXJXpXXXXXXXXXX-32-32.jpg") 50% 50% repeat';
+
   return (
     <div>
-      <div style={{ height: 400, overflow: 'auto', background: '#d9e6ff' }}>
-        <div style={{ height: 100, background: '#d3f6ed' }} />
+      <div style={{ height: 400, overflow: 'auto' }}>
+        <div style={{ height: 100, background: jpg5050Repeat }} />
 
         <Affix offsetTop={10}>
           <BalaBala text="offsetTop={10}" />
         </Affix>
 
-        <div style={{ height: 1000, background: '#d9eac6' }} />
+        <div style={{ height: 1000, background: jpg5050Repeat }} />
       </div>
     </div>
   );

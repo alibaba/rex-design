@@ -3,7 +3,7 @@ import cx from 'classnames';
 import React from 'react';
 import styled from 'styled-components';
 import { Checkbox } from '../checkbox';
-import { CaretDownIcon } from '../select/icons';
+import { CaretDownIcon } from './icons';
 import { VirtualList } from '../virtual-list';
 
 export interface TreeItem {

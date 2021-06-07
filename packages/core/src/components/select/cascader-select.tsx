@@ -1,23 +1,23 @@
 import { collectNodes, isLeafNode, makeRecursiveMapper } from 'ali-react-table';
 import React, { useState } from 'react';
 import { composeHandlers, composeState } from '../../utils';
+import { CascaderSelectView } from './cascader-select-view';
+import { getLast } from './select-utils';
 import { TreeProps } from './tree';
 import { TreeItem } from './tree-view';
-import { TreeCheckedStrategy } from './utils/TreeDataHelper';
-import { TreeSelectView } from './tree-select-view';
-import { ISelectAppearanceProps, ISelectPopupProps, ISelectSearchProps, TreeSelectItem } from './types';
+import { CascaderSelectItem, ISelectAppearanceProps, ISelectPopupProps, ISelectSearchProps } from './types';
 
-export interface MultiTreeSelectProps
+export interface SingleCascaderSelectProps
   extends Partial<ISelectPopupProps>,
     ISelectAppearanceProps,
     Partial<ISelectSearchProps> {
-  defaultValue?: string[];
-  value?: string[];
-  onChange?(nextValue: string[], detail: {}): void;
+  defaultValue?: string;
+  value?: string;
+  onChange?(nextValue: string, detail: {}): void;
 
   disabled?: boolean;
   // TODO readOnly?: boolean;
-  dataSource?: TreeSelectItem[];
+  dataSource?: CascaderSelectItem[];
 
   expandedKeys?: TreeProps['expandedKeys'];
   onExpand?: TreeProps['onExpand'];
@@ -26,12 +26,11 @@ export interface MultiTreeSelectProps
 
   defaultVisible?: boolean;
   defaultSearchValue?: string;
-
-  checkStrictly?: boolean;
-  checkedStrategy?: TreeCheckedStrategy;
 }
 
-export const MultiTreeSelect = React.forwardRef<HTMLDivElement, MultiTreeSelectProps>((props, ref) => {
+// todo 需要优化代码
+
+export const SingleCascaderSelect = React.forwardRef<HTMLDivElement, SingleCascaderSelectProps>((props, ref) => {
   const {
     visible: visibleProp,
     defaultVisible,
@@ -57,7 +56,7 @@ export const MultiTreeSelect = React.forwardRef<HTMLDivElement, MultiTreeSelectP
   const value = composeState(valueProp, _value);
   const onChange = composeHandlers(onChangeProp, _onChange);
 
-  const treeDataSource = (makeRecursiveMapper<TreeSelectItem>((item) => ({
+  const treeDataSource = (makeRecursiveMapper<CascaderSelectItem>((item) => ({
     ...item,
     key: item.value,
   }))(dataSource) as unknown) as TreeItem[];
@@ -82,13 +81,15 @@ export const MultiTreeSelect = React.forwardRef<HTMLDivElement, MultiTreeSelectP
   const onExpand = composeHandlers(onExpandProp, _onExpand);
 
   return (
-    <TreeSelectView
+    <CascaderSelectView
       ref={ref}
       {...others}
       dataSource={dataSource}
-      value={value}
-      onChange={onChange}
-      selectMode="multiple"
+      value={[value].filter(Boolean)}
+      onChange={(nextValue, detail) => {
+        onChange(getLast(nextValue), detail);
+      }}
+      selectMode="single"
       searchValue={searchValue}
       onSearch={onSearch}
       visible={visible}

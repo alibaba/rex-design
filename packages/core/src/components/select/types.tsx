@@ -15,11 +15,13 @@ export interface TreeSelectItem {
   // todo 是否需要 hasChild?: boolean;
 }
 
+export type CascaderSelectItem = TreeSelectItem;
+
 export interface SelectItem {
   value: string;
   label?: React.ReactNode;
 
-  // 是否禁用交互
+  /** 是否禁用交互 */
   disabled?: boolean;
 }
 
@@ -41,9 +43,6 @@ export interface ISelectAppearanceProps {
 
   /**
    * 选择器状态
-   * - status=normal 常规状态
-   * - status=error 出错状态
-   *
    * @category 外观
    * */
   status?: 'normal' | 'error' | 'warning' | 'success';
@@ -115,6 +114,11 @@ export interface ISelectSearchProps {
 
 export interface ISelectPopupProps {
   /**
+   * 弹层是否默认打开
+   * @category 弹层 */
+  defaultVisible?: boolean;
+
+  /**
    * 弹层是否打开
    * @category 弹层 */
   visible: boolean;
@@ -125,14 +129,20 @@ export interface ISelectPopupProps {
   /** @category 弹层 */
   onRequestOpen(reason?: any): void;
 
-  /** @category 弹层 */
+  /** @category 弹层
+   * @default true
+   */
   autoWidth?: boolean;
-  /** @category 弹层 */
+
+  /** @category 弹层
+   * @default true
+   */
   autoHeight?: boolean;
 
   /**
    * 选择器弹层被打开时，是否自动滚动到第一个选中的元素
    * @category 弹层
+   * @default true
    * */
   autoScrollToFirstItemWhenOpen?: boolean;
 
@@ -142,6 +152,9 @@ export interface ISelectPopupProps {
    * */
   autoCloseAfterSelect?: boolean;
 
-  /** @category 弹层 */
+  /**
+   * 透传给 Popup 组件的 props
+   * @category 弹层
+   * @displayType PopupProps */
   popupProps?: Omit<PopupProps, 'children'>;
 }

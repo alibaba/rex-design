@@ -175,9 +175,7 @@ const dialogStyles = css`
 
   .rex-dialog-header {
     font-size: var(--rex-fontSizes-title);
-    padding: 12px 16px;
-    margin-bottom: 12px;
-    border-bottom: 1px solid var(--rex-colors-emphasis-30);
+    margin: 12px 16px;
     color: var(--rex-colors-text-title);
   }
 

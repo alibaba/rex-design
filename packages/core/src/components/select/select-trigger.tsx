@@ -2,12 +2,11 @@ import { Icon } from '@rexd/icon';
 import cx from 'classnames';
 import React from 'react';
 import styled from 'styled-components';
-import { composeHandlers, useMemoizedMergeRefs } from '../../utils';
+import { getToken, useMemoizedMergeRefs } from '../../utils';
 import { PopupTargetRenderArgs } from '../overlays';
 import { CaretDownIcon, ClearIcon } from './icons';
 import { toggleValue } from './select-utils';
 import { ISelectAppearanceProps, SelectItem } from './types';
-import { getToken } from '../../utils';
 
 const ValueTagDiv = styled.div.withConfig({ componentId: 'rex-select-value-tag' })`
   display: inline-flex;
@@ -112,14 +111,21 @@ const SelectTriggerDiv = styled.div`
     background-color: transparent;
   }
 
-  // &.rex-disabled {
-  //   pointer-events: none;
-  //   color: ${getToken('Input.textColorDisabled')};
-  //   border-color: ${getToken('Input.borderColorDisabled')};
-  //   background-color: ${getToken('Input.bgDisabled')};
-  //   /* safari */
-  //   -webkit-text-fill-color: ${getToken('Input.textColorDisabled')};
-  // }
+  &.rex-disabled,
+  &.rex-disabled:hover,
+  &.rex-disabled:focus-within {
+    cursor: not-allowed;
+    color: ${getToken('Input.textColorDisabled')};
+    border-color: ${getToken('Input.borderColorDisabled')};
+    background-color: ${getToken('Input.bgDisabled')};
+    /* safari */
+    -webkit-text-fill-color: ${getToken('Input.textColorDisabled')};
+
+    .rex-select-trigger-controls {
+      pointer-events: none;
+      background-color: ${getToken('Input.bgDisabled')};
+    }
+  }
 
   .rex-select-placeholder {
     color: var(--rex-colors-emphasis-50);
@@ -148,7 +154,7 @@ const SelectTriggerDiv = styled.div`
     display: flex;
     align-items: center;
     padding: 4px 4px 4px 12px;
-    background: linear-gradient(to right, transparent, var(--rex-colors-emphasis-0) 8px);
+    background: var(--rex-colors-emphasis-0);
     position: absolute;
   }
 
@@ -185,7 +191,7 @@ export interface SelectTriggerProps extends ISelectAppearanceProps {
       reason?: any; // TODO 规范一下 reason
     },
   ): void;
-
+  disabled?: boolean;
   selectMode: 'single' | 'multiple';
 
   popupTargetRenderArg: PopupTargetRenderArgs[0];
@@ -208,6 +214,7 @@ export const SelectTrigger = React.forwardRef<HTMLDivElement, SelectTriggerProps
     placeholder = '请选择',
     hasArrow = true,
     status = 'normal',
+    disabled,
     size, // todo
     getLabelByValue,
   } = props;
@@ -230,11 +237,17 @@ export const SelectTrigger = React.forwardRef<HTMLDivElement, SelectTriggerProps
           'rex-error': status === 'error',
           'rex-warning': status === 'warning',
           'rex-success': status === 'success',
+          'rex-disabled': disabled,
         },
         className,
       )}
       style={style}
-      onClick={composeHandlers(popupTargetRenderArg.onClick, containerProps?.onClick)}
+      onClick={(event) => {
+        if (!disabled) {
+          popupTargetRenderArg.onClick(event);
+        }
+        containerProps?.onClick(event);
+      }}
       tabIndex={0}
     >
       {value.length === 0 ? (

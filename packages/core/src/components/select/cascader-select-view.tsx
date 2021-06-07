@@ -1,31 +1,38 @@
 import { collectNodes, makeRecursiveMapper } from 'ali-react-table';
-import cx from 'classnames';
-import React, { useMemo, useRef } from 'react';
+import React, { useMemo } from 'react';
+import styled from 'styled-components';
 import { pick } from '../../utils';
 import { Input } from '../input';
 import { AdaptivePopup } from '../overlays';
-import { VirtualList, VirtualListAlign } from '../virtual-list';
+import { Cascader } from './cascader';
 import { SelectTrigger } from './select-trigger';
 import { SelectPanelDiv } from './select-view';
-import { Tree, TreeProps } from './tree';
+import { TreeProps } from './tree';
 import { TreeItem } from './tree-view';
 import {
+  CascaderSelectItem,
   ISelectAppearanceProps,
   ISelectPopupProps,
   ISelectSearchProps,
   selectAppearancePropKeys,
-  TreeSelectItem,
 } from './types';
 import { searchTreeByKeyword } from './utils/searchTreeByKeyword';
 import { TreeCheckedStrategy } from './utils/TreeDataHelper';
 
-export interface TreeSelectViewProps extends ISelectPopupProps, ISelectAppearanceProps, ISelectSearchProps {
+const StyledCascader = styled(Cascader)`
+  border: none;
+  border-radius: 0;
+`;
+
+// todo 需要优化代码
+
+export interface CascaderSelectViewProps extends ISelectPopupProps, ISelectAppearanceProps, ISelectSearchProps {
   value: string[];
   onChange(nextValue: string[], detail: {}): void;
 
   disabled?: boolean;
   // todo readOnly?: boolean;
-  dataSource?: TreeSelectItem[];
+  dataSource?: CascaderSelectItem[];
 
   expandedKeys?: TreeProps['expandedKeys'];
   onExpand?: TreeProps['onExpand'];
@@ -36,9 +43,7 @@ export interface TreeSelectViewProps extends ISelectPopupProps, ISelectAppearanc
   checkedStrategy?: TreeCheckedStrategy;
 }
 
-// todo 支持键盘导航
-
-export const TreeSelectView = React.forwardRef<HTMLDivElement, TreeSelectViewProps>((props, ref) => {
+export const CascaderSelectView = React.forwardRef<HTMLDivElement, CascaderSelectViewProps>((props, ref) => {
   const {
     value,
     onChange,
@@ -73,11 +78,9 @@ export const TreeSelectView = React.forwardRef<HTMLDivElement, TreeSelectViewPro
 
   const appearance = pick(props, selectAppearancePropKeys);
 
-  const virtualListRef = useRef<VirtualList<unknown>>();
-
   const treeDataSource = useMemo(
     () =>
-      (makeRecursiveMapper<TreeSelectItem>((item) => ({
+      (makeRecursiveMapper<CascaderSelectItem>((item) => ({
         ...item,
         key: item.value,
       }))(dataSource) as unknown) as TreeItem[],
@@ -112,12 +115,12 @@ export const TreeSelectView = React.forwardRef<HTMLDivElement, TreeSelectViewPro
       interactionKind="click"
       onOpen={() => {
         if (autoScrollToFirstItemWhenOpen) {
-          const valueSet = new Set(value);
-          const list = virtualListRef.current as VirtualList<TreeSelectItem>;
-          const index = list.props.rows.findIndex((row) => valueSet.has(row.value));
-          if (index !== -1) {
-            list.scrollToRow(index, VirtualListAlign.center);
-          }
+          // const valueSet = new Set(value);
+          // const list = virtualListRef.current as VirtualList<CascaderSelectItem>;
+          // const index = list.props.rows.findIndex((row) => valueSet.has(row.value));
+          // if (index !== -1) {
+          //   list.scrollToRow(index, VirtualListAlign.center);
+          // }
         }
       }}
       renderTarget={(arg: any) => (
@@ -154,32 +157,32 @@ export const TreeSelectView = React.forwardRef<HTMLDivElement, TreeSelectViewPro
           )}
           {isNotFound && notFoundContent}
 
-          <Tree
-            className={cx('rex-select-item-list-wrapper', { 'rex-empty': isNotFound })}
-            virtualListRef={virtualListRef as React.Ref<VirtualList<any>>}
+          <StyledCascader
             dataSource={filteredTreeDataSource}
-            expandedKeys={expandedKeys}
-            onExpand={onExpand}
-            // 多选交互
-            checkable={selectMode === 'multiple'}
-            checkStrictly={checkStrictly}
-            checkedStrategy={checkedStrategy}
-            checkedKeys={value}
-            onCheck={(nextCheckedKeys, detail) => {
-              onChange(nextCheckedKeys, detail);
-              if (autoCloseAfterSelect) {
-                onRequestClose();
-              }
-            }}
-            // 单选交互
-            selectable={selectMode === 'single'}
-            selectedKeys={value}
-            onSelect={(nextSelectedKeys, detail) => {
-              onChange(nextSelectedKeys, detail);
-              if (autoCloseAfterSelect) {
-                onRequestClose();
-              }
-            }}
+            onChange={() => onRequestClose('close')}
+            // todo 完善逻辑
+            // expandedKeys={expandedKeys}
+            // onExpand={onExpand}
+            // // 多选交互
+            // checkable={selectMode === 'multiple'}
+            // checkStrictly={checkStrictly}
+            // checkedStrategy={checkedStrategy}
+            // checkedKeys={value}
+            // onCheck={(nextCheckedKeys, detail) => {
+            //   onChange(nextCheckedKeys, detail);
+            //   if (autoCloseAfterSelect) {
+            //     onRequestClose();
+            //   }
+            // }}
+            // // 单选交互
+            // selectable={selectMode === 'single'}
+            // selectedKeys={value}
+            // onSelect={(nextSelectedKeys, detail) => {
+            //   onChange(nextSelectedKeys, detail);
+            //   if (autoCloseAfterSelect) {
+            //     onRequestClose();
+            //   }
+            // }}
           />
         </SelectPanelDiv>
       )}

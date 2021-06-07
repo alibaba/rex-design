@@ -1,9 +1,10 @@
 import { collectNodes, isLeafNode, makeRecursiveMapper } from 'ali-react-table';
 import React, { useState } from 'react';
 import { composeHandlers, composeState } from '../../utils';
-import { TreeItem, TreeProps } from '../tree';
 import { getLast } from './select-utils';
+import { TreeProps } from './tree';
 import { TreeSelectView } from './tree-select-view';
+import { TreeItem } from './tree-view';
 import { ISelectAppearanceProps, ISelectPopupProps, ISelectSearchProps, TreeSelectItem } from './types';
 
 export interface SingleTreeSelectProps
@@ -82,7 +83,7 @@ export const SingleTreeSelect = React.forwardRef<HTMLDivElement, SingleTreeSelec
       ref={ref}
       {...others}
       dataSource={dataSource}
-      value={[value].filter(Boolean)}
+      value={[value].filter((v) => v != null)}
       onChange={(nextValue, detail) => {
         onChange(getLast(nextValue), detail);
       }}

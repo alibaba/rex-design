@@ -13,7 +13,6 @@ export interface SingleSelectProps
   onChange?(nextValue: string, detail: { event: React.MouseEvent }): void;
   disabled?: boolean;
   dataSource?: (string | SelectItem)[];
-  defaultVisible?: boolean;
   defaultSearchValue?: string;
 }
 

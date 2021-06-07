@@ -1,8 +1,8 @@
 import { collectNodes, makeRecursiveMapper } from 'ali-react-table';
 import React, { useState } from 'react';
 import { composeHandlers, composeState } from '../../utils';
-import StrictTreeDataHelper from './helpers/StrictTreeDataHelper';
-import TreeDataHelper, { TreeCheckedStrategy } from './helpers/TreeDataHelper';
+import StrictTreeDataHelper from './utils/StrictTreeDataHelper';
+import TreeDataHelper, { TreeCheckedStrategy } from './utils/TreeDataHelper';
 import { TreeItem, TreeView, TreeViewProps } from './tree-view';
 
 export interface TreeProps extends Partial<TreeViewProps> {
