@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Button, Group } from '@rexd/core';
+import { Box, Button, ToggleButtonGroup, Group } from '@rexd/core';
 import { Icon } from '@rexd/icon';
 
 export default { title: 'Button' };
@@ -241,21 +241,20 @@ export const Toggled = () => {
   );
 };
 
+const list = [
+  { value: 'desktop', label: <Icon type="electronics" /> },
+  { value: 'phone', label: <Icon type="mobile-phone" /> },
+  { value: 'tablet', label: <Icon type="pad" /> },
+];
+
 export const ToggleGroup = () => {
-  const [active, setActive] = useState('pc');
   return (
-    <Group>
-      <Group isAttached>
-        <Button isSelected={active === 'pc'} onClick={() => setActive('pc')}>
-          <Icon type="electronics" />
-        </Button>
-        <Button isSelected={active === 'pad'} onClick={() => setActive('pad')}>
-          <Icon type="pad" />
-        </Button>
-        <Button isSelected={active === 'phone'} onClick={() => setActive('phone')}>
-          <Icon type="mobile-phone" />
-        </Button>
-      </Group>
-    </Group>
+    <ToggleButtonGroup
+      dataSource={list}
+      defaultValue={['desktop']}
+      onChange={console.log}
+      isAttached
+      buttonProps={{ type: 'secondary', isIconButton: true }}
+    />
   );
 };

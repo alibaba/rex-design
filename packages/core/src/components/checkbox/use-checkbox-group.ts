@@ -1,13 +1,11 @@
-import cx from 'classnames';
 import { useControllableState } from '../../hooks';
-import { FormControlOnChangeHandler, StringOrNumber } from '../../types';
-import { FlexProps } from '../layout';
+import { FormControlOnChangeHandler } from '../../types';
 
 export interface UseCheckboxGroupProps {
   /**
-   * 元素排列方向，水平/垂直
+   * 组件名（仅用于警告信息展示）
    */
-  direction?: 'row' | 'column';
+  component?: string;
   /**
    * 分组名，用于当页面存在多个 Group 时进行区分
    */
@@ -15,46 +13,39 @@ export interface UseCheckboxGroupProps {
   /**
    * 受控值
    */
-  value?: StringOrNumber[];
+  value?: string[];
   /**
    * 非受控默认值
    */
-  defaultValue?: StringOrNumber[];
+  defaultValue?: string[];
   /**
    * 值改变时的回调
    */
-  onChange?: FormControlOnChangeHandler<StringOrNumber[]>;
-  /**
-   * 自定义样式名
-   */
-  className?: string;
+  onChange?: FormControlOnChangeHandler<string[]>;
 }
 
 export function useCheckboxGroup(props: UseCheckboxGroupProps) {
-  const { value: valueProp, defaultValue = [], onChange, name, direction = 'row', className, ...htmlProps } = props;
+  const { value: valueProp, defaultValue = [], onChange, component = 'CheckboxGroup', name, ...htmlProps } = props;
 
   const [value, updateValue] = useControllableState({
-    name: 'CheckboxGroup',
+    name: component,
     value: valueProp,
     defaultValue,
     onChange,
   });
 
-  const getGroupProps = (props?: any) => {
+  const getRootProps = (props?: any) => {
     return {
       ...htmlProps,
       ...props,
-      direction,
-      className: cx('rex-checkbox-group', className),
-      role: 'checkbox-group',
-    } as FlexProps;
+    };
   };
 
   const getContextValue = () => {
     return {
       name,
       value,
-      onSelect(itemValue: StringOrNumber, checked: boolean) {
+      onSelect(itemValue: string, checked: boolean) {
         const valueState = value || [];
         const nextValue = checked ? [...valueState, itemValue] : valueState.filter((val) => val !== itemValue);
         updateValue(nextValue);
@@ -64,6 +55,6 @@ export function useCheckboxGroup(props: UseCheckboxGroupProps) {
 
   return {
     getContextValue,
-    getGroupProps,
+    getRootProps,
   };
 }

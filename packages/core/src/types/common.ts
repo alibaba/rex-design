@@ -31,7 +31,7 @@ export type FormControlOnChangeHandler<T> = (nextValue: T, detail?: FormEventDet
 export interface ListNode<T> {
   key?: React.Key; // 节点的唯一标识符, key, value 同时存在时，值必须相同
   value?: T; // 代表节点项的值
-  label?: string; // 节点的描述标签
+  label?: React.ReactNode; // 节点的描述标签
   children?: Iterable<ListNode<T>>; // 节点的嵌套值
   props?: any; // 节点的嵌套属性
 }

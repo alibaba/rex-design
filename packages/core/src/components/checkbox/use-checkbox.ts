@@ -5,7 +5,7 @@ import { FormControlOnChangeHandler, StringOrNumber } from '../../types';
 import { isFunction } from '../../utils';
 
 export interface UseCheckboxProps {
-  value?: StringOrNumber;
+  value?: string;
   checked?: boolean;
   defaultChecked?: boolean;
   disabled?: boolean;
