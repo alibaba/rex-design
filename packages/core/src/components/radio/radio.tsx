@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { useRadio, UseRadioProps } from './use-radio';
 import { useRadioGroupContext } from './context';
@@ -75,20 +75,27 @@ export interface RadioProps extends UseRadioProps {
 }
 
 export const Radio = React.forwardRef<HTMLInputElement, RadioProps>((props, ref) => {
-  const { value: valueProp, onChange: onChangeProp, children, ...others } = props;
+  const {
+    checked: checkedProp,
+    defaultChecked = false,
+    value: valueProp,
+    onChange: onChangeProp,
+    children,
+    ...others
+  } = props;
 
   const group = useRadioGroupContext();
 
-  let checked = props.checked || false;
+  let checked = checkedProp;
   if (group?.value && valueProp) {
     checked = group.value === valueProp;
   }
 
   let onChange = onChangeProp;
-  if (group?.onChange && valueProp) {
+  if (group?.onSelect && valueProp) {
     onChange = (e) => {
-      if (e.target.value !== group.value) {
-        group.onChange(e.target.value, { event: e });
+      if (valueProp !== group.value) {
+        group.onSelect(valueProp, true);
       }
       onChangeProp && onChangeProp(e);
     };
@@ -101,8 +108,10 @@ export const Radio = React.forwardRef<HTMLInputElement, RadioProps>((props, ref)
     value: valueProp,
     name,
     checked,
+    defaultChecked,
     onChange,
   });
+
   const inputProps = getInputProps({}, ref);
 
   return (

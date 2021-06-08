@@ -1,7 +1,10 @@
 import { createContext } from '../../utils';
-import { UseRadioGroupProps } from './use-radio-group';
 
-export interface RadioGroupContext extends Pick<UseRadioGroupProps, 'onChange' | 'value' | 'name'> {}
+export interface RadioGroupContext {
+  name?: string;
+  value?: string;
+  onSelect?: (value: string, checked: boolean) => void;
+}
 
 const [RadioGroupProvider, useRadioGroupContext] = createContext<RadioGroupContext>({
   name: 'RadioGroupContext',

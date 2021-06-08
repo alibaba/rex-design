@@ -1,7 +1,7 @@
 import { isUndefined } from 'lodash';
 import { ChangeEvent, useCallback } from 'react';
 import { useControllableState } from '../../hooks';
-import { FormControlOnChangeHandler, StringOrNumber } from '../../types';
+import { FormControlOnChangeHandler } from '../../types';
 import { isFunction } from '../../utils';
 
 export interface UseCheckboxProps {

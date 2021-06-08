@@ -249,12 +249,24 @@ const list = [
 
 export const ToggleGroup = () => {
   return (
-    <ToggleButtonGroup
-      dataSource={list}
-      defaultValue={['desktop']}
-      onChange={console.log}
-      isAttached
-      buttonProps={{ type: 'secondary', isIconButton: true }}
-    />
+    <Box>
+      <h3>单选</h3>
+      <ToggleButtonGroup
+        dataSource={list}
+        defaultValue={['desktop']}
+        onChange={console.log}
+        isAttached
+        buttonProps={{ type: 'secondary', isIconButton: true }}
+      />
+      <h3>多选</h3>
+      <ToggleButtonGroup
+        dataSource={list}
+        selectMode="multipe"
+        defaultValue={['desktop']}
+        onChange={console.log}
+        isAttached
+        buttonProps={{ type: 'secondary', isIconButton: true }}
+      />
+    </Box>
   );
 };

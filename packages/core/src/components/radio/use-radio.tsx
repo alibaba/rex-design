@@ -34,7 +34,7 @@ export function useRadio(props: UseRadioProps) {
         name,
         value,
         checked,
-        onChange: callAllHandlers(props?.onChange, handleChange),
+        onChange: handleChange,
         onClick: (e: React.MouseEvent<HTMLInputElement>) => {
           e.stopPropagation();
         },
