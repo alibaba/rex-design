@@ -1,5 +1,5 @@
-import { Box, Flex, Input } from '@rexd/core';
-import { Icon, ICON_TYPE_LIST } from '@rexd/icon';
+import { Box, Flex, Group, Input } from '@rexd/core';
+import { Icon, ICON_TYPE_LIST, useIconfont } from '@rexd/icon';
 import React, { useState } from 'react';
 
 export default { title: 'Icons' };
@@ -21,5 +21,20 @@ export const Basic = () => {
         ))}
       </Flex>
     </Box>
+  );
+};
+
+export const Iconfont = () => {
+  const SvgIcon = useIconfont({
+    scriptUrl: '//at.alicdn.com/t/font_1062849_wshbvt9mp1.js',
+  });
+
+  return (
+    <Group fontSize="body">
+      <SvgIcon type="audio" size="40px" />
+      <SvgIcon type="mouse" size="40px" />
+      <SvgIcon type="eye" size="40px" />
+      <SvgIcon type="gesture" size="40px" />
+    </Group>
   );
 };
