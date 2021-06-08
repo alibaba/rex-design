@@ -10,7 +10,7 @@ export interface UseSelectableListProps<T> {
   /**
    * 选择模式，单选，多选
    */
-  selectMode?: 'single' | 'multipe';
+  selectMode?: 'single' | 'multiple';
   value?: T;
   defaultValue?: T;
   onChange?: FormControlOnChangeHandler<T>;
@@ -39,7 +39,7 @@ export function useSelectableList<T>(props: UseSelectableListProps<T>) {
       };
 
       const nextValue =
-        selectMode === 'multipe'
+        selectMode === 'multiple'
           ? getNextValueOfMultipleMode(itemValue, checked)
           : getNextValueOfSingleMode(itemValue, checked);
 

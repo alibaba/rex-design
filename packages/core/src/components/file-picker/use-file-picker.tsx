@@ -171,13 +171,14 @@ export function useFilePicker(props: UseFilePickerProps) {
       disabled,
       onChange: async (e: React.FormEvent<HTMLInputElement>) => {
         const rawFiles = (e.target as HTMLInputElement).files;
-        const files = Array.from(rawFiles).map(normalizeFile);
+        const files = Array.from(rawFiles).map(normalizeFile); // TODO: 支持用户自己来 normalize ?
         const list = mergeCollections<RexFile>(files, value, 'id');
 
         updateDisplayValue(list); // 只更新展示态
 
         const rets = await Promise.all(
           files.map(async (file: any) => {
+            // TODO: beforeUpload
             return upload(file);
           }),
         );

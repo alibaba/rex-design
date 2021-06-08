@@ -29,7 +29,7 @@ export function CheckboxGroup(props: CheckboxGroupProps) {
   const { value: valueProp, defaultValue = [], onChange, dataSource = [], name, direction, className, ...rest } = props;
   const { value, onSelect } = useSelectableList({
     component: 'CheckboxGroup',
-    selectMode: 'multipe',
+    selectMode: 'multiple',
     value: valueProp,
     defaultValue,
     onChange,

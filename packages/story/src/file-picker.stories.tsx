@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { Group, FilePicker, MediaPicker } from '@rexd/core';
 
-export default { title: 'FilePicker' };
+export default { title: 'FilePicker', component: FilePicker };
 
 const files = [
   {

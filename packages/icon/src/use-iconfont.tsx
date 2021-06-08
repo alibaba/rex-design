@@ -2,7 +2,13 @@ import React from 'react';
 import { useEffect } from 'react';
 
 export interface UseIconfontProps {
+  /**
+   * Iconfont 的脚本地址
+   */
   scriptUrl: string;
+  /**
+   * 透传给 Svg 元素的属性
+   */
   svgProps?: React.SVGAttributes<SVGElement>;
 }
 

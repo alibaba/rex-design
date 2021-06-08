@@ -187,6 +187,7 @@ const common = {
 
   fontSizes: {
     note: '12px',
+
     body: '12px',
     base: '12px',
 
