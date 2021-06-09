@@ -21,7 +21,7 @@ import * as basicExamples from 'story/src/xform/1-basic-examples.stories';
   - 表单内核采用 mobx 提供的数据结构，无缝对接 mobx 生态
 - 概念精简，上手轻松
   - 当然你需要对 mobx 有所一定程度的了解
-- 精确渲染，高性能，大表单场景下交互流畅
+- 精确渲染，高性能，大数据量场景下交互依旧流畅
 
 ### 数据索引名称限制
 
@@ -60,9 +60,27 @@ export function Basic() {
 初始化 FormModel 的过程需要放在 render 函数之外，保证前后两次渲染使用同一个 FormModel 对象。
 :::
 
+#### 创建全局 FormModel
+
+如果你使用 mobx 管理应用的全局状态，那么可以在 Store 中创建 FormModel 对象：
+
+```jsx
+import { observable, makeObservable } from 'mobx';
+import { FormModel } from '@rexd/xform';
+
+class Store {
+  @observable
+  formModel = new FormModel({ name: '小河马', phone: '188-8888-8888' });
+
+  constructor() {
+    makeObservable(this);
+  }
+}
+```
+
 #### 创建与组件生命周期一致的 FormModel
 
-(todo)
+当需要创建与组件生命周期一致的 FormModel 时，我们推荐以下的方式：为组件创建一个单独的 Store，然后在组件中通过 useState 或 [useLocalObservable](https://mobx.js.org/api.html#uselocalobservable) 创建一个 Store 实例。
 
 ```jsx
 import { useState } from 'react';
@@ -95,24 +113,6 @@ export const MyComponent = observer(() => {
     </Form>
   );
 });
-```
-
-#### 创建全局 FormModel
-
-如果你使用 mobx 管理应用的全局状态，那么可以在 Store 中创建 FormModel 对象：
-
-```jsx
-import { observable, makeObservable } from 'mobx';
-import { FormModel } from '@rexd/xform';
-
-class Store {
-  @observable
-  formModel = new FormModel({ name: '小河马', phone: '188-8888-8888' });
-
-  constructor() {
-    makeObservable(this);
-  }
-}
 ```
 
 ## 示例

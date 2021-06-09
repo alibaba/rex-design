@@ -198,4 +198,4 @@ FormItem.register = (options: FormItemCreationOptions) => {
   COMPONENT_DICT[options.name] = createFormItem(options);
 };
 
-FormItem.COMPONENT_DICT = FormItem;
+FormItem.COMPONENT_DICT = COMPONENT_DICT;

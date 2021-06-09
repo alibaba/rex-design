@@ -1,5 +1,5 @@
 import { Box, Toaster } from '@rexd/core';
-import { arrayCard, createAsyncValue, Form, FormItem, FormModel } from '@rexd/xform';
+import { arrayCard, AsyncValue, Form, FormItem, FormModel } from '@rexd/xform';
 import { observer } from 'mobx-react-lite';
 import dayjs from 'moment';
 import React from 'react';
@@ -171,7 +171,7 @@ const model3 = new FormModel({
   districts: [] as string[],
 });
 
-const cityDataSource$ = createAsyncValue(async () => {
+const cityDataSource$ = new AsyncValue(async () => {
   // 依赖收集需要发生在同步代码块中
   const prov = model3.getValue('prov');
 
@@ -180,7 +180,7 @@ const cityDataSource$ = createAsyncValue(async () => {
   return ALL_CITIES.find((item) => item.prov === prov).cities;
 }, []);
 
-const districtDataSource$ = createAsyncValue(async () => {
+const districtDataSource$ = new AsyncValue(async () => {
   // 依赖收集需要发生在同步代码块中
   const cities: string[] = model3.getValue('cities');
 

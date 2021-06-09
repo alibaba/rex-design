@@ -3,6 +3,7 @@ id: advanced
 title: xform 进阶
 ---
 
+import * as basicExamples from 'story/src/xform/1-basic-examples.stories.tsx';
 import * as advancedExamples from 'story/src/xform/2-advanced-examples.stories';
 
 本页将介绍 xform 的一些进阶用法，包括表单片段复用、数组类型表单、嵌套表单数据结构等。
@@ -232,3 +233,15 @@ const fooFork = fooField.getFork('fooFork')
 同一个数据索引下，不同的 forks 共享一个命名空间，互相之间可以通过 `field.getFork(forkName)` 进行访问；该方法调用过程中，如果 forkName 对应的 fork field 不存在，则会初始化对应的 fork field，并将其返回。
 
 我们可以认为 original fork 是默认存在的一个 fork，当想要使用新的 fork 时，就换一个 forkName；而当想要获取到 original fork 时，则通过 `forkField.getFork('original')` 进行获取。
+
+## 数组解构
+
+使用 `model.getTupleField(...names)` 可以将多个数据索引组合为一个元祖类型(tuple)的 field，一般用于日期范围、数字范围等范围类型的控件，方便处理前端后数据格式不一致的矛盾（例如后端要求用两个独立的字段来表示日期范围，而前端控件往往采用数组表示日期范围）。
+
+```jsx
+// 让 dateRangePicker 绑定到 start 和 end 字段上
+const field = model.getTupleField('start', 'end')
+<FormItem component="dateRangePicker" field={field} />
+```
+
+<Story fn={basicExamples.TupleField} />

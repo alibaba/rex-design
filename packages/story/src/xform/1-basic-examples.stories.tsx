@@ -3,7 +3,7 @@ import { Form, FormItem, FormModel, modelUtils } from '@rexd/xform';
 import { action } from 'mobx';
 import { Observer } from 'mobx-react-lite';
 import moment from 'moment';
-import React from 'react';
+import React, { useState } from 'react';
 import { ValuePreview } from './helpers';
 
 export default { title: 'XForm / 基本示例' };
@@ -231,5 +231,39 @@ export function WithActions() {
         <ValuePreview />
       </Form>
     </div>
+  );
+}
+
+export function TupleField() {
+  const [model] = useState(() => new FormModel({ start: '', end: '', dateRange: ['', ''] }));
+
+  console.log('TupleField:', model);
+
+  return (
+    <Form model={model} layout={{ labelWidth: 200 }}>
+      <FormItem
+        label="使用 tupleField(start, end)"
+        component="dateRangePicker"
+        field={model.getTupleField('start', 'end')}
+      />
+      <FormItem label="使用普通 field(dateRange)" component="dateRangePicker" name="dateRange" />
+      <ValuePreview defaultShow />
+    </Form>
+  );
+}
+
+export function ForkField() {
+  const [model] = useState(() => new FormModel({ name: '小河马' }));
+  const nameField = model.getField('name');
+
+  console.log('ForkField:', model);
+
+  return (
+    <Form model={model}>
+      <FormItem label="original field" component="input" field={nameField} required />
+      <FormItem label="fork(test) field" component="input" disabled field={nameField.getFork('test')} />
+
+      <ValuePreview />
+    </Form>
   );
 }

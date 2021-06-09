@@ -1,4 +1,4 @@
-import { createAsyncValue, Form, FormItem, FormModel } from '@rexd/xform';
+import { AsyncValue, Form, FormItem, FormModel } from '@rexd/xform';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 
@@ -91,7 +91,7 @@ const delay = (ms: number) =>
 
 const model3 = new FormModel({ prov: '浙江', cities: [] });
 
-const cityDataSource$ = createAsyncValue(
+const cityDataSource$ = new AsyncValue(
   async () => {
     // 依赖收集需要发生在同步代码块中
     const prov = model3.getValue('prov');

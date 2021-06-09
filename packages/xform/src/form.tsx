@@ -1,9 +1,9 @@
 import { reaction, toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { AsyncValue, isAsyncValue } from './async-value';
 import { composeState } from './common-utils';
 import { FormItemGroup, FormItemView, FormLayout, FormLayoutParams, FormReset, FormSubmit } from './form-ui';
+import { AsyncValue } from './helpers/AsyncValue';
 import { Field, FormModel, IModel, SubModel } from './models';
 
 export const ModelContext = React.createContext<IModel<any>>(null);
@@ -131,7 +131,7 @@ const FormEffect = observer(function FormEffect<T = any>({ watch, effect, fireIm
       return reaction(watch, boundEffect);
     } else if (watch instanceof Field) {
       return reaction(() => watch.value, boundEffect, { fireImmediately });
-    } else if (isAsyncValue(watch)) {
+    } else if (watch instanceof AsyncValue) {
       return reaction(() => watch.current, boundEffect, { fireImmediately });
     } else if (Array.isArray(watch)) {
       return reaction(
@@ -139,7 +139,7 @@ const FormEffect = observer(function FormEffect<T = any>({ watch, effect, fireIm
           return watch.map((t) => {
             if (typeof t === 'string') {
               return toJS(model.getValue(t));
-            } else if (isAsyncValue(t)) {
+            } else if (t instanceof AsyncValue) {
               return t.current;
             } else {
               return t.value;
@@ -184,7 +184,7 @@ const FormArray = observer(({ name, children, layout, itemFactory }: FormArrayPr
   const itemCount = arrayModel.values?.length ?? 0;
 
   return (
-    <ModelProvider value={arrayModel as IModel}>
+    <ModelProvider value={arrayModel as IModel<unknown[]>}>
       {layout({ arrayModel, itemCount, itemContent: children, itemFactory })}
     </ModelProvider>
   );
@@ -196,7 +196,7 @@ const FormObject = observer(({ name, children }: { children: React.ReactNode; na
   if (name === '&') {
     return <>{children}</>;
   }
-  return <ModelProvider value={parent.getSubModel(name)} children={children} />;
+  return <ModelProvider value={parent.getSubModel(name) as IModel} children={children} />;
 });
 
 Form.Submit = FormSubmit;

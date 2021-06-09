@@ -79,6 +79,10 @@ export interface IModel<D = unknown> {
 
   getField<N extends XName<D>>(name: N): Field<ResolveXName<D, N>>;
 
+  getTupleField<NS extends (keyof D & string)[]>(
+    ...tupleParts: NS
+  ): Field<{ [Index in keyof NS]: NS[Index] extends keyof D ? D[NS[Index]] : never }>;
+
   // internals
   readonly _proxy: SubModelProxy;
 
@@ -169,13 +173,23 @@ export class SubModelProxy<D = unknown> {
     const name = path[0];
     this._updateValueShape(keyToValueShape(name));
 
+    return this.ensureField(name);
+  }
+
+  ensureField(name: string, forkName?: string, tupleParts?: string[]): Field<any> {
     let field = this.fieldMap.get(name);
     if (field == null) {
-      field = new Field(this.model, name);
+      field = new Field(this.model, name, forkName, tupleParts);
       this.fieldMap.set(name, field);
     }
 
     return field;
+  }
+
+  getTupleField(...tupleParts: any[]): Field<any> {
+    this._updateValueShape('object');
+    const name = tupleParts.join('...');
+    return this.ensureField(name, Field.ORIGINAL, tupleParts);
   }
 }
 
@@ -226,6 +240,12 @@ export class FormModel<D extends { [key: string]: any } = unknown> implements IM
     return this._proxy.getField(name);
   }
 
+  getTupleField<NS extends (keyof D & string)[]>(
+    ...tupleParts: NS
+  ): Field<{ [Index in keyof NS]: NS[Index] extends keyof D ? D[NS[Index]] : never }> {
+    return this._proxy.getTupleField(...tupleParts);
+  }
+
   _asField(): never {
     throw new Error('FormModel 下不支持使用 name=& 的 Field');
   }
@@ -274,6 +294,12 @@ export class SubModel<D = unknown> implements IModel<D> {
     return this._proxy.getField(String(name));
   }
 
+  getTupleField<NS extends (keyof D & string)[]>(
+    ...tupleParts: NS
+  ): Field<{ [Index in keyof NS]: NS[Index] extends keyof D ? D[NS[Index]] : never }> {
+    return this._proxy.getTupleField(...tupleParts);
+  }
+
   get values() {
     return this.parent.getValue(this.name) as D;
   }
@@ -319,27 +345,39 @@ export class Field<V = unknown> {
   readonly parent: IModel<any>;
   readonly name: string;
   readonly forkName: string;
+  readonly tupleParts: string[];
   readonly id: string;
   readonly _forkMap: Map<string, Field>;
 
   state: FieldState = {};
 
-  get value() {
-    return this.parent.getValue(this.name) as V;
+  get value(): V {
+    if (this.tupleParts) {
+      return this.tupleParts.map((part) => this.parent.getValue(part)) as any;
+    }
+    return this.parent.getValue(this.name) as any;
   }
 
-  set value(v: V) {
-    this.parent.setValue(this.name, v);
+  set value(value: V) {
+    if (this.tupleParts) {
+      this.tupleParts.forEach((part, index) => {
+        this.parent.setValue(part, value[index]);
+      });
+      return;
+    }
+
+    this.parent.setValue(this.name, value);
   }
 
   get path() {
     return this.parent.path.concat([this.name]);
   }
 
-  constructor(parent: IModel, name: string, forkName = Field.ORIGINAL) {
+  constructor(parent: IModel, name: string, forkName = Field.ORIGINAL, tupleParts?: string[]) {
     this.parent = parent;
     this.name = name;
     this.forkName = forkName;
+    this.tupleParts = tupleParts;
     this.id = this.parent.root.getNextFieldId();
 
     makeObservable(
@@ -382,11 +420,11 @@ export class Field<V = unknown> {
     }, [config]);
   }
 
-  getFork(forkName: string) {
+  getFork(forkName: string): Field<V> {
     if (this._forkMap.has(forkName)) {
-      return this._forkMap.get(forkName);
+      return this._forkMap.get(forkName) as Field<V>;
     } else {
-      return new Field(this.parent, this.name, forkName);
+      return new Field<V>(this.parent, this.name, forkName, this.tupleParts);
     }
   }
 

@@ -9,7 +9,7 @@ import * as effectsExamples from 'story/src/xform/effects-examples';
 
 在 xform 中，表单联动主要依赖 mobx [reaction](https://mobx.js.org/reactions.html) & [computed](https://mobx.js.org/computeds.html) 这两项能力。如果你熟悉 mobx，你可以很快地上手 xform 中的联动。
 
-在 mobx 的基础上，xform 额外提供了 Form.Effect 与 createAsyncValue，前者用于简化 reaction 的书写，后者用于处理异步数据源。
+在 mobx 的基础上，xform 额外提供了 Form.Effect 与 AsyncValue，前者用于简化 reaction 的书写，后者用于处理异步数据源。
 
 ## field 写法
 
@@ -140,13 +140,13 @@ const AutoCleanEffect = ({ trigger, target }) => (
 - 切换省份时，城市下拉框需要切换为相应的数据源
 - 城市数据源需要异步加载，加载过程中添加 loading 效果
 
-我们可以通过 [`createAsyncValue`](api#createasyncvalue) 来创建异步数据源：
+我们可以通过 [`AsyncValue`](api#asyncvalue) 来创建异步数据源：
 
 ```jsx
 const model3 = new FormModel({ prov: '浙江', cities: [] });
 const prov = model3.getField('prov');
 
-const cityDataSource$ = createAsyncValue(async () => {
+const cityDataSource$ = new AsyncValue(async () => {
   return fetchCityDataSourceByProvince(prov.value);
 }, []);
 
@@ -162,7 +162,7 @@ const cityDataSource$ = createAsyncValue(async () => {
 />;
 ```
 
-`createAsyncValue` 会根据参数 fetcher 创建出一个 [`AsyncValue`](api#asyncvalue) 对象，当 `asyncValue.current` 被订阅时，fetcher 将被调用，其返回结果将作为 `asyncValue.current` 的值，而 `asyncValue.status` 会记录目前异步数据的加载状态（loading / ready / error)。
+`new AsyncValue` 会根据参数 fetcher 创建出一个 [`AsyncValue`](api#asyncvalue) 对象，当 `asyncValue.current` 被订阅时，fetcher 将被调用，其返回结果将作为 `asyncValue.current` 的值，而 `asyncValue.status` 会记录目前异步数据的加载状态（loading / ready / error)。
 
 在 fetcher 的**同步代码**执行过程中，mobx 会进行[依赖收集](https://mobx.js.org/understanding-reactivity.html)，每当其中的依赖发生变化时，fetcher 将会被重新执行，以使用最新的参数去获取异步数据。
 
@@ -171,7 +171,7 @@ const cityDataSource$ = createAsyncValue(async () => {
 <Story fn={effectsExamples.Example3} />
 
 :::info
-xform createAsyncValue 参考了 [recoil async selector](https://recoiljs.org/docs/api-reference/core/selector#asynchronous-selectors)。 允许开发者使用同步的代码来描述一个异步函数的返回结果，非常适合抽象表单中的异步下拉数据源。
+xform AsyncValue 参考了 [recoil async selector](https://recoiljs.org/docs/api-reference/core/selector#asynchronous-selectors)。 允许开发者使用同步的代码来描述一个异步函数的返回结果，非常适合抽象表单中的异步下拉数据源。
 :::
 
 :::tip
@@ -194,8 +194,8 @@ Form.Effect 支持 watch 异步数据源：每当异步数据源加载完成时�
 ```jsx
 const model = new FormModel(initValues);
 const prov = model3.getField('prov');
-const cityDataSource$ = createAsyncValue(async () => {});
-const districtDataSource$ = createAsyncValue(async () => {});
+const cityDataSource$ = new AsyncValue(async () => {});
+const districtDataSource$ = new AsyncValue(async () => {});
 
 <Form>
   <FormItem name="prov" />

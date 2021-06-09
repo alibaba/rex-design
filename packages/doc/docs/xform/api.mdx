@@ -373,6 +373,8 @@ IModel 是一个 interface， `FormModel`（根节点）和 `SubModel`（子节�
 - `model.setValue(name, value)` 以当前模型为起始路径，修改 name 处的数据
 - `model.state` 模型级别的状态，这是一个 mobx observable 对象，默认为 `{}`，一般用来管理一些表单的 UI 状态。
 - `model.id: string` 模型在所属 FormModel 内的唯一 id
+- `model.getTupleField(...names): Field` 获取[多个 name 组合而成的元祖字段](advanced#数组解构)
+  - 注意该方法暂不支持使用 `.` 来表示嵌套数据索引
 
 ### `Field`
 
@@ -536,30 +538,24 @@ FormItem.register({
 <FormItem component="myCitySelect" name="city" label="城市" />;
 ```
 
-### `createAsyncValue`
+### `AsyncValue`
 
-`createAsyncValue<T>(fetcher: () => Promise<T>, initValue?: T): AsyncValue<T>`
+`new AsyncValue<T>(fetcher: () => Promise<T>, initValue?: T)`
 
 基于 `fetcher` 创建定义一个 AsyncValue，用于声明式地定义异步数据源。
 
-当 `asyncValue.*` (\* 表示 value/status/error) 被订阅时， fetcher 将被首次调用， 其返回结果将作为 `asyncValue.current` 的值。
+当 asyncValue 的 value/status/error 被订阅时，fetcher 将被首次调用，其返回结果将作为 `asyncValue.current` 的值。
 
-调用 fetcher 的过程中会进行依赖收集，每当这些依赖的值发生变化时，fetcher 都会被重新触发。
-
-<details>
-
-<summary>具体规则：</summary>
+调用 fetcher 的过程中会进行依赖收集，每当这些依赖的值发生变化时，fetcher 都会被重新触发。 具体规则：
 
 1. 每次 fetcher 被调用时， status 就会变为 loading，并等待 fetcher 返回的 Promise resolve 或 reject；
 2. 当 fetcher 返回的 Promise resolve 时， status 变为 ready，同时 current 字段变为最新的值；
 3. 当 fetcher 返回的 Promise reject 时， status 变为 error，同时 error 字段记录本次错误；
-4. 当 fetcher 返回的 Promise 仍处于 pending 状态时，若 fetcher 再次被调用，已有的 promise 将被忽略，将会回到 1.
+4. 当 fetcher 返回的 Promise 仍处于 pending 状态时，若 fetcher 再次被调用，已有的 promise 将被忽略，并回到 1.
 
-</details>
+<!-- 此外，AsyncValue 的 loading 状态有传染性：当 fetcher 遇到 loadingAsyncValue.current 时，会自动将 -->
 
-### `AsyncValue`
-
-`AsyncValue` 是一个 interface，该类型的对象通过 [createAsyncValue](#createasyncvalue) 创建。
+AsyncValue 中的属性与方法：
 
 ```tsx
 export interface AsyncValue<T> {
@@ -579,9 +575,3 @@ export interface AsyncValue<T> {
   refresh(): void;
 }
 ```
-
-#### `isAsyncValue`
-
-`isAsyncValue(obj: object): obj is AsyncValue<any>`
-
-判断一个对象是否为 AsyncValue.

@@ -119,10 +119,13 @@ const FormLayoutContainer = styled.div`
 export interface FormLayoutParams {
   /** 标签位置，可选 'left' 或 'top'  */
   labelPosition?: 'left' | 'top';
+
   /** 标签宽度 */
   labelWidth?: string | number;
+
   /** 控件宽度 */
   controlWidth?: string | number;
+
   /** 两个 form item 之间的间距 */
   formItemGap?: string | number;
 }
@@ -179,6 +182,8 @@ const FormItemGroupDiv = styled.div`
 
 export interface FormItemGroupProps {
   label?: React.ReactNode;
+  tip?: React.ReactNode;
+  asterisk?: boolean;
   children?: React.ReactNode;
   labelWidth?: number | string;
   controlWidth?: number | string;
@@ -189,6 +194,8 @@ export interface FormItemGroupProps {
 
 export const FormItemGroup = ({
   label,
+  asterisk,
+  tip,
   children,
   labelWidth,
   controlWidth,
@@ -203,7 +210,14 @@ export const FormItemGroup = ({
       className={cx('form-item-group', { inline, 'form-item-preview': isPreview }, className)}
       style={style}
     >
-      {label != null && <div className="form-item-label">{label}</div>}
+      {label == null && tip == null ? null : (
+        <div className="form-item-label">
+          {asterisk && <span className="required-indicator" />}
+          {label && <span className="form-item-label-text">{label}</span>}
+          {tip && <Tip title={tip} />}
+        </div>
+      )}
+
       <div
         className="form-item-group-content"
         style={
