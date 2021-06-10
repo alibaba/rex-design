@@ -59,9 +59,10 @@ module.exports = {
             'range',
             'switch',
             'textarea',
+            'search',
             'select',
             'tree-select',
-            'search',
+            'cascader-select',
           ],
         },
         {

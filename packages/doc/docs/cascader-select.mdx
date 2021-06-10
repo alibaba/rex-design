@@ -1,16 +1,14 @@
 ---
-id: cascader
-title: Cascader 级联
+id: cascader-select
+title: CascaderSelect 级联选择
 ---
 
-import { Cascader } from '@rexd/core';
-import * as stories from 'story/src/select/cascader.stories.tsx';
+import { CascaderSelect } from '@rexd/core';
+import * as stories from 'story/src/select/cascader-select.stories.tsx';
 
 ## 使用场景
 
 在一组相关联的数据集合进行选择，例如省市区、组织架构树、商品分类等。
-
-Cascader 一般会以选择器的形式进行使用，此时我们推荐使用 [CascaderSelect](cascader-select) 组件。
 
 :::note
 因为 Cascader/CascaderSelect 在某一个层级一次只能打开一个列表，Cascader/CascaderSelect 被设计为 **仅支持单个父节点下 叶子节点的单选或多选**。
@@ -24,16 +22,6 @@ Cascader 一般会以选择器的形式进行使用，此时我们推荐使用 [
 
 <Story fn={stories.Basic} />
 
-### 受控多选
-
-<Story fn={stories.Multiple} />
-
-### 受控单选
-
-Cascader 组件本身仅支持 selectedKeys 的数组用法。 **单选功能需要在上层进行数据处理。**
-
-<Story fn={stories.Controlled} />
-
 ## API
 
-<PropsTable component={Cascader} />
+<PropsTable component={CascaderSelect} />

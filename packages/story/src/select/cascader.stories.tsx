@@ -18,7 +18,6 @@ function useDistrictsTreeData() {
       .then((response) => response.json())
       .then((data) => {
         data[1].disabled = true;
-        data[2].checkboxDisabled = true;
         setData(data);
       })
       .catch((e) => console.log(e));

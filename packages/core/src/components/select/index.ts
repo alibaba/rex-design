@@ -9,7 +9,12 @@ export { MultiTreeSelect, MultiTreeSelectProps } from './multi-tree-select';
 export { SelectViewProps, SelectView } from './select-view';
 export { TreeSelectItem, SelectItem, ISelectSearchProps, ISelectPopupProps, ISelectAppearanceProps } from './types';
 
-export { SingleCascaderSelect, SingleCascaderSelectProps } from './cascader-select';
+export {
+  // todo export CascaderSelect only
+  SingleCascaderSelect as CascaderSelect,
+  SingleCascaderSelect,
+  SingleCascaderSelectProps,
+} from './cascader-select';
 export { Cascader, CascaderProps } from './cascader';
 
 export { Tree, TreeProps } from './tree';
