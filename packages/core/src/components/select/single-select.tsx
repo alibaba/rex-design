@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { composeHandlers, composeState } from '../../utils';
-import { getLast } from './select-utils';
+import { getLast } from './utils/select-utils';
 import { SelectView } from './select-view';
 import { ISelectAppearanceProps, ISelectPopupProps, ISelectSearchProps, SelectItem } from './types';
 

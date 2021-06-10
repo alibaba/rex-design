@@ -1,5 +1,5 @@
 import { isLeafNode, AbstractTreeNode } from 'ali-react-table';
-import { arrayUtils } from './array-utils';
+import { arrayUtils } from './select-utils';
 
 class Wrapper<N extends AbstractTreeNode> {
   constructor(input?: Partial<Wrapper<N>>) {

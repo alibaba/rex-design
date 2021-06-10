@@ -41,6 +41,7 @@ module.exports = {
             'progress',
             'notice',
             'tree',
+            'cascader',
           ],
         },
         {

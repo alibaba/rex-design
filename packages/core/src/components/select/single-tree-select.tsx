@@ -1,7 +1,7 @@
 import { collectNodes, isLeafNode, makeRecursiveMapper } from 'ali-react-table';
 import React, { useState } from 'react';
 import { composeHandlers, composeState } from '../../utils';
-import { getLast } from './select-utils';
+import { getLast } from './utils/select-utils';
 import { TreeProps } from './tree';
 import { TreeSelectView } from './tree-select-view';
 import { TreeItem } from './tree-view';

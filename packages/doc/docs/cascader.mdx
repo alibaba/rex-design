@@ -1,0 +1,27 @@
+---
+id: cascader
+title: Cascader 级联
+---
+
+import { Cascader } from '@rexd/core';
+import * as stories from 'story/src/select/cascader.stories.tsx';
+
+## 使用场景
+
+在一组相关联的数据集合进行选择，例如省市区、组织架构树、商品分类等。
+
+:::note
+因为 Cascader 在某一个层级一次只能打开一个列表，Cascader 被设计为 **仅支持单个父节点下 叶子节点的单选或多选**。
+
+跨父节点，跨层级，父节点可被选中，或是其他通用的树形选择场景请使用 [TreeSelect](tree-select) 组件。
+:::
+
+## 示例
+
+### 基本示例
+
+<Story fn={stories.Basic} />
+
+## API
+
+<PropsTable component={Cascader} />

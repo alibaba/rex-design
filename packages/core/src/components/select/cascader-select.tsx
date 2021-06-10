@@ -2,7 +2,7 @@ import { collectNodes, isLeafNode, makeRecursiveMapper } from 'ali-react-table';
 import React, { useState } from 'react';
 import { composeHandlers, composeState } from '../../utils';
 import { CascaderSelectView } from './cascader-select-view';
-import { getLast } from './select-utils';
+import { getLast } from './utils/select-utils';
 import { TreeProps } from './tree';
 import { TreeItem } from './tree-view';
 import { CascaderSelectItem, ISelectAppearanceProps, ISelectPopupProps, ISelectSearchProps } from './types';

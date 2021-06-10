@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { getToken, useMemoizedMergeRefs } from '../../utils';
 import { PopupTargetRenderArgs } from '../overlays';
 import { CaretDownIcon, ClearIcon } from './icons';
-import { toggleValue } from './select-utils';
+import { toggleValue } from './utils/select-utils';
 import { ISelectAppearanceProps, SelectItem } from './types';
 
 const ValueTagDiv = styled.div.withConfig({ componentId: 'rex-select-value-tag' })`

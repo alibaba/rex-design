@@ -7,7 +7,7 @@ import { AdaptivePopup, PopupChildrenRenderArg, PopupTargetRenderArgs } from '..
 import { VirtualList, VirtualListAlign } from '../virtual-list';
 import { TickIcon } from './icons';
 import { SelectTrigger } from './select-trigger';
-import { DefaultNotFoundContent, filterDataSourceBySearchValue } from './select-utils';
+import { DefaultNotFoundContent, filterDataSourceBySearchValue } from './utils/select-utils';
 import {
   ISelectAppearanceProps,
   ISelectPopupProps,

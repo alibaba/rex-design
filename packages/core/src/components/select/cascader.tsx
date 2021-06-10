@@ -5,8 +5,8 @@ import React, { useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { composeHandlers, composeState } from '../../utils';
 import { TickIcon } from './icons';
-import { getLast, toggleValue } from './select-utils';
 import { TreeItem } from './tree-view';
+import { toggleValue } from './utils/select-utils';
 
 export interface CascaderItem {
   label?: React.ReactNode;
@@ -30,6 +30,7 @@ export interface CascaderProps {
   onSelect?(
     nextSelectedKeys: string[],
     detail: any /*{
+     todo
       item: CascaderItem;
       action: 'select' | 'unselect';
       event: React.MouseEvent<HTMLElement>;
@@ -51,12 +52,11 @@ export interface CascaderProps {
 const CascaderItemDiv = styled.div`
   font-size: var(--rex-fontSizes-body);
   height: var(--rex-components-Select-rowHeight);
-  padding: 0 8px 0 20px;
+  padding: 0 8px;
   border-radius: var(--rex-radii-s);
   display: flex;
   align-items: center;
   transition: background-color 200ms;
-  position: relative;
   cursor: pointer;
 
   &.expanded {
@@ -74,11 +74,6 @@ const CascaderItemDiv = styled.div`
 
   &.selected {
     font-weight: 500;
-  }
-
-  .rex-cascader-icon-left {
-    position: absolute;
-    left: 4px;
   }
 
   .rex-cascader-item-label {
@@ -108,10 +103,6 @@ const CascaderDiv = styled.div`
   }
 `;
 
-function asStringArray(v: string | string[]): string[] {
-  return v === undefined ? undefined : Array.isArray(v) ? v : v == null ? [] : [v];
-}
-
 export const Cascader = React.forwardRef<HTMLDivElement, CascaderProps>((props: CascaderProps, ref) => {
   const {
     dataSource: dataSourceProp,
@@ -134,7 +125,7 @@ export const Cascader = React.forwardRef<HTMLDivElement, CascaderProps>((props: 
       const keyOrValue = input.key ?? input.value;
       // path: [...ancestors, parent, self]
       const parent = path[path.length - 2];
-      const item = {
+      const item: TreeItem = {
         ...input,
         key: keyOrValue,
         value: keyOrValue,
@@ -148,14 +139,14 @@ export const Cascader = React.forwardRef<HTMLDivElement, CascaderProps>((props: 
   }, [dataSourceProp]);
 
   const [_selectedKeys, _onSelect] = useState<string[]>(defaultSelectedKeys ?? []);
-  const value = composeState(selectedKeysProp, _selectedKeys);
+  const selectedKeys = composeState(selectedKeysProp, _selectedKeys);
   const onSelect = composeHandlers(onSelectProp, _onSelect);
 
   const findDefaultExpandedKeys = (): string[] => {
-    if (value.length === 0) {
+    if (selectedKeys.length === 0) {
       return [];
     }
-    let key = value[0];
+    let key = selectedKeys[0];
     const result: string[] = [];
     while (true) {
       const parentKey = parentMap.get(key);
@@ -186,13 +177,18 @@ export const Cascader = React.forwardRef<HTMLDivElement, CascaderProps>((props: 
       {columns.map(({ rows, depth, key }) => (
         <div key={`${depth}__${key}`} className={cx('rex-cascader-column', { 'border-left': depth > 0 })}>
           {rows.map((row) => {
-            const selected = value.includes(row.key);
+            const selected = selectedKeys.includes(row.key);
             const expanded = expandedKeys.includes(row.key);
             const disabled = row.disabled;
 
             const onClick = (event: React.MouseEvent<HTMLDivElement>) => {
               if (isLeafNode(row)) {
-                onSelect(toggleValue(value, row.key), { event, action: 'select', item: row });
+                const parent = parentMap.get(row.key);
+                const nextSelectedKeys = toggleValue(
+                  selectedKeys.filter((v) => parentMap.get(v) === parent),
+                  row.key,
+                );
+                onSelect(nextSelectedKeys, { event, action: 'select', item: row });
                 onExpand((keys) => keys.slice(0, depth));
               } else {
                 onExpand((keys) => keys.slice(0, depth).concat(expanded ? [] : [row.key]));
@@ -204,11 +200,14 @@ export const Cascader = React.forwardRef<HTMLDivElement, CascaderProps>((props: 
                 className={cx('rex-cascader-item', { selected, expanded, disabled })}
                 onClick={disabled ? null : onClick}
               >
-                {selected && <TickIcon stroke="currentColor" className="rex-cascader-icon-left" />}
                 <div className="rex-cascader-item-label" title={String(row.label)}>
                   {row.label}
                 </div>
-                {!isLeafNode(row) && <Icon type="arrow-right-filling" className="rex-cascader-icon-right" />}
+                {!isLeafNode(row) ? (
+                  <Icon type="arrow-right-filling" className="rex-cascader-icon-right" />
+                ) : selected ? (
+                  <TickIcon className="rex-cascader-icon-right" />
+                ) : null}
               </CascaderItemDiv>
             );
           })}

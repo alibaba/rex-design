@@ -1,6 +1,5 @@
 import React from 'react';
-import { css } from 'styled-components';
-import { SelectItem } from './types';
+import { SelectItem } from '../types';
 
 // todo 先暂时移除
 // export const rexLightScrollbarStyleMixin = css`
@@ -47,3 +46,14 @@ export const DefaultNotFoundContent = React.memo(() => (
 export function getLast(value: string[]) {
   return value.length === 0 ? null : value[value.length - 1];
 }
+
+export const arrayUtils = {
+  diff(arr1: string[], arr2: Iterable<string>) {
+    const set = new Set(arr2);
+    return arr1.filter((x) => !set.has(x));
+  },
+  merge(arr1: string[], arr2: string[]) {
+    const set = new Set(arr1);
+    return arr1.concat(arr2.filter((x) => !set.has(x)));
+  },
+} as const;
