@@ -11,10 +11,19 @@ export interface SelectProps extends Omit<MultiSelectProps, 'defaultValue' | 'va
   multiple?: boolean;
 }
 
-export const Select = React.forwardRef<HTMLDivElement, SelectProps>(({ multiple, ...props }, ref) => {
+type SelectType = React.ExoticComponent<SelectProps & React.RefAttributes<HTMLDivElement>> & {
+  Single: typeof SingleSelect;
+  Multi: typeof MultiSelect;
+};
+
+// @ts-ignore
+export const Select: SelectType = React.forwardRef<HTMLDivElement, SelectProps>(({ multiple, ...props }, ref) => {
   if (multiple) {
     return <MultiSelect ref={ref} {...(props as MultiSelectProps)} />;
   } else {
     return <SingleSelect ref={ref} {...(props as SingleSelectProps)} />;
   }
 });
+
+Select.Single = SingleSelect;
+Select.Multi = MultiSelect;

@@ -24,6 +24,7 @@ export interface MultiSelectProps
   defaultSearchValue?: string;
 }
 
+/** @deprecated please use `<Select.Multi />` */
 export const MultiSelect = React.forwardRef<HTMLDivElement, MultiSelectProps>((props, ref) => {
   const {
     dataSource: dataSourceProp,

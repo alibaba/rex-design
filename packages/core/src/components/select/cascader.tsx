@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { composeHandlers, composeState } from '../../utils';
 import { TickIcon } from './icons';
 import { TreeItem } from './tree-view';
-import { toggleValue } from './utils/select-utils';
+import { stripTreeDepth, toggleValue } from './utils/select-utils';
 
 export interface CascaderItem {
   label?: React.ReactNode;
@@ -46,7 +46,9 @@ export interface CascaderProps {
   /** 节点展开的回调函数 */
   onExpand?: React.Dispatch<React.SetStateAction<string[]>>;
 
-  // todo expandInteractionKind=hover
+  /** 指定可选择的节点的最大深度
+   * @default Infinity */
+  maxDepth?: number;
 }
 
 const CascaderItemDiv = styled.div`
@@ -72,7 +74,8 @@ const CascaderItemDiv = styled.div`
     cursor: default;
   }
 
-  &.selected {
+  &.selected,
+  &.within-select {
     font-weight: 500;
   }
 
@@ -114,51 +117,45 @@ export const Cascader = React.forwardRef<HTMLDivElement, CascaderProps>((props: 
     selectedKeys: selectedKeysProp,
     onSelect: onSelectProp,
     defaultSelectedKeys,
+    maxDepth = Infinity,
   } = props;
 
   const { dataSource, itemMap, parentMap } = useMemo(() => {
     const parentMap = new Map<string, string>();
     const itemMap = new Map<string, TreeItem>();
 
+    let inputDataSource = dataSourceProp;
+    if (isFinite(maxDepth) && maxDepth >= 0) {
+      inputDataSource = stripTreeDepth(inputDataSource, maxDepth);
+    }
+
     // 经过这一步处理之后，item.key 和 item.value 两者必定相同，后续我们统一使用 key 进行操作
     const dataSource = makeRecursiveMapper((input: any, { path }) => {
-      const keyOrValue = input.key ?? input.value;
       // path: [...ancestors, parent, self]
-      const parent = path[path.length - 2];
+      // depth: 0-based tree depth
+      const depth = path.length - 1;
+      const resolvedKey = input.key ?? input.value;
+      const parent = path[depth - 1];
       const item: TreeItem = {
         ...input,
-        key: keyOrValue,
-        value: keyOrValue,
+        key: resolvedKey,
+        value: resolvedKey,
       };
-      itemMap.set(keyOrValue, item);
-      parentMap.set(keyOrValue, parent?.value);
+      itemMap.set(resolvedKey, item);
+      parentMap.set(resolvedKey, parent?.value);
       return item;
-    })(dataSourceProp) as TreeItem[];
+    })(inputDataSource) as TreeItem[];
 
     return { parentMap, itemMap, dataSource };
-  }, [dataSourceProp]);
+  }, [dataSourceProp, maxDepth]);
 
   const [_selectedKeys, _onSelect] = useState<string[]>(defaultSelectedKeys ?? []);
   const selectedKeys = composeState(selectedKeysProp, _selectedKeys);
   const onSelect = composeHandlers(onSelectProp, _onSelect);
 
-  const findDefaultExpandedKeys = (): string[] => {
-    if (selectedKeys.length === 0) {
-      return [];
-    }
-    let key = selectedKeys[0];
-    const result: string[] = [];
-    while (true) {
-      const parentKey = parentMap.get(key);
-      if (parentKey == null) {
-        return result;
-      }
-      result.unshift(parentKey);
-      key = parentKey;
-    }
-  };
+  const selectParentKeys = getFirstSelectParentKeys();
 
-  const [_expandedKeys, _onExpand] = useState<string[]>(defaultExpandedKeys ?? findDefaultExpandedKeys());
+  const [_expandedKeys, _onExpand] = useState<string[]>(defaultExpandedKeys ?? selectParentKeys);
   const expandedKeys = composeState(expandedKeysProp, _expandedKeys);
   const onExpand = composeHandlers(onExpandProp, _onExpand);
 
@@ -166,7 +163,7 @@ export const Cascader = React.forwardRef<HTMLDivElement, CascaderProps>((props: 
   for (const key of expandedKeys) {
     const lastColumn = columns[columns.length - 1];
     const openCol = lastColumn.rows.find((row) => row.key === key);
-    if (openCol == null) {
+    if (openCol == null || isLeafNode(openCol)) {
       break;
     }
     columns.push({ depth: columns.length, rows: openCol.children, key });
@@ -180,9 +177,13 @@ export const Cascader = React.forwardRef<HTMLDivElement, CascaderProps>((props: 
             const selected = selectedKeys.includes(row.key);
             const expanded = expandedKeys.includes(row.key);
             const disabled = row.disabled;
+            const withinSelect = selectParentKeys.includes(row.key);
+            const hasChildren = !isLeafNode(row);
 
             const onClick = (event: React.MouseEvent<HTMLDivElement>) => {
-              if (isLeafNode(row)) {
+              if (hasChildren) {
+                onExpand((keys) => keys.slice(0, depth).concat(expanded ? [] : [row.key]));
+              } else {
                 const parent = parentMap.get(row.key);
                 const nextSelectedKeys = toggleValue(
                   selectedKeys.filter((v) => parentMap.get(v) === parent),
@@ -190,20 +191,24 @@ export const Cascader = React.forwardRef<HTMLDivElement, CascaderProps>((props: 
                 );
                 onSelect(nextSelectedKeys, { event, action: 'select', item: row });
                 onExpand((keys) => keys.slice(0, depth));
-              } else {
-                onExpand((keys) => keys.slice(0, depth).concat(expanded ? [] : [row.key]));
               }
             };
+
             return (
               <CascaderItemDiv
                 key={row.key}
-                className={cx('rex-cascader-item', { selected, expanded, disabled })}
+                className={cx('rex-cascader-item', {
+                  selected,
+                  'within-select': withinSelect,
+                  expanded,
+                  disabled,
+                })}
                 onClick={disabled ? null : onClick}
               >
                 <div className="rex-cascader-item-label" title={String(row.label)}>
                   {row.label}
                 </div>
-                {!isLeafNode(row) ? (
+                {hasChildren ? (
                   <Icon type="arrow-right-filling" className="rex-cascader-icon-right" />
                 ) : selected ? (
                   <TickIcon className="rex-cascader-icon-right" />
@@ -215,4 +220,20 @@ export const Cascader = React.forwardRef<HTMLDivElement, CascaderProps>((props: 
       ))}
     </CascaderDiv>
   );
+
+  function getFirstSelectParentKeys(): string[] {
+    if (selectedKeys.length === 0) {
+      return [];
+    }
+    let key = selectedKeys[0];
+    const result: string[] = [];
+    while (true) {
+      const parentKey = parentMap.get(key);
+      if (parentKey == null) {
+        return result;
+      }
+      result.unshift(parentKey);
+      key = parentKey;
+    }
+  }
 });

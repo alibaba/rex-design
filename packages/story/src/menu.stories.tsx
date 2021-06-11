@@ -1,4 +1,4 @@
-import { Button, Menu, MenuItem, Popup, Tooltip } from '@rexd/core';
+import { Button, Menu, MenuItem, Popup } from '@rexd/core';
 import React, { useState } from 'react';
 
 export default { title: 'Menu' };
@@ -23,7 +23,7 @@ const menuItems: MenuItem[] = [
   { key: '1', label: '选项 1', selected: true, helper: 'Ctrl+P' },
   { key: '2', label: 'Option 2', disabled: true },
   { key: '3', type: 'divider' },
-  { key: '4', label: '动物园' },
+  { key: '4', label: '动物园', icon: 'layout' },
   {
     key: 'zoo',
     type: 'submenu',

@@ -1,4 +1,4 @@
-import { Cascader } from '@rexd/core';
+import { Cascader, RadioGroup } from '@rexd/core';
 import React, { useEffect, useState } from 'react';
 import { bigTreeDataSource } from './tree-select.stories';
 
@@ -34,6 +34,7 @@ export function Controlled() {
   const dataSource = useDistrictsTreeData();
 
   const [selectedKey, setSelectedKey] = useState('4204');
+
   return (
     <div>
       <div>(受控单选) 当前 selectedKey: {selectedKey}</div>
@@ -44,6 +45,34 @@ export function Controlled() {
         selectedKeys={[selectedKey]}
         onSelect={(keys) => setSelectedKey(getLast(keys))}
         dataSource={dataSource}
+      />
+    </div>
+  );
+}
+
+export function MaxDepth() {
+  const dataSource = useDistrictsTreeData();
+
+  const [maxDepth, setMaxDepth] = useState(2);
+
+  return (
+    <div>
+      <div style={{ display: 'flex', alignItems: 'center', marginBottom: 8 }}>
+        最大深度：
+        <RadioGroup
+          value={String(maxDepth)}
+          onChange={(d) => setMaxDepth(Number(d))}
+          dataSource={[0, 1, 2].map((d) => ({ value: String(d), label: String(d) }))}
+        />
+      </div>
+
+      <Cascader
+        // dataSource 加载完成时，重新加载 cascader
+        key={dataSource.length}
+        style={{ border: '1px solid var(--rex-colors-emphasis-20)' }}
+        dataSource={dataSource}
+        maxDepth={maxDepth}
+        defaultSelectedKeys={['4204']}
       />
     </div>
   );

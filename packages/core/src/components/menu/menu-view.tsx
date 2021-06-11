@@ -18,6 +18,7 @@ export interface MenuItem {
   disabled?: boolean;
   active?: boolean;
   selected?: boolean;
+  icon?: React.ReactNode;
 
   onClick?(event: React.MouseEvent<HTMLDivElement>): void;
 
@@ -56,7 +57,7 @@ const MenuItemDiv = styled.div.withConfig({ componentId: 'rex-menu-item' })`
   font-size: 12px;
   line-height: 32px;
   overflow: hidden;
-  padding: 0 20px;
+  padding: 0 20px 0 24px;
   border-radius: 2px;
 
   &:hover:not(.disabled),
@@ -86,7 +87,10 @@ const MenuItemDiv = styled.div.withConfig({ componentId: 'rex-menu-item' })`
 
   .rex-menu-icon-left {
     position: absolute;
-    left: -16px;
+    left: -18px;
+    width: 14px;
+    height: 14px;
+    display: block;
   }
 
   .rex-menu-icon-right {
@@ -116,7 +120,11 @@ export interface MenuViewProps {
 function renderItemInner(item: MenuItem, { hasArrow, hasSelect }: { hasArrow?: boolean; hasSelect?: boolean }) {
   return (
     <div key={item.key} className="rex-menu-item-inner">
-      {hasSelect && <TickIcon stroke="currentColor" className="rex-menu-icon-left" />}
+      {hasSelect ? (
+        <TickIcon stroke="currentColor" className="rex-menu-icon-left" />
+      ) : item.icon != null ? (
+        <Icon className="rex-menu-icon-left" type={item.icon as any} />
+      ) : null}
 
       <span className={'rex-menu-item-text'}>{item.label}</span>
       {item.helper && <span className="rex-menu-item-helper">{item.helper}</span>}

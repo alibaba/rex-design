@@ -10,10 +10,21 @@ export interface TreeSelectProps extends Omit<MultiTreeSelectProps, 'defaultValu
   multiple?: boolean;
 }
 
-export const TreeSelect = React.forwardRef<HTMLDivElement, TreeSelectProps>(({ multiple, ...props }, ref) => {
-  if (multiple) {
-    return <MultiTreeSelect {...(props as MultiTreeSelectProps)} />;
-  } else {
-    return <SingleTreeSelect {...(props as SingleTreeSelectProps)} />;
-  }
-});
+type TreeSelectType = React.ExoticComponent<TreeSelectProps & React.RefAttributes<HTMLDivElement>> & {
+  Single: typeof SingleTreeSelect;
+  Multi: typeof MultiTreeSelect;
+};
+
+// @ts-ignore
+export const TreeSelect: TreeSelectType = React.forwardRef<HTMLDivElement, TreeSelectProps>(
+  ({ multiple, ...props }, ref) => {
+    if (multiple) {
+      return <MultiTreeSelect ref={ref} {...(props as MultiTreeSelectProps)} />;
+    } else {
+      return <SingleTreeSelect ref={ref} {...(props as SingleTreeSelectProps)} />;
+    }
+  },
+);
+
+TreeSelect.Single = SingleTreeSelect;
+TreeSelect.Multi = MultiTreeSelect;

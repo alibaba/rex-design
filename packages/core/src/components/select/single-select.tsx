@@ -16,6 +16,7 @@ export interface SingleSelectProps
   defaultSearchValue?: string;
 }
 
+/** @deprecated please use `<Select.Single />` */
 export const SingleSelect = React.forwardRef<HTMLDivElement, SingleSelectProps>((props, ref) => {
   const {
     dataSource: dataSourceProp,

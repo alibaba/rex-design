@@ -13,9 +13,9 @@ import * as stories from 'story/src/select/cascader.stories.tsx';
 Cascader 一般会以选择器的形式进行使用，此时我们推荐使用 [CascaderSelect](cascader-select) 组件。
 
 :::note
-因为 Cascader/CascaderSelect 在某一个层级一次只能打开一个列表，Cascader/CascaderSelect 被设计为 **仅支持单个父节点下 叶子节点的单选或多选**。
+因为 Cascader/CascaderSelect 在某一个层级一次只能打开一个列表，Cascader/CascaderSelect 被设计为 **仅支持同一个分组下 叶子节点的单选或多选**。
 
-跨父节点，跨层级，父节点可被选中，或是其他通用的树形选择场景请使用 [Tree](tree) 或 [TreeSelect](tree-select) 组件。
+跨父节点，跨层级，父节点可被选中，或是其他通用的选择场景请使用 [Tree](tree) 或 [TreeSelect](tree-select) 组件。
 :::
 
 ## 示例
@@ -33,6 +33,12 @@ Cascader 一般会以选择器的形式进行使用，此时我们推荐使用 [
 Cascader 组件本身仅支持 selectedKeys 的数组用法。 **单选功能需要在上层进行数据处理。**
 
 <Story fn={stories.Controlled} />
+
+### 可选择的最大深度
+
+默认情况下，dataSource 中的叶子节点才可以被选中。设置 maxDepth 可以指定某个深度的节点均为子节点。
+
+<Story fn={stories.MaxDepth} />
 
 ## API
 

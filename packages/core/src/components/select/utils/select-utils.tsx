@@ -1,3 +1,4 @@
+import { AbstractTreeNode, isLeafNode } from 'ali-react-table';
 import React from 'react';
 import { SelectItem } from '../types';
 
@@ -57,3 +58,19 @@ export const arrayUtils = {
     return arr1.concat(arr2.filter((x) => !set.has(x)));
   },
 } as const;
+
+export function stripTreeDepth<N extends AbstractTreeNode>(input: N[], maxDepth: number) {
+  return dfs(input, 0);
+
+  function dfs(nodes: N[], depth: number): N[] {
+    const result: N[] = [];
+    for (const node of nodes) {
+      result.push({
+        ...node,
+        children: isLeafNode(node) || depth === maxDepth ? null : dfs(node.children as N[], depth + 1),
+      });
+    }
+
+    return result;
+  }
+}

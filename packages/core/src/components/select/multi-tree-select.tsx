@@ -2,10 +2,10 @@ import { collectNodes, isLeafNode, makeRecursiveMapper } from 'ali-react-table';
 import React, { useState } from 'react';
 import { composeHandlers, composeState } from '../../utils';
 import { TreeProps } from './tree';
-import { TreeItem } from './tree-view';
-import { TreeCheckedStrategy } from './utils/TreeDataHelper';
 import { TreeSelectView } from './tree-select-view';
+import { TreeItem } from './tree-view';
 import { ISelectAppearanceProps, ISelectPopupProps, ISelectSearchProps, TreeSelectItem } from './types';
+import { TreeCheckedStrategy } from './utils/TreeDataHelper';
 
 export interface MultiTreeSelectProps
   extends Partial<ISelectPopupProps>,
@@ -31,6 +31,7 @@ export interface MultiTreeSelectProps
   checkedStrategy?: TreeCheckedStrategy;
 }
 
+/** @deprecated please use `<TreeSelect.Multi />` */
 export const MultiTreeSelect = React.forwardRef<HTMLDivElement, MultiTreeSelectProps>((props, ref) => {
   const {
     visible: visibleProp,
