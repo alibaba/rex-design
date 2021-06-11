@@ -4,6 +4,7 @@ module.exports = {
     'values',
     'principles',
     'mfdt',
+    'mfdt-tool',
     {
       type: 'category',
       label: '设计基础规范',

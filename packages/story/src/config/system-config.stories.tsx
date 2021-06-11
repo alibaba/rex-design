@@ -84,6 +84,9 @@ export function System() {
       content: (
         <Box display="flex">
           <Box flex="1">
+            <Image src={gifMap[device]} width="400px" />
+          </Box>
+          <Box flex="1">
             <Box fontSize="title" pl="l" mb="l">
               根据输入视距推荐的字号序列
             </Box>
@@ -94,9 +97,6 @@ export function System() {
                 </FontBox>
               ))}
             </Box>
-          </Box>
-          <Box flex="1">
-            <Image src={gifMap[device]} width="400px" />
           </Box>
         </Box>
       ),
@@ -125,8 +125,8 @@ export function System() {
   };
 
   return (
-    <Box display="flex" borderRadius="l" bg="#FFF" overflow="hidden" position="relative">
-      <Box flex="1" pl="120px" py="48px">
+    <Box display="flex" borderRadius="l" overflow="hidden" position="relative">
+      <Box flex="1" pl="60px" py="48px" bg="fill.layer1">
         <Form model={model} layout={{ labelPosition: 'top' }}>
           <FormItem
             component="input"
