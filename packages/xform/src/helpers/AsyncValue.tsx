@@ -10,11 +10,6 @@ import {
   runInAction,
 } from 'mobx';
 
-// eslint-disable-next-line @typescript-eslint/no-namespace
-export namespace AsyncValue {
-  export type Status = 'loading' | 'ready' | 'error';
-}
-
 export class AsyncValue<T> {
   static SKIP = 'AsyncValue@SKIP' as never;
   static StillLoading = class StillLoading extends Error {};
@@ -149,4 +144,9 @@ export class AsyncValue<T> {
       this._reaction = null;
     }
   };
+}
+
+// eslint-disable-next-line @typescript-eslint/no-namespace
+export namespace AsyncValue {
+  export type Status = 'loading' | 'ready' | 'error';
 }

@@ -2,18 +2,6 @@ import { action, computed, Lambda, makeObservable, observable, reaction, runInAc
 import { Field } from '../models';
 import { AsyncValue } from './AsyncValue';
 
-// eslint-disable-next-line @typescript-eslint/no-namespace
-export namespace RemoteSearch {
-  export interface Options {
-    field?: Field<any>;
-    fetchLabel?: (value: any) => Promise<any>;
-    debounceTime?: number;
-    mode?: 'single' | 'multiple';
-    skipEmptySearchResult?: boolean;
-    resetSearchValueWhenValueChange?: boolean;
-  }
-}
-
 /**
  * 远程搜索辅助函数，用于简化 Select 远程搜索的实现.
  *
@@ -195,5 +183,17 @@ export class RemoteSearch {
       dataSource: this.dataSource,
       state: this._dataSourceFromSearch$.status === 'loading' || this._isFetchingLabel ? 'loading' : undefined,
     };
+  }
+}
+
+// eslint-disable-next-line @typescript-eslint/no-namespace
+export namespace RemoteSearch {
+  export interface Options {
+    field?: Field<any>;
+    fetchLabel?: (value: any) => Promise<any>;
+    debounceTime?: number;
+    mode?: 'single' | 'multiple';
+    skipEmptySearchResult?: boolean;
+    resetSearchValueWhenValueChange?: boolean;
   }
 }
