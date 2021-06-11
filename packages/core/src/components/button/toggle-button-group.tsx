@@ -64,9 +64,9 @@ export function ToggleButtonGroup(props: ToggleButtonGroupProps) {
   return (
     <ToggleButtonGroupProvider value={group}>
       <Group isAttached={isAttached} className={clazz} {...rest}>
-        {dataSource.map((item) => (
-          <ToggleButtonItem {...buttonProps} key={item.value} value={item.value}>
-            {item.label}
+        {dataSource.map(({ label, value, ...others }) => (
+          <ToggleButtonItem {...buttonProps} key={value} value={value} {...others}>
+            {label}
           </ToggleButtonItem>
         ))}
       </Group>
