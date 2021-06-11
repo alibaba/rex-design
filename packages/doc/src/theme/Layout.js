@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import OriginalLayout from '@theme-original/Layout';
+import Head from '@docusaurus/Head';
 import useThemeContext from '@theme/hooks/useThemeContext';
-import { AppProvider } from '@rexd/core';
+import { AppProvider, DESKTOP_DEVICE, PHONE_DEVICE } from '@rexd/core';
 import constate from 'constate';
-import { PHONE_DEVICE, DESKTOP_DEVICE } from '@rexd/core/src';
 
 export const [PlaygroundConfigProvider, usePlaygroundConfig] = constate(() => {
   const { isDarkTheme, setLightTheme, setDarkTheme } = useThemeContext();
@@ -37,6 +37,9 @@ export default function Layout({ children, ...props }) {
       <PlaygroundConfigProvider>
         <LayoutInner>{children}</LayoutInner>
       </PlaygroundConfigProvider>
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
+      </Head>
     </OriginalLayout>
   );
 }

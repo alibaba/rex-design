@@ -86,6 +86,4 @@ module.exports = {
       },
     ],
   ],
-
-  clientModules: [require.resolve('./src/set-html-viewport.js')],
 };
