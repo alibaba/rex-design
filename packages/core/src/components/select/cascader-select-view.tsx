@@ -158,6 +158,7 @@ export const CascaderSelectView = React.forwardRef<HTMLDivElement, CascaderSelec
           {isNotFound && notFoundContent}
 
           <StyledCascader
+            // @ts-ignore
             dataSource={filteredTreeDataSource}
             onChange={() => onRequestClose('close')}
             // todo 完善逻辑

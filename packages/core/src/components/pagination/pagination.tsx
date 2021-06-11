@@ -36,7 +36,7 @@ export function Pagination(props: PaginationProps) {
         }
 
         return (
-          <Button key={index} {...rest}>
+          <Button key={index} {...(rest as any) /* todo */}>
             {label}
           </Button>
         );

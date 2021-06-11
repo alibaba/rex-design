@@ -1,3 +1,4 @@
+// @ts-nocheck
 import invariant from 'invariant';
 import { action, computed, makeObservable, observable } from 'mobx';
 import React, { useLayoutEffect } from 'react';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import invariant from 'invariant';
 import { action } from 'mobx';
 import React from 'react';

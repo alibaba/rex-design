@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { BaseTable, Button } from '@rexd/core';
 import { ArtColumn as Column } from 'ali-react-table';
 import cx from 'classnames';
