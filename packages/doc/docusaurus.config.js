@@ -1,4 +1,3 @@
-const path = require('path');
 const corePkg = require('../core/package.json');
 
 module.exports = {
@@ -74,13 +73,7 @@ module.exports = {
   ],
   themes: ['@docusaurus/theme-live-codeblock'],
   plugins: [
-    require.resolve('./tools/configureWebpack.js'),
-    [
-      require.resolve('./tools/components-source-location.js'),
-      {
-        srcDir: path.join(__dirname, '../core/src'),
-      },
-    ],
+    require.resolve('./configureWebpack.js'),
     'docusaurus-plugin-sass',
     [
       '@docusaurus/plugin-content-docs',
@@ -93,4 +86,6 @@ module.exports = {
       },
     ],
   ],
+
+  clientModules: [require.resolve('./src/set-html-viewport.js')],
 };

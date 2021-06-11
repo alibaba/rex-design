@@ -2,7 +2,6 @@ import React from 'react';
 import OriginalMDXComponents from '@theme-original/MDXComponents';
 import Story from './Story';
 import PropsTable from './PropsTable';
-import ComponentSourceLink from './ComponentSourceLink';
 
 function Image(props) {
   const [alt, meta] = props.alt.split('#');
@@ -47,7 +46,6 @@ export default {
   img: Image,
   PropsTable,
   Story,
-  ComponentSourceLink,
 
   // 设计文档使用的额外样式
   FormulaCenter,

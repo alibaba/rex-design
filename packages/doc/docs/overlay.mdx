@@ -3,7 +3,7 @@ id: overlay
 title: Overlay 通用浮层
 ---
 
-import { Overlay, Button, Popup } from '@rexd/core';
+import { Button, Overlay, Popup } from '@rexd/core';
 
 ## 使用场景
 
@@ -43,7 +43,7 @@ Overlay 封装了内容出现和消失的动画，默认动画如下：
 />
 ```
 
-`Overlay.animations` 提供了 Overlay 默认支持的动画效果，例如 `Overlay.animations.fadeIn`。完整列表可以在 <ComponentSourceLink componentName="Overlay" /> 进行查看。rexd 中的动画效果与 [animate.css](https://animate.style/) 相兼容，你也可以**引入 animate.css**，然后使用 animate.css 提供的动画效果。例如：
+`Overlay.animations` 提供了 Overlay 默认支持的动画效果，例如 `Overlay.animations.fadeIn`。完整列表可以在 Overlay 源码中进行查看。rexd 中的动画效果与 [animate.css](https://animate.style/) 相兼容，你也可以**引入 animate.css**，然后使用 animate.css 提供的动画效果。例如：
 
 ```jsx
 <Overlay animation={{ in: 'backInLeft', out: 'fadeOuztDown' }} />

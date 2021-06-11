@@ -5,13 +5,12 @@
   "scripts": {
     "clean": "rimraf build .docusaurus",
     "docusaurus": "docusaurus",
-    "start": "yarn clear && docusaurus start --port=6007",
+    "start": "yarn clear && docusaurus start --port=6007 --host 0.0.0.0",
     "build": "yarn clear && docusaurus build",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
     "serve": "docusaurus serve --port=6008",
-    "clear": "docusaurus clear && rimraf node_modules/.cache/ts-docgen/",
-    "sync-design-docs": "node tools/sync-design-docs.js"
+    "clear": "docusaurus clear && rimraf node_modules/.cache/ts-docgen/"
   },
   "dependencies": {
     "@types/d3": "^5.16.3",
