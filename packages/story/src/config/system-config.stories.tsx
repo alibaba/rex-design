@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components';
 import { Box, Group, Button, Image, Dialog, ToggleButtonGroup, ActionSheet, THEMES, extendTheme } from '@rexd/core';
 import { Icon } from '@rexd/icon';
 import { Form, FormItem, FormModel } from '@rexd/xform';

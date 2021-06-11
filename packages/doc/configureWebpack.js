@@ -20,7 +20,7 @@ module.exports = function () {
             },
             {
               test: micromatch.matcher('**/packages/story/**/*.tsx'),
-              include: [path.resolve(__dirname, '../../story')],
+              include: [path.resolve(__dirname, '../story')],
               use: [
                 {
                   loader: 'babel-loader',
