@@ -55,9 +55,9 @@ const gifMap = {
 
 const SCREEN_BREAKPOINT_FOR_PHONE = 416;
 
-const getDevice = (width: number) => {
+const getDevice = (width: number, operation?: string) => {
   let device = 'desktop';
-  if (width < SCREEN_BREAKPOINT_FOR_PHONE) {
+  if (width < SCREEN_BREAKPOINT_FOR_PHONE || operation === 'gesture') {
     device = 'phone';
   }
   return device;
@@ -77,7 +77,7 @@ export function System() {
   ];
 
   const handlePreview = () => {
-    const device = getDevice(model.values.width);
+    const device = getDevice(model.values.width, model.values.operation);
     const fontSizes = generateFontSizeTokens(model.values);
     Dialog.show({
       title: 'ReX 主题效果预览',
@@ -126,11 +126,11 @@ export function System() {
 
   return (
     <Box display="flex" borderRadius="l" overflow="hidden" position="relative">
-      <Box flex="1" pl="60px" py="48px" bg="#eee">
+      <Box flex="1" pl="60px" py="48px" bg="#f0f0f0">
         <Form model={model} layout={{ labelPosition: 'top' }}>
           <FormItem
             component="input"
-            label="视距"
+            label="最小阅读距离"
             name="distance"
             componentProps={{
               type: 'number',
@@ -195,8 +195,9 @@ export function System() {
         flexBasis="400px"
         style={{
           background:
-            'url(https://img.alicdn.com/imgextra/i1/O1CN01cg5Nkk1R3gzn9k9rG_!!6000000002056-2-tps-800-1286.png) top left no-repeat',
-          backgroundSize: '100%',
+            'url(https://img.alicdn.com/imgextra/i1/O1CN01cg5Nkk1R3gzn9k9rG_!!6000000002056-2-tps-800-1286.png) top left',
+          backgroundColor: '#2d3987',
+          backgroundSize: 'cover',
           backgroundPositionY: '-100px',
         }}
       />
