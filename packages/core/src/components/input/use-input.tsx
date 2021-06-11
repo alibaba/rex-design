@@ -22,6 +22,8 @@ export interface UseInputProps {
   autoComplete?: string;
   autoFocus?: boolean;
   type?: string;
+  min?: number;
+  max?: number;
   width?: StringOrNumber;
   style?: React.CSSProperties;
   className?: string;
@@ -42,6 +44,8 @@ export function useInput(props: UseInputProps) {
     readOnly,
     status,
     type = 'text',
+    min,
+    max,
     shape = 'solid',
     autoComplete,
     autoFocus = false,
@@ -64,6 +68,8 @@ export function useInput(props: UseInputProps) {
       autoComplete,
       autoFocus,
       type,
+      min,
+      max,
       value,
       onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
         const nextValue = event.target.value;
@@ -73,7 +79,21 @@ export function useInput(props: UseInputProps) {
       onFocus,
       onKeyDown,
     };
-  }, [placeholder, disabled, readOnly, autoComplete, autoFocus, type, value, updateValue, onBlur, onFocus, onKeyDown]);
+  }, [
+    placeholder,
+    disabled,
+    readOnly,
+    autoComplete,
+    autoFocus,
+    type,
+    min,
+    max,
+    value,
+    updateValue,
+    onBlur,
+    onFocus,
+    onKeyDown,
+  ]);
 
   const getClearButtonProps = useCallback(() => {
     return {
