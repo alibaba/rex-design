@@ -126,7 +126,7 @@ export function System() {
 
   return (
     <Box display="flex" borderRadius="l" overflow="hidden" position="relative">
-      <Box flex="1" pl="60px" py="48px" bg="fill.layer1">
+      <Box flex="1" pl="60px" py="48px" bg="#eee">
         <Form model={model} layout={{ labelPosition: 'top' }}>
           <FormItem
             component="input"
