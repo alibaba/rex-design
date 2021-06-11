@@ -12,17 +12,6 @@ export default {
 
 const FormItemGroup = Form.ItemGroup;
 
-const FontBox = styled(Box)`
-  border: 1px dashed transparent;
-  line-height: 2;
-  padding-left: var(--rex-space-l);
-  padding-right: var(--rex-space-l);
-
-  &:hover {
-    border-color: var(--rex-colors-line-border);
-  }
-`;
-
 FormItem.register({
   name: 'toggleButtonGroup',
   component: ToggleButtonGroup,
@@ -81,20 +70,24 @@ export function System() {
     const fontSizes = generateFontSizeTokens(model.values);
     Dialog.show({
       title: 'ReX 主题效果预览',
+      disableScroll: 'force',
       content: (
         <Box display="flex">
           <Box flex="1">
             <Image src={gifMap[device]} width="400px" />
           </Box>
           <Box flex="1">
-            <Box fontSize="title" pl="l" mb="l">
-              根据输入视距推荐的字号序列
+            <Box fontSize="title" pl="l" mb="xl">
+              根据最小视距推荐的字号序列：
             </Box>
             <Box>
               {Object.keys(fontSizes).map((item) => (
-                <FontBox key={item} fontSize={fontSizes[item]}>
-                  {item} ({fontSizes[item]}px)
-                </FontBox>
+                <Box key={item} px="l" fontSize="14px" lineHeight={2}>
+                  <Box display="inline-block" width="80px" textAlign="right" mr="m" fontWeight="bold">
+                    {item}
+                  </Box>
+                  <Box display="inline-block">{fontSizes[item]}px</Box>
+                </Box>
               ))}
             </Box>
           </Box>
