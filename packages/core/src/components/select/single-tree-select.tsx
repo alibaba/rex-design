@@ -28,7 +28,6 @@ export interface SingleTreeSelectProps
   defaultSearchValue?: string;
 }
 
-/** @deprecated please use `<TreeSelect.Single />` */
 export const SingleTreeSelect = React.forwardRef<HTMLDivElement, SingleTreeSelectProps>((props, ref) => {
   const {
     visible: visibleProp,

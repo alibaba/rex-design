@@ -1,4 +1,3 @@
-import { Icon } from '@rexd/icon';
 import cx from 'classnames';
 import memoizeOne from 'memoize-one';
 import React from 'react';
@@ -57,7 +56,6 @@ const ShrinkingToastDiv = styled.div.withConfig({
 export interface ToastConfigCommon {
   placement?: PositionPlacement;
   duration?: number;
-  canCloseByIcon?: boolean;
   canCloseByClick?: boolean;
 }
 
@@ -223,17 +221,6 @@ export class Toast extends React.Component<ToastProps, ToastState> {
     }
   };
 
-  private renderCloseIcon() {
-    const { item } = this.props;
-    return (
-      item.canCloseByIcon && (
-        <div className="rex-toast-close" onClick={this.close}>
-          <Icon type="close" className="rex-toast-close-icon" />
-        </div>
-      )
-    );
-  }
-
   render() {
     const { item, animation, animationDuration } = this.props;
     const { shrinking } = this.state;
@@ -277,7 +264,6 @@ export class Toast extends React.Component<ToastProps, ToastState> {
               onMouseLeave={this.hoverHelper.handleMouseLeave}
             >
               {item.content}
-              {this.renderCloseIcon()}
             </ToastPanel>
           );
         }}

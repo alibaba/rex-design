@@ -1,4 +1,4 @@
-import { MultiTreeSelect, SingleTreeSelect, TreeItem, TreeSelectItem } from '@rexd/core';
+import { TreeItem, TreeSelect, TreeSelectItem } from '@rexd/core';
 import { makeRecursiveMapper } from 'ali-react-table';
 import React, { useState } from 'react';
 import { useCateTree } from '../test-tree-data';
@@ -53,7 +53,7 @@ export const bigTreeDataSource: TreeSelectItem[] = [
 export function Basic() {
   const [value, onChange] = useState('');
   return (
-    <SingleTreeSelect
+    <TreeSelect.Single
       style={{ width: 300 }}
       defaultExpandAll
       onChange={onChange}
@@ -66,7 +66,7 @@ export function Basic() {
 export function ShowSearch() {
   const [value, onChange] = useState('');
   return (
-    <SingleTreeSelect
+    <TreeSelect.Single
       style={{ width: 300 }}
       defaultExpandAll
       showSearch
@@ -89,7 +89,7 @@ export function HippoCategoryTree() {
   }
 
   return (
-    <SingleTreeSelect
+    <TreeSelect.Single
       style={{ width: 200 }}
       popupProps={{ style: { width: 350 } }}
       dataSource={dataSource}
@@ -114,7 +114,7 @@ export function MultiHippoCategoryTree() {
   }
 
   return (
-    <MultiTreeSelect
+    <TreeSelect.Multi
       style={{ width: 300 }}
       value={value}
       onChange={onChange}

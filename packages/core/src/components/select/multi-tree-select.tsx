@@ -31,7 +31,6 @@ export interface MultiTreeSelectProps
   checkedStrategy?: TreeCheckedStrategy;
 }
 
-/** @deprecated please use `<TreeSelect.Multi />` */
 export const MultiTreeSelect = React.forwardRef<HTMLDivElement, MultiTreeSelectProps>((props, ref) => {
   const {
     visible: visibleProp,

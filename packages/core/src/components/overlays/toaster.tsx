@@ -57,17 +57,16 @@ class ToastList extends React.Component<ToastListProps> {
   private mergeRefs = memoizeOne(mergeRefs);
 
   static getDefaultAnimationByPlacement(placement: PositionPlacement): OverlayProps['animation'] {
-    // todo 优化 toast 的默认动画效果
     if (placement === 'center') {
       return { in: Overlay.animations.zoomIn, out: Overlay.animations.zoomOut };
     } else if (placement === 'top') {
-      return { in: Overlay.animations.bounceInDown, out: Overlay.animations.bounceOutUp };
+      return { in: Overlay.animations.expandInDown, out: Overlay.animations.expandOutUp };
     } else if (placement === 'bottom') {
-      return { in: Overlay.animations.bounceInUp, out: Overlay.animations.bounceOutDown };
+      return { in: Overlay.animations.expandInUp, out: Overlay.animations.expandOutDown };
     } else if (placement.includes('left')) {
-      return { in: Overlay.animations.bounceInLeft, out: Overlay.animations.bounceOutLeft };
+      return { in: Overlay.animations.slideInLeft, out: Overlay.animations.slideOutLeft };
     } else {
-      return { in: Overlay.animations.bounceInRight, out: Overlay.animations.bounceOutRight };
+      return { in: Overlay.animations.slideInRight, out: Overlay.animations.slideOutRight };
     }
   }
 
@@ -81,7 +80,7 @@ class ToastList extends React.Component<ToastListProps> {
       className,
       style,
       animation = ToastList.getDefaultAnimationByPlacement(placement),
-      animationDuration = '500ms',
+      animationDuration = '300ms',
       items,
       toaster,
     } = this.props;
@@ -126,7 +125,6 @@ class ToastList extends React.Component<ToastListProps> {
 const DEFAULT_TOAST_COMMON: ToastConfigCommon = {
   placement: 'top',
   duration: 5000,
-  canCloseByIcon: true,
   canCloseByClick: false,
 };
 
@@ -140,7 +138,6 @@ function useToaster(toasterProps: ToasterProps = {}) {
   return [
     {
       show(req: ToastRequest) {
-        // todo ref.current 为空的时候， fallback 为默认 Toast.show
         return ref.current.show(req);
       },
       close(key: string) {

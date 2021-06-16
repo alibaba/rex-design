@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
+import { isFunction } from '../../utils';
 import { Button } from '../button';
 import { Box } from '../layout';
-import { SingleSelect, SingleSelectProps } from '../select';
+import { Select, SingleSelectProps } from '../select';
 import { usePagination, UsePaginationProps } from './use-pagination';
-import { isFunction } from '../../utils';
 
 const Wrapper = styled(Box)`
   display: inline-flex;
@@ -70,7 +70,7 @@ function PageSizeSelect(props: PageSizeSelectProps) {
       <Box display="inline-block" mr="m" fontSize="body">
         {label}
       </Box>
-      <SingleSelect
+      <Select.Single
         dataSource={dataSource}
         value={String(value)}
         onChange={handleChange}

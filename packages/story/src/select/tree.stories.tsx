@@ -4,7 +4,6 @@ import {
   Flex,
   Input,
   searchTreeByKeyword,
-  Tag,
   Tree,
   TreeItem,
   VirtualList,
@@ -278,14 +277,14 @@ export function 业务示例_类目搜索与多选() {
         <Input value={keyword} onChange={setKeyword} placeholder="类目搜索" style={{ width: 300 }} hasClear />
         <span>推荐搜索：</span>
         {recommendations.map((word) => (
-          <Tag
+          <Button
             key={word}
-            interactive
+            size="small"
             onClick={() => setKeyword(word)}
-            style={{ cursor: 'pointer', borderRadius: 4, border: '1px solid #ccc', fontSize: 12, padding: '0 4px' }}
+            style={{ cursor: 'pointer', borderRadius: 4, border: '1px solid #ccc', fontSize: 12 }}
           >
             {word}
-          </Tag>
+          </Button>
         ))}
       </Flex>
 

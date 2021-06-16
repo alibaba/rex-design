@@ -18,9 +18,8 @@ export interface CateTreeItem {
   service: boolean;
 }
 
-// TODO 需要将链接背后的数据 脱敏后上传一份到 basement 上
 const cateTree$ = defer(() =>
-  fetch('/{you-api-host}/QueryMerchantCategoryTree.json', {
+  fetch('https://item.hemaos.com/itemAPI/QueryMerchantCategoryTree.json', {
     credentials: 'include',
   }),
 ).pipe(

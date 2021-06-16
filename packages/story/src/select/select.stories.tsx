@@ -1,4 +1,4 @@
-import { Button, Flex, MultiSelect, Select, SingleSelect } from '@rexd/core';
+import { Button, Flex, Select } from '@rexd/core';
 import _ from 'lodash';
 import React, { useState } from 'react';
 
@@ -10,7 +10,7 @@ export function Basic() {
   const [value, onChange] = useState('');
 
   return (
-    <SingleSelect
+    <Select.Single
       style={{ width: 200 }}
       value={value}
       onChange={onChange}
@@ -23,7 +23,7 @@ export function Basic() {
 
 export function Minimum() {
   return (
-    <SingleSelect
+    <Select.Single
       style={{ display: 'inline-flex' }}
       popupProps={{ style: { width: 120 } }}
       shape="simple"
@@ -34,7 +34,7 @@ export function Minimum() {
 
 export function Search() {
   return (
-    <SingleSelect
+    <Select.Single
       style={{ width: 200 }}
       showSearch
       dataSource={[
@@ -59,7 +59,7 @@ export function Search() {
 }
 
 export function BigData() {
-  return <SingleSelect style={{ width: 200 }} dataSource={_.range(0, 20000).map((i) => `选项-${i + 1}`)} />;
+  return <Select.Single style={{ width: 200 }} dataSource={_.range(0, 20000).map((i) => `选项-${i + 1}`)} />;
 }
 
 export function Status() {
@@ -72,7 +72,7 @@ export function Status() {
 
 export function Multiple() {
   return (
-    <MultiSelect
+    <Select.Multi
       style={{ width: 300 }}
       hasClear
       hasArrow
