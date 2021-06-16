@@ -24,6 +24,8 @@
     "access": "public"
   },
   "dependencies": {
+    "@emotion/is-prop-valid": "^1.1.0",
+    "@emotion/memoize": "^0.7.5",
     "@emotion/serialize": "^1.0.2",
     "@emotion/sheet": "^1.0.1",
     "@popperjs/core": "^2.6.0",

@@ -1,19 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 import cx from 'classnames';
-import { Text as BaseText } from '@rexd/one';
-import { Dict, TypographyProps } from '../../types';
-import { colors, fontSizes } from '../../utils';
+import { textStyledPorps, shouldForwardProp } from '../../system';
+import { TypographyProps } from '../../types';
 
-const SystemText = styled(BaseText)<Dict<any>>`
-  /* Color */
-  color: ${(props) => colors(props.$color)};
-
-  /* Typography */
-  text-align: ${(props) => props.$textAlign || props.$align};
-  font-size: ${(props) => fontSizes(props.$fontSize)};
-  font-weight: ${(props) => props.$fontWeight};
-  line-height: ${(props) => props.$lineHeight};
+const SystemText = styled('span').withConfig({
+  shouldForwardProp: (prop, defaultValidatorFn) => {
+    return shouldForwardProp(prop) && defaultValidatorFn(prop);
+  },
+})<any>`
+  ${textStyledPorps}
 
   &.rex-truncated {
     display: block;

@@ -3,6 +3,12 @@ import { Box } from '@rexd/core';
 
 export default { title: 'Layout/Box' };
 
+export const Basic = () => (
+  <Box display="inline-block" bg="emphasis.100" color="emphasis.0" p={10}>
+    Hello World
+  </Box>
+);
+
 export const Simple = () => (
   <Box bg="brand.normal" p="m" color="emphasis.0" border="solid" borderColor="line.border" borderRadius="m">
     This is a simple box.
