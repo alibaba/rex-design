@@ -14,7 +14,7 @@ export const Panel = React.forwardRef<HTMLElement, PanelProps>((props, ref) => {
       className={cx('rex-panel', className)}
       boxShadow={boxShadow}
       borderRadius={borderRadius}
-      bgColor="var(--rex-overlay-depth-m)"
+      bg="var(--rex-overlay-depth-m)"
       {...rest}
     >
       {children}
