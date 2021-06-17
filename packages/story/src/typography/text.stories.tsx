@@ -24,9 +24,9 @@ export const Truncate = () => (
   </Box>
 );
 
-export const NoOfLines = () => (
-  <Box width="600px" p="l" border="solid" borderColor="line.primary">
-    <Text noOfLines={2}>
+export const LineClamp = () => (
+  <Box width="300px" p="l" border="solid" borderColor="line.primary">
+    <Text lineClamp={2}>
       "The quick brown fox jumps over the lazy dog" is an English-language pangram—a sentence that contains all of the
       letters of the English alphabet. Owing to its existence, Chakra was created.
     </Text>

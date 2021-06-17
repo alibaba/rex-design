@@ -4,7 +4,7 @@ import { Box } from '@rexd/core';
 export default { title: 'Layout/Box' };
 
 export const Basic = () => (
-  <Box display="inline-block" bg="emphasis.100" color="emphasis.0" p={10}>
+  <Box display="inline-block" bg="emphasis.100" color="emphasis.0" p="l" borderRadius="m">
     Hello World
   </Box>
 );

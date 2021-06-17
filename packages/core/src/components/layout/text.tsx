@@ -1,8 +1,22 @@
 import React from 'react';
-import styled from 'styled-components';
-import cx from 'classnames';
+import styled, { css } from 'styled-components';
 import { textStyledPorps, shouldForwardProp } from '../../system';
-import { TypographyProps } from '../../types';
+import { TypographyProps, ColorProps } from '../../types';
+
+const truncatedStyle = css`
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;
+
+const textClampStyle = css<any>`
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: ${(props) => props.$lineClamp};
+`;
 
 const SystemText = styled('span').withConfig({
   shouldForwardProp: (prop, defaultValidatorFn) => {
@@ -11,69 +25,36 @@ const SystemText = styled('span').withConfig({
 })<any>`
   ${textStyledPorps}
 
-  &.rex-truncated {
-    display: block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  &.rex-text-lineClamp {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: ${(props) => props.$noOfLines};
-  }
+  ${(props) => props.$lineClamp > 0 && textClampStyle};
+  ${(props) => props.$isTruncated && truncatedStyle};
 `;
 
-export interface TextProps extends TypographyProps {
+export interface TextProps extends TypographyProps, ColorProps {
   as?: any;
-  color?: string;
-  fontSize?: TypographyProps['fontSize'];
-  fontWeight?: TypographyProps['fontWeight'];
   align?: TypographyProps['textAlign'];
-  textAlign?: TypographyProps['textAlign'];
+  /**
+   * 是否在容器内自动截断（单行展示）
+   */
   isTruncated?: boolean;
-  noOfLines?: number;
+  /**
+   * 最多展示的行数（超出截断）
+   */
+  lineClamp?: number;
   className?: string;
   style?: React.CSSProperties;
   children?: React.ReactNode;
 }
 
 export const Text = React.forwardRef<HTMLSpanElement, TextProps>((props, ref) => {
-  const {
-    color = 'text.body',
-    fontSize,
-    fontWeight,
-    align,
-    lineHeight,
-    isTruncated,
-    noOfLines,
-    className,
-    style,
-    ...rest
-  } = props;
-
-  const clazz = cx(
-    {
-      'rex-truncated': isTruncated,
-      'rex-text-lineClamp': noOfLines,
-    },
-    className,
-  );
+  const { color = 'text.body', align, isTruncated, lineClamp, ...rest } = props;
 
   return (
     <SystemText
       ref={ref}
-      className={clazz}
-      style={style}
-      $color={color}
-      $textAlign={align}
-      $lineHeight={lineHeight}
-      $fontSize={fontSize}
-      $fontWeight={fontWeight}
-      $noOfLines={noOfLines}
+      textAligin={align}
+      color={color}
+      $isTruncated={isTruncated}
+      $lineClamp={lineClamp}
       {...rest}
     />
   );

@@ -24,7 +24,7 @@ export interface BoxProps
     PositionProps,
     ShadowProps,
     Omit<HTMLAttributes<HTMLElement>, 'color'> {
-  // as?: string;
+  as?: any;
   style?: React.CSSProperties;
   className?: string;
   children?: React.ReactNode;
@@ -34,7 +34,7 @@ const StyledBox = styled('div').withConfig({
   shouldForwardProp: (prop, defaultValidatorFn) => {
     return shouldForwardProp(prop) && defaultValidatorFn(prop);
   },
-})<any>`
+})`
   ${allStyledProps}
 `;
 

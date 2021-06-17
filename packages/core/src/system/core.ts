@@ -1,4 +1,4 @@
-import { assign, values } from 'lodash';
+import { assign } from 'lodash';
 import { tokenVar } from '../utils';
 
 export const system = (args: any) => {
@@ -46,6 +46,9 @@ function createParser(config: any) {
       const sx = config[key];
       const raw = props[key];
       const scale = sx.scale;
+
+      // TODO: raw is object
+      // TODO: raw is responsive object
 
       assign(styles, sx(raw, scale));
     }
