@@ -32,7 +32,6 @@ test('borders', () => {
   expect(borders()).toBeUndefined();
   expect(borders(0)).toEqual(0);
   expect(borders('solid')).toEqual('var(--rex-borders-solid)');
-  expect(borders('solid', 'line.border')).toEqual('var(--rex-borders-solid) var(--rex-colors-line-border)');
   expect(borders('2px dashed #FFF')).toEqual('2px dashed #FFF');
 });
 

@@ -10,8 +10,14 @@ export const Basic = () => (
 );
 
 export const BorderBox = () => (
-  <Box border="solid" borderColor="line.border" borderWidth={2}>
-    border box
+  <Box>
+    <Box border="solid" borderColor="line.border" borderWidth={2}>
+      border box
+    </Box>
+
+    <Box mt="l" border="4px solid #FF0000">
+      border box
+    </Box>
   </Box>
 );
 

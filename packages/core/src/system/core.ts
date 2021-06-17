@@ -1,5 +1,5 @@
 import { assign } from 'lodash';
-import { tokenVar, sizes, colors, shadows } from '../utils';
+import { tokenVar, sizes, colors, shadows, borders } from '../utils';
 import { SystemScaleType } from '../types';
 
 const getRawValue = (value: any) => value;
@@ -10,7 +10,7 @@ const getValueMap = {
   colors,
   lineHeights: sizes,
   sizes,
-  borders: tokenVar,
+  borders,
   radii: sizes,
   shadows,
   zIndices: tokenVar,

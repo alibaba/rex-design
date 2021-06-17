@@ -98,9 +98,8 @@ export function colors(token: string) {
 /**
  * borders token
  * @param token
- * @deprecated 不推荐使用
  */
-export function borders(token: string, color?: string) {
+export function borders(token: string) {
   if (isNil(token)) {
     return;
   }
@@ -113,14 +112,7 @@ export function borders(token: string, color?: string) {
     return token;
   }
 
-  const border = tokenVar(token, 'borders');
-  const arr = [border];
-
-  if (color) {
-    arr.push(colors(color));
-  }
-
-  return arr.join(' ');
+  return tokenVar(token, 'borders');
 }
 
 export function shadows(token: string) {

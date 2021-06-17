@@ -15,25 +15,39 @@ export type SystemScaleType =
 
 export interface SpaceProps {
   m?: StringOrNumber;
+  margin?: StringOrNumber;
   mt?: StringOrNumber;
+  marginTop?: StringOrNumber;
   mr?: StringOrNumber;
+  marginRight?: StringOrNumber;
   mb?: StringOrNumber;
+  marginBottom?: StringOrNumber;
   ml?: StringOrNumber;
+  marginLeft?: StringOrNumber;
   mx?: StringOrNumber;
+  marginX?: StringOrNumber;
   my?: StringOrNumber;
+  marginY?: StringOrNumber;
   p?: StringOrNumber;
+  padding?: StringOrNumber;
   pt?: StringOrNumber;
+  paddingTop?: StringOrNumber;
   pr?: StringOrNumber;
+  paddingRight?: StringOrNumber;
   pb?: StringOrNumber;
+  paddingBottom?: StringOrNumber;
   pl?: StringOrNumber;
+  paddingLeft?: StringOrNumber;
   px?: StringOrNumber;
+  paddingX?: StringOrNumber;
   py?: StringOrNumber;
+  paddingY?: StringOrNumber;
 }
 
 export interface ColorProps {
   color?: CSS.Property.Color;
   bg?: CSS.Property.Color;
-  bgColor?: CSS.Property.Color;
+  backgroundColor?: CSS.Property.Color;
   opacity?: CSS.Property.Opacity;
 }
 
@@ -53,10 +67,13 @@ export interface LayoutProps {
 }
 
 export interface TypographyProps {
-  fontSize?: string;
-  fontWeight?: StringOrNumber;
-  lineHeight?: StringOrNumber;
+  fontFamily?: CSS.Property.FontFamily;
+  fontStyle?: CSS.Property.FontStyle;
+  letterSpacing?: CSS.Property.LetterSpacing;
   textAlign?: CSS.Property.TextAlign;
+  fontSize?: string;
+  fontWeight?: CSS.Property.FontWeight;
+  lineHeight?: StringOrNumber;
 }
 
 export interface FlexboxProps {
@@ -66,6 +83,7 @@ export interface FlexboxProps {
   justifyContent?: CSS.Property.JustifyContent;
   flexWrap?: CSS.Property.FlexWrap;
   flexDirection?: CSS.Property.FlexDirection;
+  // item
   flex?: CSS.Property.Flex<Length>;
   flexGrow?: CSS.Property.FlexGrow;
   flexShrink?: CSS.Property.FlexShrink;
