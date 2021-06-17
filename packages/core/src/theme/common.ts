@@ -197,10 +197,7 @@ const common = {
 
   fontSizes: {
     note: '12px',
-
-    body: '12px',
-    base: '12px',
-
+    body: '12px', // base font size
     subtitle: '14px',
     title: '16px',
     subheader: '20px',

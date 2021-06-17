@@ -6,8 +6,9 @@ export default { title: 'Typography/Text' };
 export const Simple = () => (
   <Flex spacing="l" direction="column">
     <Text fontSize="note">(note) In love with Hippo</Text>
-    <Text fontSize="body">(body) In love with Hippo</Text>
-    <Text fontSize="base">(base) In love with Hippo</Text>
+    <Text fontSize="body" color="#FF0000">
+      (body) In love with Hippo
+    </Text>
     <Text fontSize="subtitle">(subtitle) In love with Hippo</Text>
     <Text fontSize="title">(title) In love with Hippo</Text>
     <Text fontSize="subheader">(subheader) In love with Hippo</Text>
