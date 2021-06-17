@@ -36,6 +36,7 @@ export * from './components/progress';
 export * from './components/pagination';
 export * from './components/steps';
 export * from './components/tabs';
+export * from './components/tag-filter';
 export * from './components/virtual-list';
 
 // TODO 这里大部分函数都是不需要导出的

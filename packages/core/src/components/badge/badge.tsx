@@ -6,7 +6,7 @@ import { useTheme } from '../../providers';
 
 type BadgeStatusType = 'normal' | 'success' | 'error' | 'warning';
 
-export interface BadgeProps {
+export interface BadgeProps extends BoxProps {
   /**
    * 外观
    */
@@ -15,12 +15,6 @@ export interface BadgeProps {
    * 状态
    */
   status?: BadgeStatusType;
-  color?: string;
-  bg?: string;
-  fontSize?: string;
-  className?: string;
-  style?: React.CSSProperties;
-  children?: React.ReactNode;
 }
 
 function getColorToken(status: BadgeStatusType) {

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Button, ToggleButtonGroup, Group } from '@rexd/core';
+import { Box, Button, Group } from '@rexd/core';
 import { Icon } from '@rexd/icon';
 
 export default { title: 'Button' };
@@ -238,35 +238,5 @@ export const Toggled = () => {
         已订阅
       </Button>
     </Group>
-  );
-};
-
-const list = [
-  { value: 'desktop', label: <Icon type="electronics" /> },
-  { value: 'phone', label: <Icon type="mobile-phone" /> },
-  { value: 'tablet', label: <Icon type="pad" /> },
-];
-
-export const ToggleGroup = () => {
-  return (
-    <Box>
-      <h3>单选</h3>
-      <ToggleButtonGroup
-        dataSource={list}
-        defaultValue={['desktop']}
-        onChange={console.log}
-        isAttached
-        buttonProps={{ type: 'secondary', isIconButton: true }}
-      />
-      <h3>多选</h3>
-      <ToggleButtonGroup
-        dataSource={list}
-        selectMode="multipe"
-        defaultValue={['desktop']}
-        onChange={console.log}
-        isAttached
-        buttonProps={{ type: 'secondary', isIconButton: true }}
-      />
-    </Box>
   );
 };
