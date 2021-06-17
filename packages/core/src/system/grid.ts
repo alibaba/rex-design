@@ -1,21 +1,17 @@
 import { system, StylePropConfig } from './core';
-import { space } from '../utils';
 
 const config: StylePropConfig = {
   gridGap: {
     property: 'gridGap',
     scale: 'space',
-    getValue: space,
   },
   gridColumnGap: {
     property: 'gridColumnGap',
     scale: 'space',
-    getValue: space,
   },
   gridRowGap: {
     property: 'gridRowGap',
     scale: 'space',
-    getValue: space,
   },
   gridColumn: true,
   gridRow: true,

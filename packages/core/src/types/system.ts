@@ -1,6 +1,18 @@
 import CSS from 'csstype';
 import { Length, StringOrNumber } from './common';
 
+export type SystemScaleType =
+  | 'colors'
+  | 'fontSizes'
+  | 'lineHeights'
+  | 'borders'
+  | 'radii'
+  | 'shadows'
+  | 'space'
+  | 'sizes'
+  | 'zIndices'
+  | 'components';
+
 export interface SpaceProps {
   m?: StringOrNumber;
   mt?: StringOrNumber;
@@ -85,7 +97,7 @@ export interface BorderProps {
   borderRight?: string;
   borderBottom?: string;
   borderLeft?: string;
-  borderWidth?: string;
+  borderWidth?: StringOrNumber;
   borderColor?: CSS.Property.Color;
   borderTopColor?: CSS.Property.Color;
   borderRightColor?: CSS.Property.Color;

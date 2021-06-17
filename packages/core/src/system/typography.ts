@@ -1,10 +1,11 @@
 import { system } from './core';
 
 const config = {
-  fontFamily: {
-    property: 'fontFamily',
-    scale: 'fonts',
-  },
+  fontFamily: true,
+  fontStyle: true,
+  letterSpacing: true,
+  textAlign: true,
+
   fontSize: {
     property: 'fontSize',
     scale: 'fontSizes',
@@ -17,12 +18,6 @@ const config = {
     property: 'lineHeight',
     scale: 'lineHeights',
   },
-  letterSpacing: {
-    property: 'letterSpacing',
-    scale: 'letterSpacings',
-  },
-  textAlign: true,
-  fontStyle: true,
 };
 
 export const typography = system(config);

@@ -9,6 +9,12 @@ export const Basic = () => (
   </Box>
 );
 
+export const BorderBox = () => (
+  <Box border="solid" borderColor="line.border" borderWidth={2}>
+    border box
+  </Box>
+);
+
 export const Simple = () => (
   <Box bg="brand.normal" p="m" color="emphasis.0" border="solid" borderColor="line.border" borderRadius="m">
     This is a simple box.

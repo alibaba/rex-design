@@ -1,5 +1,20 @@
 import { assign } from 'lodash';
-import { tokenVar } from '../utils';
+import { tokenVar, sizes, colors, shadows } from '../utils';
+import { SystemScaleType } from '../types';
+
+const getRawValue = (value: any) => value;
+
+const getValueMap = {
+  space: sizes,
+  fontSizes: sizes,
+  colors,
+  lineHeights: sizes,
+  sizes,
+  borders: tokenVar,
+  radii: sizes,
+  shadows,
+  zIndices: tokenVar,
+};
 
 export const system = (args: any) => {
   const config = {};
@@ -10,10 +25,7 @@ export const system = (args: any) => {
     if (conf === true) {
       config[key] = createStyleFunction({
         property: key,
-        scale: key,
-        getValue(value) {
-          return value;
-        },
+        getValue: getRawValue,
       });
     } else {
       // conf is a object
@@ -73,17 +85,18 @@ export interface StyleProp {
   /**
    * 所属主题类别
    */
-  scale?: string;
+  scale?: SystemScaleType;
   /**
    * 自定义值的获取
    */
-  getValue?: (value: any, scale?: any) => any;
+  getValue?: (value: any, scale?: SystemScaleType) => any;
 }
 
 export type StylePropConfig = Record<string, StyleProp | boolean>;
 
-function createStyleFunction({ properties: propertiesProp, property, scale, getValue = tokenVar }: StyleProp) {
+function createStyleFunction({ properties: propertiesProp, property, scale, getValue: getValueProp }: StyleProp) {
   const properties = propertiesProp || [property];
+  const getValue = getValueProp || getValueMap[scale] || getRawValue;
   const sx = (value: any, scale: string) => {
     const result = {};
     const n = getValue(value, scale);

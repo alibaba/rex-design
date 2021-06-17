@@ -1,66 +1,53 @@
 import { system, StylePropConfig } from './core';
-import { space as getValue } from '../utils';
 
 const configs: StylePropConfig = {
   margin: {
     property: 'margin',
     scale: 'space',
-    getValue,
   },
   marginTop: {
     property: 'marginTop',
     scale: 'space',
-    getValue,
   },
   marginRight: {
     property: 'marginRight',
     scale: 'space',
-    getValue,
   },
   marginBottom: {
     property: 'marginBottom',
     scale: 'space',
-    getValue,
   },
   marginLeft: {
     property: 'marginLeft',
     scale: 'space',
-    getValue,
   },
   marginX: {
     properties: ['marginLeft', 'marginRight'],
     scale: 'space',
-    getValue,
   },
   marginY: {
     properties: ['marginTop', 'marginBottom'],
     scale: 'space',
-    getValue,
   },
   padding: {
     property: 'padding',
     scale: 'space',
-    getValue,
   },
   paddingTop: {
     property: 'paddingTop',
     scale: 'space',
-    getValue,
   },
   paddingRight: {
     property: 'paddingRight',
     scale: 'space',
-    getValue,
   },
   paddingBottom: {
     property: 'paddingBottom',
     scale: 'space',
-    getValue,
   },
   paddingLeft: {
     property: 'paddingLeft',
     scale: 'space',
-    getValue,
   },
   paddingX: {
     properties: ['paddingLeft', 'paddingRight'],
@@ -69,7 +56,6 @@ const configs: StylePropConfig = {
   paddingY: {
     properties: ['paddingTop', 'paddingBottom'],
     scale: 'space',
-    getValue,
   },
 };
 

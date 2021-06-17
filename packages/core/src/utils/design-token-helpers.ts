@@ -1,6 +1,6 @@
 import { get, hasIn, isNil } from 'lodash';
 import { THEMES } from '../theme';
-import { StringOrNumber } from '../types';
+import { StringOrNumber, SystemScaleType } from '../types';
 
 const hexRegex = /^#[a-fA-F0-9]{3,6}$/;
 const rgbRegex = /^rgb\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$/;
@@ -31,18 +31,6 @@ export function rgba(hexColor: string, alpha: number) {
   return `rgba(${rgbValue.red},${rgbValue.green},${rgbValue.blue},${alpha})`;
 }
 
-type ThemeKeyType =
-  | 'colors'
-  | 'fontSizes'
-  | 'lineHeights'
-  | 'borders'
-  | 'radii'
-  | 'shadows'
-  | 'space'
-  | 'sizes'
-  | 'zIndices'
-  | 'components';
-
 const THEME_TOKEN_PATTERN = /^(colors|fontSizes|lineHeights|borders|radii|shadows|space|sizes|zIndices|components)./;
 
 const CSS_FUNCTION_PATTERN = /^[a-z]+(-[a-z]*)?\(.+\)$/;
@@ -65,9 +53,9 @@ const tokenPathToVariable = (token: string) => {
 /**
  * 获取 token 对应的 css variable
  * @param token
- * @param themeKey
+ * @param scale 对应主题中的子类别
  */
-export function tokenVar(token: string, themeKey?: ThemeKeyType) {
+export function tokenVar(token: string, scale?: SystemScaleType) {
   if (!token) {
     return;
   }
@@ -82,10 +70,10 @@ export function tokenVar(token: string, themeKey?: ThemeKeyType) {
     return token;
   }
 
-  // 最后尝试加入 themeKey 在 theme 中寻找
-  if (themeKey) {
-    const themedToken = [themeKey, token].join('.');
-    // TODO: 无法解析到扩展的 theme
+  // 最后尝试加入 scale 在 theme 中寻找
+  if (scale) {
+    const themedToken = [scale, token].join('.');
+    // TODO: 无法解析到扩展的 theme，最好的做法是放到 ThemeProvider 里找
     if (hasIn(THEMES.base, themedToken)) {
       return tokenPathToVariable(themedToken);
     }
@@ -110,6 +98,7 @@ export function colors(token: string) {
 /**
  * borders token
  * @param token
+ * @deprecated 不推荐使用
  */
 export function borders(token: string, color?: string) {
   if (isNil(token)) {
@@ -152,9 +141,9 @@ const SIZE_UNIT_VALUE = /^\d+(\.\d+)?(px|vw|vh|%)$/;
 /**
  * sizes token to css variables
  * @param token
- * @param prefix
+ * @param scale
  */
-export function sizes(token: StringOrNumber, themeKey: ThemeKeyType = 'sizes') {
+export function sizes(token: StringOrNumber, scale: SystemScaleType = 'sizes') {
   if (typeof token === 'number') {
     return `${token}px`;
   }
@@ -163,7 +152,7 @@ export function sizes(token: StringOrNumber, themeKey: ThemeKeyType = 'sizes') {
     return token;
   }
 
-  return tokenVar(token, themeKey);
+  return tokenVar(token, scale);
 }
 
 /**
