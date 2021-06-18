@@ -1,6 +1,6 @@
 import React from 'react';
 import cx from 'classnames';
-import { Group } from '../layout';
+import { Group, GroupProps } from '../layout';
 import { ListNode } from '../../types';
 import { useSelectableList, UseSelectableListProps } from '../../hooks';
 import { createContext } from '../../utils';
@@ -21,7 +21,14 @@ export interface TagFilterProps extends Omit<UseSelectableListProps<string | str
    * 数据源
    */
   dataSource?: ListNode<string>[];
+  /**
+   * 尺寸
+   */
   size?: CheckableTagProps['size'];
+  /**
+   * 布局属性
+   */
+  layoutProps?: GroupProps;
   className?: string;
 }
 
@@ -33,6 +40,7 @@ export function TagFilter(props: TagFilterProps) {
     value: valueProp,
     defaultValue,
     onChange,
+    layoutProps,
     className,
     ...rest
   } = props;
@@ -53,7 +61,7 @@ export function TagFilter(props: TagFilterProps) {
 
   return (
     <TagFilterProvider value={group}>
-      <Group className={clazz} {...rest}>
+      <Group className={clazz} {...layoutProps} {...rest}>
         {dataSource.map(({ label, value, ...others }) => (
           <TagFilterItem size={size} key={value} value={value} {...others}>
             {label}

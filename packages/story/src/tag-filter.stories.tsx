@@ -30,6 +30,7 @@ export const Size = () => (
       dataSource={list}
       defaultValue={['front-end']}
       onChange={console.log}
+      layoutProps={{ spacingY: 'm' }}
     />
     <br />
     <TagFilter
@@ -38,6 +39,7 @@ export const Size = () => (
       dataSource={list}
       defaultValue={['front-end']}
       onChange={console.log}
+      layoutProps={{ spacingY: 'm' }}
     />
     <br />
     <TagFilter
@@ -46,6 +48,7 @@ export const Size = () => (
       dataSource={list}
       defaultValue={['front-end']}
       onChange={console.log}
+      layoutProps={{ spacingY: 'm' }}
     />
   </Group>
 );

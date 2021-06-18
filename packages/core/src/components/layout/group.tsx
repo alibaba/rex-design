@@ -1,6 +1,8 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import { Box, BoxProps } from './Box';
+import { StringOrNumber } from '../../types';
+import { space } from '../../utils';
 
 const attachedStyle = css`
   display: inline-flex;
@@ -25,9 +27,10 @@ const attachedStyle = css`
   }
 `;
 
-const normalStyle = css`
+const normalStyle = css<any>`
   > *:not(:last-child) {
-    margin-right: var(--rex-space-m);
+    margin-right: ${(props) => props.$spacingX};
+    margin-bottom: ${(props) => props.$spacingY};
   }
 `;
 
@@ -37,12 +40,21 @@ const GroupBox = styled(Box)<any>`
 
 export interface GroupProps extends Omit<BoxProps, 'as'> {
   isAttached?: boolean;
+  spacingX?: StringOrNumber;
+  spacingY?: StringOrNumber;
 }
 
 export const Group = React.forwardRef<HTMLDivElement, GroupProps>((props, ref) => {
-  const { isAttached, children, ...rest } = props;
+  const { isAttached, spacingX = 'm', spacingY = 0, children, ...rest } = props;
   return (
-    <GroupBox role="group" ref={ref} $isAttached={isAttached} {...rest}>
+    <GroupBox
+      role="group"
+      ref={ref}
+      $isAttached={isAttached}
+      $spacingX={space(spacingX)}
+      $spacingY={space(spacingY)}
+      {...rest}
+    >
       {children}
     </GroupBox>
   );

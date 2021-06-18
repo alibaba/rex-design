@@ -26,7 +26,7 @@ export * from './components/select';
 export * from './components/switch';
 export * from './components/table';
 export * from './components/radio';
-// export * from './components/range'; // TODO: 暂不导出，功能不完善
+export * from './components/range'; // TODO: 暂不导出，功能不完善
 export * from './components/search';
 export * from './components/textarea';
 export * from './components/time-picker';
