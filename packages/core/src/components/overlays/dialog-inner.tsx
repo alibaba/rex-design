@@ -38,9 +38,9 @@ export const DialogInner = ({
   function renderCloseIcon() {
     return (
       canCloseByIcon && (
-        <div className="rex-dialog-close" onClick={onRequestClose}>
-          <Icon type="close" className="rex-dialog-close-icon" />
-        </div>
+        <Button shape="text" size="small" className="rex-dialog-close" isIconButton onClick={onRequestClose}>
+          <Icon type="close" />
+        </Button>
       )
     );
   }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, PageHeader, Timeline, TimelineItem, FooterToolbar, Description } from '@rexd/core';
+import { Box, PageHeader, Timeline, TimelineItem, FooterToolbar, Description, ActionListProps } from '@rexd/core';
 import { Panel } from './panel';
 
 export default {
@@ -27,12 +27,12 @@ function TicketItem(props: TicketItemProps) {
 }
 
 export function ApproveTicket() {
-  const actions = [
+  const actions: ActionListProps['actions'] = [
     { key: 'approve', label: '通过', shape: 'solid', type: 'primary' },
     { key: 'reject', label: '驳回', shape: 'solid', type: 'secondary' },
     { key: 'add', label: '加签', shape: 'solid', type: 'secondary' },
     { key: 'transfer', label: '转单', shape: 'solid', type: 'secondary' },
-    { key: 'withdraw', label: '撤回', shape: 'warning', type: 'normal', hasConfirm: true },
+    { key: 'withdraw', label: '撤回', shape: 'warning', type: 'normal', confirm: true },
   ];
 
   const detailItems = [

@@ -2,6 +2,7 @@ import { Icon } from '@rexd/icon';
 import cx from 'classnames';
 import React from 'react';
 import { useOverlayBehavior } from '../../providers';
+import { Button } from '../button';
 import { Panel, PanelProps } from '../layout';
 import {
   IOverlayAnimationProps,
@@ -18,7 +19,7 @@ const DrawerPanel = React.forwardRef<HTMLDivElement, PanelProps>((props, ref) =>
 ));
 
 type DrawerInnerProps = Pick<DrawerProps, 'title' | 'content' | 'footer' | 'canCloseByIcon' | 'onRequestClose'>;
-// todo add rex-drawer-wrapper & forwardRef
+
 const DrawerInner = ({ title, footer, content, onRequestClose, canCloseByIcon }: DrawerInnerProps) => (
   <React.Fragment>
     {title && <div className="rex-drawer-header">{title}</div>}
@@ -26,9 +27,9 @@ const DrawerInner = ({ title, footer, content, onRequestClose, canCloseByIcon }:
     {footer && <div className="rex-drawer-footer">{footer}</div>}
 
     {canCloseByIcon && (
-      <div className="rex-drawer-close" onClick={onRequestClose}>
-        <Icon type="close" className="rex-drawer-close-icon" />
-      </div>
+      <Button className="rex-drawer-close" shape="text" size="small" isIconButton onClick={onRequestClose}>
+        <Icon type="close" />
+      </Button>
     )}
   </React.Fragment>
 );

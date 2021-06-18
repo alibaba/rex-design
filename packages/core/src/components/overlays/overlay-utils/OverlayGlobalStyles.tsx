@@ -124,10 +124,10 @@ const drawerStyles = css`
     ${drawerPlacementsMixin};
   }
 
-  .rex-drawer-close {
+  .rex-drawer-close.rex-drawer-close {
     position: absolute;
-    top: 16px;
-    right: 16px;
+    top: 12px;
+    right: 12px;
   }
 
   .rex-drawer-close-icon {
@@ -152,7 +152,7 @@ const drawerStyles = css`
   .rex-drawer-body {
     flex: auto;
     font-size: var(--rex-fontSizes-body);
-    margin: 16px;
+    padding: 16px;
     overflow: auto;
     color: var(--rex-colors-text-body);
   }
@@ -195,12 +195,10 @@ const dialogStyles = css`
     }
   }
 
-  .rex-dialog-close {
+  .rex-dialog-close.rex-dialog-close {
     position: absolute;
-    top: 14px;
-    right: 14px;
-    width: 24px;
-    height: 24px;
+    top: 12px;
+    right: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
