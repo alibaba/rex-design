@@ -16,15 +16,36 @@ import * as stories from 'story/src/select/cascader-select.stories.tsx';
 跨父节点，跨层级，父节点可被选中，或是其他通用的树形选择场景请使用 [Tree](tree) 或 [TreeSelect](tree-select) 组件。
 :::
 
-:::danger
-组件仍在开发中
-:::
+### 单选与多选
+
+CascaderSelect 支持以下两种方式来开启多选模式：
+
+- 设置 `multiple={true}`
+- 使用 `<CascaderSelect.Multi />` 组件
+
+在 TypeScript 项目中，我们推荐使用组件来切换单选（CascaderSelect.Single）和多选（CascaderSelect.Multi），类型提示和检查将更准确。
 
 ## 示例
 
 ### 基本示例
 
 <Story fn={stories.Basic} />
+
+### 多选
+
+<Story fn={stories.Multiple} />
+
+### 搜索
+
+<Story fn={stories.Search} />
+
+### 错误状态
+
+<Story fn={stories.Status} />
+
+### 禁用状态
+
+<Story fn={stories.Disabled} />
 
 ## API
 

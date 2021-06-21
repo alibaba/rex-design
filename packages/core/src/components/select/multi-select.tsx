@@ -20,8 +20,6 @@ export interface MultiSelectProps
    * @displayType Array<string | { label, value }>
    * */
   dataSource?: (string | SelectItem)[];
-
-  defaultSearchValue?: string;
 }
 
 export const MultiSelect = React.forwardRef<HTMLDivElement, MultiSelectProps>((props, ref) => {

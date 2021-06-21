@@ -98,6 +98,12 @@ export interface ISelectSearchProps {
   searchValue: string;
 
   /**
+   * 非受控用法，默认的搜索关键字
+   * @category 搜索
+   * */
+  defaultSearchValue?: string;
+
+  /**
    * 关键字修改回调
    * @category 搜索
    * */

@@ -15,7 +15,18 @@ export interface CascaderItem {
   disabled?: boolean;
 }
 
-export interface CascaderProps {
+export interface ICascaderExpansionProps {
+  /** 默认展开的节点 */
+  defaultExpandedKeys?: string[];
+
+  /** 展开节点 */
+  expandedKeys?: string[];
+
+  /** 节点展开的回调函数 */
+  onExpand?: React.Dispatch<React.SetStateAction<string[]>>;
+}
+
+export interface CascaderProps extends ICascaderExpansionProps {
   style?: React.CSSProperties;
   className?: string;
   dataSource: CascaderItem[];
@@ -36,15 +47,6 @@ export interface CascaderProps {
       event: React.MouseEvent<HTMLElement>;
     }*/,
   ): void;
-
-  /** 默认展开的节点 */
-  defaultExpandedKeys?: string[];
-
-  /** 展开节点 */
-  expandedKeys?: string[];
-
-  /** 节点展开的回调函数 */
-  onExpand?: React.Dispatch<React.SetStateAction<string[]>>;
 
   /** 指定可选择的节点的最大深度
    * @default Infinity */

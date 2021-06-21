@@ -63,11 +63,7 @@ export function BigData() {
 }
 
 export function Status() {
-  return (
-    <div style={{ display: 'flex', gap: 16 }}>
-      <Select status="error" style={{ width: 200 }} dataSource={basicSelectDataSource} />
-    </div>
-  );
+  return <Select status="error" style={{ width: 200 }} dataSource={basicSelectDataSource} />;
 }
 
 export function Multiple() {

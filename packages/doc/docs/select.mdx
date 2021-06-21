@@ -10,11 +10,14 @@ import * as stories from 'story/src/select/select.stories';
 
 代替原生 select 元素。
 
-### 使用说明
+### 单选与多选
 
-- 单选： `<Select multiple={false} />` 或 `<SingleSelect />`
-- 多选： `<Select multiple={true} />` 或 `<MultiSelect />`
-- 在 TypeScript 项目中推荐使用 SingleSelect/MultiSelect，value 的类型更加明确
+Select 支持以下两种方式来开启多选模式：
+
+- 设置 `multiple={true}`
+- 使用 `<Select.Multi />` 组件
+
+在 TypeScript 项目中，我们推荐使用组件来切换单选（Select.Single）和多选（Select.Multi），类型提示和检查将更准确。
 
 ## 示例
 
@@ -44,7 +47,7 @@ import * as stories from 'story/src/select/select.stories';
 
 ## API
 
-`SingleSelect` 与 `MultiSelect` 的区别仅在于 `value` 的类型不同（`defaultValue`, `onChange` 的类型也有相应的区别），其他 props 都相同。
+`Select.Single` 与 `Select.Multi` 的区别仅在于 `value` 的类型不同（`defaultValue`, `onChange` 的类型也有相应的区别），其他 props 都相同。
 
 <PropsTable component={Select} />
 

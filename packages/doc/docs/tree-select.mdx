@@ -10,10 +10,14 @@ import * as stories from 'story/src/select/tree-select.stories.tsx';
 
 树形结构的选择器，常用于盒马门店选择（一般是三层结构：商家、子公司、门店），盒马商品类目选择（一级类目、二级类目、三级类目）等场景。
 
-- 单选： `<SingleTreeSelect />`
-  - value 的类型总是为 `string`
-- 多选： `<MultiTreeSelect />`
-  - value 的类型为 `string[]`
+### 单选与多选
+
+TreeSelect 支持以下两种方式来开启多选模式：
+
+- 设置 `multiple={true}`
+- 使用 `<TreeSelect.Multi />` 组件
+
+在 TypeScript 项目中，我们推荐使用组件来切换单选（TreeSelect.Single）和多选（TreeSelect.Multi），类型提示和检查将更准确。
 
 ### 使用说明
 
@@ -39,7 +43,7 @@ import * as stories from 'story/src/select/tree-select.stories.tsx';
 
 ## API
 
-`MultiTreeSelect` 和 `SingleTreeSelect` 的区别：
+`TreeSelect.Multi` 和 `TreeSelect.Single` 的区别：
 
 - `value` 的类型不同，`defaultValue`, `onChange` 的类型也有相应的区别
 - 多选额外支持 `checkStrictly` 和 `checkedStrategy`，这两个 props 含义详见 [Tree 组件文档](tree#api)

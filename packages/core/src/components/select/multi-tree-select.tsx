@@ -24,9 +24,6 @@ export interface MultiTreeSelectProps
   defaultExpandAll?: TreeProps['defaultExpandAll'];
   defaultExpandedKeys?: TreeProps['defaultExpandedKeys'];
 
-  defaultVisible?: boolean;
-  defaultSearchValue?: string;
-
   checkStrictly?: boolean;
   checkedStrategy?: TreeCheckedStrategy;
 }

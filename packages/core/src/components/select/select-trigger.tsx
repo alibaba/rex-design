@@ -11,12 +11,12 @@ import { ISelectAppearanceProps, SelectItem } from './types';
 const ValueTagDiv = styled.div.withConfig({ componentId: 'rex-select-value-tag' })`
   display: inline-flex;
   align-items: center;
-  padding: 0 var(--rex-space-m);
+  padding: 0 8px;
   border-radius: 2px;
   color: var(--rex-colors-text-body);
   height: var(--rex-sizes-s6);
   font-size: var(--rex-fontSizes-note);
-  background-color: var(--rex-colors-emphasis-10);
+  background-color: var(--rex-colors-emphasis-20);
 
   &:hover {
     background-color: var(--rex-colors-emphasis-30);
@@ -35,23 +35,26 @@ const ValueTagDiv = styled.div.withConfig({ componentId: 'rex-select-value-tag' 
 `;
 
 interface ValueTagProps {
-  v: string;
+  value: string;
   label: React.ReactNode;
+  showDelete: boolean;
   onDelete(v: string, event: any): void;
 }
 
-const ValueTag = React.memo(({ v, label, onDelete }: ValueTagProps) => (
+const ValueTag = React.memo(({ value, label, onDelete, showDelete }: ValueTagProps) => (
   <ValueTagDiv>
     {label}
-    <span
-      className="delete-icon"
-      onClick={(event) => {
-        event.stopPropagation();
-        onDelete(v, event);
-      }}
-    >
-      <Icon type="close-bold" />
-    </span>
+    {showDelete && (
+      <span
+        className="delete-icon"
+        onClick={(event) => {
+          event.stopPropagation();
+          onDelete(value, event);
+        }}
+      >
+        <Icon type="close-bold" />
+      </span>
+    )}
   </ValueTagDiv>
 ));
 
@@ -259,10 +262,11 @@ export const SelectTrigger = React.forwardRef<HTMLDivElement, SelectTriggerProps
           {value.map((v) => (
             <ValueTag
               key={v}
-              v={v}
+              value={v}
               label={getLabelByValue(v)}
+              showDelete={!disabled}
               onDelete={(v, event) => {
-                onChange(toggleValue(value, v), { event, reason: 'tag close' });
+                onChange(toggleValue(value, v), { event, reason: 'tag-close' });
               }}
             />
           ))}
