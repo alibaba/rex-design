@@ -2,7 +2,7 @@ import { extendConfig } from './default';
 
 export default extendConfig({
   Description: {
-    column: 1,
+    columns: 1,
   },
   Form: {
     labelPosition: 'top',

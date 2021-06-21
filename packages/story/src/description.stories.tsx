@@ -121,7 +121,7 @@ export function Complex() {
   return <Description items={items as any[]} />;
 }
 
-export function ChangeColumn() {
+export function Columns() {
   const items = [
     {
       label: '退款单号',
@@ -152,5 +152,5 @@ export function ChangeColumn() {
       content: '浙江省 杭州市 余杭区 文一西路 969 号一号楼邮局',
     },
   ];
-  return <Description column={1} items={items} />;
+  return <Description columns={1} items={items} />;
 }

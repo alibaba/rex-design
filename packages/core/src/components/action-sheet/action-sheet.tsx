@@ -8,20 +8,26 @@ export interface ActionSheetProps {
    * 面板标题
    */
   title?: string;
-
-  target: PopupProps['target'];
-
+  target?: PopupProps['target'];
+  renderTarget?: PopupProps['renderTarget'];
+  /**
+   * 菜单列表
+   */
   dataSource?: MenuProps['dataSource'];
+  /**
+   * 点击列表项时的回调
+   */
   onItemClick?: MenuProps['onItemClick'];
 }
 
 export function ActionSheet(props: ActionSheetProps) {
-  const { title, target, dataSource = [], onItemClick } = props;
+  const { title, target, renderTarget, dataSource = [], onItemClick, ...rest } = props;
 
   return (
     <AdaptivePopup
       hasArrow
       target={target}
+      renderTarget={renderTarget}
       renderChildren={(arg: any) => (
         <AdaptivePopup.Panel {...arg}>
           {arg.arrow}
@@ -35,6 +41,7 @@ export function ActionSheet(props: ActionSheetProps) {
           </Menu.Panel>
         </AdaptivePopup.Panel>
       )}
+      {...rest}
     />
   );
 }

@@ -4,7 +4,13 @@ import { Box } from '../layout';
 import { HozTimelineItem, TimePostionType } from './timeline-item';
 
 export interface TimelineProps extends React.ComponentPropsWithoutRef<'ul'> {
+  /**
+   * 排列方向
+   */
   direction?: 'row' | 'column';
+  /**
+   * 标签位置
+   */
   labelPosition?: TimePostionType;
 }
 

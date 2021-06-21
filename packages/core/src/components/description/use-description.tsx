@@ -3,13 +3,22 @@ import { useConfig } from '../../providers';
 import { DescriptionItemType } from './types';
 
 export interface UseDescriptionProps {
+  /**
+   * 数据列表
+   */
   items?: DescriptionItemType[];
-  column?: number;
+  /**
+   * 列数
+   */
+  columns?: number;
+  /**
+   * 标签的宽度
+   */
   labelWidth?: string;
 }
 
 export function useDescription(props: UseDescriptionProps) {
-  const { items = [], column, ...rest } = useConfig<UseDescriptionProps>('Description', props);
+  const { items = [], columns, ...rest } = useConfig<UseDescriptionProps>('Description', props);
   const rows = useMemo(() => {
     const rows: DescriptionItemType[][] = [];
     let cols: DescriptionItemType[];
@@ -17,7 +26,7 @@ export function useDescription(props: UseDescriptionProps) {
 
     items.forEach((item, index) => {
       if (!cols) {
-        leftSpans = column;
+        leftSpans = columns;
         cols = [];
         rows.push(cols);
       }
@@ -36,11 +45,11 @@ export function useDescription(props: UseDescriptionProps) {
     });
 
     return rows;
-  }, [items, column]);
+  }, [items, columns]);
 
   return {
     ...rest,
     rows,
-    cellWidth: 100 / (column || 1),
+    cellWidth: 100 / (columns || 1),
   };
 }

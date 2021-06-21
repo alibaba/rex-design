@@ -1,5 +1,4 @@
-import { Box, Flex, Group, Input } from '@rexd/core';
-import { Icon, ICON_TYPE_LIST, useIconfont } from '@rexd/icon';
+import { Box, Grid, Group, Input, Icon, ICON_TYPE_LIST, useIconfont, GridItem } from '@rexd/core';
 import React, { useState } from 'react';
 
 export default { title: 'Icons' };
@@ -12,14 +11,14 @@ export const Basic = () => {
       <Box>
         <Input placeholder="输入图标名称进行检索" onChange={setQuery} />
       </Box>
-      <Flex wrap="wrap">
+      <Grid columns={5}>
         {ICON_TYPE_LIST.filter((name) => !query || name.includes(query)).map((iconType) => (
-          <Flex direction="column" justify="center" align="center" width="160px" height="120px" key={iconType}>
+          <GridItem key={iconType} textAlign="center" py="l">
             <Icon type={iconType} style={{ height: '50px', width: '50px' }} />
             <Box fontSize="16px">{iconType}</Box>
-          </Flex>
+          </GridItem>
         ))}
-      </Flex>
+      </Grid>
     </Box>
   );
 };

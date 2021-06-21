@@ -5,6 +5,7 @@ import { DescriptionItemType } from './types';
 import { useDescription, UseDescriptionProps } from './use-description';
 
 const Wrapper = styled.table`
+  display: table;
   width: 100%;
   table-layout: fixed;
   border-collapse: collapse;

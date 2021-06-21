@@ -1,5 +1,5 @@
 import React from 'react';
-import { ActionList } from '@rexd/core';
+import { ActionList, ActionListProps } from '@rexd/core';
 
 export default { title: 'ActionList', component: ActionList };
 
@@ -45,27 +45,31 @@ export const CustomConfirm = () => {
   );
 };
 
+export const HideSeparator = () => {
+  return <ActionList hasSeparator={false} actions={actions} onSelect={console.log} />;
+};
+
 export const Icons = () => {
   const actions = [
     { key: 'add', icon: 'add' },
     { key: 'print', icon: 'print' },
     { key: 'import', icon: 'import' },
-  ];
+  ] as ActionListProps['actions'];
 
   return <ActionList actions={actions} onSelect={console.log} />;
 };
 
 export const Custom = () => {
-  const actions = [
+  const actions2 = [
     {
       key: 'custom1',
-      render: ({ onClick }) => <button onClick={onClick}>自定义按钮</button>,
+      render: ({ onClick }: any) => <button onClick={onClick}>自定义按钮</button>,
     },
     {
       key: 'custom2',
-      render: ({ onClick }) => <button onClick={onClick}>自定义按钮</button>,
+      render: ({ onClick }: any) => <button onClick={onClick}>自定义按钮</button>,
     },
   ];
 
-  return <ActionList actions={actions} onSelect={console.log} />;
+  return <ActionList actions={actions2} onSelect={console.log} />;
 };

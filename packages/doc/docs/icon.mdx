@@ -3,7 +3,7 @@ id: icon
 title: Icon 图标
 ---
 
-import { Icon } from '@rexd/icon';
+import { Icon } from '@rexd/core';
 import * as stories from 'story/src/icon.stories';
 
 ## 使用场景
@@ -12,7 +12,15 @@ import * as stories from 'story/src/icon.stories';
 
 ## 示例
 
+### 基本用法
+
 <Story fn={stories.Basic} />
+
+### Iconfont 图标库
+
+借助 useIconfont 你可以快速获取任意 Iconfont 图标库。
+
+<Story fn={stories.Iconfont} />
 
 ## API
 

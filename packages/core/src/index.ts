@@ -47,3 +47,4 @@ export * from './utils';
 
 export { extendTheme, getThemeValue, THEMES } from './theme';
 export { default as dayjs } from './dayjs';
+export * from '@rexd/icon';

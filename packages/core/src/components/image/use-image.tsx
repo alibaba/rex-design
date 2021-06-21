@@ -3,9 +3,21 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react
 type ImageStatusType = 'loading' | 'pending' | 'loaded' | 'failed';
 
 export interface UseImageProps {
+  /**
+   * 图片地址
+   */
   src?: string;
+  /**
+   * 图片加载后的回调
+   */
   onLoad?: any;
+  /**
+   * 图片加载出错的回调
+   */
   onError?: any;
+  /**
+   * 是否忽略 fallback
+   */
   ignoreFallback?: boolean;
 }
 

@@ -4,9 +4,15 @@ import { Box, Flex, Group } from '../layout';
 import { Button } from '../button';
 
 interface ConfirmProps extends TooltipProps {
-  children: React.ReactElement;
+  /**
+   * 点击确认按钮的回调
+   */
   onOk?: React.MouseEventHandler<HTMLButtonElement>;
+  /**
+   * 点击取消按钮的回调
+   */
   onCancel?: React.MouseEventHandler<HTMLButtonElement>;
+  children: React.ReactElement;
 }
 
 export function Confirm(props: ConfirmProps) {

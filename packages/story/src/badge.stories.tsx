@@ -43,10 +43,10 @@ export const NumberBadge = () => (
 );
 
 export const TopRight = () => (
-  <div>
-    <Box display="inline-block" size="40px" borderRadius="2px" bg="#aaa" />
+  <Box display="inline-block" position="relative">
+    <Box display="inline-block" size="40px" borderRadius="2px" bg="#333" />
     <Badge shape="pill" style={{ verticalAlign: 'top', position: 'absolute' }}>
       99+
     </Badge>
-  </div>
+  </Box>
 );

@@ -2,7 +2,7 @@ import { mergeWith } from 'lodash';
 
 const defaultConfig = {
   Description: {
-    column: 3,
+    columns: 3,
   },
   Form: {
     labelPosition: 'left',

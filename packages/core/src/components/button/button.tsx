@@ -293,14 +293,6 @@ const formatChildren = (text: any) => {
 export interface ButtonProps extends Omit<React.ComponentPropsWithRef<'button'>, 'type'> {
   as?: 'button' | 'a';
   /**
-   * 仅在 as="a" 时生效
-   */
-  href?: string;
-  /**
-   * 仅在 as="a" 时生效
-   */
-  target?: '_blank' | '_self' | '_parent' | '_top' | string;
-  /**
    * 外观
    */
   shape?: 'solid' | 'text' | 'link' | 'ghost' | 'warning';
@@ -340,6 +332,14 @@ export interface ButtonProps extends Omit<React.ComponentPropsWithRef<'button'>,
    * 内部右侧元素
    */
   rightElement?: React.ReactNode;
+  /**
+   * 仅在 as="a" 时生效
+   */
+  href?: string;
+  /**
+   * 仅在 as="a" 时生效
+   */
+  target?: '_blank' | '_self' | '_parent' | '_top' | string;
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
