@@ -9,23 +9,13 @@ export interface ProgressProps {
    */
   value?: number;
   /**
-   * 进度条颜色值
-   */
-  color?: string;
-  /**
-   * 自定义 label
-   * @default value => value
-   */
-  renderLabel?: (payload: RenderLabelPayload) => React.ReactNode;
-}
-
-export interface CircleProgressProps extends ProgressProps {
-  /**
    * 最小值
+   * @default 0
    */
   min?: number;
   /**
    * 最大值
+   * @default 100
    */
   max?: number;
   /**
@@ -33,11 +23,16 @@ export interface CircleProgressProps extends ProgressProps {
    */
   size?: string;
   /**
+   * 进度条颜色值
+   */
+  lineColor?: string;
+  /**
    * 线条粗细
    */
-  strokeWidth?: string;
+  lineWidth?: string;
   /**
-   * 圆的背景色
+   * 自定义 label
+   * @default value => value
    */
-  trackColor?: string;
+  renderLabel?: (payload: RenderLabelPayload) => React.ReactNode;
 }

@@ -8,15 +8,15 @@ export function Basic() {
 }
 
 export function RenderLabel() {
-  return <Progress value={20} renderLabel={({ value }) => `${value}/100 人已提交`} />;
+  return <Progress value={30} renderLabel={({ value }) => `${value}/100 人已提交`} />;
 }
 
 export function Circle() {
   return (
     <Group>
       <CircleProgress value={50} />
-      <CircleProgress value={50} color="error.normal" />
-      <CircleProgress value={50} color="success.normal" />
+      <CircleProgress value={50} lineColor="error.normal" />
+      <CircleProgress value={50} lineColor="success.normal" />
     </Group>
   );
 }

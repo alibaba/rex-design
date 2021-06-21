@@ -2,7 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { colors } from '../../utils';
 import { Box } from '../layout';
-import { CircleProgressProps, RenderLabelPayload } from './interfaces';
+import { ProgressProps, RenderLabelPayload } from './types';
+import { valueToPercent } from './utils';
 
 const Wrapper = styled(Box)`
   position: relative;
@@ -25,19 +26,14 @@ const Circle = (props: any) => <circle cx={50} cy={50} r={42} fill="transparent"
 
 const defaultRenderLabel = (p: RenderLabelPayload) => `${Math.floor(p.value)}%`;
 
-function valueToPercent(value: number, min: number, max: number) {
-  return ((value - min) * 100) / (max - min);
-}
-
-export function CircleProgress(props: CircleProgressProps) {
+export function CircleProgress(props: ProgressProps) {
   const {
     value = 0,
     min = 0,
     max = 100,
     size = '116px',
-    strokeWidth = '8px',
-    color = 'brand.normal',
-    trackColor = 'fill.layer1',
+    lineWidth = '8px',
+    lineColor = 'brand.normal',
     renderLabel = defaultRenderLabel,
     ...rest
   } = props;
@@ -55,8 +51,8 @@ export function CircleProgress(props: CircleProgressProps) {
   return (
     <Wrapper {...rest}>
       <svg viewBox="0 0 100 100" width={size} height={size}>
-        <Circle stroke={colors(trackColor)} strokeWidth={strokeWidth} />
-        <Circle stroke={colors(color)} strokeWidth={strokeWidth} strokeLinecap="round" {...indicatorProps} />
+        <Circle stroke="var(--rex-colors-fill-layer2)" strokeWidth={lineWidth} />
+        <Circle stroke={colors(lineColor)} strokeWidth={lineWidth} strokeLinecap="round" {...indicatorProps} />
       </svg>
       <Label>{renderLabel({ value: percent })}</Label>
     </Wrapper>
