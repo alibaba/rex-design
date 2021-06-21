@@ -1,4 +1,4 @@
-import { Box, Breadcrumb, BreadcrumbItem } from '@rexd/core';
+import { Breadcrumb, BreadcrumbItem } from '@rexd/core';
 import { Icon } from '@rexd/icon';
 import React from 'react';
 
@@ -13,17 +13,9 @@ export const Basic = () => (
 );
 
 export const CustomSeparator = () => (
-  <Box>
-    <Breadcrumb separator={<Box color="red">-</Box>}>
-      <BreadcrumbItem>首页</BreadcrumbItem>
-      <BreadcrumbItem>文档</BreadcrumbItem>
-      <BreadcrumbItem>Breadcurmb</BreadcrumbItem>
-    </Breadcrumb>
-
-    <Breadcrumb separator={<Icon type="arrow-right" />}>
-      <BreadcrumbItem>首页</BreadcrumbItem>
-      <BreadcrumbItem>文档</BreadcrumbItem>
-      <BreadcrumbItem>Breadcurmb</BreadcrumbItem>
-    </Breadcrumb>
-  </Box>
+  <Breadcrumb separator={<Icon type="arrow-right-bold" />}>
+    <BreadcrumbItem>首页</BreadcrumbItem>
+    <BreadcrumbItem>文档</BreadcrumbItem>
+    <BreadcrumbItem>Breadcurmb</BreadcrumbItem>
+  </Breadcrumb>
 );

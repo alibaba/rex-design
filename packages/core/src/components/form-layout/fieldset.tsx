@@ -11,7 +11,13 @@ const Title = styled.div`
 `;
 
 export interface FieldSetProps extends Omit<BoxProps, 'title'> {
+  /**
+   * 分组标题
+   */
   title?: React.ReactNode;
+  /**
+   * 列数
+   */
   columns?: ResponsiveType;
 }
 

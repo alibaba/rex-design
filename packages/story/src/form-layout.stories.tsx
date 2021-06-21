@@ -149,7 +149,7 @@ export function FormFieldSets() {
 
 export function MultiColumnFormFieldSet() {
   return (
-    <FieldSet title="办公室信息" columns={3}>
+    <FieldSet title="办公室信息" columns={2}>
       <FormControl label="城市" required help="辅助文本">
         <Input placeholder="请输入" />
       </FormControl>

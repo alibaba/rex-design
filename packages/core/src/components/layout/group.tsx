@@ -39,8 +39,17 @@ const GroupBox = styled(Box)<any>`
 `;
 
 export interface GroupProps extends Omit<BoxProps, 'as'> {
+  /**
+   * 是否吸附在一起
+   */
   isAttached?: boolean;
+  /**
+   * 水平间距
+   */
   spacingX?: StringOrNumber;
+  /**
+   * 垂直间距
+   */
   spacingY?: StringOrNumber;
 }
 

@@ -7,9 +7,21 @@ import { StringOrNumber, ResponsiveType } from '../../types';
 import { useDevice } from '../../providers';
 
 export interface FlexProps extends BoxProps {
+  /**
+   * 间距
+   */
   spacing?: StringOrNumber;
+  /**
+   * 子元素排列方向
+   */
   direction?: BoxProps['flexDirection'];
+  /**
+   * y 轴对齐方式
+   */
   align?: BoxProps['alignItems'];
+  /**
+   * x 轴对齐方式
+   */
   justify?: BoxProps['justifyContent'];
   wrap?: BoxProps['flexWrap'];
   basis?: BoxProps['flexBasis'];
@@ -50,6 +62,7 @@ export interface FlexItemProps extends BoxProps {
   span?: ResponsiveType | 'auto';
 }
 
+// TODO: 待定
 const COLS_TOTAL = 12;
 
 const getWidth = (span: StringOrNumber) => {

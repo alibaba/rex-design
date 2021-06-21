@@ -5,9 +5,10 @@ const getStatus = (isComplete: boolean, detail: StepProps) => {
   const status = detail.status || (isComplete ? 'complete' : 'incomplete');
   return status;
 };
+
 export interface UseStepsProps {
   /**
-   * 步骤配置数据
+   * 步骤列表
    */
   steps: StepProps[];
   /**

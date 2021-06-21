@@ -9,7 +9,13 @@ export const BreadcrumbSeparator = (props: any) => (
 );
 
 export interface BreadcurmbProps {
+  /**
+   * 分隔线
+   */
   separator?: React.ReactNode;
+  /**
+   * 点击单个节点时的回调
+   */
   onItemClick?: (key: string) => void;
   children?: React.ReactNode | React.ReactNode[];
 }

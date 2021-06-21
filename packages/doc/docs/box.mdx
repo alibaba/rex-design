@@ -8,13 +8,23 @@ import * as stories from 'story/src/layout/box.stories';
 
 ## 使用场景
 
+跨端原子组件，支持所有 Style Props，支持快捷消费 Design Tokens。
+
 ## 示例
 
 ### 基本示例
 
-<Story fn={stories.Simple} />
+<Story fn={stories.Basic} />
+
+### 边框盒子
+
+除了使用 Design Tokens，也可以直接使用 CSS value。
+
+<Story fn={stories.BorderBox} />
 
 ### 改变渲染元素
+
+通过 as 属性改变渲染的目标 HTML 元素。
 
 <Story fn={stories.As} />
 

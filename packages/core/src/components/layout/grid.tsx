@@ -5,12 +5,33 @@ import { StringOrNumber, ResponsiveType } from '../../types';
 import { getResponsive, isNumber, space } from '../../utils';
 
 export interface GridProps extends BoxProps {
+  /**
+   * 列数
+   */
   columns?: ResponsiveType;
+  /**
+   * 间距
+   */
   spacing?: StringOrNumber;
+  /**
+   * 水平方向间距
+   */
   spacingX?: StringOrNumber;
+  /**
+   * 垂直方向间距
+   */
   spacingY?: StringOrNumber;
+  /**
+   * 子元素最小宽度
+   */
   minChildWidth?: StringOrNumber;
+  /**
+   * 定义每一列的宽度
+   */
   templateColumns?: BoxProps['gridTemplateColumns'];
+  /**
+   * 定义每一行的高度
+   */
   templateRows?: BoxProps['gridTemplateRows'];
   templateArea?: BoxProps['gridTemplateAreas'];
   area?: BoxProps['gridArea'];

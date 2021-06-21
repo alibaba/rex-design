@@ -7,9 +7,21 @@ import { ResponsiveType } from '../../types';
 type LabelPosition = 'left' | 'top';
 
 interface FormLayoutContext {
+  /**
+   * 是否行内布局
+   */
   isInline?: boolean;
+  /**
+   * 标签位置
+   */
   labelPosition?: LabelPosition;
+  /**
+   * 标签宽度
+   */
   labelWidth?: string;
+  /**
+   * 布局列数
+   */
   columns?: ResponsiveType;
 }
 

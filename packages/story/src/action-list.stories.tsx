@@ -1,7 +1,7 @@
 import React from 'react';
 import { ActionList } from '@rexd/core';
 
-export default { title: 'ActionList' };
+export default { title: 'ActionList', component: ActionList };
 
 const actions = [
   {

@@ -18,7 +18,19 @@ export function Size() {
 }
 
 export function PageSizeList() {
-  return <Pagination hasPageSizeList pageCount={10} onChange={console.log} />;
+  const [pageSize, setPageSize] = useState(20);
+  const total = 1000;
+  const pageCount = Math.floor(total / pageSize) + (total % pageSize ? 1 : 0);
+
+  return (
+    <Pagination
+      hasPageSizeList
+      pageSize={pageSize}
+      onPageSizeChange={setPageSize}
+      pageCount={pageCount}
+      onChange={console.log}
+    />
+  );
 }
 
 export function Light() {

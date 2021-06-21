@@ -25,6 +25,9 @@ const StepsBox = styled(Box)<any>`
 `;
 
 export interface StepsProps extends UseStepsProps {
+  /**
+   * 方向
+   */
   direction?: 'row' | 'column';
 }
 
