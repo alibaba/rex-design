@@ -2,3 +2,13 @@
 . "$(dirname "$0")/_/husky.sh"
 
 yarn lint-staged --allow-empty
+
+RED='\033[0;31m'
+Color_Off='\033[0m'
+DOMAIN="alibaba-inc.com"
+
+if cat yarn.lock | grep -in $DOMAIN > /dev/null
+then
+  echo "${RED}yarn.lock 包含 ${DOMAIN} 的地址，请移除这些内网地址${Color_Off}"
+  exit 1
+fi
