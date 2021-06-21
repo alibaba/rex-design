@@ -77,8 +77,11 @@ const RexCheckbox = styled.label<Dict<any>>`
 `;
 
 export interface CheckboxProps extends UseCheckboxProps {
-  children?: React.ReactNode;
+  /**
+   * 是否只读
+   */
   readOnly?: boolean;
+  children?: React.ReactNode;
 }
 
 export const Checkbox = React.forwardRef<HTMLSpanElement, CheckboxProps>((props, ref) => {

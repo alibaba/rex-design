@@ -5,17 +5,41 @@ import { FormControlOnChangeHandler } from '../../types';
 import { isFunction } from '../../utils';
 
 export interface UseCheckboxProps {
-  value?: string;
+  /**
+   * 受控选中态
+   */
   checked?: boolean;
+  /**
+   * 非受控选中初始态
+   */
   defaultChecked?: boolean;
-  disabled?: boolean;
+  /**
+   * 受控半选态
+   */
   indeterminate?: boolean;
+  /**
+   * 非受控半选初始态
+   */
   defaultIndeterminate?: boolean;
-  size?: 'small' | 'medium' | 'large';
+  /**
+   * 选中状态变化时的回调
+   */
+  onChange?: FormControlOnChangeHandler<boolean>;
+  disabled?: boolean;
+  /**
+   * 所属分组
+   */
   name?: string;
+  /**
+   * 分组中的值
+   */
+  value?: string;
+  /**
+   * 尺寸
+   */
+  size?: 'small' | 'medium' | 'large';
   style?: React.CSSProperties;
   className?: string;
-  onChange?: FormControlOnChangeHandler<boolean>;
 }
 
 export type UseCheckboxReturn = ReturnType<typeof useCheckbox>;

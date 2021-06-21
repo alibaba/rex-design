@@ -1,15 +1,35 @@
 import { isFunction } from '../../utils';
 import { useControllableState } from '../../hooks';
 import { InputProps } from '../input';
-import { ButtonProps } from '../button';
 
 export interface UseSearchProps {
+  /**
+   * 输入框受控制
+   */
   value?: string;
+  /**
+   * 输入框非受控值
+   */
   defaultValue?: string;
+  /**
+   * 输入框值变化时的回调
+   */
   onChange?: (value: string) => void;
+  /**
+   * 点击提交时的回调
+   */
   onSubmit?: (value: string) => void;
+  /**
+   * 输入框占位符
+   */
   placeholder?: string;
+  /**
+   * 是否有清空
+   */
   hasClear?: boolean;
+  /**
+   * 输入框宽度
+   */
   inputWidth?: string;
 }
 

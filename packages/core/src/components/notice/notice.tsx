@@ -53,13 +53,25 @@ function getMeta(status: string) {
 }
 
 export interface NoticeProps {
+  /**
+   * 状态
+   */
   status: 'error' | 'success' | 'warning' | 'info';
+  /**
+   * 标题
+   */
   title?: string;
   /**
    * 标题附加内容节点
    */
   extra?: React.ReactNode;
+  /**
+   * 是否可关闭
+   */
   closeable?: boolean;
+  /**
+   * 点击关闭按钮的回调
+   */
   onClose?: React.MouseEventHandler<HTMLButtonElement>;
   className?: string;
   style?: React.CSSProperties;

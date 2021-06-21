@@ -16,17 +16,33 @@ const getTimeItems = (total: number) => () => {
 const defaultRenderHeader = (): React.ReactNode => null;
 
 export interface TimePanelGetItemsProps {
-  getHourItems?: () => ListNode<number>[];
-  getMinuteItems?: () => ListNode<number>[];
-  getSecondItems?: () => ListNode<number>[];
-
   /**
-   * 快捷面板模式的数据项
+   * 设置小时选项列表
+   */
+  getHourItems?: () => ListNode<number>[];
+  /**
+   * 设置分钟选项列表
+   */
+  getMinuteItems?: () => ListNode<number>[];
+  /**
+   * 设置秒钟选项列表
+   */
+  getSecondItems?: () => ListNode<number>[];
+  /**
+   * 设置快捷列表
    */
   getQuickItems?: () => ListNode<string>[];
-
+  /**
+   * 显示秒钟列表
+   */
   hasSeconds?: boolean;
+  /**
+   * 显示分钟列表
+   */
   hasMinutes?: boolean;
+  /**
+   * 显示小时列表
+   */
   hasHours?: boolean;
 }
 

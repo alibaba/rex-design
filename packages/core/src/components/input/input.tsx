@@ -91,10 +91,18 @@ const Center = styled(Box)`
 `;
 
 export interface InputProps extends UseInputProps {
+  /**
+   * 左侧附加元素
+   */
   leftElement?: React.ReactNode;
+  /**
+   * 右侧附加元素
+   */
   rightElement?: React.ReactNode;
+  /**
+   * 自定义右侧元素渲染（自定义布局）
+   */
   renderRightElement?: () => React.ReactNode;
-  hasClear?: boolean;
   inputRef?: React.RefObject<HTMLInputElement>;
 }
 

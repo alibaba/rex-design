@@ -5,12 +5,33 @@ import { toNumber, toPrecision, isNull } from '../../utils';
 import { NumberStore } from '../../stores';
 
 export interface UseCounterProps {
-  onChange?: (val: number) => void;
+  /**
+   * 非受控初值
+   */
   defaultValue?: StringOrNumber;
+  /**
+   * 受控值
+   */
   value?: StringOrNumber;
+  /**
+   * 值变化时的回调
+   */
+  onChange?: (val: number) => void;
+  /**
+   * 精度（小数点保留位数）
+   */
   precision?: number;
+  /**
+   * 步长
+   */
   step?: number;
+  /**
+   * 最小值
+   */
   min?: number;
+  /**
+   * 最大值
+   */
   max?: number;
   /**
    * 格式化选项，参考 Intl.NumberFormat

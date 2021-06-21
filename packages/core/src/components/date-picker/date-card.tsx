@@ -12,11 +12,8 @@ import { TimePanel, TimePanelProps } from '../time-picker/time-panel';
 import { getToken } from '../../utils';
 import { useDevice } from '../../providers';
 
-interface GetVisibleMonthOption {
-  value?: Dayjs;
-}
-
-const defaultGetVisibleMonth = ({ value }: GetVisibleMonthOption) => {
+const defaultGetVisibleMonth = ({ startValue, endValue }: DateCardProps) => {
+  const value = endValue || startValue;
   if (value) {
     return value.clone();
   }
@@ -54,9 +51,9 @@ export interface DateCardProps {
    */
   hasTime?: boolean;
   /**
-   * 设置默认显示的月份
+   * 默认显示的月份
    */
-  getDefaultVisibleMonth?: (props: GetVisibleMonthOption) => Dayjs;
+  getDefaultVisibleMonth?: (props: DateCardProps) => Dayjs;
   /**
    * 开始日期
    */
@@ -101,10 +98,11 @@ export function DateCard(props: DateCardProps) {
     onOk,
   } = props;
   const device = useDevice();
-  const [mode, setMode] = useState('date'); // date, month, year
+  const [mode, setMode] = useState<'date' | 'month' | 'year'>('date');
   const [visibleMonth, setVisibleMonth] = useState(() =>
     getDefaultVisibleMonth({
-      value: endValue || startValue,
+      startValue,
+      endValue,
     }),
   );
 

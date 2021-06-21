@@ -8,7 +8,7 @@ export function Basic() {
     <Group>
       <Search onChange={(val) => console.log('change:', val)} onSubmit={(val) => console.log('submit:', val)} />
       <Search
-        searchText="搜索订单"
+        buttonText="搜索订单"
         onChange={(val) => console.log('change:', val)}
         onSubmit={(val) => console.log('submit:', val)}
       />

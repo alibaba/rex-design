@@ -10,7 +10,13 @@ export interface RadioGroupProps extends Omit<UseSelectableListProps<string>, 's
    * 分组名，用于当页面存在多个 Group 时进行区分
    */
   name?: string;
+  /**
+   * 列表
+   */
   dataSource?: ListNode<string>[];
+  /**
+   * 排列方向
+   */
   direction?: FlexProps['direction'];
 }
 

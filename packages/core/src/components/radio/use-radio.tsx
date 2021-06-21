@@ -1,14 +1,34 @@
 import { ChangeEvent, HTMLAttributes, useCallback } from 'react';
 import cx from 'classnames';
-import { callAllHandlers } from '../../utils';
 
 export interface UseRadioProps {
+  /**
+   * 所属分组名
+   */
   name?: string;
+  /**
+   * 分组值
+   */
   value?: string;
+  /**
+   * 受控选中态
+   */
   checked?: boolean;
+  /**
+   * 非受控选中初值
+   */
   defaultChecked?: boolean;
+  /**
+   * 禁用
+   */
   disabled?: boolean;
+  /**
+   * 只读
+   */
   readOnly?: boolean;
+  /**
+   * 选中状态变化时的回调
+   */
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   className?: string;
 }
