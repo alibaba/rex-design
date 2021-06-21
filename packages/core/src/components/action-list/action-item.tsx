@@ -16,7 +16,7 @@ export interface ActionItemProps extends ButtonProps {
 
 export function ActionItem(props: ActionItemProps) {
   const { label, icon, confirm, onSelect, onCancel, ...rest } = props;
-  const leftElement = icon ? <Icon type={icon as any} /> : null;
+  const leftElement = icon ? <Icon type={icon} /> : null;
 
   const shared = {
     shape: 'link',

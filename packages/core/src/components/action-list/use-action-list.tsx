@@ -26,24 +26,24 @@ export interface UseActionListProps {
   /**
    * 用户选择行动点时的回调
    */
-  onSelect?: (key?: string) => void;
+  onSelect?: (key: string, detail?: any) => void;
   /**
    * 是否有分割线
    */
-  hasDivider?: boolean;
+  hasSeparator?: boolean;
   className?: string;
 }
 
 export function useActionList(props: UseActionListProps) {
-  const { actions = [], onSelect, hasDivider: hasDividerProp = true, className, ...htmlProps } = props;
+  const { actions = [], onSelect, hasSeparator: hasSeparatorProp = true, className, ...htmlProps } = props;
   const actionNodes = useMemo(() => {
     const lastIndex = actions.length - 1;
     return actions.map((item, index) => {
       const { key, render: Render, children, props: itemProps, ...rest } = item;
-      const hasDivider = hasDividerProp && index !== lastIndex;
+      const hasSeparator = hasSeparatorProp && index !== lastIndex;
       const handleSelect = () => {
         if (typeof onSelect === 'function') {
-          onSelect(key);
+          onSelect(key, { item });
         }
       };
 
@@ -71,11 +71,11 @@ export function useActionList(props: UseActionListProps) {
       return (
         <React.Fragment key={key}>
           {node}
-          {hasDivider && <Divider />}
+          {hasSeparator && <Divider />}
         </React.Fragment>
       );
     });
-  }, [actions, hasDividerProp, onSelect]);
+  }, [actions, hasSeparatorProp, onSelect]);
 
   const getRootProps = () => {
     return {
