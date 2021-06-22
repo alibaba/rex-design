@@ -32,7 +32,7 @@ export function ActionSheet(props: ActionSheetProps) {
         <AdaptivePopup.Panel {...arg}>
           {arg.arrow}
           {title && (
-            <Box py="m" textAlign="center" fontSize="body">
+            <Box pt="m" textAlign="center" fontSize="body">
               {title}
             </Box>
           )}

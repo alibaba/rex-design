@@ -1,16 +1,13 @@
-import { uniqueId } from 'lodash';
 import cx from 'classnames';
 import React, { useRef } from 'react';
+import { uniqueId } from 'lodash';
 import { useControllableState } from '../../hooks/use-controllable';
 import { FormControlOnChangeHandler, StringOrNumber } from '../../types';
 import { RexFile } from './types';
-import { isFunction } from 'src/utils';
 
 async function defaultEmptyRequest() {
   return Promise.reject(Error('请传入自定义 request 方法'));
 }
-
-const defaultBeforeUpload = () => true;
 
 function normalizeFile(file: File) {
   return {
