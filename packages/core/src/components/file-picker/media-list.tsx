@@ -20,6 +20,9 @@ const MediaListWrapper = styled.ul`
 
 const MediaWrapper = styled.li`
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 80px;
   height: 80px;
   border-radius: var(--rex-radii-s);

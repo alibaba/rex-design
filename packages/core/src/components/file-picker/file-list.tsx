@@ -57,7 +57,9 @@ function FileListItem(props: FileListItemProps) {
       alignItems="center"
     >
       <Box>
-        <Link>{file.name}</Link>
+        <Link href={file.url} target="_blank">
+          {file.name}
+        </Link>
         {file.error && (
           <Text color="error.normal">
             ({file.error.name}：{file.error.message})

@@ -1,37 +1,11 @@
-import { Icon } from '@rexd/icon';
-import cx from 'classnames';
 import React, { useRef } from 'react';
 import styled from 'styled-components';
+import cx from 'classnames';
+import { Icon } from '@rexd/icon';
 import { useBoolean } from '../../hooks';
 import { Box, Flex } from '../layout';
+import { Button } from '../button';
 import { FilePickTriggerProps } from './types';
-import { getToken } from '../../utils';
-
-const SelectorLabel = styled.span`
-  display: ${getToken('FilePicker.normalTriggerDisplay')};
-  align-items: center;
-  justify-content: center;
-  user-select: none;
-  border: 1px solid var(--rex-colors-line-border);
-  border-radius: var(--rex-radii-s);
-  color: var(--rex-colors-text-body);
-  background-color: var(--rex-colors-fill-layer1);
-  font-size: var(--rex-fontSizes-body);
-  height: var(--rex-sizes-formHeights-m);
-  min-width: ${getToken('FilePicker.normalTriggerWidth')};
-  padding-left: var(--rex-space-m);
-  padding-right: var(--rex-space-m);
-
-  &.rex-disabled {
-    border-color: var(--rex-colors-line-disabled);
-    background-color: var(--rex-colors-fill-disabled);
-    color: var(--rex-colors-line-disabled);
-  }
-
-  svg {
-    margin-right: var(--rex-space-m);
-  }
-`;
 
 const DarggerBox = styled.div`
   display: inline-block;
@@ -76,17 +50,16 @@ const MediaTriggerBox = styled.div`
   }
 `;
 
-export function FilePickTrigger(props: FilePickTriggerProps) {
-  const { label = '请选择文件', disabled } = props;
+export function BasicFileTrigger(props: FilePickTriggerProps) {
+  const { label = '请选择文件', ...rest } = props;
   return (
-    <SelectorLabel className={disabled ? 'rex-disabled' : undefined}>
-      <Icon type="upload" />
+    <Button leftElement={<Icon type="upload" />} {...rest}>
       {label}
-    </SelectorLabel>
+    </Button>
   );
 }
 
-export function DargFileTrigger(props: FilePickTriggerProps) {
+export function DragFileTrigger(props: FilePickTriggerProps) {
   const counter = useRef(0);
   const [isDrag, { on, off }] = useBoolean(false);
   const { label = '上传文件', help = '可以拖拽文件到此处进行文件上传操作', disabled, inputRef, ...rest } = props;
@@ -145,7 +118,7 @@ export function DargFileTrigger(props: FilePickTriggerProps) {
   );
 }
 
-export function MediaPickTrigger({ disabled }: FilePickTriggerProps) {
+export function MediaFileTrigger({ disabled }: FilePickTriggerProps) {
   return (
     <MediaTriggerBox className={disabled ? 'rex-disabled' : undefined}>
       <Icon type="add-bold" />

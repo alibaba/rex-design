@@ -4,10 +4,13 @@ import React, { useRef } from 'react';
 import { useControllableState } from '../../hooks/use-controllable';
 import { FormControlOnChangeHandler, StringOrNumber } from '../../types';
 import { RexFile } from './types';
+import { isFunction } from 'src/utils';
 
 async function defaultEmptyRequest() {
   return Promise.reject(Error('请传入自定义 request 方法'));
 }
+
+const defaultBeforeUpload = () => true;
 
 function normalizeFile(file: File) {
   return {
@@ -127,7 +130,6 @@ export interface UseFilePickerProps {
    * 自定义样式名
    */
   className?: string;
-  // TODO: beforeUpload
 }
 
 export function useFilePicker(props: UseFilePickerProps) {
@@ -143,7 +145,7 @@ export function useFilePicker(props: UseFilePickerProps) {
     ...htmlProps
   } = props;
 
-  const inputRef = useRef();
+  const inputRef = useRef<HTMLInputElement>();
   const [value, updateValue] = useControllableState<RexFile[]>({
     name: 'FilePicker',
     value: valueProp,
@@ -161,7 +163,7 @@ export function useFilePicker(props: UseFilePickerProps) {
 
   const upload = getUpload(request as RequestType);
 
-  const getInputProps = (props?: any) => {
+  const getInputProps = (props?: React.ComponentPropsWithRef<'input'>) => {
     return {
       ...props,
       ref: inputRef,
@@ -171,14 +173,14 @@ export function useFilePicker(props: UseFilePickerProps) {
       disabled,
       onChange: async (e: React.FormEvent<HTMLInputElement>) => {
         const rawFiles = (e.target as HTMLInputElement).files;
-        const files = Array.from(rawFiles).map(normalizeFile); // TODO: 支持用户自己来 normalize ?
+        const files = Array.from(rawFiles).map(normalizeFile);
         const list = mergeCollections<RexFile>(files, value, 'id');
 
         updateDisplayValue(list); // 只更新展示态
 
         const rets = await Promise.all(
-          files.map(async (file: any) => {
-            // TODO: beforeUpload
+          files.map(async (file: RexFile) => {
+            // TIP: 不需要 beforeUpload，可以直接借助自定义 request 来实现
             return upload(file);
           }),
         );
@@ -190,7 +192,7 @@ export function useFilePicker(props: UseFilePickerProps) {
     };
   };
 
-  const getListProps = (props?: any) => {
+  const getListProps = (props?: React.ComponentPropsWithoutRef<'ul'>) => {
     return {
       ...props,
       disabled,
@@ -203,7 +205,7 @@ export function useFilePicker(props: UseFilePickerProps) {
     };
   };
 
-  const getRootProps = (props?: any) => {
+  const getRootProps = (props?: React.ComponentPropsWithoutRef<'div'>) => {
     return {
       ...props,
       ...htmlProps,
@@ -217,9 +219,17 @@ export function useFilePicker(props: UseFilePickerProps) {
     };
   };
 
-  const getTriggerProps = (props?: any) => {
+  const getSelectorProps = (props?: React.ComponentPropsWithoutRef<'div'>) => {
     return {
       ...props,
+      onClick() {
+        inputRef.current.click();
+      },
+    };
+  };
+
+  const getTriggerProps = () => {
+    return {
       inputRef,
       disabled,
     };
@@ -227,8 +237,9 @@ export function useFilePicker(props: UseFilePickerProps) {
 
   return {
     getRootProps,
-    getInputProps,
+    getSelectorProps,
     getTriggerProps,
+    getInputProps,
     getListProps,
   };
 }

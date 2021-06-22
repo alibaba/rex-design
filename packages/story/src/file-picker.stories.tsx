@@ -15,6 +15,12 @@ const files = [
     name: 'test.png',
     url: 'https://img.alicdn.com/tps/TB19O79MVXXXXcZXVXXXXXXXXXX-1024-1024.jpg',
   },
+
+  {
+    id: '03',
+    name: 'test.png',
+    url: 'https://img.alicdn.com/tfs/TB1gjPyp9slXu8jSZFuXXXg7FXa-750-272.png',
+  },
 ];
 
 const getRequest = (options: any) =>
@@ -37,7 +43,7 @@ const getRequest = (options: any) =>
   });
 
 export const Basic = () => (
-  <Group>
+  <Group spacingY="l">
     <FilePicker defaultValue={files} request={getRequest} onChange={console.log} />
 
     <FilePicker defaultValue={files} disabled onChange={console.log} />
@@ -46,7 +52,7 @@ export const Basic = () => (
 
 export const Media = () => {
   return (
-    <Group>
+    <Group spacingY="l">
       <MediaPicker defaultValue={files} request={getRequest} onChange={console.log} />
 
       <MediaPicker defaultValue={files} request={getRequest} onChange={console.log} disabled />
@@ -59,9 +65,18 @@ export const Media = () => {
  */
 export const DragFile = () => {
   return (
-    <Group>
-      <FilePicker triggerType="drag" request={getRequest} onChange={console.log} />
-      <FilePicker triggerType="drag" request={getRequest} onChange={console.log} disabled />
+    <Group spacingY="l">
+      <FilePicker
+        renderTrigger={(props) => <FilePicker.DragFileTrigger {...props} />}
+        request={getRequest}
+        onChange={console.log}
+      />
+      <FilePicker
+        renderTrigger={(props) => <FilePicker.DragFileTrigger {...props} />}
+        request={getRequest}
+        onChange={console.log}
+        disabled
+      />
     </Group>
   );
 };
@@ -88,7 +103,7 @@ export const Status = () => {
     },
   ];
   return (
-    <Group>
+    <Group spacingY="l">
       <FilePicker defaultValue={files} onChange={console.log} />
       <MediaPicker defaultValue={files} onChange={console.log} />
     </Group>

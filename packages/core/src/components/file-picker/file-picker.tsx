@@ -2,34 +2,41 @@ import React from 'react';
 import styled from 'styled-components';
 import { FileList } from './file-list';
 import { UseFilePickerProps, useFilePicker } from './use-file-picker';
+import { BasicFileTrigger, MediaFileTrigger, DragFileTrigger } from './trigger';
 import { FilePickTriggerProps } from './types';
-import { DargFileTrigger, FilePickTrigger } from './trigger';
 
-export const FileSelector = styled.label`
+export const FileSelector = styled.div`
+  display: inline-block;
+
   input {
     display: none;
   }
 `;
 
 export interface FilePickerProps extends UseFilePickerProps {
-  // todo 和 popup 那边保持一致？ 使用 interactionKind
-  triggerType?: 'normal' | 'drag';
-  triggerProps?: FilePickTriggerProps;
+  /**
+   * 渲染触发器
+   */
+  renderTrigger?: (props: FilePickTriggerProps) => React.ReactNode;
 }
 
-export function FilePicker(props: FilePickerProps) {
-  const { triggerType = 'normal', triggerProps, ...rest } = props;
-  const { getRootProps, getInputProps, getTriggerProps, getListProps } = useFilePicker(rest);
+const defaultRenderTrigger = (props: FilePickTriggerProps) => <BasicFileTrigger {...props} />;
 
-  const Trigger = triggerType === 'drag' ? DargFileTrigger : FilePickTrigger;
+export function FilePicker(props: FilePickerProps) {
+  const { renderTrigger = defaultRenderTrigger, ...rest } = props;
+  const { getRootProps, getSelectorProps, getTriggerProps, getInputProps, getListProps } = useFilePicker(rest);
 
   return (
     <div {...getRootProps()}>
-      <FileSelector>
+      <FileSelector {...getSelectorProps()}>
         <input {...getInputProps()} />
-        <Trigger {...getTriggerProps(triggerProps)} />
+        {renderTrigger(getTriggerProps())}
       </FileSelector>
       <FileList {...getListProps()} />
     </div>
   );
 }
+
+FilePicker.BasicFileTrigger = BasicFileTrigger;
+FilePicker.MediaFileTrigger = MediaFileTrigger;
+FilePicker.DragFileTrigger = DragFileTrigger;

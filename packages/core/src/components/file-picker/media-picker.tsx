@@ -2,18 +2,18 @@ import React from 'react';
 import { useFilePicker } from './use-file-picker';
 import { MediaList } from './media-list';
 import { FilePickerProps, FileSelector } from './file-picker';
-import { MediaPickTrigger } from './trigger';
+import { MediaFileTrigger } from './trigger';
 
 export type MediaPickerProps = FilePickerProps;
 
 export function MediaPicker(props: FilePickerProps) {
-  const { getRootProps, getInputProps, getTriggerProps, getListProps } = useFilePicker(props);
+  const { getRootProps, getInputProps, getSelectorProps, getTriggerProps, getListProps } = useFilePicker(props);
   return (
     <div {...getRootProps()}>
       <MediaList {...getListProps()}>
-        <FileSelector>
+        <FileSelector {...getSelectorProps()}>
           <input {...getInputProps()} />
-          <MediaPickTrigger {...getTriggerProps()} />
+          <MediaFileTrigger {...getTriggerProps()} />
         </FileSelector>
       </MediaList>
     </div>
