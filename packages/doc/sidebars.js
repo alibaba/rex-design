@@ -80,11 +80,5 @@ module.exports = {
         },
       ],
     },
-    {
-      type: 'category',
-      label: '@rexd/xform',
-      collapsed: false,
-      items: ['xform/usage', 'xform/advanced', 'xform/effects', 'xform/core', 'xform/api'],
-    },
   ],
 };
