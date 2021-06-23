@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Box, Flex, FlexItem } from '@rexd/core';
 
-export default { title: 'Layout/Flex' };
+export default { title: 'Layout/Flex', component: Flex };
 
 export const Simple = () => (
   <Flex spacing="l" direction="row">
@@ -54,9 +54,10 @@ export const EqualCols = () => (
 export const ColSpan = () => (
   <Example>
     <Flex>
-      <FlexItem>1/4</FlexItem>
+      <FlexItem span={1}>1/12</FlexItem>
+      <FlexItem span={2}>1/6</FlexItem>
+      <FlexItem span={3}>1/4</FlexItem>
       <FlexItem span={6}>1/2</FlexItem>
-      <FlexItem>1/4</FlexItem>
     </Flex>
   </Example>
 );
@@ -77,6 +78,14 @@ export const ResponsiveCol = () => (
       <FlexItem span={{ s: 12, m: 6, l: 4 }}>responsive</FlexItem>
       <FlexItem>item</FlexItem>
       <FlexItem>item</FlexItem>
+    </Flex>
+  </Example>
+);
+
+export const JustifyAndAlign = () => (
+  <Example>
+    <Flex justify="space-around">
+      <FlexItem span="auto">一个居中的盒子</FlexItem>
     </Flex>
   </Example>
 );
