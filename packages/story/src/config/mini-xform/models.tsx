@@ -1,4 +1,5 @@
 // @ts-nocheck
+// 请勿使用该组件，等内部的 hippo-xform 和 hippo3 成熟后，xform 将会重新回归开源
 import invariant from 'invariant';
 import { action, computed, makeObservable, observable } from 'mobx';
 import React, { useLayoutEffect } from 'react';

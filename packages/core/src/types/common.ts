@@ -1,19 +1,10 @@
-import React, { ChangeEvent } from 'react';
-
-/** @deprecated */
-export type HippoKey = string | number;
-
-export type UnionStringArray<T extends Readonly<string[]>> = T[number];
-
-export type AnyFunction<T = any> = (...args: T[]) => any;
+import React from 'react';
 
 export type FunctionArguments<T extends Function> = T extends (...args: infer R) => any ? R : never;
 
 export type Dict<T = any> = Record<string, T>;
 
 export type StringOrNumber = string | number;
-
-export type EventOrValue = ChangeEvent<HTMLInputElement> | StringOrNumber;
 
 export type Length = string | 0 | number;
 

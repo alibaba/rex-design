@@ -1,20 +1,8 @@
-import {
-  Box,
-  Button,
-  ButtonProps,
-  createContext,
-  Group,
-  GroupProps,
-  Input,
-  NumberInput,
-  Popup,
-  Text,
-  Textarea,
-  useSelectableList,
-  UseSelectableListProps,
-} from '@rexd/core';
+import { Box, Button, ButtonProps, Group, GroupProps, Input, NumberInput, Popup, Text, Textarea } from '@rexd/core';
+import { useSelectableList, UseSelectableListProps } from '@rexd/core/src/hooks';
+import { ListNode, StringOrNumber } from '@rexd/core/src/types';
+import { createContext } from '@rexd/core/src/utils/react-helpers';
 import cx from 'classnames';
-import { ListNode, StringOrNumber } from 'packages/core/src/types';
 import React, { useState } from 'react';
 import { BlockPicker } from 'react-color';
 import styled from 'styled-components';
@@ -50,6 +38,7 @@ export function Header(props: HeaderProps) {
         <Button type="primary" onClick={onSave}>
           保存
         </Button>
+        {/* @ts-ignore */}
         <Button as="a" target="blank" href={window.URL.createObjectURL(blob)} download={filename}>
           导出
         </Button>

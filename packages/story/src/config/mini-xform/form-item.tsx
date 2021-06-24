@@ -1,13 +1,14 @@
+// 请勿使用该组件，等内部的 hippo-xform 和 hippo3 成熟后，xform 将会重新回归开源
+import { Input } from '@rexd/core';
 import cx from 'classnames';
 import pick from 'lodash.pick';
 import { toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import React, { useEffect } from 'react';
 import { composeState } from './common-utils';
-import { useFormEnv, useModel } from './form';
+import { useModel } from './form';
 import { FormItemView } from './form-ui';
 import { Field, FieldConfig, IModel } from './models';
-import { ALL_COMPONENTS } from './rexd-components';
 
 function resolveField(fieldProp: Field, model: IModel, name: string) {
   let field: Field;
@@ -75,15 +76,11 @@ export function createFormItem(options: FormItemCreationOptions) {
     ...props
   }: Omit<FormItemProps, 'component'>) {
     const model = useModel();
-    const formEnv = useFormEnv();
 
     const field = resolveField(fieldProp, model, name);
     const fieldConfig: FieldConfig<unknown> = {
       fallbackValue,
       isEmpty,
-      validateOnChange: formEnv.validateOnChange,
-      validateOnBlur: formEnv.validateOnBlur,
-      validateOnMount: formEnv.validateOnMount,
       ...props,
     };
     field._useTrack(fieldConfig);
@@ -117,9 +114,7 @@ export function createFormItem(options: FormItemCreationOptions) {
 
     let children: any;
 
-    if (formEnv.isPreview && renderPreview) {
-      children = renderPreview(componentProps);
-    } else if (options.render) {
+    if (options.render) {
       children = options.render(componentProps);
     } else {
       children = <options.component {...componentProps} />;
@@ -133,7 +128,7 @@ export function createFormItem(options: FormItemCreationOptions) {
         error={error}
         tip={props.tip}
         style={props.style}
-        className={cx(props.className, { 'form-item-preview': formEnv.isPreview })}
+        className={cx(props.className)}
       >
         {children}
       </FormItemView>
@@ -145,16 +140,16 @@ export function createFormItem(options: FormItemCreationOptions) {
   return observer(FormItemComponent);
 }
 
-const COMPONENT_DICT: { [name: string]: React.FunctionComponent<any> } = {};
-for (const config of ALL_COMPONENTS) {
-  const Component = createFormItem(config);
-  COMPONENT_DICT[config.name] = Component;
-  if (config.aliases) {
-    for (const alias of config.aliases) {
-      COMPONENT_DICT[alias] = Component;
-    }
-  }
-}
+const COMPONENT_DICT: { [name: string]: React.FunctionComponent<any> } = {
+  input: createFormItem({
+    name: 'input',
+    component: Input,
+    fallbackValue: '',
+    isEmpty: function (value: any) {
+      return !value;
+    },
+  }),
+};
 
 const NotFound = createFormItem({
   name: 'notFound',

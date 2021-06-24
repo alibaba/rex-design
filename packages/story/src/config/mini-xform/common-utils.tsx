@@ -1,3 +1,4 @@
+// 请勿使用该组件，等内部的 hippo-xform 和 hippo3 成熟后，xform 将会重新回归开源
 import * as mobx from 'mobx';
 import React from 'react';
 

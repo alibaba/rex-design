@@ -1,11 +1,9 @@
-import { Tooltip, Button } from '@rexd/core';
+// 请勿使用该组件，等内部的 hippo-xform 和 hippo3 成熟后，xform 将会重新回归开源
+import { Tooltip } from '@rexd/core';
 import { Icon } from '@rexd/icon';
 import cx from 'classnames';
-import { action } from 'mobx';
 import React, { ReactNode } from 'react';
 import styled from 'styled-components';
-import { useFormEnv, useModel } from './form';
-import { modelUtils } from './model-utils';
 
 function asCSSLength(len: number | string) {
   return typeof len === 'number' ? `${len}px` : len;
@@ -203,13 +201,8 @@ export const FormItemGroup = ({
   style,
   inline,
 }: FormItemGroupProps) => {
-  const { isPreview } = useFormEnv();
-
   return (
-    <FormItemGroupDiv
-      className={cx('form-item-group', { inline, 'form-item-preview': isPreview }, className)}
-      style={style}
-    >
+    <FormItemGroupDiv className={cx('form-item-group', { inline }, className)} style={style}>
       {label == null && tip == null ? null : (
         <div className="form-item-label">
           {asterisk && <span className="required-indicator" />}
@@ -271,20 +264,4 @@ export function FormItemView({ label, help, tip, asterisk, error, children, clas
       </div>
     </div>
   );
-}
-
-type ButtonProps = React.PropsWithChildren<React.ComponentProps<typeof Button>>;
-
-export function FormSubmit({ type = 'primary', children = '提交', ...props }: ButtonProps) {
-  const root = useModel();
-  const formEnv = useFormEnv();
-
-  return <Button onClick={() => modelUtils.submit(root, formEnv)} type={type} children={children} {...props} />;
-}
-
-export function FormReset({ children = '重置', ...props }: ButtonProps) {
-  const root = useModel();
-  const formEnv = useFormEnv();
-
-  return <Button onClick={action(() => modelUtils.reset(root, formEnv))} children={children} {...props} />;
 }

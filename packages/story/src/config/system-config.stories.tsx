@@ -1,28 +1,16 @@
 import { ActionSheet, Box, Button, Dialog, extendTheme, Group, Image, THEMES } from '@rexd/core';
 import { Icon } from '@rexd/icon';
-import { Form, FormItem, FormModel } from '@rexd/xform';
+import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { ToggleButtonGroup } from './components';
 import { AudioIcon, EyeIcon, GestureIcon, MouseIcon } from './icons';
+import { Form, FormItem, FormModel } from './mini-xform';
+import { FormItemView } from './mini-xform/form-ui';
 import { generateFontSizeTokens } from './token-factory';
 
 export default {
   title: 'Config/System',
 };
-
-const FormItemGroup = Form.ItemGroup;
-
-FormItem.register({
-  name: 'toggleButtonGroup',
-  component: ToggleButtonGroup,
-  fallbackValue: null,
-  isEmpty(value) {
-    if (Array.isArray(value) && !value.length) {
-      return true;
-    }
-    return !!value;
-  },
-});
 
 const model = new FormModel({
   distance: 350,
@@ -57,7 +45,7 @@ const iconProps = {
   height: '16px',
 };
 
-export function System() {
+const SystemInner = observer(() => {
   const operations = [
     { value: 'mouse', label: <MouseIcon {...iconProps} />, title: '鼠标操作' },
     { value: 'gesture', label: <GestureIcon {...iconProps} />, title: '手势操作' },
@@ -143,7 +131,7 @@ export function System() {
               max: 85,
             }}
           />
-          <FormItemGroup label="分辨率" inline controlWidth={148}>
+          <Form.ItemGroup label="分辨率" inline controlWidth={148}>
             <FormItem
               component="input"
               label={null}
@@ -157,19 +145,20 @@ export function System() {
               name="height"
               componentProps={{ placeholder: '宽度', rightElement: <Box fontSize="body">px</Box>, width: 148 }}
             />
-          </FormItemGroup>
-          <FormItem
-            component="toggleButtonGroup"
-            label="主要操作方式"
-            name="operation"
-            componentProps={{
-              dataSource: operations,
-              selectMode: 'single',
-              buttonProps: {
-                isIconButton: true,
-              },
-            }}
-          />
+          </Form.ItemGroup>
+          <FormItemView label="主要操作方式">
+            <ToggleButtonGroup
+              value={model.getField('operation').value}
+              onChange={model.getField('operation').handleChange}
+              {...{
+                dataSource: operations,
+                selectMode: 'single',
+                buttonProps: {
+                  isIconButton: true,
+                },
+              }}
+            />
+          </FormItemView>
           <Group>
             <Button onClick={handlePreview}>预览效果</Button>
             <ActionSheet
@@ -199,4 +188,6 @@ export function System() {
       </Box>
     </Box>
   );
-}
+});
+
+export const System = () => <SystemInner />;

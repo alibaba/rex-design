@@ -1,4 +1,4 @@
-import { FunctionArguments, AnyFunction } from '../types';
+import { FunctionArguments } from '../types';
 import _ from 'lodash';
 import { isFunction } from './assertion';
 
