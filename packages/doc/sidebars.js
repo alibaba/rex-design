@@ -36,7 +36,7 @@ module.exports = {
             'confirm',
             'description',
             'link',
-            // 'loading',
+            'loading',
             'icon',
             'image',
             'progress',

@@ -3,7 +3,7 @@ export * from './providers';
 export { extendTheme, getThemeValue, THEMES } from './theme';
 export { default as dayjs } from './dayjs';
 
-// ------------  以下为各个组件
+// ============  以下为各个组件  ============
 export * from './components/action-list';
 export * from './components/action-sheet';
 export * from './components/anchor';
@@ -23,7 +23,7 @@ export * from './components/link';
 export * from './components/menu';
 export * from './components/notice';
 export * from './components/tabs';
-export * from './components/loading'; // todo 改成与原来一致的行为
+export * from './components/loading';
 export * from './components/number-input';
 export * from './components/overlays';
 export * from './components/select'; // todo 添加 props.width
