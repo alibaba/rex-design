@@ -1,9 +1,10 @@
-import React from 'react';
-import { Box, Group, Button, Image, Dialog, ToggleButtonGroup, ActionSheet, THEMES, extendTheme } from '@rexd/core';
+import { ActionSheet, Box, Button, Dialog, extendTheme, Group, Image, THEMES } from '@rexd/core';
 import { Icon } from '@rexd/icon';
 import { Form, FormItem, FormModel } from '@rexd/xform';
+import React from 'react';
+import { ToggleButtonGroup } from './components';
+import { AudioIcon, EyeIcon, GestureIcon, MouseIcon } from './icons';
 import { generateFontSizeTokens } from './token-factory';
-import { AudioIcon, MouseIcon, EyeIcon, GestureIcon } from './icons';
 
 export default {
   title: 'Config/System',

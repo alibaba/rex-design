@@ -56,7 +56,7 @@
     "@docusaurus/theme-live-codeblock": "2.0.0-alpha.73",
     "@types/doctrine": "^0.0.3",
     "aliyun-oss-deploy": "^0.1.5",
-    "babel-plugin-attach-doc-info": "^7.0.0",
+    "babel-plugin-attach-doc-info": "^7.0.1",
     "cheerio": "^1.0.0-rc.5",
     "doctrine": "^3.0.0",
     "docusaurus-plugin-sass": "^0.1.10",

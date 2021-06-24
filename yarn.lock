@@ -5718,10 +5718,10 @@ babel-plugin-apply-mdx-type-prop@1.6.22:
     "@babel/helper-plugin-utils" "7.10.4"
     "@mdx-js/util" "1.6.22"
 
-babel-plugin-attach-doc-info@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.nlark.com/babel-plugin-attach-doc-info/download/babel-plugin-attach-doc-info-7.0.0.tgz#66415008c5d6192733d7a4781e4336af2103936a"
-  integrity sha1-ZkFQCMXWGScz16R4HkM2ryEDk2o=
+babel-plugin-attach-doc-info@^7.0.1:
+  version "7.0.1"
+  resolved "https://registry.nlark.com/babel-plugin-attach-doc-info/download/babel-plugin-attach-doc-info-7.0.1.tgz?cache=0&sync_timestamp=1624505808504&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fbabel-plugin-attach-doc-info%2Fdownload%2Fbabel-plugin-attach-doc-info-7.0.1.tgz#5ef6a38fff00241729e036a1345c9feff5a11c66"
+  integrity sha1-Xvajj/8AJBcp4DahNFyf7/WhHGY=
   dependencies:
     sucrase "^3.17.1"
 
