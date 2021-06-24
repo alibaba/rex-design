@@ -1,4 +1,5 @@
-import { Box, Grid, Group, Input, Icon, ICON_TYPE_LIST, useIconfont, GridItem } from '@rexd/core';
+import { Box, Grid, Group, Input, GridItem } from '@rexd/core';
+import { Icon, ICON_TYPE_LIST, useIconfont } from '@rexd/icon';
 import React, { useState } from 'react';
 
 export default { title: 'Icons' };

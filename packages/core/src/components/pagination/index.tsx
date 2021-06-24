@@ -1,1 +1,1 @@
-export * from './pagination';
+export { Pagination, PaginationProps } from './pagination';

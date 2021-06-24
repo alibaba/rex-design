@@ -1,14 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { StyleSheetManager } from 'styled-components';
-import {
-  AppProvider,
-  PHONE_DEVICE,
-  TABLET_DEVICE,
-  DESKTOP_DEVICE,
-  useEventListener,
-  THEMES,
-  extendTheme,
-} from '@rexd/core';
+import { AppProvider, DESKTOP_DEVICE, extendTheme, PHONE_DEVICE, TABLET_DEVICE, THEMES } from '@rexd/core';
+import { useEventListener } from '@rexd/core/src/hooks';
 
 function getLocalData(localKey) {
   const data = window.localStorage.getItem(localKey);

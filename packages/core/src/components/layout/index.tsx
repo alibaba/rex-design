@@ -1,7 +1,7 @@
-export * from './Box';
-export * from './Flex';
-export * from './grid';
-export * from './text';
-export * from './group';
-export * from './page-header';
-export * from './panel';
+export { Box, BoxProps } from './Box';
+export { Flex, FlexItem, FlexItemProps, FlexProps } from './Flex';
+export { GridItem, GridItemProps, Grid, GridProps } from './grid';
+export { Text, TextProps } from './text';
+export { Group, GroupProps } from './group';
+export { PageHeader, PageHeaderProps } from './page-header';
+export { Panel, PanelProps } from './panel';

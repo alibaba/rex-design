@@ -1,3 +1,3 @@
-export * from './progress';
-export * from './circle-progress';
-export * from './types';
+export { Progress } from './progress';
+export { CircleProgress } from './circle-progress';
+export { ProgressProps, RenderLabelPayload } from './types';

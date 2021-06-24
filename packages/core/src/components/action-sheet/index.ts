@@ -1,1 +1,1 @@
-export * from './action-sheet';
+export { ActionSheet, ActionSheetProps } from './action-sheet';

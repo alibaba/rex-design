@@ -1,2 +1,2 @@
-export * from './checkbox';
-export * from './checkbox-group';
+export { Checkbox, CheckboxProps } from './checkbox';
+export { CheckboxGroupProps, CheckboxGroup } from './checkbox-group';

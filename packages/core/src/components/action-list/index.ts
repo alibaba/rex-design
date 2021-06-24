@@ -1,1 +1,1 @@
-export * from './action-list';
+export { ActionList, ActionListProps } from './action-list';

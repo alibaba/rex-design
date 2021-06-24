@@ -1,1 +1,1 @@
-export * from './toolbar';
+export { FooterToolbar, ToolbarProps, Toolbar } from './toolbar';

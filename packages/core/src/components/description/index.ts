@@ -1,1 +1,1 @@
-export * from './description';
+export { Description, DescriptionProps } from './description';

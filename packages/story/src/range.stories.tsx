@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Range } from '@rexd/core';
+import { Range } from '@rexd/core/src/components/range';
+import React from 'react';
 
 export default { title: 'Range' };
 

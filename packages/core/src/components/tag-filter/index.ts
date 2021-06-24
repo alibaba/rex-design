@@ -1,1 +1,1 @@
-export * from './tag-filter';
+export { TagFilter, TagFilterProps } from './tag-filter';

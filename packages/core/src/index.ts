@@ -1,5 +1,9 @@
-// todo 「export *」 只能在当前文件出现，要移除被该文件引用的文件中的 「export *」
+export * from './providers';
 
+export { extendTheme, getThemeValue, THEMES } from './theme';
+export { default as dayjs } from './dayjs';
+
+// ------------  以下为各个组件
 export * from './components/action-list';
 export * from './components/action-sheet';
 export * from './components/anchor';
@@ -19,32 +23,22 @@ export * from './components/link';
 export * from './components/menu';
 export * from './components/notice';
 export * from './components/tabs';
-export * from './components/loading';
+export * from './components/loading'; // todo 改成与原来一致的行为
 export * from './components/number-input';
 export * from './components/overlays';
-export * from './components/select';
+export * from './components/select'; // todo 添加 props.width
 export * from './components/switch';
 export * from './components/table';
 export * from './components/radio';
-export * from './components/range'; // TODO: 暂不导出，功能不完善
+// export * from './components/range'; // TODO: 暂不导出，功能不完善
 export * from './components/search';
 export * from './components/textarea';
 export * from './components/time-picker';
 export * from './components/timeline';
-export * from './components/toolbar';
+export * from './components/toolbar'; // todo toolbar 改为和以前的功能相同
 export * from './components/progress';
 export * from './components/pagination';
 export * from './components/steps';
 export * from './components/tabs';
 export * from './components/tag-filter';
-export * from './components/virtual-list';
-
-// TODO 这里大部分函数都是不需要导出的
-export * from './hooks';
-export * from './providers';
-export * from './stores';
-export * from './utils';
-
-export { extendTheme, getThemeValue, THEMES } from './theme';
-export { default as dayjs } from './dayjs';
-export * from '@rexd/icon';
+export * from './components/virtual-list'; // todo 不需要导出

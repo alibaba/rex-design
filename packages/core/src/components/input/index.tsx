@@ -1,2 +1,2 @@
-export * from './input';
-export * from './addon';
+export { Input, InputProps } from './input';
+export { InputAddon, InputAddonProps } from './addon';

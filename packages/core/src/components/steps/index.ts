@@ -1,1 +1,1 @@
-export * from './steps';
+export { Steps, StepsProps } from './steps';

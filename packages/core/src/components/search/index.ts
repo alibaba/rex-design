@@ -1,1 +1,1 @@
-export * from './search';
+export { Search, SearchProps } from './search';

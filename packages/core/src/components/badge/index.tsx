@@ -1,1 +1,1 @@
-export * from './badge';
+export { Badge, BadgeProps, useBadge } from './badge';

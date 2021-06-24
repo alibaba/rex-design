@@ -1,2 +1,2 @@
-export * from './file-picker';
-export * from './media-picker';
+export { FilePickerProps, FilePicker, FileSelector } from './file-picker';
+export { MediaPicker, MediaPickerProps } from './media-picker';
