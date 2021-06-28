@@ -1,9 +1,27 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Textarea as OneTextarea } from '@rexd/one';
 import { useTextarea, UseTextareaProps } from './use-textarea';
 import { getToken } from '../../utils';
 import { Dict } from '../../types';
+
+interface OneTextareaProps {
+  onConfirm: (e: React.KeyboardEvent<HTMLTextAreaElement>) => void;
+  onKeyPress: (e: React.KeyboardEvent<HTMLTextAreaElement>) => void;
+}
+
+const OneTextarea = React.forwardRef<HTMLTextAreaElement, OneTextareaProps>((props, ref) => {
+  const { onConfirm, onKeyPress } = props;
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter' && typeof onConfirm === 'function') {
+      onConfirm(e);
+    }
+    if (typeof onKeyPress === 'function') {
+      onKeyPress(e);
+    }
+  };
+
+  return <textarea {...props} onKeyPress={handleKeyPress} ref={ref} />;
+});
 
 const TextBox = styled(OneTextarea)<Dict<any>>`
   position: relative;

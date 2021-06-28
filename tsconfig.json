@@ -16,7 +16,6 @@
     "baseUrl": ".",
     "paths": {
       "@rexd/core": ["packages/core/src/index.ts"],
-      "@rexd/one": ["packages/one/src/index.ts"],
       "@rexd/icon": ["packages/icon/src/index.ts"]
     }
   }

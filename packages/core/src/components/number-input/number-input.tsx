@@ -1,8 +1,5 @@
 import { Icon } from '@rexd/icon';
-import { View } from '@rexd/one';
 import React from 'react';
-import styled from 'styled-components';
-import { space } from '../../utils';
 import { Button } from '../button';
 import { Input } from '../input';
 import { Group } from '../layout';

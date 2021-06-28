@@ -1,7 +1,57 @@
 import React from 'react';
 import styled from 'styled-components';
-import { View, Input } from '@rexd/one';
 import { useRange, UseRangeProps } from './use-range';
+
+interface ViewProps extends React.HTMLAttributes<HTMLDivElement> {
+  onTap?: React.MouseEventHandler<HTMLDivElement>;
+}
+
+/** @deprecated */
+export const View = React.forwardRef<HTMLDivElement, ViewProps>((props, ref) => {
+  const { onTap, onClick, ...rest } = props;
+
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    typeof onClick === 'function' && onClick(e);
+    typeof onTap === 'function' && onTap(e);
+  };
+
+  return <div onClick={handleClick} {...rest} ref={ref} />;
+});
+
+export interface OneInputProps extends React.HTMLAttributes<HTMLInputElement> {
+  type?: string;
+  password?: boolean;
+  onInput?: React.ChangeEventHandler<HTMLInputElement>;
+  onKeyPress?: React.KeyboardEventHandler<HTMLInputElement>;
+  onConfirm?: React.KeyboardEventHandler<HTMLInputElement>;
+}
+
+/** @deprecated */
+export const OneInput = React.forwardRef<HTMLInputElement, OneInputProps>((props, ref) => {
+  const {
+    password,
+    type,
+    onInput,
+    onChange, // ignore
+    onKeyPress,
+    onConfirm,
+    ...rest
+  } = props;
+
+  const inputType = password ? 'password' : type;
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && typeof onConfirm === 'function') {
+      onConfirm(e);
+    }
+
+    if (typeof onKeyPress === 'function') {
+      onKeyPress(e);
+    }
+  };
+
+  return <input type={inputType} onKeyPress={handleKeyPress} onChange={onInput} ref={ref} {...rest} />;
+});
 
 const RangeWrapper = styled(View)`
   display: flex;
@@ -56,7 +106,7 @@ const RangeTooltip = styled(View)`
   text-align: center;
 `;
 
-const RangeSlider = styled(Input)`
+const RangeSlider = styled(OneInput)`
   position: absolute;
   width: 100%;
   appearance: none;
