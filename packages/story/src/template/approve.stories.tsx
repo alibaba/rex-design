@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, PageHeader, Timeline, TimelineItem, FooterToolbar, Description, ActionListProps } from '@rexd/core';
+import { Box, PageHeader, Timeline, TimelineItem, LegacyFooterToolbar, Description, ActionListProps } from '@rexd/core';
 import { Panel } from './panel';
 
 export default {
@@ -110,7 +110,7 @@ export function ApproveTicket() {
         </Panel>
       </Box>
       <Box position="sticky" bottom="0" zIndex={1}>
-        <FooterToolbar actions={actions} />
+        <LegacyFooterToolbar actions={actions} />
       </Box>
     </Box>
   );

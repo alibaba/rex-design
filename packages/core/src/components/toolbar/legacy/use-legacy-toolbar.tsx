@@ -1,6 +1,6 @@
-import { useDevice } from '../../providers';
-import { ActionListProps } from '../action-list';
-import { BoxProps } from '../layout';
+import { useDevice } from '../../../providers';
+import { ActionListProps } from '../../action-list';
+import { BoxProps } from '../../layout';
 
 const getMaxNodes = (device: string) => {
   if (device === 'phone') {
@@ -9,11 +9,11 @@ const getMaxNodes = (device: string) => {
   return Infinity;
 };
 
-export interface UseToolbarProps extends BoxProps {
+export interface UseLegacyToolbarProps extends BoxProps {
   actions?: ActionListProps['actions'];
 }
 
-export function useToolbar(props: UseToolbarProps): any /* TODO 移除 any */ {
+export function useLegacyToolbar(props: UseLegacyToolbarProps): any /* TODO 移除 any */ {
   const { actions: actionsProp = [], ...htmlProps } = props;
   const device = useDevice();
   const max = getMaxNodes(device.name);

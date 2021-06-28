@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { PageHeader, Box, BaseTable, ActionList, Toolbar, Search } from '@rexd/core';
+import { PageHeader, Box, BaseTable, ActionList, LegacyToolbar, Search } from '@rexd/core';
 // import { SearchForm, FormItem } from '@rexd/form';
 import { listData } from './dataset';
 import { Panel } from './panel';
@@ -41,7 +41,7 @@ export function SearchList() {
         <ActionList
           actions={[
             { key: 'view', label: '查看' },
-            { key: 'remove', label: '删除', hasConfirm: true },
+            { key: 'remove', label: '删除', confirm: true },
             {
               key: 'more',
               label: '更多',
@@ -101,7 +101,7 @@ export function SearchList() {
           {/*</SearchForm>*/}
         </Panel>
         <Panel mt="l">
-          <Toolbar actions={actions} mb="m" />
+          <LegacyToolbar actions={actions} mb="m" />
           <BaseTable isLoading={loading} defaultColumnWidth={80} dataSource={listData} columns={columns} />
         </Panel>
       </Box>

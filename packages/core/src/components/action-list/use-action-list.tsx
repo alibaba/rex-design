@@ -11,10 +11,10 @@ const Divider = styled.span`
   background-color: var(--rex-colors-line-divider);
 `;
 
-interface ActionListItemProps extends ActionItemProps {
+export interface ActionListItem extends ActionItemProps {
   key?: string;
   render?: any;
-  children?: ActionListItemProps[];
+  children?: ActionListItem[];
   props?: any;
 }
 
@@ -22,7 +22,7 @@ export interface UseActionListProps {
   /**
    * 行动点列表
    */
-  actions?: ActionListItemProps[];
+  actions?: ActionListItem[];
   /**
    * 用户选择行动点时的回调
    */
