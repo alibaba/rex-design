@@ -1,9 +1,9 @@
 import { Icon } from '@rexd/icon';
 import cx from 'classnames';
 import React from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 
-const rotate = keyframes`
+const rotateKeyframes = keyframes`
   from {
     transform: rotate(0deg);
   }
@@ -13,13 +13,17 @@ const rotate = keyframes`
   }
 `;
 
+export const rotateAnimation = css`
+  ${rotateKeyframes} 1250ms linear infinite both;
+`;
+
 const LoadingDiv = styled.div`
   position: relative;
 
   .rex-loading-icon {
     width: 48px;
     height: 48px;
-    animation: ${rotate} 1250ms linear infinite both;
+    animation: ${rotateAnimation};
     pointer-events: none;
 
     // todo 根据内容div 与 上层滚动容器两者的 clip-rect 来确定 loading icon 的位置

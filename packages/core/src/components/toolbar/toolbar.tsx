@@ -8,16 +8,17 @@ import { mergeConfig } from './util';
 
 const ToolbarDiv = styled.div`
   display: flex;
+  align-items: center;
 
-  .hippo-toolbar-tip-node {
-    margin-left: 4px;
+  .rex-toolbar-tip-node {
+    margin-left: 6px;
   }
 
-  .hippo-toolbar-search-node:not(:first-child) {
+  .rex-toolbar-search-node:not(:first-child) {
     margin-left: 40px;
   }
 
-  .hippo-toolbar-second-actions {
+  .rex-toolbar-second-actions {
     display: flex;
     flex: 1;
     justify-content: flex-end;
@@ -26,7 +27,7 @@ const ToolbarDiv = styled.div`
 
 export interface ToolbarProps {
   /** 主操作列表（左侧） */
-  leftActions: ActionListItem[];
+  leftActions?: ActionListItem[];
 
   // /** 主操作按钮类型 */
   // leftActionShape: T.string,
@@ -35,7 +36,7 @@ export interface ToolbarProps {
   // leftActionType: T.string,
 
   /** 次操作列表（左侧） */
-  rightActions: ActionListItem[];
+  rightActions?: ActionListItem[];
 
   // todo rightActionShape: T.string,
   // todo rightActionType: T.string,
@@ -99,13 +100,12 @@ export class Toolbar extends React.PureComponent<ToolbarProps> {
       className,
       style,
     } = this.props;
-    const classNames = cx('hippo-toolbar', className);
 
     let leftNode = null;
     if (leftActions.length) {
       leftNode = (
         <ActionList
-          className="hippo-toolbar-main-actions"
+          className="rex-toolbar-main-actions"
           actions={this.normalizeActions(leftActions)}
           // actionShape={leftActionShape}
           // actionType={leftActionType}
@@ -116,11 +116,11 @@ export class Toolbar extends React.PureComponent<ToolbarProps> {
 
     let rightNode = null;
     if (rightNodeProp) {
-      rightNode = <div className="hippo-toolbar-second-actions">{rightNodeProp}</div>;
+      rightNode = <div className="rex-toolbar-second-actions">{rightNodeProp}</div>;
     } else if (rightActions.length > 0) {
       rightNode = (
         <ActionList
-          className="hippo-toolbar-second-actions"
+          className="rex-toolbar-second-actions"
           actions={this.normalizeActions(rightActions)}
           // actionShape={rightActionShape}
           // actionType={rightActionType}
@@ -130,7 +130,7 @@ export class Toolbar extends React.PureComponent<ToolbarProps> {
     }
 
     return (
-      <ToolbarDiv className={cx('rex-toolbar', classNames)} style={style}>
+      <ToolbarDiv className={cx('rex-toolbar', className)} style={style}>
         {leftNode}
         {tipNode && <div className="rex-toolbar-tip-node">{tipNode}</div>}
         {searchNode && <div className="rex-toolbar-search-node">{searchNode}</div>}

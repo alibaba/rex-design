@@ -89,7 +89,7 @@ interface IOverlayLifecycles {
   afterOpen?(): void;
 
   beforeClose?(): undefined | IOverlayCloseInstruction;
-  onClose?(): void;
+  onRequestClose?(): void;
   afterClose?(): void;
 }
 ```

@@ -1,3 +1,4 @@
+import { Icon } from '@rexd/icon';
 import {
   BaseTable as ArtBaseTable,
   BaseTableProps,
@@ -11,15 +12,15 @@ import styled from 'styled-components';
 import { useColorMode, useDevice } from '../../providers';
 import { THEMES } from '../../theme';
 import { Checkbox } from '../checkbox';
-import { Loading } from '../loading';
+import { rotateAnimation } from '../loading/loading';
 import { Tooltip } from '../overlays';
 import { Radio } from '../radio';
 
-function HippoLoadingContentWrapper(props: LoadingContentWrapperProps) {
+function LoadingContentWrapper(props: LoadingContentWrapperProps) {
   const { visible, children } = props;
 
   return (
-    <div className="hippo-loading-content-wrapper">
+    <div className="rex-loading-content-wrapper">
       {children}
 
       {visible && (
@@ -41,16 +42,12 @@ function HippoLoadingContentWrapper(props: LoadingContentWrapperProps) {
   );
 }
 
-const StyledLoading = styled(Loading)`
+const LoadingIcon = styled(({ className }: { className?: string }) => <Icon type="loading" className={className} />)`
   display: block;
   margin: auto;
   width: 40px;
   height: 40px;
-
-  > .rex-rotate {
-    width: 100%;
-    height: 100%;
-  }
+  animation: ${rotateAnimation};
 `;
 
 const StyledArtBaseTable: any = styled(ArtBaseTable)`
@@ -132,9 +129,9 @@ const StyledArtBaseTable: any = styled(ArtBaseTable)`
 export { BaseTableProps, ArtColumn as Column } from 'ali-react-table';
 
 /**
- * Hippo Design 基础表格组件.
+ * ReX Design 基础表格组件.
  *
- * `BaseTable` 在开源的 ali-react-table 的基础表格上定制了 hippo 的表格样式，用法与开源表格完全相同，详见开源的文档
+ * `BaseTable` 在开源的 ali-react-table 的基础表格上定制了 ReX 的表格样式，用法与开源表格完全相同，详见开源的文档
  *
  * @see https://ali-react-table.js.org/docs */
 export const BaseTable = React.forwardRef<ArtBaseTable, BaseTableProps>((props, ref) => {
@@ -154,18 +151,18 @@ export const BaseTable = React.forwardRef<ArtBaseTable, BaseTableProps>((props, 
         small: device.name === 'phone',
       })}
       components={{
-        LoadingContentWrapper: HippoLoadingContentWrapper,
-        LoadingIcon: StyledLoading,
+        LoadingContentWrapper,
+        LoadingIcon,
       }}
     />
   );
 });
 
-export const HIPPO_TABLE_PIPELINE_CTX = {
+export const REX_TABLE_PIPELINE_CTX = {
   components: { Radio, Checkbox, Tooltip },
   indents: { iconIndent: -8, iconGap: 16, iconWidth: 16, indentSize: 24 } as const,
 };
 
 export function useTablePipeline() {
-  return useArtTablePipeline(HIPPO_TABLE_PIPELINE_CTX);
+  return useArtTablePipeline(REX_TABLE_PIPELINE_CTX);
 }
