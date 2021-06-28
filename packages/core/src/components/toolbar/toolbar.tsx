@@ -2,9 +2,27 @@ import cx from 'classnames';
 import React from 'react';
 import styled from 'styled-components';
 import { noop } from '../../utils';
-import { ActionList } from '../action-list';
-import { ActionListItem } from '../action-list/use-action-list';
-import { mergeConfig } from './util';
+import { ActionList, ActionListItem } from '../action-list';
+
+const defaultConfigs: { [key: string]: ActionListItem } = {
+  new: { icon: 'add', label: '新增' },
+  refresh: { icon: 'refresh', label: '刷新' },
+  print: { icon: 'print', label: '打印' },
+  import: { icon: 'import', label: '导入' },
+  export: { icon: 'download', label: '导出' },
+};
+
+function mergeConfig(userConfig: ActionListItem) {
+  const defaultConfig = defaultConfigs[userConfig.key] || {};
+  return {
+    ...defaultConfig,
+    ...userConfig,
+    props: {
+      ...defaultConfig.props,
+      ...userConfig.props,
+    },
+  };
+}
 
 const ToolbarDiv = styled.div`
   display: flex;

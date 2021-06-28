@@ -1,4 +1,4 @@
-import { mergeWith } from 'lodash';
+import { mergeWith } from 'lodash-es';
 import { getTokenValue } from '../utils';
 
 /** 扩展主题 */

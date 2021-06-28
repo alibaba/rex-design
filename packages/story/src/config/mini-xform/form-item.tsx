@@ -1,7 +1,7 @@
 // 请勿使用该组件，等内部的 hippo-xform 和 hippo3 成熟后，xform 将会重新回归开源
 import { Input } from '@rexd/core';
 import cx from 'classnames';
-import pick from 'lodash.pick';
+import { pick } from 'lodash-es';
 import { toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import React, { useEffect } from 'react';

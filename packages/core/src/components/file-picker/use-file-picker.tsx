@@ -1,7 +1,7 @@
 import cx from 'classnames';
 import React, { useRef } from 'react';
-import { uniqueId } from 'lodash';
-import { useControllableState } from '../../hooks/use-controllable';
+import { uniqueId } from 'lodash-es';
+import { useControllableState } from '../../hooks';
 import { FormControlOnChangeHandler, StringOrNumber } from '../../types';
 import { RexFile } from './types';
 

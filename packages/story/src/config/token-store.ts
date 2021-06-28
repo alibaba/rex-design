@@ -1,4 +1,4 @@
-import { set, get, cloneDeep } from 'lodash';
+import { set, get, cloneDeep } from 'lodash-es';
 
 export default class TokenStore {
   namespace: string;

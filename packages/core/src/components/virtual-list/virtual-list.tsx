@@ -1,5 +1,5 @@
 import cx from 'classnames';
-import _ from 'lodash';
+import _ from 'lodash-es';
 import React from 'react';
 import { Subscription } from 'rxjs';
 import * as op from 'rxjs/operators';

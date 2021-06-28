@@ -1,4 +1,4 @@
-import { assign } from 'lodash';
+import { assign } from 'lodash-es';
 import { tokenVar, sizes, colors, shadows, borders } from '../utils';
 import { SystemScaleType } from '../types';
 

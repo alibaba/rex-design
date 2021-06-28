@@ -8,16 +8,10 @@
     "build": "rimraf dist/ && build-storybook -c .storybook -o dist/"
   },
   "dependencies": {
-    "@types/lodash": "^4.14.168",
-    "@types/lodash.merge": "^4.6.6",
-    "@types/lodash.omit": "^4.5.6",
-    "@types/lodash.pick": "^4.4.6",
+    "@types/lodash-es": "^4.17.4",
     "@types/react": "^16.9.49",
-    "lodash.pick": "^4.4.0",
     "axios": "^0.21.1",
-    "lodash": "^4.17.20",
-    "lodash.merge": "^4.6.2",
-    "lodash.omit": "^4.5.0",
+    "lodash-es": "^4.17.21",
     "mobx": "^6.1.7",
     "mobx-react-lite": "^3.2.0",
     "react": "^16.14.0",

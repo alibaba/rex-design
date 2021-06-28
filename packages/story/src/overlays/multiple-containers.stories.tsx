@@ -9,7 +9,7 @@ import {
   Tooltip,
   VirtualList,
 } from '@rexd/core';
-import _ from 'lodash';
+import _ from 'lodash-es';
 import React, { useEffect, useState } from 'react';
 import { fromEvent } from 'rxjs';
 import styled from 'styled-components';

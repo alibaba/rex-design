@@ -35,7 +35,7 @@ export * from './components/search';
 export * from './components/textarea';
 export * from './components/time-picker';
 export * from './components/timeline';
-export * from './components/toolbar'; // todo toolbar 改为和以前的功能相同
+export * from './components/toolbar';
 export * from './components/progress';
 export * from './components/pagination';
 export * from './components/steps';

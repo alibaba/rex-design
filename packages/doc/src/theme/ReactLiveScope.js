@@ -1,5 +1,5 @@
 import React from 'react';
-import lodash from 'lodash';
+import lodash from 'lodash-es';
 import cx from 'classnames';
 import styled from 'styled-components';
 import * as rexd from '@rexd/core';

@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState } from 'react';
 import { AppProvider, Grid, GridItem, Box, Text, THEMES, getThemeValue } from '@rexd/core';
-import { get } from 'lodash';
+import { get } from 'lodash-es';
 
 import TokenStore from './token-store';
 import { Header, SectionHeader, ColorPicker, TokenPicker } from './components';

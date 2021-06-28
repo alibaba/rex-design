@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _ from 'lodash-es';
 import memoizeOne from 'memoize-one';
 import React, { useRef } from 'react';
 import styled from 'styled-components';

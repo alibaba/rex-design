@@ -1,5 +1,5 @@
 import doctrine from 'doctrine';
-import _ from 'lodash';
+import _ from 'lodash-es';
 import React from 'react';
 import styled from 'styled-components';
 

@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useControllableState } from '../../hooks';
 import { ButtonProps } from '../button';
-import { SingleSelectProps } from '../select/single-select';
+import { SingleSelectProps } from '../select';
 
 // https://dev.to/namirsab/comment/2050
 const range = (start: number, end: number) => {

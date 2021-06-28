@@ -1,4 +1,4 @@
-import { flatMap } from 'lodash';
+import { flatMap } from 'lodash-es';
 import React from 'react';
 import * as ReactIs from 'react-is';
 import { Column } from './base-table';

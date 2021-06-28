@@ -1,5 +1,5 @@
 import { FunctionArguments } from '../types';
-import _ from 'lodash';
+import _ from 'lodash-es';
 import { isFunction } from './assertion';
 
 export function runIfFn<T, U>(valueOrFn: T | ((...args: U[]) => T), ...args: U[]): T {

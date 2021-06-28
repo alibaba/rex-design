@@ -1,4 +1,4 @@
-import { isUndefined } from 'lodash';
+import { isUndefined } from 'lodash-es';
 import { ChangeEvent, useCallback } from 'react';
 import { useControllableState } from '../../hooks';
 import { FormControlOnChangeHandler } from '../../types';

@@ -1,4 +1,4 @@
-import { omit } from 'lodash';
+import { omit } from 'lodash-es';
 import React from 'react';
 import { useImage, UseImageProps } from './use-image';
 

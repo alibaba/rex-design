@@ -1,4 +1,4 @@
-import { toNumber } from 'lodash';
+import { toNumber } from 'lodash-es';
 import { StringOrNumber } from '../types';
 
 type LocaleType = 'zh-CN' | string;

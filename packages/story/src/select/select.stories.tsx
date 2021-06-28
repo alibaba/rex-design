@@ -1,5 +1,5 @@
 import { Button, Flex, Select } from '@rexd/core';
-import _ from 'lodash';
+import _ from 'lodash-es';
 import React, { useState } from 'react';
 
 export default { title: 'Select / Select' };
