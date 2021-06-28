@@ -880,13 +880,15 @@ export function WithPagination() {
       columns={columns}
       footer={{
         onActionClick(key) {
-          console.log('YOU click', key);
+          console.log('ProTable footer action click:', key);
         },
         leftActions: [
-          { key: 'remove', label: '批量删除' },
+          { key: 'remove', label: '批量删除', shape: 'solid', type: 'normal' },
           {
             key: 'more',
             label: '更多',
+            shape: 'solid',
+            type: 'normal',
             children: [
               { key: 'new', label: '新建' },
               { key: 'move-to', label: '移动到...' },
@@ -1243,7 +1245,7 @@ export function ColumnFilter() {
       dataSource={dataSource7}
       columns={columns}
       columnRangeHover
-      toolbar={{ totalCount: 888 }}
+      toolbar={{ totalCount: dataSource7.length }}
       columnFilter={{
         drawerTitle: '自定义的抽屉名称',
         // visibleCodes: ['other_clk_uv'],

@@ -14,10 +14,13 @@ ProTable 负责将数据渲染为 HTML 表格，其核心功能是将结构化�
 
 ### 注意事项
 
-1.  推荐为 ProTable 设置 `primaryKey`，用于作为每一行数据的唯一标识字段
-2.  表格的列配置 **只支持** 普通的数组写法
-3.  表格的列配置中 `column.code` 和 `column.dataIndex` 的作用相同
-4.  本页文档中部分示例中使用了 `column.code`，实际使用时换成 `column.dataIndex` 也是没问题的
+- 推荐为 ProTable 设置 `primaryKey` 作为每一行数据的唯一标识字段
+- 推荐为 ProTable 设置 `defaultColumnWidth` 作为每一列的默认宽度
+- columns 只支持普通的数组写法
+  - 可以通过 `ProTable.parseColumns` 从 JSX 中解析出 columns 数组
+- 推荐使用 `column.code` 来代替 `column.dataIndex`
+  - 两者作用相同
+  - 本页文档示例中 code 和 dataIndex 两种用法都有出现，但在实际业务中推荐使用 code
 
 ### 设置行属性
 
@@ -202,6 +205,58 @@ pagination 非空时，将在表格下方渲染一个翻页器。 表格会根�
 
 <Story fn={stories.WithPagination} />
 
+### 拖拽调整列宽
+
+<Story fn={stories.ColumnResize} />
+
+### 列的收拢展开交互
+
+设置 columnCollapse 后，可以开启列分组的收拢展开；
+
+只有打上 column.features.collapsible=true 标记的分组才支持展开，
+为子节点设置 columns.features.primaryColumn=true 的话，其所在分组收拢后将默认展示该子节点。
+
+columnCollapse 支持受控用法（expandedGroups/onExpand），expandedGroups 是一个字符串数组，表示当前展开分组的 code 列表。
+columnCollapse 也支持受控用法（defaultExpandedGroups），不传该属性时默认为空数组。
+
+columnCollapse 依赖 column.code 进行工作，你需要给每一个需要展开/收拢的分组设置一个唯一 code。
+
+<Story fn={stories.ColumnCollapse} />
+
+### 自定义列
+
+设置 columnFilter 后，可以开启自定义显示列的功能；
+columnFilter 支持受控（visibleCodes/onChange） 或非受控（所有列默认均可见）用法。
+
+columnFilter 抽屉的触发按钮在 toolbar 之内，注意设置 toolbar.rightNode 后将导致触发按钮无法展示；
+故在使用 columnFilter 时，如需调整 toolbar 右侧的内容，请使用 toolbar.rightActions 进行配置。
+
+columnFilter 支持以下功能：
+
+- 设置 column.features.enforceVisible=true 让某一列总是保持可见；
+- 设置 column.features.defaultVisible=false 让某一列默认隐藏；
+- columnFilter.showCheckAll 是否展示「全选」按钮
+- columnFilter.showUncheckAll 是否展示「清空」按钮
+- columnFilter.drawerWidth 抽屉宽度
+- columnFilter.drawerTitle 抽屉标题
+
+columnFilter 依赖 column.code 进行工作，你需要给每一列都设置一个「唯一的 code」。
+如果设置 code 影响了表格数据展示，可以通过 column.getValue 进行调整。
+
+当一个分组下所有的叶子节点都隐藏时，该分组将自动隐藏；
+columnFilter.visibleCodes 只需传入「叶子节点」的 code 列表，尽量避免传入分组节点的 code.
+
+<Story fn={stories.ColumnFilter} />
+
+### 从 JSX 中解析 columns
+
+ProTable.parseColumns 可用于从 JSX 中解析出 columns 数组。
+该方法主要是方便从老代码迁移，一般情况下推荐你使用标准的 columns 数组写法来生成表格列。
+
+ProTable.parseColumns 的一些规则详见下方代码示例中的注释。
+
+<Story fn={stories.ParseColumnsFromJSX} />
+
 ## API
 
 **dataSource 和 columns 是必传 props，其他 props 均可选。**
@@ -210,13 +265,13 @@ pagination 非空时，将在表格下方渲染一个翻页器。 表格会根�
 
 #### 主要字段
 
-| 字段             | 类型                                                    |                                                                                                                                                                         |
-| ---------------- | ------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **`dataSource`** | `any[]`                                                 | 表格数据源                                                                                                                                                              |
-| **`columns`**    | `ArtColumn[]`                                           | 表格的列配置                                                                                                                                                            |
-| `isLoading`      | `boolean`                                               | 表格是否在加载中                                                                                                                                                        |
-| `primaryKey`     | `string` <br/> 或 `(row: any) => string`                | 用于指定每一行的 key<br/>传入字符串表示从数据中获取对应字段的值作为 key<br/>传入函数时将调用该函数来生成每一行的 key<br/>不传该 prop 时，表格将使用下标作为每一行的 key |
-| `getRowProps`    | `(record: any, rowIndex: number): React.HTMLAttributes` | 自定义每一行的 props                                                                                                                                                    |
+| 字段          | 类型                                                    |                                                                                                                                                                         |
+| ------------- | ------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `dataSource`  | `any[]`                                                 | 表格数据源                                                                                                                                                              |
+| `columns`     | `ArtColumn[]`                                           | 表格的列配置                                                                                                                                                            |
+| `isLoading`   | `boolean`                                               | 表格是否在加载中                                                                                                                                                        |
+| `primaryKey`  | `string` <br/> 或 `(row: any) => string`                | 用于指定每一行的 key<br/>传入字符串表示从数据中获取对应字段的值作为 key<br/>传入函数时将调用该函数来生成每一行的 key<br/>不传该 prop 时，表格将使用下标作为每一行的 key |
+| `getRowProps` | `(record: any, rowIndex: number): React.HTMLAttributes` | 自定义每一行的 props                                                                                                                                                    |
 
 #### 其他字段
 
@@ -225,7 +280,6 @@ pagination 非空时，将在表格下方渲染一个翻页器。 表格会根�
 | `className`          | `number`                                     | 自定义类名                                                          |
 | `style`              | `React.CSSProperties`                        | 自定义内联样式                                                      |
 | `hasHeader`          | `boolean`                                    | 表格是否具有头部                                                    |
-| ~~`isStickyHead`~~   | `boolean`                                    | 请使用 `isStickyHeader` 代替                                        |
 | `isStickyHeader`     | `boolean`                                    | 表格头部是否吸顶，默认为 true                                       |
 | `stickyTop`          | `number`                                     | 表头吸顶后，距离顶部的距离，默认为 0                                |
 | `useOuterBorder`     | `boolean`                                    | 是否使用来自外层 div 的边框代替单元格的外边框，默认为 false         |
@@ -236,13 +290,13 @@ pagination 非空时，将在表格下方渲染一个翻页器。 表格会根�
 | `hasStickyScroll`    | `boolean`                                    | 表格是否包含自定义的横向粘性滚动条是否出现，默认为 true             |
 | `stickyScrollHeight` | `'auto' / number`                            | 指定自定义横向滚动条的高度，在定制滚动条样式时有用，默认为 `'auto'` |
 | `stickyBottom`       | `number`                                     | 表格底部距离页面下边缘的距离                                        |
-| `useVirtual` \*      | `'auto'` <br/> 或 `boolean` <br/> 或一个对象 | 是否开启虚拟滚动，详见下方「虚拟滚动」说明                          |
+| `useVirtual`         | `'auto'` <br/> 或 `boolean` <br/> 或一个对象 | 是否开启虚拟滚动，详见下方「虚拟滚动」说明                          |
 | `estimatedRowHeight` | `number`                                     | 虚拟滚动开启情况下，表格中每一行的预估高度                          |
 | `wrapperClassName`   | `string`                                     | ProTable 最外层 div 的 className                                    |
 | `wrapperStyle`       | `React.CSSProperties`                        | ProTable 最外层 div 的 style                                        |
 | `components`         | `object`                                     | 自定义表格内部使用的子组件，详见下方                                |
 
-- useVirtual \* 用法详见[虚拟滚动说明](https://ali-react-table.js.org/docs/table/advanced-usage/#%E8%99%9A%E6%8B%9F%E6%BB%9A%E5%8A%A8)。
+- useVirtual 用法详见[虚拟滚动说明](https://ali-react-table.js.org/docs/table/advanced-usage/#%E8%99%9A%E6%8B%9F%E6%BB%9A%E5%8A%A8)。
 
 ### column 对象结构
 
@@ -252,87 +306,28 @@ pagination 非空时，将在表格下方渲染一个翻页器。 表格会根�
 - 对于锁定的列（`lock=true`），宽度 `width` 为必传项
 - 推荐给所有的列都配置上宽度，或是给表格配置一个默认的列宽度
 
-| 字段              | 类型                                                       |                                                                |
-| ----------------- | ---------------------------------------------------------- | -------------------------------------------------------------- |
-| `name`            | `string`                                                   | 列的名称                                                       |
-| `code`            | `string`                                                   | 在数据中的字段 code                                            |
-| `dataIndex`       | `string`                                                   | 对于 `<ProTable />` 而言，dataIndex 和 code 字段两者是等价的   |
-| `getValue`        | `(record: any, rowIndex: number) => any`                   | 自定义取数方法                                                 |
-| `render`          | `(value: any, record: any, rowIndex: number) => ReactNode` | 自定义渲染方法                                                 |
-| `getCellProps`    | `(value: any, record: any, rowIndex: number) => any`       | 自定义的获取单元格 props 的方法                                |
-| `getSpanRect`     | `(value: any, record: any, rowIndex: number) => SpanRect`  | 在虚拟滚动的情况下设置单元格合并                               |
-| `title`           | `ReactNode`                                                | 列标题的展示名称；在页面中进行展示时，该字段将覆盖 `name` 字段 |
-| `width`           | `number`                                                   | 列的宽度，如果该列是锁定的，则宽度为必传项                     |
-| `align`           | `'left' / 'center' / 'right'`                              | 单元格对齐方向                                                 |
-| ~~`hidden`~~      | ~~`boolean`~~                                              | ~~是否隐藏~~                                                   |
-| `lock`            | `boolean`                                                  | 是否锁列                                                       |
-| `children`        | `ArtColumn[]`                                              | 该列的子节点                                                   |
-| `headerCellProps` | `React.ThHTMLAttributes`                                   | 表头单元格的 props                                             |
-| `features`        | `{ [key: string]: any }`                                   | 功能开关标记，用于对表格功能进行拓展                           |
+| 字段              | 类型                                                       |                                                                                    |
+| ----------------- | ---------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| `name`            | `string`                                                   | 列的名称                                                                           |
+| `code`            | `string`                                                   | 在数据中的字段 code                                                                |
+| `dataIndex`       | `string`                                                   | code 的别名；ProTable 推荐使用 code 代替 dataIndex                                 |
+| `getValue`        | `(record: any, rowIndex: number) => any`                   | 自定义取数方法                                                                     |
+| `render`          | `(value: any, record: any, rowIndex: number) => ReactNode` | 自定义渲染方法                                                                     |
+| `getCellProps`    | `(value: any, record: any, rowIndex: number) => any`       | 自定义的获取单元格 props 的方法                                                    |
+| `getSpanRect`     | `(value: any, record: any, rowIndex: number) => SpanRect`  | 在虚拟滚动的情况下设置单元格合并                                                   |
+| `title`           | `ReactNode`                                                | 列标题的展示名称；在页面中进行展示时，该字段将覆盖 `name` 字段                     |
+| `width`           | `number`                                                   | 列的宽度，如果该列是锁定的，则宽度为必传项                                         |
+| `align`           | `'left' / 'center' / 'right'`                              | 单元格对齐方向                                                                     |
+| `lock`            | `boolean`                                                  | 是否锁列                                                                           |
+| `children`        | `ArtColumn[]`                                              | 该列的子节点                                                                       |
+| `headerCellProps` | `React.ThHTMLAttributes`                                   | 表头单元格的 props                                                                 |
+| `features`        | `{ [key: string]: any }`                                   | 功能开关标记，用于对表格功能进行拓展，注意很多拓展都需要依赖 features 中的特定标记 |
 
-### CSS 变量列表
+### 表格主题
 
-ProTable/BaseTable 中大部分样式都是通过 CSS variables 来定义的，你可以通过下面的方式对表格进行风格化：
+BaseTable/ProTable 中大部分样式都是通过 CSS variables 来定义的。 通过覆盖 CSS variables 的值，可以快速定制表格主题。
 
-```js
-<ProTable style={{ '--color': '#333', '--cell-border': 'none' }} />
-```
-
-目前组件支持的自定义 CSS 变量如下：
-
-```typescript
-export type BaseTableCSSVariables = Partial<{
-  /** 表格一行的高度，注意该属性将被作为 CSS variable，不能使用数字作为简写 */
-  '--row-height': string;
-  /** 表格的字体颜色 */
-  '--color': string;
-  /** 表格背景颜色 */
-  '--bgcolor': string;
-  /** 鼠标悬停时的背景色 */
-  '--hover-bgcolor': string;
-  /** 单元格高亮时的背景色 */
-  '--highlight-bgcolor': string;
-
-  /** 表头中一行的高度，注意该属性将被作为 CSS variable，不能使用数字作为简写 */
-  '--header-row-height': string;
-  /** 表头中的字体颜色 */
-  '--header-color': string;
-  /** 表头的背景色 */
-  '--header-bgcolor': string;
-  /** 表头上鼠标悬停时的背景色 */
-  '--header-hover-bgcolor': string;
-  /** 表头上单元格高亮时的背景色 */
-  '--header-highlight-bgcolor': string;
-
-  /** 单元格 padding */
-  '--cell-padding': string;
-  /** 字体大小 */
-  '--font-size': string;
-  /** 表格内字体的行高 */
-  '--line-height': string;
-  /** 锁列阴影 */
-  '--lock-shadow': string;
-
-  /** 单元格的边框颜色 */
-  '--border-color': string;
-  /** 单元格边框，默认为 1px solid var(--border-color) */
-  '--cell-border': string;
-  /** 单元格上下边框，默认为 var(--cell-border) */
-  '--cell-border-horizontal': string;
-  /** 单元格左右边框，默认为 var(--cell-border) */
-  '--cell-border-vertical': string;
-  /** 表头单元格边框，默认为 1px solid var(--border-color) */
-  '--header-cell-border': string;
-  /** 表头单元格上下边框，默认为 var(--header-cell-border) */
-  '--header-cell-border-horizontal': string;
-  /** 表头单元格左右边框，默认为 var(--header-cell-border) */
-  '--header-cell-border-vertical': string;
-}>;
-```
-
-当 CSS 变量无法满足自定义样式需求时，推荐通过 styled-components 来覆盖表格的默认样式。表格内各部分的 CSS 类名可以通过 `Classes` 对象来获取。
-
-在更精细的场景下，可以使用 getCellProps 来定制每个单元格的样式。
+表格主题部分详见 [开源文档](https://ali-react-table.js.org/docs/table/theming).
 
 ### 表格功能拓展
 
@@ -348,19 +343,17 @@ export type BaseTableCSSVariables = Partial<{
 | `columnHover`      | `boolean / object` | 参数详见 [列高亮](https://ali-react-table.js.org/docs/pipeline/features/column-hover/)           |
 | `rowDetail`        | `boolean / object` | 参数详见 [行详情](https://ali-react-table.js.org/docs/pipeline/features/row-detail/)             |
 | `tips`             | `boolean`          | 参数详见 [提示信息](https://ali-react-table.js.org/docs/pipeline/features/tips/)                 |
-| `pagination`       |                    | 透传给 `<Pagination />` 组件的 props <br /> ProTable 会根据翻页器的状态对 dataSource 进行过滤    |
-| `toolbar`          |                    | 透传给 `<Toolbar />` 组件的 props                                                                |
+| `columnResize`     | `boolean / object` | 参数详见 [拖拽调整列宽](https://ali-react-table.js.org/docs/pipeline/features/column-resize/)    |
+| `autoRowSpan`      | `boolean`          | 参数详见 [自动合并多行](https://ali-react-table.js.org/docs/pipeline/features/auto-row-span/)    |
+| `columnCollapse`   | `boolean / object` | 列的收拢展开，参数见上方示例                                                                     |
+| `columnFilter`     | `boolean / object` | 自定义列，参数见上方示例                                                                         |
 
-### 分页
+### 表格 UI 拓展
 
-ProTable 默认使用的是前端分页，即分页状态会影响表格展示的数据。
-
-如果不需要前端分页，可以设置 `pagination={{ keepDataSource: true }}` 。该选项适用于后端分页的情况，例如每次改变页码后页面重新发起请求获取下一页的数据。
-
-pagination 对象中的其他字段会透传至 ProTable 内部的 `<Pagination />` 组件。
-
-### ProTable 兼容
-
-- ProTable 中的列配置兼容原有的 column.cell 用法
-- ProTable 对 `column.dataIndex` 进行了兼容，其作用与 `column.code` 和 `column.dataIndex` 相同
-- ProTable 对排序 sort 中的 code/dataIndex 进行了兼容
+| 字段                        | 类型              |                                                                                               |
+| --------------------------- | ----------------- | --------------------------------------------------------------------------------------------- |
+| `pagination`                |                   | 透传给 `<Pagination />` 组件的 props <br /> ProTable 会根据翻页器的状态对 dataSource 进行过滤 |
+| `pagination.keepDataSource` | `boolean`         | 禁用前端分页                                                                                  |
+| `toolbar`                   |                   | 透传给表格顶部 `<Toolbar />` 组件的 props                                                     |
+| `toolbar.totalCount`        | `string / number` | 数据总数显示                                                                                  |
+| `footer`                    |                   | 透传给表格页脚 `<Toolbar />` 组件的 props                                                     |

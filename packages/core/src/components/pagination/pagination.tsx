@@ -165,7 +165,7 @@ export function Pagination({
     endPages.length > 0 ? endPages[0] - 2 : pageCount - 1,
   );
 
-  const nodes: any[] = [];
+  const nodes: React.ReactElement[] = [];
 
   const pageBtn = (page: number) => (
     <Button key={page} size={size} isSelected={current === page} onClick={() => onChange(page)}>

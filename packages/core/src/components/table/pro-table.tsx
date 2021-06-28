@@ -288,44 +288,29 @@ export class ProTable extends React.Component<ProTableProps, ProTableState> {
   }
 
   _renderFooter() {
-    const { pagination, dataSource, /* todo */ footer } = this.props;
+    const { dataSource, pagination, footer } = this.props;
 
-    return (
-      pagination && (
-        <Pagination
-          total={dataSource.length}
-          {...pagination}
-          onChange={this._onPaginationChange}
-          onPageSizeChange={this._onPaginationPageSizeChange}
+    if (footer || pagination) {
+      return (
+        <Toolbar
+          {...footer}
+          className={cx('rex-table-footer', footer?.className)}
+          rightNode={
+            footer?.rightNode ??
+            (pagination ? (
+              <Pagination
+                total={dataSource.length}
+                {...omit(pagination, ['keepDataSource'])}
+                onChange={this._onPaginationChange}
+                onPageSizeChange={this._onPaginationPageSizeChange}
+              />
+            ) : null)
+          }
         />
-      )
-    );
+      );
+    }
 
-    // todo
-    // const { dataSource, pagination, footer, footerActions } = this.props;
-    //
-    // if (footer || pagination || footerActions) {
-    //   return (
-    //     <Toolbar
-    //       {...footer}
-    //       className={cx('rex-table-footer', footer?.className)}
-    //       leftActions={footer?.leftActions ?? footerActions}
-    //       rightNode={
-    //         footer?.rightNode ??
-    //         (pagination ? (
-    //           <Pagination
-    //             total={dataSource.length}
-    //             {...omit(pagination, ['keepDataSource'])}
-    //             onChange={this._onPaginationChange}
-    //             onPageSizeChange={this._onPaginationPageSizeChange}
-    //           />
-    //         ) : null)
-    //       }
-    //     />
-    //   );
-    // }
-    //
-    // return null;
+    return null;
   }
 
   render() {
