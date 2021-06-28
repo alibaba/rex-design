@@ -5209,10 +5209,10 @@ ali-oss@^5.2.0:
     utility "^1.8.0"
     xml2js "^0.4.16"
 
-ali-react-table@^2.5.1:
-  version "2.5.1"
-  resolved "https://registry.nlark.com/ali-react-table/download/ali-react-table-2.5.1.tgz#9a75074fb99e8fa2aa369bf4b3af04d51610df1f"
-  integrity sha1-mnUHT7mej6KqNpv0s68E1RYQ3x8=
+ali-react-table@^2.5.2:
+  version "2.5.2"
+  resolved "https://registry.nlark.com/ali-react-table/download/ali-react-table-2.5.2.tgz#a29cfee9b4af7ca22f7ee837b981722548838b05"
+  integrity sha1-opz+6bSvfKIvfug3uYFyJUiDiwU=
   dependencies:
     "@popperjs/core" "^2.9.1"
     "@types/classnames" "^2.2.9"

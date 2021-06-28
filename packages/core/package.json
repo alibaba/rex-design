@@ -32,7 +32,7 @@
     "@rexd/icon": "^0.3.0-alpha.6",
     "@types/d3": "^6.3.0",
     "@types/styled-components": "^5.1.7",
-    "ali-react-table": "^2.5.1",
+    "ali-react-table": "^2.5.2",
     "classnames": "^2.2.6",
     "csstype": "^3.0.7",
     "d3-color": "^2.0.0",

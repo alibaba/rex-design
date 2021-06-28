@@ -1,44 +1,68 @@
+import { Button, Description, Grid, Pagination } from '@rexd/core';
 import React, { useState } from 'react';
-import { Grid, Pagination } from '@rexd/core';
 
 export default { title: 'Pagination', component: Pagination };
 
 export function Basic() {
-  return <Pagination pageCount={10} onChange={console.log} />;
+  return <Pagination total={100} onChange={console.log} />;
 }
 
 export function Size() {
+  const [current, onChange] = useState(1);
+
   return (
     <Grid columns={1} spacingY="l">
-      <Pagination size="small" pageCount={10} onChange={console.log} />
-      <Pagination size="medium" pageCount={10} onChange={console.log} />
-      <Pagination size="large" pageCount={10} onChange={console.log} />
+      <Pagination size="small" current={current} onChange={onChange} />
+      <Pagination size="medium" current={current} onChange={onChange} />
+      <Pagination size="large" current={current} onChange={onChange} />
     </Grid>
   );
 }
 
 export function PageSizeList() {
-  const [pageSize, setPageSize] = useState(20);
-  const total = 1000;
-  const pageCount = Math.floor(total / pageSize) + (total % pageSize ? 1 : 0);
+  const [pageSize, setPageSize] = useState(10);
+  const total = 200;
 
   return (
-    <Pagination
-      hasPageSizeList
-      pageSize={pageSize}
-      onPageSizeChange={setPageSize}
-      pageCount={pageCount}
-      onChange={console.log}
-    />
+    <div>
+      <Description
+        items={[
+          { label: '总条目', content: total },
+          { label: '每页条目数', content: pageSize },
+        ]}
+      />
+      <Pagination
+        hasPageSizeList
+        pageSize={pageSize}
+        onPageSizeChange={setPageSize}
+        total={total}
+        onChange={console.log}
+      />
+    </div>
   );
 }
 
-export function Light() {
-  return <Pagination shape="simple" pageCount={10} onChange={console.log} />;
+export function Simple() {
+  return <Pagination shape="simple" />;
 }
 
 export function Controlled() {
-  const [page, setPage] = useState(2);
+  const [current, onChange] = useState(2);
 
-  return <Pagination activePage={page} pageCount={10} onChange={(val) => setPage(val)} />;
+  return (
+    <div>
+      <Description
+        items={[
+          { label: '总条目', content: 100 },
+          { label: '当前页码', content: current },
+        ]}
+      />
+      <Button onClick={() => onChange(1)}>回到第1页</Button>
+      <Button onClick={() => onChange(10)} style={{ marginLeft: 32 }}>
+        跳转到最后一页
+      </Button>
+
+      <Pagination style={{ marginTop: 8 }} fill current={current} total={100} onChange={onChange} />
+    </div>
+  );
 }

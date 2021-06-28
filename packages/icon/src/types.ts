@@ -56,7 +56,7 @@ export type IconType =
   | 'download'
   | 'electronics'
   | 'drag'
-  | 'elipsis'
+  | 'ellipsis'
   | 'export'
   | 'explain'
   | 'edit'
@@ -242,7 +242,7 @@ export const iconTypes: IconType[] = [
   'download',
   'electronics',
   'drag',
-  'elipsis',
+  'ellipsis',
   'export',
   'explain',
   'edit',

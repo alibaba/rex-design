@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-const SvgElipsis = (props: React.SVGProps<SVGSVGElement>, svgRef?: React.Ref<SVGSVGElement>) => (
+const SvgEllipsis = (props: React.SVGProps<SVGSVGElement>, svgRef?: React.Ref<SVGSVGElement>) => (
   <svg
     width="1em"
     height="1em"
@@ -14,5 +14,5 @@ const SvgElipsis = (props: React.SVGProps<SVGSVGElement>, svgRef?: React.Ref<SVG
   </svg>
 );
 
-const ForwardRef = React.forwardRef(SvgElipsis);
+const ForwardRef = React.forwardRef(SvgEllipsis);
 export default ForwardRef;

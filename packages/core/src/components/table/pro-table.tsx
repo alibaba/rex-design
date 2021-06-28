@@ -113,6 +113,7 @@ export interface ProTableProps extends BaseTableProps, ProTableFeatureProps {
   pagination?: PaginationProps & { keepDataSource?: boolean };
 
   toolbar?: ToolbarProps & { totalCount?: number | 'auto' | '-' };
+  footer?: ToolbarProps;
 
   // 表格外层 div
   wrapperProps?: React.HTMLAttributes<HTMLDivElement>;
@@ -287,7 +288,7 @@ export class ProTable extends React.Component<ProTableProps, ProTableState> {
   }
 
   _renderFooter() {
-    const { pagination, dataSource } = this.props;
+    const { pagination, dataSource, /* todo */ footer } = this.props;
 
     return (
       pagination && (

@@ -66,7 +66,7 @@ export { default as SvgDynamicFilling } from './DynamicFilling';
 export { default as SvgEditFilling } from './EditFilling';
 export { default as SvgEdit } from './Edit';
 export { default as SvgElectronics } from './Electronics';
-export { default as SvgElipsis } from './Elipsis';
+export { default as SvgEllipsis } from './Ellipsis';
 export { default as SvgEmail } from './Email';
 export { default as SvgError } from './Error';
 export { default as SvgExplain } from './Explain';

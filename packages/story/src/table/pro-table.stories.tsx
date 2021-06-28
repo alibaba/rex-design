@@ -564,10 +564,6 @@ export function TreeTable() {
       treeMode={{
         // 受控用法 openKeys, onChangeOpenKeys
         defaultOpenKeys: ['4', '4-2'],
-        checkedStrategy: 'parent',
-        checkStrictly: false,
-        highlightRowWhenSelected: true,
-        rootKey: 'root',
       }}
     />
   );
@@ -899,9 +895,7 @@ export function WithPagination() {
           },
         ],
       }}
-      pagination={{
-        showJump: false,
-      }}
+      pagination={{ showJump: false }}
     />
   );
 }
