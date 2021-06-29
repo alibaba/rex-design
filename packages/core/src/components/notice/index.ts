@@ -1,1 +1,1 @@
-export { NoticeProps, Notice } from './notice';
+export { Notice, NoticeProps } from './notice';

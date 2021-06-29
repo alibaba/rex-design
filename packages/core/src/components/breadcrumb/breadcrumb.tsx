@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Box } from '../layout';
 
-export const BreadcrumbSeparator = (props: any) => (
+const BreadcrumbSeparator = (props: any) => (
   <Box as="span" color="text.note" {...props}>
     /
   </Box>

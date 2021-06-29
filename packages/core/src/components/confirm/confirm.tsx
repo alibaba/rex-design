@@ -3,7 +3,7 @@ import { Tooltip, TooltipProps } from '../overlays';
 import { Box, Flex, Group } from '../layout';
 import { Button } from '../button';
 
-interface ConfirmProps extends TooltipProps {
+export interface ConfirmProps extends TooltipProps {
   /**
    * 点击确认按钮的回调
    */

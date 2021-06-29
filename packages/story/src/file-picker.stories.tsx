@@ -65,7 +65,7 @@ export const Media = () => {
  */
 export const DragFile = () => {
   return (
-    <Group spacingY="l">
+    <Group spacingY="l" width="800px">
       <FilePicker
         renderTrigger={(props) => <FilePicker.DragFileTrigger {...props} />}
         request={getRequest}

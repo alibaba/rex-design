@@ -5,9 +5,6 @@ import { space } from '../../utils';
 import { Box, BoxProps } from './Box';
 
 const attachedStyle = css`
-  display: inline-flex;
-  vertical-align: middle;
-
   > *:first-child:not(:last-child) {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
@@ -28,8 +25,6 @@ const attachedStyle = css`
 `;
 
 const normalStyle = css<any>`
-  display: inline-block;
-
   > *:not(:last-child) {
     margin-right: ${(props) => props.$spacingX};
     margin-bottom: ${(props) => props.$spacingY};
@@ -59,8 +54,9 @@ export const Group = React.forwardRef<HTMLDivElement, GroupProps>((props, ref) =
   const { attached, spacingX = 'm', spacingY = 0, children, ...rest } = props;
   return (
     <GroupBox
-      role="group"
       ref={ref}
+      role="group"
+      display="inline-block"
       $attached={attached}
       $spacingX={space(spacingX)}
       $spacingY={space(spacingY)}

@@ -1,12 +1,12 @@
+import React, { useState } from 'react';
 import { Box, Button, Group } from '@rexd/core';
 import { Icon } from '@rexd/icon';
-import React, { useState } from 'react';
 
 export default { title: 'Button' };
 
 export function Basic() {
   return (
-    <Box>
+    <Group>
       <Group>
         <Button>按钮</Button>
       </Group>
@@ -35,7 +35,7 @@ export function Basic() {
           焦点链接按钮
         </Button>
       </Group>
-    </Box>
+    </Group>
   );
 }
 
