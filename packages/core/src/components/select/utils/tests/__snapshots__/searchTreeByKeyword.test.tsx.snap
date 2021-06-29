@@ -1,0 +1,79 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`search big tree 1`] = `
+Object {
+  "filteredDataSource": Array [
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "children": Array [],
+              "key": "小灰灰",
+              "label": <span>
+                
+                <span
+                  style={
+                    Object {
+                      "background": "#fff8bd",
+                      "color": "#333",
+                      "fontWeight": "bold",
+                      "margin": 1,
+                    }
+                  }
+                >
+                  小灰
+                </span>
+                灰
+              </span>,
+            },
+          ],
+          "key": "foo-4",
+          "label": "其他小朋友",
+        },
+      ],
+      "key": "zoo",
+      "label": "阿里动物园",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "children": Array [],
+              "key": "bar-4-小灰灰",
+              "label": <span>
+                
+                <span
+                  style={
+                    Object {
+                      "background": "#fff8bd",
+                      "color": "#333",
+                      "fontWeight": "bold",
+                      "margin": 1,
+                    }
+                  }
+                >
+                  小灰
+                </span>
+                灰
+              </span>,
+            },
+          ],
+          "key": "bar-4",
+          "label": "小朋友",
+        },
+      ],
+      "key": "2号动物园",
+      "label": "2号动物园",
+    },
+  ],
+  "preferredExpandedKeys": Array [
+    "foo-4",
+    "zoo",
+    "bar-4",
+    "2号动物园",
+  ],
+  "skipped": false,
+}
+`;

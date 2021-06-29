@@ -59,7 +59,8 @@ export const arrayUtils = {
   },
 } as const;
 
-export function stripTreeDepth<N extends AbstractTreeNode>(input: N[], maxDepth: number) {
+/** 对树进行过滤，只保留深度小于等于 maxDepth 的部分 */
+export function filterTreeByMaxDepth<N extends AbstractTreeNode>(input: N[], maxDepth: number) {
   return dfs(input, 0);
 
   function dfs(nodes: N[], depth: number): N[] {

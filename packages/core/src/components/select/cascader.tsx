@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { composeHandlers, composeState } from '../../utils';
 import { TickIcon } from './icons';
 import { TreeItem } from './tree-view';
-import { stripTreeDepth, toggleValue } from './utils/select-utils';
+import { filterTreeByMaxDepth, toggleValue } from './utils/select-utils';
 
 export interface CascaderItem {
   label?: React.ReactNode;
@@ -128,7 +128,7 @@ export const Cascader = React.forwardRef<HTMLDivElement, CascaderProps>((props: 
 
     let inputDataSource = dataSourceProp;
     if (isFinite(maxDepth) && maxDepth >= 0) {
-      inputDataSource = stripTreeDepth(inputDataSource, maxDepth);
+      inputDataSource = filterTreeByMaxDepth(inputDataSource, maxDepth);
     }
 
     // 经过这一步处理之后，item.key 和 item.value 两者必定相同，后续我们统一使用 key 进行操作
