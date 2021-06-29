@@ -6,21 +6,21 @@ export default { title: 'Layout/Group' };
 export const Basic = () => (
   <Group>
     <Button>left</Button>
-    <Button>right</Button>
     <Button>center</Button>
+    <Button>right</Button>
   </Group>
 );
 
 export const Attached = () => (
-  <Group isAttached>
+  <Group attached>
     <Button>left</Button>
-    <Button>right</Button>
     <Button>center</Button>
+    <Button>right</Button>
   </Group>
 );
 
 export const More = () => (
-  <Group isAttached>
+  <Group attached>
     <Input />
     <Button>search</Button>
   </Group>

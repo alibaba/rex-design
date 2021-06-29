@@ -17,19 +17,18 @@ const LoadingDiv = styled.div`
   position: relative;
 
   .rex-loading-icon {
+    position: absolute;
     width: 48px;
     height: 48px;
-
-    // todo 根据内容div 与 上层滚动容器两者的 clip-rect 来确定 loading icon 的位置
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+    left: calc(50% - 24px);
+    top: calc(50% - 24px);
   }
 
   &.rex-median .rex-loading-icon {
     width: 32px;
     height: 32px;
+    left: calc(50% - 16px);
+    top: calc(50% - 16px);
   }
 
   .rex-loading-cover {
@@ -46,7 +45,6 @@ const LoadingDiv = styled.div`
 
 const RotateLoadingIcon: any = styled(Icon).attrs({ type: 'loading' })`
   animation: ${rotateKeyframes} 1250ms linear infinite both;
-  pointer-events: none;
 `;
 const LoadingIcon = ({ className }: { className?: string }) => <RotateLoadingIcon className={className} />;
 

@@ -46,7 +46,7 @@ function NormalSearch(props: SearchProps) {
   const submitProps = getSubmitProps();
 
   return (
-    <Group isAttached {...htmlProps}>
+    <Group attached {...htmlProps}>
       <Input {...inputProps} />
       <Button type="primary" {...submitProps}>
         {buttonText}

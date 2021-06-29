@@ -30,7 +30,7 @@ export function useSteps(props: UseStepsProps) {
       ...item,
       step: itemStep,
       status: getStatus(itemStep < step, item),
-      isActive: item.isActive || itemStep === step,
+      active: item.active || itemStep === step,
       onClick: () => {
         if (itemStep !== step && onChange) {
           onChange(itemStep, { data: item });

@@ -116,5 +116,5 @@ export const FileTypes = () => {
 };
 
 export const Multiple = () => {
-  return <FilePicker isMultiple onChange={console.log} />;
+  return <FilePicker multiple onChange={console.log} />;
 };

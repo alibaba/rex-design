@@ -10,7 +10,7 @@ interface FormLayoutContext {
   /**
    * 是否行内布局
    */
-  isInline?: boolean;
+  inline?: boolean;
   /**
    * 标签位置
    */
@@ -31,7 +31,7 @@ const [FormLayoutProvider, useFormLayoutContext] = createContext<FormLayoutConte
 });
 
 export interface UseFormProps {
-  isInline?: boolean;
+  inline?: boolean;
   labelPosition?: LabelPosition;
   labelWidth?: string;
   columns?: ResponsiveType;
@@ -42,7 +42,7 @@ export function useFormLayout(props: UseFormProps) {
 
   return {
     ...props,
-    isInline: props?.isInline ?? form?.isInline,
+    inline: props?.inline ?? form?.inline,
     labelPosition: props?.labelPosition ?? form?.labelPosition,
     labelWidth: props?.labelWidth ?? form?.labelWidth,
     columns: props?.columns ?? form?.columns,
@@ -55,7 +55,7 @@ export interface FormLayoutProps extends FormLayoutContext, BoxProps {}
  * Form 布局容器
  */
 export function FormLayout(props: FormLayoutProps) {
-  const { id, columns, isInline, labelPosition, labelWidth, children, ...others } = useConfig<FormLayoutProps>(
+  const { id, columns, inline, labelPosition, labelWidth, children, ...others } = useConfig<FormLayoutProps>(
     'Form',
     props,
   );
@@ -64,7 +64,7 @@ export function FormLayout(props: FormLayoutProps) {
     columns,
     labelPosition,
     labelWidth,
-    isInline,
+    inline,
   };
 
   return (

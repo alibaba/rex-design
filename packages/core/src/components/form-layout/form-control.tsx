@@ -36,14 +36,14 @@ export interface FormControlProps {
   /**
    * 是否行内模式
    */
-  isInline?: boolean;
+  inline?: boolean;
   children?: React.ReactNode;
 }
 
 function useFormControl(props: FormControlProps) {
-  const { isInline, labelPosition = 'left', labelWidth = '100px', required, labelTips } = props;
+  const { inline, labelPosition = 'left', labelWidth = '100px', required, labelTips } = props;
   const getRootProps = useCallback((): BoxProps => {
-    if (isInline) {
+    if (inline) {
       return {
         display: 'inline-block',
         mr: 'm',
@@ -59,7 +59,7 @@ function useFormControl(props: FormControlProps) {
         mb: 'm',
       };
     }
-  }, [isInline, labelPosition]);
+  }, [inline, labelPosition]);
 
   const getLabelWrapperProps = useCallback((): FormLabelProps => {
     const shared: FormLabelProps = {
@@ -67,7 +67,7 @@ function useFormControl(props: FormControlProps) {
       required,
     };
 
-    if (isInline) {
+    if (inline) {
       return {
         ...shared,
         display: 'inline-block',
@@ -89,10 +89,10 @@ function useFormControl(props: FormControlProps) {
         ...shared,
       };
     }
-  }, [isInline, labelPosition, labelWidth, labelTips, required]);
+  }, [inline, labelPosition, labelWidth, labelTips, required]);
 
   const getControlWrapperProps = useCallback((): BoxProps => {
-    if (isInline) {
+    if (inline) {
       return {
         display: 'inline-block',
       };
@@ -106,7 +106,7 @@ function useFormControl(props: FormControlProps) {
     if (labelPosition === 'top') {
       return {};
     }
-  }, [isInline, labelPosition]);
+  }, [inline, labelPosition]);
 
   return {
     getRootProps,

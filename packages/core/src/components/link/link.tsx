@@ -13,26 +13,26 @@ const StyledLink = styled.a`
     color: var(--rex-colors-link-hover);
   }
 
-  &:focus {
-    box-shadow: outline;
-  }
+  //&:focus {
+  //  box-shadow: outline;
+  //}
 `;
 
 export interface LinkProps extends React.ComponentPropsWithRef<'a'> {
   /**
    * 是否打开新页面
    */
-  isExternal?: boolean;
+  external?: boolean;
 }
 
 export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>((props, ref) => {
-  const { isExternal, ...rest } = props;
+  const { external, ...rest } = props;
   return (
     <StyledLink
       ref={ref}
-      target={isExternal ? '_blank' : undefined}
+      target={external ? '_blank' : undefined}
       {...rest}
-      rel={isExternal ? 'noopener noreferer' : undefined}
+      rel={external ? 'noopener noreferer' : undefined}
     />
   );
 });

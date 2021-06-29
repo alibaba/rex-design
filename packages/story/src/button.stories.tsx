@@ -197,7 +197,7 @@ export const Loading = () => {
 
 export const ButtonGroup = () => (
   <Group>
-    <Group isAttached>
+    <Group attached>
       <Button>Left Button</Button>
       <Button>Center Button</Button>
       <Button>Right Button</Button>

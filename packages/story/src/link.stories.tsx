@@ -7,7 +7,7 @@ export default { title: 'Link' };
 export const Basic = () => <Link href="#">Hippo Design</Link>;
 
 export const ExternalLink = () => (
-  <Link href="https://alibaba.github.io/rex-design/" isExternal>
+  <Link href="https://alibaba.github.io/rex-design/" external>
     Chakra Design system <Icon type="link" />
   </Link>
 );

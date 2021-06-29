@@ -25,9 +25,10 @@ export function Basic() {
 
 export function GroupDemo() {
   return (
-    <Group>
+    <Group spacingY={8}>
       <h3>无默认值</h3>
       <RadioGroup dataSource={dataSource} onChange={console.log} />
+
       <h3>有默认值</h3>
       <RadioGroup defaultValue="mini" dataSource={dataSource} onChange={console.log} />
     </Group>

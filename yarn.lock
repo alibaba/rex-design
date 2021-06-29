@@ -4563,7 +4563,7 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-color@^3.0.1":
+"@types/react-color@^3.0.1", "@types/react-color@^3.0.4":
   version "3.0.4"
   resolved "https://registry.npm.taobao.org/@types/react-color/download/@types/react-color-3.0.4.tgz#c63daf012ad067ac0127bdd86725f079d02082bd"
   integrity sha1-xj2vASrQZ6wBJ73YZyXwedAggr0=
@@ -18047,7 +18047,7 @@ terser-webpack-plugin@^4.1.0:
 
 terser@4.8.0, terser@^4.1.2, terser@^4.6.3, terser@^4.8.0, terser@^5.3.4:
   version "4.8.0"
-  resolved "https://registry.nlark.com/terser/download/terser-4.8.0.tgz#63056343d7c70bb29f3af665865a46fe03a0df17"
+  resolved "https://registry.nlark.com/terser/download/terser-4.8.0.tgz?cache=0&sync_timestamp=1624884102109&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fterser%2Fdownload%2Fterser-4.8.0.tgz#63056343d7c70bb29f3af665865a46fe03a0df17"
   integrity sha1-YwVjQ9fHC7KfOvZlhlpG/gOg3xc=
   dependencies:
     commander "^2.20.0"

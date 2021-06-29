@@ -80,13 +80,13 @@ export function AutoCompleteOff() {
 export function Addons() {
   return (
     <Flex spacing="l" direction="column">
-      <Group isAttached>
+      <Group attached>
         <InputAddon>https://</InputAddon>
         <Input placeholder="portal.hemaos" />
         <InputAddon>.com</InputAddon>
       </Group>
 
-      <Group isAttached>
+      <Group attached>
         <InputAddon>+86</InputAddon>
         <Input placeholder="11 位手机号码" />
       </Group>

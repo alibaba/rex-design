@@ -9,6 +9,7 @@ const RexRadio = styled.label`
   align-items: center;
   vertical-align: top;
   position: relative;
+  cursor: pointer;
 
   .rex-radio-input {
     position: absolute;

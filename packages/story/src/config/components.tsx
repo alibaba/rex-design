@@ -235,14 +235,14 @@ export interface ToggleButtonGroupProps extends Omit<UseSelectableListProps<stri
   /**
    * 按钮是否贴合在一起
    */
-  isAttached?: GroupProps['isAttached'];
+  attached?: GroupProps['attached'];
   className?: string;
 }
 
 export function ToggleButtonGroup(props: ToggleButtonGroupProps) {
   const {
     dataSource = [],
-    isAttached = false,
+    attached = false,
     selectMode = 'single',
     value: valueProp,
     defaultValue,
@@ -269,7 +269,7 @@ export function ToggleButtonGroup(props: ToggleButtonGroupProps) {
 
   return (
     <ToggleButtonGroupProvider value={group}>
-      <Group isAttached={isAttached} className={clazz} {...rest}>
+      <Group attached={attached} className={clazz} {...rest}>
         {dataSource.map(({ label, value, ...others }) => (
           <ToggleButtonItem {...buttonProps} key={value} value={value} {...others}>
             {label}

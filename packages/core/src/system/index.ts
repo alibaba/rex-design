@@ -18,7 +18,7 @@ const createShouldForwardProp = (props: string[]) => {
 
 export const allStyledProps = compose(layout, typography, flexbox, grid, position, color, border, space, shadow);
 
-export const textStyledPorps = compose(typography, color);
+export const textStyledProps = compose(typography, color);
 
 export const allStyledPropNames = allStyledProps.propNames;
 

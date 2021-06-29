@@ -50,16 +50,6 @@ export function createContext<ContextType>(options: CreateContextOptions = {}) {
   return [Context.Provider, useContext, Context] as CreateContextReturn<ContextType>;
 }
 
-/**
- * Gets only the valid children of a component,
- * and ignores any nullish or falsy child.
- *
- * @param children the children
- */
-export function getValidChildren(children: React.ReactNode) {
-  return React.Children.toArray(children).filter((child) => React.isValidElement(child)) as React.ReactElement[];
-}
-
 type ReactRef<T> = React.Ref<T> | React.RefObject<T> | React.MutableRefObject<T>;
 
 /**

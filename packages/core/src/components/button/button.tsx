@@ -35,7 +35,7 @@ const buttonType = (
   selectedColor?: StringOrNull,
   selectedBg?: StringOrNull,
   selectedBorderColor?: StringOrNull,
-  foucsOutline?: StringOrNull,
+  focusOutline?: StringOrNull,
 ) => {
   return `
     color: ${textColor};
@@ -44,7 +44,7 @@ const buttonType = (
 
     &:focus {
       outline: 0;
-      box-shadow: 0 0 0 3px ${foucsOutline};
+      box-shadow: 0 0 0 3px ${focusOutline};
     }
 
     &.rex-hover {
@@ -121,6 +121,7 @@ const StyledButton = styled.button<any>`
     border: 0;
     outline: none;
     background: transparent;
+    height: auto;
   }
 
   &.rex-btn-loading {

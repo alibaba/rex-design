@@ -27,19 +27,6 @@ export function callAll(...fns: any[]) {
 
 export function noop(...args: any[]) {}
 
-// export function once(fn?: Function | null) {
-//   let result: any;
-
-//   return function func(this: any, ...args: any[]) {
-//     if (fn) {
-//       result = fn.apply(this, args);
-//       fn = null;
-//     }
-
-//     return result;
-//   };
-// }
-
 interface MessageOptions {
   condition: boolean;
   message: string;

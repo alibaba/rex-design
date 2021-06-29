@@ -1,8 +1,8 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import { Box, BoxProps } from './Box';
 import { StringOrNumber } from '../../types';
 import { space } from '../../utils';
+import { Box, BoxProps } from './Box';
 
 const attachedStyle = css`
   display: inline-flex;
@@ -28,6 +28,8 @@ const attachedStyle = css`
 `;
 
 const normalStyle = css<any>`
+  display: inline-block;
+
   > *:not(:last-child) {
     margin-right: ${(props) => props.$spacingX};
     margin-bottom: ${(props) => props.$spacingY};
@@ -35,14 +37,14 @@ const normalStyle = css<any>`
 `;
 
 const GroupBox = styled(Box)<any>`
-  ${(props) => (props.$isAttached ? attachedStyle : normalStyle)};
+  ${(props) => (props.$attached ? attachedStyle : normalStyle)};
 `;
 
 export interface GroupProps extends Omit<BoxProps, 'as'> {
   /**
    * 是否吸附在一起
    */
-  isAttached?: boolean;
+  attached?: boolean;
   /**
    * 水平间距
    */
@@ -54,12 +56,12 @@ export interface GroupProps extends Omit<BoxProps, 'as'> {
 }
 
 export const Group = React.forwardRef<HTMLDivElement, GroupProps>((props, ref) => {
-  const { isAttached, spacingX = 'm', spacingY = 0, children, ...rest } = props;
+  const { attached, spacingX = 'm', spacingY = 0, children, ...rest } = props;
   return (
     <GroupBox
       role="group"
       ref={ref}
-      $isAttached={isAttached}
+      $attached={attached}
       $spacingX={space(spacingX)}
       $spacingY={space(spacingY)}
       {...rest}

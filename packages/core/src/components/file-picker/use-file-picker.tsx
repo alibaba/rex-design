@@ -114,7 +114,7 @@ export interface UseFilePickerProps {
   /**
    * 是否可以选择多个文件
    */
-  isMultiple?: boolean;
+  multiple?: boolean;
   /**
    * 可以选择的文件类型，例如 `image/*`, `video/*`
    */
@@ -135,7 +135,7 @@ export function useFilePicker(props: UseFilePickerProps) {
     defaultValue = [],
     onChange,
     request = defaultEmptyRequest,
-    isMultiple,
+    multiple,
     accept,
     disabled,
     className,
@@ -165,7 +165,7 @@ export function useFilePicker(props: UseFilePickerProps) {
       ...props,
       ref: inputRef,
       type: 'file',
-      multiple: isMultiple,
+      multiple,
       accept,
       disabled,
       onChange: async (e: React.FormEvent<HTMLInputElement>) => {

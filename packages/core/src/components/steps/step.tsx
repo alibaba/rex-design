@@ -80,15 +80,15 @@ export interface UseStepProps {
   /**
    * 是否激活项
    */
-  isActive?: boolean;
+  active?: boolean;
 }
 
 function useStep(props: UseStepProps) {
-  const { step, status = 'incomplete', isActive } = props;
+  const { step, status = 'incomplete', active } = props;
   const completeColor = getColorByStatus('complete');
   const statusColor = getColorByStatus(status);
 
-  const color = isActive ? completeColor : statusColor;
+  const color = active ? completeColor : statusColor;
   const label = status === 'complete' ? <Icon type="select-bold" /> : step;
   const clazz = cx({
     'rex-step': true,

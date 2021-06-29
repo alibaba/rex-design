@@ -69,7 +69,7 @@ export function LongLabels() {
 
 export function Inline() {
   return (
-    <FormLayout isInline>
+    <FormLayout inline>
       <FormControl label="邮箱地址" required help="我们不会公开您的邮箱地址。" error="这是一条错误消息">
         <Input width="200px" type="email" onChange={console.log} />
       </FormControl>
@@ -88,10 +88,10 @@ export function NestFormControls() {
       </FormControl>
       <FormControl label="地址">
         <Group>
-          <FormControl isInline>
+          <FormControl inline>
             <Input placeholder="城市" />
           </FormControl>
-          <FormControl isInline>
+          <FormControl inline>
             <Input placeholder="邮政编码" />
           </FormControl>
         </Group>

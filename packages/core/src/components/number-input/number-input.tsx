@@ -14,7 +14,7 @@ export function NumberInput(props: NumberInputProps) {
   const decBtnProps = getDecrementButtonProps();
 
   return (
-    <Group isAttached {...htmlProps}>
+    <Group attached {...htmlProps}>
       <Button {...decBtnProps}>
         <Icon type="minus-bold" />
       </Button>

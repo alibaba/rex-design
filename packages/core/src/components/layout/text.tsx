@@ -1,6 +1,6 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import { textStyledPorps, shouldForwardProp } from '../../system';
+import { textStyledProps, shouldForwardProp } from '../../system';
 import { TypographyProps, ColorProps } from '../../types';
 
 const truncatedStyle = css`
@@ -23,10 +23,10 @@ const SystemText = styled('span').withConfig({
     return shouldForwardProp(prop) && defaultValidatorFn(prop);
   },
 })<any>`
-  ${textStyledPorps}
+  ${textStyledProps}
 
   ${(props) => props.$lineClamp > 0 && textClampStyle};
-  ${(props) => props.$isTruncated && truncatedStyle};
+  ${(props) => props.$truncated && truncatedStyle};
 `;
 
 export interface TextProps extends TypographyProps, ColorProps {
@@ -35,7 +35,7 @@ export interface TextProps extends TypographyProps, ColorProps {
   /**
    * 是否在容器内自动截断（单行展示）
    */
-  isTruncated?: boolean;
+  truncated?: boolean;
   /**
    * 最多展示的行数（超出截断）
    */
@@ -46,16 +46,9 @@ export interface TextProps extends TypographyProps, ColorProps {
 }
 
 export const Text = React.forwardRef<HTMLSpanElement, TextProps>((props, ref) => {
-  const { color = 'text.body', align, isTruncated, lineClamp, ...rest } = props;
+  const { color = 'text.body', align, truncated, lineClamp, ...rest } = props;
 
   return (
-    <SystemText
-      ref={ref}
-      textAligin={align}
-      color={color}
-      $isTruncated={isTruncated}
-      $lineClamp={lineClamp}
-      {...rest}
-    />
+    <SystemText ref={ref} textAligin={align} color={color} $truncated={truncated} $lineClamp={lineClamp} {...rest} />
   );
 });
