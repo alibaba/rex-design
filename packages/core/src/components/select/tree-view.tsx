@@ -7,11 +7,16 @@ import { CaretDownIcon } from './icons';
 import { VirtualList } from '../virtual-list';
 
 export interface TreeItem {
+  /** */
   key: string;
+
+  /** 节点标签 */
   label?: React.ReactNode;
 
+  /** 是否禁用交互 */
   disabled?: boolean;
 
+  /** 是否可选择 */
   checkable?: boolean;
   checked?: boolean;
   indeterminate?: boolean;
@@ -100,9 +105,11 @@ export interface TreeViewProps {
   className: string;
   dataSource: TreeItem[];
   selectable: boolean;
-  // checkable: boolean;
 
+  /** 受控用法，当前展开的节点的 key 数组 */
   expandedKeys: string[];
+
+  /** 受控用法，节点展开时的回调 */
   onExpand(
     nextExpandedKeys: string[],
     detail: {

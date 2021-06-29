@@ -6,17 +6,38 @@ import TreeDataHelper, { TreeCheckedStrategy } from './utils/TreeDataHelper';
 import { TreeItem, TreeView, TreeViewProps } from './tree-view';
 
 export interface TreeProps extends Partial<TreeViewProps> {
+  /** 数据源，每个元素的结构为 { key, label, children } */
   dataSource: TreeItem[];
 
+  /** 非受控用法，是否默认展开所有节点 */
   defaultExpandAll?: boolean;
+  /** 非受控用法，默认展开的节点的 key 数组 */
   defaultExpandedKeys?: string[];
+
+  /** 非受控用法，默认选中的节点的 key 数组 */
   defaultSelectedKeys?: string[];
 
+  /** 是否开启复选 */
   checkable?: boolean;
+
+  /** 非受控用法，默认选中的节点 */
   defaultCheckedKeys?: string[];
+
+  /** 下拉框中的树勾选节点复选框是否完全受控（父子节点选中状态不再关联） */
   checkStrictly?: boolean;
+
+  /**
+   * 定义选中时回填的方式
+   * - 'all'(返回所有选中的节点)
+   * - 'parent'(父子节点都选中时只返回父节点)
+   * - 'child'(父子节点都选中时只返回子节点)
+   */
   checkedStrategy?: TreeCheckedStrategy;
+
+  /** 受控用法，当前选中的节点 */
   checkedKeys?: string[];
+
+  /** 节点勾选时的回调 */
   onCheck?(
     nextCheckedKeys: string[],
     detail: {

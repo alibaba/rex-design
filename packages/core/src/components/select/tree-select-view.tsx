@@ -73,6 +73,7 @@ export const TreeSelectView = React.forwardRef<HTMLDivElement, TreeSelectViewPro
 
   const appearance = pick(props, selectAppearancePropKeys);
 
+  const searchInputWrapperRef = useRef<HTMLDivElement>(null);
   const virtualListRef = useRef<VirtualList<unknown>>();
 
   const treeDataSource = useMemo(
@@ -118,6 +119,8 @@ export const TreeSelectView = React.forwardRef<HTMLDivElement, TreeSelectViewPro
           if (index !== -1) {
             list.scrollToRow(index, VirtualListAlign.center);
           }
+          const input = searchInputWrapperRef.current?.querySelector('input');
+          input?.focus();
         }
       }}
       renderTarget={(arg: any) => (
@@ -138,12 +141,10 @@ export const TreeSelectView = React.forwardRef<HTMLDivElement, TreeSelectViewPro
           {showSearch && (
             <Input
               className="rex-select-search"
+              ref={searchInputWrapperRef}
               placeholder="搜索"
               hasClear
               value={searchValue}
-              ref={(node) => {
-                node?.querySelector('input').focus();
-              }}
               onChange={(nextSearchValue) => {
                 onSearch(nextSearchValue, { event: null });
                 if (!visible) {

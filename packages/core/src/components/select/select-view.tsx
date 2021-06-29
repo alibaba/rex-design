@@ -125,6 +125,7 @@ export const SelectView = React.forwardRef<HTMLDivElement, SelectViewProps>((pro
   } = props;
 
   const virtualListRef = useRef<VirtualList<SelectItem>>();
+  const searchInputWrapperRef = useRef<HTMLDivElement>(null);
 
   const valueSet = new Set(value);
   const trimmedSearchValue = searchValue.trim();
@@ -153,6 +154,8 @@ export const SelectView = React.forwardRef<HTMLDivElement, SelectViewProps>((pro
           if (index !== -1) {
             list.scrollToRow(index, VirtualListAlign.center);
           }
+          const input = searchInputWrapperRef.current?.querySelector('input');
+          input?.focus();
         }
       }}
       renderTarget={(arg: unknown) => (
@@ -185,6 +188,7 @@ export const SelectView = React.forwardRef<HTMLDivElement, SelectViewProps>((pro
         {showSearch && (
           <Input
             className="rex-select-search"
+            ref={searchInputWrapperRef}
             placeholder="搜索"
             hasClear
             value={searchValue}

@@ -12,6 +12,10 @@ export function Basic() {
   return <Select.Single value={value} onChange={onChange} hasClear hasArrow dataSource={basicSelectDataSource} />;
 }
 
+export function Fill() {
+  return <Select.Single fill dataSource={basicSelectDataSource} />;
+}
+
 export function Minimum() {
   return <Select.Single shape="simple" dataSource={basicSelectDataSource} />;
 }
@@ -20,7 +24,6 @@ export function Search() {
   return (
     <Select.Single
       showSearch
-      fill
       dataSource={[
         { value: '1', label: 'Option 1' },
         { value: '2', label: 'Option 2', disabled: true },
