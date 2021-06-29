@@ -168,7 +168,7 @@ export function Pagination({
   const nodes: React.ReactElement[] = [];
 
   const pageBtn = (page: number) => (
-    <Button key={page} size={size} isSelected={current === page} onClick={() => onChange(page)}>
+    <Button key={page} size={size} selected={current === page} onClick={() => onChange(page)}>
       {page}
     </Button>
   );
@@ -205,7 +205,7 @@ export function Pagination({
     // 起始的省略号
     if (siblingsStart > BOUNDARY_COUNT + 2) {
       nodes.push(
-        <Button key="start-ellipsis" isIconButton shape="text">
+        <Button key="start-ellipsis" iconOnly shape="text">
           <Icon type="ellipsis" />
         </Button>,
       );
@@ -221,7 +221,7 @@ export function Pagination({
     // 结束的省略号
     if (siblingsEnd < pageCount - BOUNDARY_COUNT - 1) {
       nodes.push(
-        <Button key="end-ellipsis" isIconButton shape="text">
+        <Button key="end-ellipsis" iconOnly shape="text">
           <Icon type="ellipsis" />
         </Button>,
       );

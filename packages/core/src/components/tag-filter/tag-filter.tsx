@@ -1,9 +1,9 @@
-import React from 'react';
 import cx from 'classnames';
-import { Group, GroupProps } from '../layout';
-import { ListNode } from '../../types';
+import React from 'react';
 import { useSelectableList, UseSelectableListProps } from '../../hooks';
+import { ListNode } from '../../types';
 import { createContext } from '../../utils';
+import { Group, GroupProps } from '../layout';
 import { CheckableTag, CheckableTagProps } from './tag';
 
 interface TagFilterContext {
@@ -77,24 +77,24 @@ interface TagFilterItemProps extends CheckableTagProps {
 }
 
 function TagFilterItem(props: TagFilterItemProps) {
-  const { value, isSelected: isSelectedProp, children, ...rest } = props;
+  const { value, selected: selectedProp, children, ...rest } = props;
   const group = useTagFilter();
 
-  let isSelected = isSelectedProp;
+  let selected = selectedProp;
   if (group?.value !== undefined && value) {
-    isSelected = (group.value || []).includes(value);
+    selected = (group.value || []).includes(value);
   }
 
   let onSelect;
 
   if (group.onSelect && value) {
     onSelect = () => {
-      group.onSelect(value, !isSelected);
+      group.onSelect(value, !selected);
     };
   }
 
   return (
-    <CheckableTag isSelected={isSelected} onClick={onSelect} {...rest}>
+    <CheckableTag selected={selected} onClick={onSelect} {...rest}>
       {children}
     </CheckableTag>
   );

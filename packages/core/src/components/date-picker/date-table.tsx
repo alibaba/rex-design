@@ -1,13 +1,13 @@
+import { Icon } from '@rexd/icon';
 import cx from 'classnames';
 import React, { useMemo } from 'react';
 import { useGesture } from 'react-use-gesture';
-import { Icon } from '@rexd/icon';
 import { Dayjs } from '../../dayjs';
+import { Button } from '../button';
 import { Box, Flex } from '../layout';
 import { useDateTableContext } from './date-context';
 import { DateLocale } from './date-types';
-import { StyledTable, StyledRow, StyledHeadCell, StyledCell, StyledCellContent } from './styled';
-import { Button } from '../button';
+import { StyledCell, StyledCellContent, StyledHeadCell, StyledRow, StyledTable } from './styled';
 
 /**
  * 获得日期的二维数组列表
@@ -118,23 +118,13 @@ export function DateTable(props: DateTableProps) {
           >
             {visibleMonth.year()}年
           </Button>
-          <Button
-            shape="text"
-            size="small"
-            isIconButton
-            onClick={() => ctx.onSelectMonth(visibleMonth.add(-1, 'month'))}
-          >
+          <Button shape="text" size="small" iconOnly onClick={() => ctx.onSelectMonth(visibleMonth.add(-1, 'month'))}>
             <Icon type="arrow-left-bold" />
           </Button>
           <Button shape="text" size="small" style={monthButtonStyle} onClick={() => ctx.onChangeMode('month')}>
             {locale.months[visibleMonth.month()]}
           </Button>
-          <Button
-            shape="text"
-            size="small"
-            isIconButton
-            onClick={() => ctx.onSelectMonth(visibleMonth.add(1, 'month'))}
-          >
+          <Button shape="text" size="small" iconOnly onClick={() => ctx.onSelectMonth(visibleMonth.add(1, 'month'))}>
             <Icon type="arrow-right-bold" />
           </Button>
         </Box>

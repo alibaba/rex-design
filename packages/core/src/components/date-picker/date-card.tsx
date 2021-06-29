@@ -1,16 +1,16 @@
 import React, { useMemo, useState } from 'react';
 import dayjs, { Dayjs } from '../../dayjs';
-import { Box } from '../layout';
+import { useDevice } from '../../providers';
+import { FormEventDetail } from '../../types';
+import { getToken } from '../../utils';
 import { Button } from '../button';
+import { Box } from '../layout';
+import { TimePanel, TimePanelProps } from '../time-picker/time-panel';
+import { DateTableProvider } from './date-context';
 import { DateTable } from './date-table';
+import { CheckDateFn, DateLocale, DatePanelMode } from './date-types';
 import { MonthTable } from './month-table';
 import { YearTable } from './year-table';
-import { DateTableProvider } from './date-context';
-import { DatePanelMode, DateLocale, CheckDateFn } from './date-types';
-import { FormEventDetail } from '../../types';
-import { TimePanel, TimePanelProps } from '../time-picker/time-panel';
-import { getToken } from '../../utils';
-import { useDevice } from '../../providers';
 
 const defaultGetVisibleMonth = ({ startValue, endValue }: DateCardProps) => {
   const value = endValue || startValue;
@@ -196,7 +196,7 @@ function DatePanelFooter(props: DatePanelFooterProps) {
   return (
     <Box px="m" pb="m" textAlign="right">
       <Button
-        isFullWidth={device.alias === 's'}
+        fill={device.alias === 's'}
         size={device.alias === 's' ? 'medium' : 'small'}
         type="primary"
         onClick={onOk}

@@ -45,7 +45,7 @@ export const NumberBadge = () => (
 export const TopRight = () => (
   <Box display="inline-block" position="relative">
     <Box display="inline-block" size="40px" borderRadius="2px" bg="#333" />
-    <Badge shape="pill" style={{ verticalAlign: 'top', position: 'absolute' }}>
+    <Badge shape="pill" style={{ verticalAlign: 'top' }}>
       99+
     </Badge>
   </Box>

@@ -5,8 +5,8 @@ import styled from 'styled-components';
 import { getToken, useMemoizedMergeRefs } from '../../utils';
 import { PopupTargetRenderArgs } from '../overlays';
 import { CaretDownIcon, ClearIcon } from './icons';
-import { toggleValue } from './utils/select-utils';
 import { ISelectAppearanceProps, SelectItem } from './types';
+import { toggleValue } from './utils/select-utils';
 
 const ValueTagDiv = styled.div.withConfig({ componentId: 'rex-select-value-tag' })`
   display: inline-flex;
@@ -61,15 +61,20 @@ const ValueTag = React.memo(({ value, label, onDelete, showDelete }: ValueTagPro
 const SelectTriggerDiv = styled.div`
   cursor: pointer;
   height: var(--rex-sizes-formHeights-m);
-  display: flex;
+  display: inline-flex;
+  width: 200px;
   align-items: center;
-  transition: all 200ms;
   font-size: var(--rex-fontSizes-body);
   padding: 2px 2px 2px 12px;
   border-radius: var(--rex-radii-s);
   position: relative;
   overflow: hidden;
   color: ${getToken('Input.textColor')};
+  transition: box-shadow 300ms cubic-bezier(0.19, 1, 0.22, 1), border-color 300ms cubic-bezier(0.19, 1, 0.22, 1);
+
+  &.rex-fill {
+    width: 100%;
+  }
 
   &.rex-solid {
     border: var(--rex-borders-solid) ${getToken('Input.borderColor')};
@@ -219,6 +224,7 @@ export const SelectTrigger = React.forwardRef<HTMLDivElement, SelectTriggerProps
     status = 'normal',
     disabled,
     size, // todo
+    fill,
     getLabelByValue,
   } = props;
 
@@ -241,6 +247,7 @@ export const SelectTrigger = React.forwardRef<HTMLDivElement, SelectTriggerProps
           'rex-warning': status === 'warning',
           'rex-success': status === 'success',
           'rex-disabled': disabled,
+          'rex-fill': fill,
         },
         className,
       )}

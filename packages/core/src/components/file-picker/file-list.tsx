@@ -1,13 +1,12 @@
+import { Icon } from '@rexd/icon';
 import React from 'react';
 import styled from 'styled-components';
-import { Icon } from '@rexd/icon';
+import { useTheme } from '../../providers';
+import { noop, rgba } from '../../utils';
+import { Button } from '../button';
 import { Box, Text } from '../layout';
 import { Link } from '../link';
-import { Button } from '../button';
-import { noop, rgba } from '../../utils';
-import { FileStatusType } from './types';
-import { FileListProps, FileListItemProps } from './types';
-import { useTheme } from '../../providers';
+import { FileListItemProps, FileListProps, FileStatusType } from './types';
 
 const ListWrapper = styled.ul`
   list-style: none;
@@ -66,13 +65,7 @@ function FileListItem(props: FileListItemProps) {
           </Text>
         )}
       </Box>
-      <Button
-        shape="text"
-        size="small"
-        isIconButton
-        onClick={() => onRemove(file.id, { data: file })}
-        disabled={disabled}
-      >
+      <Button shape="text" size="small" iconOnly onClick={() => onRemove(file.id, { data: file })} disabled={disabled}>
         <Icon type="close" />
       </Button>
     </Box>

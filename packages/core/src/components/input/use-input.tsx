@@ -1,7 +1,7 @@
-import { useCallback } from 'react';
 import cx from 'classnames';
-import { StringOrNumber } from '../../types';
+import { useCallback } from 'react';
 import { useControllableState } from '../../hooks';
+import { StringOrNumber } from '../../types';
 import { noop } from '../../utils';
 
 export interface UseInputProps {
@@ -16,6 +16,7 @@ export interface UseInputProps {
   hasClear?: boolean;
   shape?: 'solid' | 'simple';
   status?: 'error' | 'success' | 'warning';
+  fill?: boolean;
   readOnly?: boolean;
   disabled?: boolean;
   placeholder?: string;
@@ -43,6 +44,7 @@ export function useInput(props: UseInputProps) {
     disabled,
     readOnly,
     status,
+    fill,
     type = 'text',
     min,
     max,
@@ -111,6 +113,7 @@ export function useInput(props: UseInputProps) {
       'rex-disabled': disabled,
       [`rex-${shape}`]: shape,
       [`rex-${status}`]: status,
+      'rex-fill': fill,
     },
     className,
   );

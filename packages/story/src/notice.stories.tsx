@@ -1,5 +1,5 @@
-import React from 'react';
-import { Notice, Grid, Box, Link, useVisible } from '@rexd/core';
+import { Box, Grid, Link, Notice } from '@rexd/core';
+import React, { useState } from 'react';
 
 export default { title: 'Notice' };
 
@@ -10,7 +10,8 @@ export const Extra = () => (
 );
 
 export function Closeable() {
-  const { visible, onClose } = useVisible({ defaultVisible: true });
+  const [visible, setVisible] = useState(true);
+  const onClose = () => setVisible(false);
 
   return (
     <Box>
@@ -31,9 +32,9 @@ export const Content = () => (
 
 export const Status = () => (
   <Grid spacingY="l" columns={1}>
-    <Notice status="error" title="发起的请求出现错误"></Notice>
-    <Notice status="success" title="文件已上传成功"></Notice>
-    <Notice status="warning" title="你的账号密码似乎已经过期，请尽快更换"></Notice>
-    <Notice status="info" title="Hippo 将在 2021 年 3 月发布新版本更新"></Notice>
+    <Notice status="error" title="发起的请求出现错误" />
+    <Notice status="success" title="文件已上传成功" />
+    <Notice status="warning" title="你的账号密码似乎已经过期，请尽快更换" />
+    <Notice status="info" title="Hippo 将在 2021 年 3 月发布新版本更新" />
   </Grid>
 );

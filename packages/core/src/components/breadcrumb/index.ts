@@ -1,2 +1,2 @@
 export { Breadcrumb, BreadcrumbSeparator, BreadcurmbProps } from './breadcrumb';
-export { BreadcrumbItem, BreadcurmbItemProps } from './breadcrumb-item';
+export { BreadcrumbItem, BreadcrumbItemProps } from './breadcrumb-item';

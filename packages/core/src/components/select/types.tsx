@@ -42,6 +42,12 @@ export interface ISelectAppearanceProps {
   size?: string;
 
   /**
+   * 选择器宽度是否占满容器
+   * @category 外观
+   * */
+  fill?: boolean;
+
+  /**
    * 选择器状态
    * @category 外观
    * */
@@ -77,6 +83,7 @@ export const selectAppearancePropKeys: (keyof ISelectAppearanceProps)[] = [
   'style',
   'containerProps',
   'size',
+  'fill',
   'status',
   'placeholder',
   'shape',

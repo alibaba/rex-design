@@ -8,21 +8,25 @@ export default {
 };
 
 export function Basic() {
-  return <CascaderSelect.Single style={{ width: 300 }} dataSource={bigTreeDataSource} />;
+  return <CascaderSelect.Single dataSource={bigTreeDataSource} />;
+}
+
+export function Fill() {
+  return <CascaderSelect.Single fill autoWidth={false} dataSource={bigTreeDataSource} />;
 }
 
 export function Multiple() {
-  return <CascaderSelect.Multi style={{ width: 300 }} dataSource={bigTreeDataSource} />;
+  return <CascaderSelect.Multi dataSource={bigTreeDataSource} />;
 }
 
 export function Search() {
-  return <CascaderSelect.Multi style={{ width: 300 }} showSearch dataSource={bigTreeDataSource} />;
+  return <CascaderSelect.Multi showSearch dataSource={bigTreeDataSource} />;
 }
 
 export function Status() {
-  return <CascaderSelect.Multi style={{ width: 300 }} status="error" dataSource={bigTreeDataSource} />;
+  return <CascaderSelect.Multi status="error" dataSource={bigTreeDataSource} />;
 }
 
 export function Disabled() {
-  return <CascaderSelect.Multi style={{ width: 300 }} disabled dataSource={bigTreeDataSource} value={['1', '淘宝']} />;
+  return <CascaderSelect.Multi disabled dataSource={bigTreeDataSource} value={['1', '淘宝']} />;
 }

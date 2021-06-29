@@ -57,7 +57,7 @@ import * as stories from 'story/src/overlays/toast.stories';
 当你需要使用 Context 时，可以通过 Toaster.useToaster() 创建一个 contextHolder 插入子节点中。通过 hooks 创建的临时 Toaster 将会得到 contextHolder 所在位置的上下文。创建的 toaster 对象拥有与默认 Toaster 相同的方法（show/close/closeAll）。
 
 ```jsx
-const [toaster, contextHolder] = Dialog.useDialog();
+const [toaster, contextHolder] = Toaster.useToaster();
 
 React.useEffect(() => {
   toaster.show({ content: 'hello!' });

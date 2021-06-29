@@ -1,15 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useRadio, UseRadioProps } from './use-radio';
-import { useRadioGroupContext } from './context';
 import { getToken } from '../../utils';
+import { useRadioGroupContext } from './context';
+import { useRadio, UseRadioProps } from './use-radio';
 
 const RexRadio = styled.label`
   display: inline-flex;
   align-items: center;
   vertical-align: top;
   position: relative;
-  line-height: var(--rex-sizes-formHeights-m);
 
   .rex-radio-input {
     position: absolute;

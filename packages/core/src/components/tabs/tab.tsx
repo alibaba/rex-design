@@ -1,9 +1,9 @@
+import cx from 'classnames';
 import React from 'react';
 import styled from 'styled-components';
-import cx from 'classnames';
+import { StringOrNumber } from '../../types';
 import { Box } from '../layout';
 import { useTabsContext } from './context';
-import { StringOrNumber } from '../../types';
 
 const TabPaneBox = styled<any>(Box)`
   flex: ${(props) => props.$flex};
@@ -35,11 +35,11 @@ export interface TabPaneProps extends TabProps {
 }
 
 export const TabPane = React.forwardRef<HTMLLIElement, TabPaneProps>((props, ref) => {
-  const { title, isSelected, disabled, flex, ...rest } = props;
+  const { title, selected, disabled, flex, ...rest } = props;
 
   const clazz = cx({
     'rex-tab': true,
-    'rex-active': isSelected,
+    'rex-active': selected,
     'rex-disabled': disabled,
   });
 
@@ -62,7 +62,7 @@ export interface TabProps {
   /**
    * 是否选中
    */
-  isSelected?: boolean;
+  selected?: boolean;
   /**
    * 是否禁用
    */
@@ -71,15 +71,15 @@ export interface TabProps {
 }
 
 export function Tab(props: TabProps) {
-  const { value, isSelected: isSelectedProp, children } = props;
+  const { value, selected: selectedProp, children } = props;
   const tabs = useTabsContext();
 
-  let isSelected = isSelectedProp;
+  let selected = selectedProp;
   if (tabs && tabs.value) {
-    isSelected = tabs.value === value;
+    selected = tabs.value === value;
   }
 
-  if (!isSelected) {
+  if (!selected) {
     return null;
   }
 

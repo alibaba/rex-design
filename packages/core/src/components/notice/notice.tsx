@@ -122,7 +122,7 @@ export const Notice: NoticeType = forwardRef<HTMLDivElement, NoticeProps>((props
         <AlertExtra>
           {extra}
           {closeable && (
-            <Button shape="text" size="small" isIconButton onClick={onClose}>
+            <Button shape="text" size="small" iconOnly onClick={onClose}>
               <Icon type="close" />
             </Button>
           )}

@@ -9,34 +9,18 @@ const basicSelectDataSource = ['盒马', '淘宝', '天猫', { value: '飞猪', 
 export function Basic() {
   const [value, onChange] = useState('');
 
-  return (
-    <Select.Single
-      style={{ width: 200 }}
-      value={value}
-      onChange={onChange}
-      hasClear
-      hasArrow
-      dataSource={basicSelectDataSource}
-    />
-  );
+  return <Select.Single value={value} onChange={onChange} hasClear hasArrow dataSource={basicSelectDataSource} />;
 }
 
 export function Minimum() {
-  return (
-    <Select.Single
-      style={{ display: 'inline-flex' }}
-      popupProps={{ style: { width: 120 } }}
-      shape="simple"
-      dataSource={basicSelectDataSource}
-    />
-  );
+  return <Select.Single shape="simple" dataSource={basicSelectDataSource} />;
 }
 
 export function Search() {
   return (
     <Select.Single
-      style={{ width: 200 }}
       showSearch
+      fill
       dataSource={[
         { value: '1', label: 'Option 1' },
         { value: '2', label: 'Option 2', disabled: true },
@@ -59,11 +43,11 @@ export function Search() {
 }
 
 export function BigData() {
-  return <Select.Single style={{ width: 200 }} dataSource={_.range(0, 20000).map((i) => `选项-${i + 1}`)} />;
+  return <Select.Single dataSource={_.range(0, 20000).map((i) => `选项-${i + 1}`)} />;
 }
 
 export function Status() {
-  return <Select status="error" style={{ width: 200 }} dataSource={basicSelectDataSource} />;
+  return <Select status="error" dataSource={basicSelectDataSource} />;
 }
 
 export function Multiple() {
@@ -89,7 +73,6 @@ export function Multiple() {
 export function Disabled() {
   return (
     <Select
-      style={{ width: 300 }}
       hasClear
       hasArrow
       disabled
@@ -113,7 +96,6 @@ export function PlaceWithButtons() {
     <Flex spacing={8}>
       <Button>left</Button>
       <Select
-        style={{ width: 300 }}
         hasArrow
         dataSource={[
           '盒马1',

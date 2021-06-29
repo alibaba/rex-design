@@ -1,6 +1,6 @@
+import { Icon } from '@rexd/icon';
 import React from 'react';
 import styled from 'styled-components';
-import { Icon } from '@rexd/icon';
 import { Box, BoxProps } from '../layout';
 
 const StyledTag = styled(Box)`
@@ -30,14 +30,14 @@ const sizeMap: Record<string, BoxProps> = {
 };
 
 export interface CheckableTagProps extends BoxProps {
-  isSelected?: boolean;
+  selected?: boolean;
   size?: 'small' | 'medium' | 'large';
 }
 
 export const CheckableTag = (props: CheckableTagProps) => {
-  const { isSelected = false, size = 'medium', children, ...others } = props;
+  const { selected = false, size = 'medium', children, ...others } = props;
 
-  const colorStyles: BoxProps = isSelected
+  const colorStyles: BoxProps = selected
     ? {
         borderColor: 'brand.normal',
         color: 'brand.normal',
@@ -48,7 +48,7 @@ export const CheckableTag = (props: CheckableTagProps) => {
       };
 
   const sizeStyles = sizeMap[size];
-  const icon = isSelected ? <Icon type="select-bold" /> : null;
+  const icon = selected ? <Icon type="select-bold" /> : null;
 
   return (
     <StyledTag border="solid" px="xl" borderRadius="s" {...colorStyles} {...sizeStyles} {...others}>

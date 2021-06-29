@@ -52,22 +52,14 @@ export const bigTreeDataSource: TreeSelectItem[] = [
 
 export function Basic() {
   const [value, onChange] = useState('');
-  return (
-    <TreeSelect.Single
-      style={{ width: 300 }}
-      defaultExpandAll
-      onChange={onChange}
-      value={value}
-      dataSource={bigTreeDataSource}
-    />
-  );
+  return <TreeSelect.Single defaultExpandAll onChange={onChange} value={value} dataSource={bigTreeDataSource} />;
 }
 
 export function ShowSearch() {
   const [value, onChange] = useState('');
   return (
     <TreeSelect.Single
-      style={{ width: 300 }}
+      fill
       defaultExpandAll
       showSearch
       onChange={onChange}

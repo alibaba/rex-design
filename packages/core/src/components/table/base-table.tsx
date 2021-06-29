@@ -1,4 +1,3 @@
-import { Icon } from '@rexd/icon';
 import {
   BaseTable as ArtBaseTable,
   BaseTableProps,
@@ -12,7 +11,7 @@ import styled from 'styled-components';
 import { useColorMode, useDevice } from '../../providers';
 import { THEMES } from '../../theme';
 import { Checkbox } from '../checkbox';
-import { rotateAnimation } from '../loading/loading';
+import { Loading } from '../loading';
 import { Tooltip } from '../overlays';
 import { Radio } from '../radio';
 
@@ -42,12 +41,11 @@ function LoadingContentWrapper(props: LoadingContentWrapperProps) {
   );
 }
 
-const LoadingIcon = styled(({ className }: { className?: string }) => <Icon type="loading" className={className} />)`
+const LoadingIcon = styled(Loading.Icon)`
   display: block;
   margin: auto;
   width: 40px;
   height: 40px;
-  animation: ${rotateAnimation};
 `;
 
 const StyledArtBaseTable: any = styled(ArtBaseTable)`

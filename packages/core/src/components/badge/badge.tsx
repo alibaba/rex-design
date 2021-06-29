@@ -1,20 +1,32 @@
-import React from 'react';
 import cx from 'classnames';
+import type CSS from 'csstype';
+import React from 'react';
+import { useTheme } from '../../providers';
 import { rgba } from '../../utils';
 import { Box, BoxProps } from '../layout';
-import { useTheme } from '../../providers';
 
 type BadgeStatusType = 'normal' | 'success' | 'error' | 'warning';
 
-export interface BadgeProps extends BoxProps {
+export interface BadgeProps {
   /**
    * 外观
    */
   shape?: 'pill' | 'dot' | 'badge';
+
   /**
    * 状态
    */
   status?: BadgeStatusType;
+
+  /** 文字颜色 */
+  color?: CSS.Property.Color;
+
+  /** 背景色 */
+  bg?: CSS.Property.Color;
+
+  className?: string;
+  style?: React.CSSProperties;
+  children?: React.ReactNode;
 }
 
 function getColorToken(status: BadgeStatusType) {

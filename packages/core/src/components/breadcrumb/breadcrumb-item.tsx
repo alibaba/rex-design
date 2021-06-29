@@ -1,8 +1,8 @@
-import React from 'react';
 import cx from 'classnames';
+import React from 'react';
 import styled from 'styled-components';
-import { Box } from '../layout';
 import { getToken } from '../../utils';
+import { Box } from '../layout';
 
 const ItemWrapper = styled(Box)`
   display: inline-flex;
@@ -20,18 +20,18 @@ const ItemWrapper = styled(Box)`
   }
 `;
 
-export interface BreadcurmbItemProps {
+export interface BreadcrumbItemProps {
   isLast?: boolean;
   separator?: React.ReactNode;
   className?: string;
   children?: React.ReactNode;
 }
 
-export const BreadcrumbItem = React.forwardRef<HTMLDivElement, BreadcurmbItemProps>((props, ref) => {
+export const BreadcrumbItem = React.forwardRef<HTMLDivElement, BreadcrumbItemProps>((props, ref) => {
   const { separator, className, children, isLast, ...others } = props;
 
   const clazz = cx(
-    'rex-breadcurmb-item',
+    'rex-breadcrumb-item',
     {
       'rex-last': isLast,
     },

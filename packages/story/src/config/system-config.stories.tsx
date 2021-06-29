@@ -154,7 +154,7 @@ const SystemInner = observer(() => {
                 dataSource: operations,
                 selectMode: 'single',
                 buttonProps: {
-                  isIconButton: true,
+                  iconOnly: true,
                 },
               }}
             />

@@ -1,9 +1,9 @@
+import cx from 'classnames';
 import React from 'react';
 import styled from 'styled-components';
-import cx from 'classnames';
-import { space, getToken, mergeProps } from '../../utils';
-import { Loading } from '../loading';
 import { useHover } from '../../hooks/use-hover';
+import { getToken, mergeProps, space } from '../../utils';
+import { Loading } from '../loading';
 
 const buttonSize = (height?: string, px?: string, fontSize?: string, iconSize?: string) => {
   return `
@@ -70,27 +70,23 @@ const StyledButton = styled.button<any>`
   white-space: nowrap;
   vertical-align: middle;
   cursor: pointer;
-  width: ${(props: any) => (props.$isFullWidth ? '100%' : null)};
   border-radius: var(--rex-radii-s);
   border: var(--rex-borders-solid);
-  transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
-
-  /* Disable user-select */
-  -webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none; /* Safari */
-  -khtml-user-select: none; /* Konqueror HTML */
-  -moz-user-select: none; /* Old versions of Firefox */
-  -ms-user-select: none; /* Internet Explorer/Edge */
-  user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+  transition: all 300ms cubic-bezier(0.19, 1, 0.22, 1);
+  user-select: none;
 
   svg {
     vertical-align: middle;
   }
 
-  .rext-btn-children {
+  .rex-btn-children {
     display: flex;
     align-items: center;
     font-weight: 500;
+  }
+
+  &.rex-fill {
+    width: 100%;
   }
 
   &.rex-btn-small {
@@ -128,7 +124,7 @@ const StyledButton = styled.button<any>`
   }
 
   &.rex-btn-loading {
-    .rext-btn-children {
+    .rex-btn-children {
       opacity: 0;
     }
 
@@ -311,15 +307,15 @@ export interface ButtonProps extends Omit<React.ComponentPropsWithRef<'button'>,
   /**
    * 按钮长度是否占满容器
    */
-  isFullWidth?: boolean;
+  fill?: boolean;
   /**
    * 是否为仅包含单个图标的按钮
    */
-  isIconButton?: boolean;
+  iconOnly?: boolean;
   /**
    * 是否选中/激活
    */
-  isSelected?: boolean;
+  selected?: boolean;
   /**
    * 是否载入中
    */
@@ -348,9 +344,9 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>((props, r
     type = 'normal',
     size = 'medium',
     htmlType = 'button',
-    isFullWidth = false,
-    isIconButton = false,
-    isSelected = false,
+    fill = false,
+    iconOnly = false,
+    selected = false,
     loading,
     disabled,
     className,
@@ -362,19 +358,20 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>((props, r
 
   const { hoverProps, isHover } = useHover({ disabled, loading });
 
-  const loadingIcon = loading ? <Loading /> : null;
+  const loadingIcon = loading ? <Loading.Icon className="rex-loading" /> : null;
 
   const clazz = cx(
     {
       'rex-btn': true,
       'rex-btn-loading': loading,
-      'rex-btn-iconOnly': isIconButton,
+      'rex-btn-iconOnly': iconOnly,
       [`rex-btn-${shape}`]: shape,
       [`rex-btn-${type}`]: type,
       [`rex-btn-${size}`]: size,
-      'rex-selected': isSelected,
-      [`rex-disabled`]: disabled,
-      [`rex-hover`]: isHover,
+      'rex-selected': selected,
+      'rex-disabled': disabled,
+      'rex-hover': isHover,
+      'rex-fill': fill,
     },
     className,
   );
@@ -382,15 +379,9 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>((props, r
   const shouldFormatChildren = ['solid', 'warning'].includes(shape) && !leftElement && !rightElement;
 
   return (
-    <StyledButton
-      className={clazz}
-      $isFullWidth={isFullWidth}
-      type={htmlType}
-      ref={ref}
-      {...mergeProps(others, hoverProps)}
-    >
+    <StyledButton className={clazz} type={htmlType} ref={ref} {...mergeProps(others, hoverProps)}>
       {loadingIcon}
-      <span className="rext-btn-children">
+      <span className="rex-btn-children">
         {leftElement && (
           <IconBox as="span" mr={children ? 'm' : 0}>
             {leftElement}

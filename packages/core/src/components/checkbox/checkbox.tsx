@@ -1,11 +1,11 @@
+import { Icon } from '@rexd/icon';
 import cx from 'classnames';
 import React from 'react';
 import styled from 'styled-components';
-import { Icon } from '@rexd/icon';
 import { Dict } from '../../types';
+import { getToken } from '../../utils';
 import { useCheckboxGroupContext } from './context';
 import { useCheckbox, UseCheckboxProps } from './use-checkbox';
-import { getToken } from '../../utils';
 
 const RexCheckbox = styled.label<Dict<any>>`
   display: inline-flex;
@@ -13,7 +13,6 @@ const RexCheckbox = styled.label<Dict<any>>`
   cursor: pointer;
   user-select: none;
   vertical-align: top;
-  height: var(--rex-sizes-formHeights-m);
 
   /* 指示器基础样式 */
   > .rex-checkbox-indicator {

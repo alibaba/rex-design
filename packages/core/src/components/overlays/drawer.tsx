@@ -27,7 +27,7 @@ const DrawerInner = ({ title, footer, content, onRequestClose, canCloseByIcon }:
     {footer && <div className="rex-drawer-footer">{footer}</div>}
 
     {canCloseByIcon && (
-      <Button className="rex-drawer-close" shape="text" size="small" isIconButton onClick={onRequestClose}>
+      <Button className="rex-drawer-close" shape="text" size="small" iconOnly onClick={onRequestClose}>
         <Icon type="close" />
       </Button>
     )}

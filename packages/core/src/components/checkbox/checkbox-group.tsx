@@ -1,10 +1,10 @@
-import React from 'react';
 import cx from 'classnames';
-import { Flex } from '../layout';
+import React from 'react';
+import { useSelectableList, UseSelectableListProps } from '../../hooks';
 import { ListNode } from '../../types';
+import { Flex } from '../layout';
 import { Checkbox } from './checkbox';
 import { CheckboxGroupProvider } from './context';
-import { useSelectableList, UseSelectableListProps } from '../../hooks';
 
 export interface CheckboxGroupProps extends Omit<UseSelectableListProps<string[]>, 'selectMode' | 'component'> {
   /**
@@ -45,7 +45,7 @@ export function CheckboxGroup(props: CheckboxGroupProps) {
 
   return (
     <CheckboxGroupProvider value={group}>
-      <Flex role="checkbox-group" className={clazz} direction={direction} {...rest}>
+      <Flex role="checkbox-group" className={clazz} direction={direction} spacing={4} {...rest}>
         {dataSource.map((item) => (
           <Checkbox key={item.value} value={item.value}>
             {item.label}

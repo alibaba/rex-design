@@ -1,6 +1,6 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
 import cx from 'classnames';
 import { omit } from 'lodash-es';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useControllableState } from '../../hooks';
 import { isNull } from '../../utils';
 import { TabProps } from './tab';
@@ -64,7 +64,7 @@ export interface UseTabsProps {
   /**
    * 对于较小视图，实现满屏等宽效果（仅作用于水平模式）
    */
-  isFullWidth?: boolean;
+  fill?: boolean;
   /**
    * 选项卡方向
    */
@@ -74,7 +74,7 @@ export interface UseTabsProps {
 }
 
 export function useTabs(props: UseTabsProps, tabsRef: React.RefObject<HTMLUListElement>) {
-  const { value: valueProp, defaultValue, onChange, children, isFullWidth, direction = 'row', className } = props;
+  const { value: valueProp, defaultValue, onChange, children, fill, direction = 'row', className } = props;
   const [scrollbarStyle, setScollbarStyle] = useState<any>();
   const activeRef = useRef<HTMLLIElement>();
 
@@ -115,12 +115,12 @@ export function useTabs(props: UseTabsProps, tabsRef: React.RefObject<HTMLUListE
   // reset tab props
   const tabPropsList = useMemo(() => {
     return tabs.map((item) => {
-      const isSelected = item.isSelected || value === item.value;
+      const selected = item.selected || value === item.value;
       return {
         ...item,
-        ref: isSelected ? activeRef : undefined,
-        isSelected,
-        flex: isFullWidth ? '1 0 auto' : '0 0 auto',
+        ref: selected ? activeRef : undefined,
+        selected,
+        flex: fill ? '1 0 auto' : '0 0 auto',
         onClick: () => {
           if (item.value !== value) {
             updateValue(item.value);
@@ -128,7 +128,7 @@ export function useTabs(props: UseTabsProps, tabsRef: React.RefObject<HTMLUListE
         },
       };
     });
-  }, [tabs, isFullWidth, value, updateValue]);
+  }, [tabs, fill, value, updateValue]);
 
   const rootProps = {
     className: cx(

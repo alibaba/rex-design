@@ -1,9 +1,9 @@
 import React, { forwardRef } from 'react';
-import { RadioGroupProvider } from './context';
-import { Flex, FlexProps } from '../layout';
-import { ListNode } from '../../types';
-import { Radio } from './radio';
 import { useId, useSelectableList, UseSelectableListProps } from '../../hooks';
+import { ListNode } from '../../types';
+import { Flex, FlexProps } from '../layout';
+import { RadioGroupProvider } from './context';
+import { Radio } from './radio';
 
 export interface RadioGroupProps extends Omit<UseSelectableListProps<string>, 'selectMode' | 'component'> {
   /**
@@ -48,7 +48,7 @@ export const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>((props, re
 
   return (
     <RadioGroupProvider value={group}>
-      <Flex role="radiogroup" display="inline-flex" wrap="wrap" direction={direction} {...rest}>
+      <Flex role="radiogroup" display="inline-flex" wrap="wrap" spacing={4} direction={direction} {...rest}>
         {dataSource.map(({ label, value, ...rest }) => (
           <Radio key={value} value={value} checked={false} {...rest}>
             {label}

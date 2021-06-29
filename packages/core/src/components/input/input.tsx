@@ -1,10 +1,10 @@
+import { Icon } from '@rexd/icon';
 import React from 'react';
 import styled from 'styled-components';
-import { Icon } from '@rexd/icon';
+import { getToken } from '../../utils';
 import { Box, BoxProps } from '../layout';
 import { InputElement } from './element';
 import { useInput, UseInputProps } from './use-input';
-import { getToken } from '../../utils';
 
 const InputWrapper = styled(Box)`
   display: inline-flex;
@@ -14,9 +14,9 @@ const InputWrapper = styled(Box)`
   color: ${getToken('Input.textColor')};
   background-color: ${getToken('Input.bg')};
   height: var(--rex-sizes-formHeights-m);
-  width: ${(props) => props.width || getToken('Input.width')};
+  width: ${getToken('Input.width')};
   padding-left: var(--rex-space-l);
-  transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
+  transition: box-shadow 300ms cubic-bezier(0.19, 1, 0.22, 1), border-color 300ms cubic-bezier(0.19, 1, 0.22, 1);
 
   input {
     flex: 1;
@@ -28,6 +28,10 @@ const InputWrapper = styled(Box)`
     padding: 0;
     background: transparent;
     color: inherit;
+  }
+
+  &.rex-fill {
+    width: 100%;
   }
 
   &.rex-solid {

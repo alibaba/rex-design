@@ -37,7 +37,7 @@ exports[`ui 1`] = `
   vertical-align: middle;
 }
 
-.c0 .rext-btn-children {
+.c0 .rex-btn-children {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -104,7 +104,7 @@ exports[`ui 1`] = `
   background: transparent;
 }
 
-.c0.rex-btn-loading .rext-btn-children {
+.c0.rex-btn-loading .rex-btn-children {
   opacity: 0;
 }
 
@@ -354,7 +354,7 @@ exports[`ui 1`] = `
   type="button"
 >
   <span
-    class="rext-btn-children"
+    class="rex-btn-children"
   >
     Hello
   </span>

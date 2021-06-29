@@ -1,5 +1,5 @@
+import { Box, Tab, Tabs } from '@rexd/core';
 import React from 'react';
-import { Tabs, Tab, Box } from '@rexd/core';
 
 export default { title: 'Tabs' };
 
@@ -33,9 +33,9 @@ export const Basic = () => {
 /**
  * 对于较小视图，可以实现等宽满屏效果
  */
-export const FullWidth = () => {
+export const Fill = () => {
   return (
-    <Tabs isFullWidth onChange={console.log}>
+    <Tabs fill onChange={console.log}>
       <Tab value="t1" title="例子" />
       <Tab value="t2" title="代码片段" />
       <Tab value="t3" title="组件属性" />

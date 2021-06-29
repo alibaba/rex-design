@@ -1,4 +1,4 @@
-import { Flex, Group, Input, InputAddon, useDevice } from '@rexd/core';
+import { Flex, Group, Input, InputAddon } from '@rexd/core';
 import { Icon } from '@rexd/icon';
 import React, { useState } from 'react';
 
@@ -13,6 +13,10 @@ export function Basic() {
       <Input defaultValue="只读输入框" onChange={console.log} disabled />
     </Flex>
   );
+}
+
+export function Fill() {
+  return <Input fill placeholder="详细配送地址" onChange={console.log} />;
 }
 
 export function Status() {

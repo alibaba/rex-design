@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
 import { Box, Button, Group } from '@rexd/core';
 import { Icon } from '@rexd/icon';
+import React, { useState } from 'react';
 
 export default { title: 'Button' };
 
@@ -92,13 +92,13 @@ export function Size() {
         </Button>
       </Group>
       <Group mt="l">
-        <Button size="small" isIconButton>
+        <Button size="small" iconOnly>
           <Icon type="arrow-left-bold" />
         </Button>
-        <Button size="medium" isIconButton>
+        <Button size="medium" iconOnly>
           <Icon type="arrow-left-bold" />
         </Button>
-        <Button size="large" isIconButton>
+        <Button size="large" iconOnly>
           <Icon type="arrow-left-bold" />
         </Button>
       </Group>
@@ -106,8 +106,8 @@ export function Size() {
   );
 }
 
-export const FullWidth = () => (
-  <Button type="primary" isFullWidth>
+export const Fill = () => (
+  <Button type="primary" fill>
     整行按钮
   </Button>
 );
@@ -131,51 +131,51 @@ export const AddIcon = () => (
 export const OnlyIcon = () => (
   <Group>
     <h3>外观</h3>
-    <Button isIconButton>
+    <Button iconOnly>
       <Icon type="arrow-right-bold" />
     </Button>
-    <Button isIconButton type="secondary">
+    <Button iconOnly type="secondary">
       <Icon type="arrow-right-bold" />
     </Button>
-    <Button isIconButton type="primary">
+    <Button iconOnly type="primary">
       <Icon type="arrow-right-bold" />
     </Button>
-    <Button isIconButton disabled>
+    <Button iconOnly disabled>
       <Icon type="arrow-right-bold" />
     </Button>
     <br />
     <br />
-    <Button isIconButton shape="text">
+    <Button iconOnly shape="text">
       <Icon type="close" />
     </Button>
-    <Button isIconButton shape="text" type="secondary">
+    <Button iconOnly shape="text" type="secondary">
       <Icon type="close" />
     </Button>
-    <Button isIconButton shape="text" type="primary">
+    <Button iconOnly shape="text" type="primary">
       <Icon type="close" />
     </Button>
-    <Button isIconButton shape="text" disabled>
+    <Button iconOnly shape="text" disabled>
       <Icon type="close" />
     </Button>
 
     <h3>尺寸</h3>
-    <Button size="small" isIconButton>
+    <Button size="small" iconOnly>
       <Icon type="calendar" />
     </Button>
-    <Button size="medium" isIconButton>
+    <Button size="medium" iconOnly>
       <Icon type="calendar" />
     </Button>
-    <Button size="large" isIconButton>
+    <Button size="large" iconOnly>
       <Icon type="calendar" />
     </Button>
     <br />
-    <Button shape="text" size="small" isIconButton>
+    <Button shape="text" size="small" iconOnly>
       <Icon type="calendar" />
     </Button>
-    <Button shape="text" size="medium" isIconButton>
+    <Button shape="text" size="medium" iconOnly>
       <Icon type="calendar" />
     </Button>
-    <Button shape="text" size="large" isIconButton>
+    <Button shape="text" size="large" iconOnly>
       <Icon type="calendar" />
     </Button>
   </Group>
@@ -213,10 +213,10 @@ export const ButtonGroup = () => (
 );
 
 export const Toggle = () => {
-  const [isSelected, setIsSelected] = useState(false);
+  const [selected, setSelected] = useState(false);
   return (
-    <Button isSelected={isSelected} onClick={() => setIsSelected(!isSelected)}>
-      {isSelected ? '已订阅' : '订阅'}
+    <Button selected={selected} onClick={() => setSelected(!selected)}>
+      {selected ? '已订阅' : '订阅'}
     </Button>
   );
 };
@@ -224,17 +224,17 @@ export const Toggle = () => {
 export const Toggled = () => {
   return (
     <Group>
-      <Button isSelected>已订阅</Button>
-      <Button isSelected type="primary">
+      <Button selected>已订阅</Button>
+      <Button selected type="primary">
         已订阅
       </Button>
-      <Button isSelected type="secondary">
+      <Button selected type="secondary">
         已订阅
       </Button>
-      <Button isSelected type="primary" shape="warning">
+      <Button selected type="primary" shape="warning">
         已订阅
       </Button>
-      <Button isSelected type="primary" shape="text">
+      <Button selected type="primary" shape="text">
         已订阅
       </Button>
     </Group>

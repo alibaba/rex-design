@@ -1,9 +1,9 @@
+import cx from 'classnames';
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import cx from 'classnames';
-import { Box } from '../layout';
 import { FormControlOnChangeHandler } from '../../types';
 import { getToken, noop } from '../../utils';
+import { Box } from '../layout';
 
 const Wrapper = styled.div`
   position: relative;
@@ -106,12 +106,12 @@ export function TimeMenu(props: TimeMenuProps) {
   } = props;
 
   const menu = useRef<HTMLUListElement>();
-  const selected = useRef<HTMLLIElement>();
+  const selectedRef = useRef<HTMLLIElement>();
   const [isScrollToEnd, setIsScrollToEnd] = useState(false);
 
   useEffect(() => {
     if (shouldScrollToActiveItem) {
-      scrollTo(menu.current, selected.current?.offsetTop, 100);
+      scrollTo(menu.current, selectedRef.current?.offsetTop, 100);
     }
   }, [selectedKey, shouldScrollToActiveItem]);
 
@@ -152,14 +152,12 @@ export function TimeMenu(props: TimeMenuProps) {
       <List ref={menu} $rows={rows} onScroll={handleListScroll}>
         {items.map((item) => {
           const key = getItemKey(item);
-          const isSelected = key === selectedKey;
+          const selected = key === selectedKey;
           return (
             <ListItem
-              ref={isSelected ? selected : undefined}
+              ref={selected ? selectedRef : undefined}
               key={key}
-              className={cx({
-                ['rex-selected']: isSelected,
-              })}
+              className={cx({ 'rex-selected': selected })}
               onClick={(e: any) => onSelect(key, { event: e, data: item })}
               style={itemStyle}
             >

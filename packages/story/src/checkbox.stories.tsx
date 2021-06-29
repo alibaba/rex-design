@@ -1,5 +1,5 @@
+import { Checkbox, CheckboxGroup, Group } from '@rexd/core';
 import React, { useState } from 'react';
-import { Group, CheckboxGroup, Checkbox } from '@rexd/core';
 
 export default { title: 'Checkbox' };
 
@@ -42,7 +42,7 @@ export const GroupDemo = () => {
     <Group>
       <h3>水平</h3>
       <CheckboxGroup dataSource={dataSource} defaultValue={['01']} onChange={console.log} />
-
+      <br />
       <h3>垂直</h3>
       <CheckboxGroup direction="column" dataSource={dataSource} defaultValue={['01']} onChange={console.log} />
     </Group>

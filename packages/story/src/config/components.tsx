@@ -281,24 +281,24 @@ export function ToggleButtonGroup(props: ToggleButtonGroupProps) {
 }
 
 function ToggleButtonItem(props: ButtonProps & { value?: string }) {
-  const { value, isSelected: isSelectedProp, children, ...rest } = props;
+  const { value, selected: selectedProp, children, ...rest } = props;
   const group = useToggleButtonGroup();
 
-  let isSelected = isSelectedProp;
+  let selected = selectedProp;
   if (group?.value !== undefined && value) {
-    isSelected = (group.value || []).includes(value);
+    selected = (group.value || []).includes(value);
   }
 
   let onSelect;
 
   if (group.onSelect && value) {
     onSelect = () => {
-      group.onSelect(value, !isSelected);
+      group.onSelect(value, !selected);
     };
   }
 
   return (
-    <Button isSelected={isSelected} onClick={onSelect} {...rest}>
+    <Button selected={selected} onClick={onSelect} {...rest}>
       {children}
     </Button>
   );
