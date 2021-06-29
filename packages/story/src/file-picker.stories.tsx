@@ -43,7 +43,7 @@ const getRequest = (options: any) =>
   });
 
 export const Basic = () => (
-  <Group spacingY="l">
+  <Group spacingY="l" display="block">
     <FilePicker defaultValue={files} request={getRequest} onChange={console.log} />
 
     <FilePicker defaultValue={files} disabled onChange={console.log} />
@@ -103,7 +103,7 @@ export const Status = () => {
     },
   ];
   return (
-    <Group spacingY="l">
+    <Group spacingY="l" display="block">
       <FilePicker defaultValue={files} onChange={console.log} />
       <MediaPicker defaultValue={files} onChange={console.log} />
     </Group>
