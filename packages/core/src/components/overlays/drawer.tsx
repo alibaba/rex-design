@@ -70,8 +70,6 @@ export interface DrawerProps
 
   /** 是否显示对话框关闭图标 */
   canCloseByIcon?: boolean;
-
-  // TODO canCloseBySlide
 }
 
 function resolveDrawerAnimation(

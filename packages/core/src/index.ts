@@ -26,7 +26,7 @@ export * from './components/tabs';
 export * from './components/loading';
 export * from './components/number-input';
 export * from './components/overlays';
-export * from './components/select'; // todo 添加 props.width
+export * from './components/select';
 export * from './components/switch';
 export * from './components/table';
 export * from './components/radio';
@@ -41,4 +41,4 @@ export * from './components/pagination';
 export * from './components/steps';
 export * from './components/tabs';
 export * from './components/tag-filter';
-export * from './components/virtual-list'; // todo 不需要导出
+export * from './components/virtual-list';

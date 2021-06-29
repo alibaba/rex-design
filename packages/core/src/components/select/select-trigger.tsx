@@ -196,7 +196,7 @@ export interface SelectTriggerProps extends ISelectAppearanceProps {
     nextValue: string[],
     detail: {
       event: React.MouseEvent;
-      reason?: any; // TODO 规范一下 reason
+      reason?: any; // TODO 规范 reason
     },
   ): void;
   disabled?: boolean;

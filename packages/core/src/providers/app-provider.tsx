@@ -6,7 +6,6 @@ import { getTokenValue } from '../utils';
 import { ConfigProvider } from './config-provider';
 import { CssVariables, Normalize } from './global-styles';
 
-// TODO device 相关的变量可以移动到 devices/ 目录下
 export type DeviceName = 'phone' | 'tablet' | 'desktop';
 
 export interface Device {

@@ -82,7 +82,6 @@ export function FullscreenDialog(props: FullscreenDialogProps) {
       // 强制指定的 props
       placement="bottom"
       renderChildren={(arg) => {
-        // TODO 需要重新再确认一下样式
         return (
           <Drawer.Panel {...arg}>
             <div className="rex-fullscreen-dialog-title">{title}</div>

@@ -1,7 +1,6 @@
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const ModuleDependencyWarning = require('webpack/lib/ModuleDependencyWarning');
 
-// TODO webpack5 中有对应的配置
 class IgnoreNotFoundExportPlugin {
   apply(compiler) {
     const messageRegExp = /export '.*'( \(reexported as '.*'\))? was not found in/;

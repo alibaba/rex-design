@@ -25,8 +25,6 @@ function syncInset(
 
   return combineLatest([events$, input$]).pipe(
     op.map(([_event, { offset, placement }]) => {
-      // todo 支持 '20%' 这样的百分比作为 offset
-
       const instruction: InsetUpdateInstruction = {
         position: domUtils.isWindow(container) ? 'fixed' : 'absolute',
       };
@@ -37,8 +35,6 @@ function syncInset(
       const yy = (selfRect.bottom - selfRect.top) / 2 - (targetRect.bottom - targetRect.top) / 2;
       const xx2 = xx * 2;
       const yy2 = yy * 2;
-
-      // TODO adaptive...  根据 placement 选择性地返回 top/right/bottom/left 中的其中两个
 
       if (placement === 'center') {
         instruction.left = xx + offset[0];

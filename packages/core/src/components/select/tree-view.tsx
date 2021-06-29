@@ -50,7 +50,7 @@ const TreeItemDiv = styled.div.withConfig({ componentId: 'rex-tree-item' })`
   .rex-tree-item-checkbox {
     height: auto;
     margin-left: 4px;
-    // TODO 需要优化一下 checkbox 内部的样式
+    // TODO 需要优化一下 checkbox 的样式
     margin-right: -16px;
   }
 

@@ -5,7 +5,6 @@ export const DOCUMENT_BODY = 'DOCUMENT_BODY' as const;
 
 export interface OverlayBehaviorContextType {
   portalContainer: HTMLElement | typeof DOCUMENT_BODY;
-  // todo 将一些其他的浮层相关配置放到该 context 中，例如 topContainer/toastContainer/animateDuration
 }
 
 export const OverlayBehaviorContext = React.createContext<OverlayBehaviorContextType>({

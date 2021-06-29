@@ -29,7 +29,6 @@ export function ConfigProvider(props: any) {
   return <Provider value={value ? controlledContext : context}>{children}</Provider>;
 }
 
-// TODO rename to useComponentConfig?
 export function useConfig<T>(name: string, props: T) {
   const config = useDeviceConfig();
   const value = config[name] || {};

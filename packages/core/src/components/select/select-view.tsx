@@ -94,7 +94,7 @@ export interface SelectViewProps extends ISelectAppearanceProps, ISelectSearchPr
     nextValue: string[],
     detail: {
       event: React.MouseEvent;
-      reason?: any; // TODO 规范一下 reason
+      reason?: any; // TODO 规范 reason
     },
   ): void;
   disabled?: boolean;

@@ -69,9 +69,6 @@ function accumulateScrollOffset(
  * 注意该方法会考虑滚动所带来的影响
  */
 function getRelativeLayoutRect(base: HTMLElement | Window, target: HTMLElement | Window): Readonly<SideObject> {
-  // todo 目前处理 offsetParent 和 scrollParent 上有一点不同，需要统一一下?
-  //  好像已经统一了，再 review 一下看看
-
   if (isWindow(target) || getNodeName(target) === 'html') {
     return {
       left: 0,
@@ -183,12 +180,9 @@ function getScrollParent(elem: HTMLElement): HTMLElement | Window {
   return getScrollParent(getParentNode(elem) as HTMLElement);
 }
 
-// todo 需要提升一下 getRichVisibleRectsStream 的可调试性（debug-ability）， 因为这段代码可能总是需要被调试 =。=
-
 // 获取 target 相对于「它的滚动父元素」的可见部分的大小与位置
 function getRichVisibleRectsStream(target: HTMLElement) {
   // todo 需要考虑 scrollParent/commonOffsetAncestor 动态发生变化的情况
-  //   可以让上层传一个 structureMayChange$ 进来，或者是在内部 以一定的延迟进行轮询？
 
   // target 的第一个滚动父元素，我们认为这就是虚拟滚动发生的地方
   // 即虚拟滚动不考虑「更上层元素发生滚动」的情况

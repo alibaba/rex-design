@@ -16,7 +16,7 @@ import { BaseTable, Column, REX_TABLE_PIPELINE_CTX } from './base-table';
 import { ColumnFilterDrawer } from './column-filter-drawer';
 import { columnCollapse, ColumnCollapseFeatureOptions } from './feature-columnCollapse';
 import { parseColumns } from './parseColumns';
-import * as tableHacks from './table-hacks';
+import * as tableUtils from './table-utils';
 
 const ProTableWrapperDiv = styled.div`
   > .rex-toolbar {
@@ -29,7 +29,7 @@ const ProTableWrapperDiv = styled.div`
 `;
 
 const featDict = {
-  sort: tableHacks.sortCompatibleWithDataIndex,
+  sort: tableUtils.sortCompatibleWithDataIndex,
   singleSelect: features.singleSelect,
   multiSelect: features.multiSelect,
   treeMode: features.treeMode,
@@ -47,7 +47,7 @@ const featDict = {
 const featureNames = Object.keys(featDict) as (keyof typeof featDict)[];
 
 export interface ProTableFeatureProps {
-  sort?: boolean | tableHacks.SortCompatibleWithDataIndexFeatureOptions;
+  sort?: boolean | tableUtils.SortCompatibleWithDataIndexFeatureOptions;
   singleSelect?: boolean | features.SingleSelectFeatureOptions;
   multiSelect?: boolean | features.MultiSelectFeatureOptions;
   treeMode?: boolean | features.TreeModeFeatureOptions;
@@ -106,7 +106,7 @@ interface ColumnFilterOptions {
   /** 设置为 true 后，columnFilter 将不对表格产生影响（表格会根据 props.columns 来决定渲染哪些列） */
   keepTableColumns?: boolean;
 
-  // todo visible 自定义列 drawer 是否打开暂时只支持非受控用法
+  // 自定义列 drawer 是否打开目前只支持非受控用法，后续有需求再进行拓展
 }
 
 export interface ProTableProps extends BaseTableProps, ProTableFeatureProps {
@@ -163,7 +163,6 @@ export class ProTable extends React.Component<ProTableProps, ProTableState> {
       },
       pipelineState: {},
       pagination: {
-        // todo
         current: props.pagination?.defaultCurrent ?? 1,
         pageSize: props.pagination?.pageSize ?? 10,
       },
@@ -246,7 +245,6 @@ export class ProTable extends React.Component<ProTableProps, ProTableState> {
         key: 'columnFilter',
         label: '自定义列',
         icon: 'setting',
-        // todo 使用以前的 onClick???
         onSelect: () => this._setColumnFilterDrawerVisibility(true),
       });
 
@@ -347,8 +345,8 @@ export class ProTable extends React.Component<ProTableProps, ProTableState> {
     }
 
     // 兼容 dataIndex
-    pipeline.mapColumns(tableHacks.compatWithDataIndex);
-    pipeline.mapColumns(tableHacks.compatWithColumnCell);
+    pipeline.mapColumns(tableUtils.compatWithDataIndex);
+    pipeline.mapColumns(tableUtils.compatWithColumnCell);
 
     if (columnFilter != null) {
       pipeline.snapshot(BEFORE_COLUMN_FILTER);

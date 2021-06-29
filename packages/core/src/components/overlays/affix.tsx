@@ -18,7 +18,7 @@ export interface AffixProps {
   offsetBottom?: number;
 
   /** 是否启用 JS 进行定位 */
-  useJS?: boolean; // todo escapeFromParent ??
+  useJS?: boolean;
 
   children?: React.ReactNode;
   style?: React.CSSProperties;

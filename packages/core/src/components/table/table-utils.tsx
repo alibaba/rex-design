@@ -1,6 +1,5 @@
 import { features, makeRecursiveMapper, SortItem as StandardSortItem, SortOrder } from 'ali-react-table';
 import React from 'react';
-import { Tooltip } from '../overlays';
 import { Column } from './base-table';
 
 function warnFactory(fn: Function) {
@@ -90,7 +89,6 @@ export function sortCompatibleWithDataIndex(opts: SortCompatibleWithDataIndexFea
   }
 
   return features.sort({
-    // SortHeaderCell: HippoSortHeaderCell,
     ...opts,
     defaultSorts: defaultSorts as StandardSortItem[],
     sorts: sorts as StandardSortItem[],

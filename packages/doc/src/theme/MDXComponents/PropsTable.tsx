@@ -109,9 +109,6 @@ function PlainPropsTable({ props }: { props: PlainProp[] }) {
 
 /**
  * 展示一个组件的 props 表格
- *
- * TODO 展示指定分组的 API
- * TODO 隐藏指定的 API
  * */
 export default function PropsTable({ component, props }: { component?: any; props?: PlainProp[] }) {
   if (Array.isArray(props)) {

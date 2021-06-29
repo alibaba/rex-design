@@ -19,12 +19,7 @@ export interface MenuItem {
   active?: boolean;
   selected?: boolean;
   icon?: React.ReactNode;
-
   onClick?(event: React.MouseEvent<HTMLDivElement>): void;
-
-  // todo props?: React.HTMLAttributes<HTMLDivElement>;
-  //  先暂时不允许 props 透传，等后面有需求的时候再加上就好
-
   children?: MenuItem[];
 }
 

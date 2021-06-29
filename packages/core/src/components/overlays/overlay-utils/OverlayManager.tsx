@@ -1,6 +1,8 @@
 import { Overlay } from '../overlay';
 import { batchedUpdates } from './batchUpdate';
 
+// todo 需要重新对 overlay-manager 进行设计
+
 /**
  管理一个 portalContainer 上的多个 overlay 实例
  - 支持容器内按下`Escape`来关闭最近打开的浮层
@@ -30,7 +32,6 @@ export class OverlayManager {
 
   // 添加一个打开的浮层
   add(overlay: Overlay) {
-    // TODO 为啥要加个 requestAnimationFrame 来着？
     requestAnimationFrame(() => {
       this.stack.push(overlay);
       this.portalContainer.dataset.rexOverlayCount = String(this.stack.length);

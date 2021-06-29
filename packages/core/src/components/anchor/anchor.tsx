@@ -67,7 +67,7 @@ export const Anchor: AnchorType = ({ children, useJS, offsetTop = 12, style, cla
 
     const affixTarget = affixRef.current.targetRef.current;
     const scrollContainer = domUtils.getScrollParent(affixTarget.parentElement);
-    // todo 考虑 affixTarget / scrollContainer 动态发生变化的情况？
+    // todo 后续可能需要考虑 affixTarget / scrollContainer 动态发生变化的情况？
 
     const subscription = merge('init', domUtils.fromPassiveScrollEvent(scrollContainer)).subscribe(() => {
       const parentTop = domUtils.getBoundingClientRect(scrollContainer).top;

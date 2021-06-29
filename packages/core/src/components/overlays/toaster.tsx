@@ -146,9 +146,12 @@ function useToaster(toasterProps: ToasterProps = {}) {
       closeAll() {
         ref.current.closeAll();
       },
-      // TODO 暂时先不开放 clear api
-      // clear(key: string) { ref.current.clear(key); },
-      // clearAll() { ref.current.clearAll(); },
+      clear(key: string) {
+        ref.current.clear(key);
+      },
+      clearAll() {
+        ref.current.clearAll();
+      },
     },
     contextHolder,
   ] as const;
@@ -188,9 +191,12 @@ function makeStaticToasterQuickTools() {
       ensureMounted();
       ref.current.closeAll();
     },
-    // TODO 暂时先不开放 clear api
-    // clear(key: string) { ref.current.clear(key); },
-    // clearAll() { ref.current.clearAll(); },
+    clear(key: string) {
+      ref.current.clear(key);
+    },
+    clearAll() {
+      ref.current.clearAll();
+    },
   };
 }
 

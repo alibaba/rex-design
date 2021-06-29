@@ -20,7 +20,7 @@ export default create({
   textColor: 'black',
   textInverseColor: 'rgba(255,255,255,0.9)',
 
-  brandTitle: 'Hippo Design',
+  brandTitle: 'ReX Design',
   brandUrl: 'https://alibaba.github.io/rex-design/',
   brandImage: 'https://img.alicdn.com/tfs/TB1_GefJhz1gK0jSZSgXXavwpXa-133-16.svg',
 });

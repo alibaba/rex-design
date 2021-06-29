@@ -82,7 +82,6 @@ export function FullscreenPopup(props: FullscreenPopupProps) {
         hasBackdrop={hasBackdrop}
         {...overlayLifecycles}
         renderChildren={renderChildren}
-        // TODO 检查 props 透传是否有遗漏……
       />
     </>
   );
