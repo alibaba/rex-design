@@ -57,7 +57,7 @@ module.exports = {
             'input',
             'number-input',
             'radio',
-            // 'range', // TODO: 暂不导出，功能不完善
+            'range',
             'switch',
             'textarea',
             'search',

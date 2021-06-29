@@ -1,6 +1,6 @@
 ---
 id: range
-title: Range 区间
+title: Range 区段选择
 ---
 
 import { Range } from '@rexd/core';
@@ -10,15 +10,19 @@ import * as stories from 'story/src/range.stories';
 
 滑块控件可以让我们通过在连续或间断的区间内滑动锚点来选择一个合适的数值。
 
+注意事项：
+
+- onChange 是和 value 进行配置做受控处理的。onChange 在滑动过程中不会触发，滑动停止后会触发。
+
 ## 示例
 
 ### 基本示例
 
 <Story fn={stories.Basic} />
 
-### 标签
+### 禁用状态
 
-<Story fn={stories.HasLabels} />
+<Story fn={stories.Disabled} />
 
 ## API
 

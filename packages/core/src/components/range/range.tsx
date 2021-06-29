@@ -1,161 +1,209 @@
-import React from 'react';
+import cx from 'classnames';
+import _ from 'lodash-es';
+import React, { useRef, useState } from 'react';
+import { fromEvent } from 'rxjs';
+import * as op from 'rxjs/operators';
 import styled from 'styled-components';
-import { useRange, UseRangeProps } from './use-range';
+import { composeHandlers, composeState } from '../../utils';
+import { Tooltip } from '../overlays';
+import { batchedUpdates } from '../overlays/overlay-utils/batchUpdate';
+import { domUtils } from '../virtual-list/dom-utils';
 
-interface ViewProps extends React.HTMLAttributes<HTMLDivElement> {
-  onTap?: React.MouseEventHandler<HTMLDivElement>;
+export interface RangeProps {
+  className?: string;
+  style?: React.CSSProperties;
+
+  /** 最小值 */
+  min?: number;
+  /** 最大值 */
+  max?: number;
+  /** 步长，取值必须大于 0，并且可被 (max - min) 整除 */
+  step?: number;
+
+  /** 受控用法，当前值 */
+  value?: number;
+  /** 非受控用法，默认值 */
+  defaultValue?: number;
+  /** 受控用法，当前值改变的回调，注意只有当鼠标松开的时候该函数才会被调用 */
+  onChange?: (value: number) => void;
+
+  /** 是否禁用 */
+  disabled?: boolean;
+
+  /** 是否显示 tip */
+  hasTip?: boolean;
+
+  // todo marks
+  //  marksPosition: 'above' | 'below'
+  // todo onProcess
+  // todo tipRender
+  // todo reverse
+  // tooltipVisible
+  // handle?: 'single' | 'double'; // todo 添加 Range.Multi 组件
 }
 
-/** @deprecated */
-export const View = React.forwardRef<HTMLDivElement, ViewProps>((props, ref) => {
-  const { onTap, onClick, ...rest } = props;
-
-  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    typeof onClick === 'function' && onClick(e);
-    typeof onTap === 'function' && onTap(e);
-  };
-
-  return <div onClick={handleClick} {...rest} ref={ref} />;
-});
-
-export interface OneInputProps extends React.HTMLAttributes<HTMLInputElement> {
-  type?: string;
-  password?: boolean;
-  onInput?: React.ChangeEventHandler<HTMLInputElement>;
-  onKeyPress?: React.KeyboardEventHandler<HTMLInputElement>;
-  onConfirm?: React.KeyboardEventHandler<HTMLInputElement>;
-}
-
-/** @deprecated */
-export const OneInput = React.forwardRef<HTMLInputElement, OneInputProps>((props, ref) => {
-  const {
-    password,
-    type,
-    onInput,
-    onChange, // ignore
-    onKeyPress,
-    onConfirm,
-    ...rest
-  } = props;
-
-  const inputType = password ? 'password' : type;
-
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && typeof onConfirm === 'function') {
-      onConfirm(e);
-    }
-
-    if (typeof onKeyPress === 'function') {
-      onKeyPress(e);
-    }
-  };
-
-  return <input type={inputType} onKeyPress={handleKeyPress} onChange={onInput} ref={ref} {...rest} />;
-});
-
-const RangeWrapper = styled(View)`
-  display: flex;
-  align-items: center;
+const RangeDiv = styled.div`
+  height: 12px;
   position: relative;
-`;
+  user-select: none;
 
-const LeftText = styled(View)`
-  color: var(--rex-colors-text-body);
-  font-size: var(--rex-fontSizes-note);
-  margin-right: var(--rex-space-m);
-`;
+  .rex-range-track {
+    cursor: pointer;
+    position: absolute;
+    left: 0;
+    right: 0;
+    background: var(--rex-colors-emphasis-10);
+    height: 6px;
+    // top = 50% 减去自身高度的一半 calc(50% - 3px);
+    top: 3px;
+    border-radius: 8px;
+    overflow: hidden;
+  }
 
-const RightText = styled(View)`
-  color: var(--rex-colors-text-body);
-  font-size: var(--rex-fontSizes-note);
-  margin-left: var(--rex-space-m);
-`;
+  .rex-range-track-highlight {
+    background: var(--rex-colors-primary-50);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    // left 和 right 会通过 style 进行设置
+  }
 
-const RangeBox = styled(View)`
-  flex: 1;
-  position: relative;
-  height: 32px;
-`;
+  .rex-range-handle {
+    position: absolute;
+    // left=0 为默认值，组件渲染时会通过 style.left 覆盖该值
+    left: 0;
+    top: 50%;
+  }
 
-const RangeTrack = styled(View)`
-  position: absolute;
-  top: 50%;
-  z-index: 1;
-  transform: translateY(-50%);
-  width: 100%;
-  background-color: var(--rex-colors-fill-layer1);
-  height: 6px;
-  border-radius: var(--rex-radii-m);
-  overflow: hidden;
-`;
-
-const RangeTrackFilled = styled(View)`
-  height: 100%;
-  background-color: var(--rex-colors-brand-normal);
-`;
-
-const RangeTooltip = styled(View)`
-  position: absolute;
-  z-index: 2;
-  background-color: #000;
-  color: #fff;
-  border-radius: var(--rex-radii-s);
-  padding: 0 var(--rex-space-m);
-  font-size: var(--rex-fontSizes-body);
-  width: 32px;
-  text-align: center;
-`;
-
-const RangeSlider = styled(OneInput)`
-  position: absolute;
-  width: 100%;
-  appearance: none;
-  outline: none;
-  padding: 8px 0;
-  background-color: transparent;
-
-  &::-webkit-slider-thumb {
-    position: relative;
-    z-index: 2;
-    appearance: none;
-    width: 16px;
-    height: 16px;
-    background: #fff;
-    box-shadow: var(--rex-shadows-s);
-    border: 2px solid var(--rex-colors-line-border);
+  .rex-range-handle-inner {
+    position: absolute;
+    cursor: pointer;
+    background: var(--rex-colors-emphasis-0);
+    border: 3px solid var(--rex-colors-primary-50);
     border-radius: 50%;
+
+    height: 16px;
+    width: 16px;
+    transform: translate(-50%, -50%) scale(1);
+    transition: 200ms transform;
+  }
+
+  &:not(.rex-disabled) {
+    .rex-range-handle-inner:hover {
+      transform: translate(-50%, -50%) scale(1.2);
+    }
+    .rex-range-handle-moving .rex-range-handle-inner {
+      border-width: 2px;
+    }
+  }
+
+  &.rex-disabled {
+    .rex-range-track,
+    .rex-range-handle-inner {
+      cursor: not-allowed;
+    }
+
+    .rex-range-track-highlight {
+      background: var(--rex-colors-emphasis-30);
+    }
+
+    .rex-range-handle-inner {
+      border-color: var(--rex-colors-emphasis-40);
+    }
   }
 `;
 
-export interface RangeProps extends UseRangeProps {
-  hasValue?: boolean; // TODO: 是否显示当前值的提示气泡
-  hasLabels?: boolean; // 是否显示头尾标签
-  hasTicks?: boolean; // TODO: 是否显示刻度
-}
+export function Range({
+  min = 0,
+  max = 100,
+  step = 1,
+  defaultValue = 0,
+  value: valueProp,
+  onChange: onChangeProp,
+  style,
+  className,
+  disabled,
+  hasTip = true,
+}: RangeProps) {
+  const [_value, _onChange] = useState(defaultValue);
+  const value = composeState(valueProp, _value);
+  const onChange = composeHandlers(onChangeProp, _onChange);
 
-export function Range(props: RangeProps) {
-  const { min, max, hasLabels } = props;
-  const { state, getInputProps, getFilledTrackProps, getTooltipProps } = useRange(props);
-  const inputProps = getInputProps();
-  const filledTrackProps = getFilledTrackProps();
-  const tooltipProps = getTooltipProps();
+  const [dragState, setDragState] = useState({ moving: false, tempValue: value });
+  const [visible, setVisible] = useState(false);
+
+  const tempValueRef = useRef(dragState.tempValue);
+
+  const trackRef = useRef<HTMLDivElement>(null);
+
+  const startDrag = (event: React.MouseEvent<HTMLDivElement>) => {
+    const trackDiv = trackRef.current;
+
+    const getRatio = (x: number) => {
+      const rect = domUtils.getRelativeLayoutRect(window, trackDiv);
+      const ration = (x - rect.left) / (rect.right - rect.left);
+      return _.clamp(ration, 0, 1);
+    };
+
+    fromEvent<MouseEvent>(window, 'mousemove')
+      .pipe(
+        op.takeUntil(fromEvent(window, 'mouseup')),
+        op.map((move) => ({ type: 'move', x: move.clientX })),
+        op.startWith({ type: 'start', x: event.clientX }),
+        op.endWith({ type: 'end', x: -1 }),
+      )
+      .subscribe((action) => {
+        batchedUpdates(() => {
+          if (action.type === 'move' || action.type === 'start') {
+            const nextValue = getRatio(action.x) * (max - min) + min;
+            const tempValue = Math.round((nextValue - min) / step) * step + min;
+            setDragState((prev) => {
+              if (prev.tempValue == tempValue) {
+                return prev;
+              }
+              return { moving: true, tempValue: tempValue };
+            });
+            tempValueRef.current = tempValue;
+          } else {
+            setDragState({ moving: false, tempValue: -1 });
+            onChange(tempValueRef.current);
+          }
+        });
+      });
+  };
+
+  const movingValue = dragState.moving ? dragState.tempValue : value;
+  const ratio = (movingValue - min) / (max - min);
 
   return (
-    <RangeWrapper>
-      {hasLabels && <LeftText>{min}</LeftText>}
-      <RangeBox>
-        <RangeTrack>
-          <RangeTrackFilled {...filledTrackProps} />
-        </RangeTrack>
-        <RangeSlider {...inputProps} />
-      </RangeBox>
-      {/* <RangeTooltip {...tooltipProps}>{state.value}</RangeTooltip> */}
-      {hasLabels && <RightText>{max}</RightText>}
-    </RangeWrapper>
+    <RangeDiv className={cx('rex-range', { 'rex-disabled': disabled }, className)} style={style}>
+      <div className="rex-range-track" ref={trackRef} onMouseDown={disabled ? null : startDrag}>
+        <div className="rex-range-track-highlight" style={{ left: 0, right: `${(1 - ratio) * 100}%` }} />
+      </div>
+
+      <div
+        className={cx('rex-range-handle', {
+          'rex-range-handle-moving': dragState.moving,
+        })}
+        style={{ left: `${ratio * 100}%` }}
+      >
+        <Tooltip
+          visible={hasTip && (dragState.moving || visible)}
+          onRequestOpen={() => setVisible(true)}
+          onRequestClose={() => setVisible(false)}
+          title={<div style={{ minWidth: 16, textAlign: 'center' }}>{movingValue}</div>}
+          usePortal={false}
+          attachOverlayManager={false}
+          renderTarget={(arg) => (
+            <div
+              className="rex-range-handle-inner"
+              // todo tabIndex={0} 键盘操作
+              onMouseDown={disabled ? null : startDrag}
+              {...arg}
+            />
+          )}
+        />
+      </div>
+    </RangeDiv>
   );
 }
-
-Range.defaultProps = {
-  min: 0,
-  max: 100,
-};

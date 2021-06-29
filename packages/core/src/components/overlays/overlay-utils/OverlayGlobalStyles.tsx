@@ -79,7 +79,7 @@ const drawerPlacementsMixin = css`
     left: auto;
     width: 400px;
     max-width: 80%;
-    box-shadow: var(--rex-shadows-lowleft);
+    box-shadow: var(--rex-shadows-lowLeft);
   }
 
   &[data-placement='left'] {

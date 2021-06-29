@@ -18,7 +18,15 @@ const animation = {
 export interface TooltipProps
   extends Pick<
       PopupProps,
-      'interactionKind' | 'flip' | 'placement' | 'renderTarget' | 'visible' | 'onRequestOpen' | 'onRequestClose'
+      | 'interactionKind'
+      | 'flip'
+      | 'placement'
+      | 'renderTarget'
+      | 'visible'
+      | 'onRequestOpen'
+      | 'onRequestClose'
+      | 'usePortal'
+      | 'attachOverlayManager'
     >,
     IOverlayLifecycles {
   /** 提示内容 */

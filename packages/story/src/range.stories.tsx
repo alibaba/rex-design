@@ -1,12 +1,20 @@
-import { Range } from '@rexd/core/src/components/range';
+import { Range } from '@rexd/core';
 import React from 'react';
 
 export default { title: 'Range' };
 
 export function Basic() {
-  return <Range defaultValue={20} onChange={console.log} />;
+  return (
+    <Range
+      style={{ margin: 40 }}
+      defaultValue={20}
+      onChange={(nextValue) => {
+        console.log('range onChange:', nextValue);
+      }}
+    />
+  );
 }
 
-export function HasLabels() {
-  return <Range defaultValue={20} hasLabels onChange={console.log} />;
+export function Disabled() {
+  return <Range style={{ margin: 40 }} value={30} disabled />;
 }

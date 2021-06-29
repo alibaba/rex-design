@@ -12,11 +12,10 @@ module.exports = {
 
   themeConfig: {
     announcementBar: {
-      // id: 'alpha.0',
       isCloseable: false,
       backgroundColor: '#fffae6',
       textColor: '#5c3b0d',
-      content: 'ReX Design alpha 版本迭代中，敬请期待。',
+      content: 'ReX Design beta 版本迭代中。',
     },
     colorMode: {
       defaultMode: 'light',
