@@ -62,6 +62,22 @@ const filename = stream.filename || stream.name;
 const ret = await ctx.service.file.uploadStream(stream, filename);
 ```
 
+服务端要求返回的数据格式为
+
+```json
+{
+  "success": true,
+  "data": {
+    "url": "foo.bar", // 文件地址（必选）
+    "downloadUrl": "foo.bar", // 文件下载地址（可选）
+    "previewUrl": "foo.bar" // 文件的预览图（可选）
+  },
+  "message": ""
+}
+```
+
+你也可以自行在请求库中后端返回的 response 数据进行转换为组件需求的格式。
+
 ## 示例
 
 ### 基本示例

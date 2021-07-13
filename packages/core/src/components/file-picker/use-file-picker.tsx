@@ -76,14 +76,18 @@ function getUpload(request: RequestType) {
 
     return {
       ...data,
-      ...ret,
-    };
+      status: 'success',
+      url: ret.url,
+      downloadUrl: ret?.downloadUrl || ret.url,
+      previewUrl: ret?.previewUrl || ret.url,
+    } as RexFile;
   };
 }
 
 interface RequestReturn {
   url: string;
-  message: string;
+  downloadUrl?: string;
+  previewUrl?: string;
   [key: string]: string;
 }
 
@@ -107,6 +111,10 @@ export interface UseFilePickerProps {
    * 文件上传成功后的回调
    */
   onChange?: FormControlOnChangeHandler<RexFile[]>;
+  /**
+   * 删除文件后的回调
+   */
+  onRemove?: FormControlOnChangeHandler<RexFile>;
   /**
    * 自定义请求方法
    */
@@ -134,6 +142,7 @@ export function useFilePicker(props: UseFilePickerProps) {
     value: valueProp,
     defaultValue = [],
     onChange,
+    onRemove,
     request = defaultEmptyRequest,
     multiple,
     accept,
@@ -195,6 +204,9 @@ export function useFilePicker(props: UseFilePickerProps) {
       disabled,
       items: displayValue || [],
       onRemove: (id: StringOrNumber) => {
+        const removed = value.find((item) => item.id === id);
+        onRemove(removed);
+
         const filtered = value.filter((item) => item.id !== id);
         updateDisplayValue(filtered);
         updateValue(filtered);

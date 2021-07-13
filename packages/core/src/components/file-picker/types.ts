@@ -36,9 +36,21 @@ export interface RexFile {
    */
   url?: string;
   /**
+   * 下载地址（可选）
+   */
+  downloadUrl?: string;
+  /**
+   * 预览图片地址（可选）
+   */
+  previewUrl?: string;
+  /**
    * 文件上传状态
    */
   status?: FileStatusType;
+  /**
+   * 上传进度
+   */
+  percent?: number;
 }
 
 export interface FileListProps {

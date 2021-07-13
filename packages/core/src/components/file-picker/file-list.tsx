@@ -6,6 +6,7 @@ import { noop, rgba } from '../../utils';
 import { Button } from '../button';
 import { Box, Text } from '../layout';
 import { Link } from '../link';
+import { Progress } from '../progress';
 import { FileListItemProps, FileListProps, FileStatusType } from './types';
 
 const ListWrapper = styled.ul`
@@ -45,29 +46,29 @@ function FileListItem(props: FileListItemProps) {
   const bg = ['error', 'success'].includes(file.status) ? rgba(getValue(bgToken), 0.1) : bgToken;
 
   return (
-    <Box
-      as="li"
-      bg={bg}
-      px="m"
-      py="s"
-      fontSize="body"
-      display="flex"
-      justifyContent="space-between"
-      alignItems="center"
-    >
-      <Box>
-        <Link href={file.url} target="_blank">
-          {file.name}
-        </Link>
-        {file.error && (
-          <Text color="error.normal">
-            ({file.error.name}：{file.error.message})
-          </Text>
-        )}
+    <Box as="li" bg={bg} px="m" py="s" fontSize="body">
+      <Box fontSize="body" display="flex" justifyContent="space-between" alignItems="center">
+        <Box>
+          <Link href={file.downloadUrl || file.url} target="_blank">
+            {file.name}
+          </Link>
+          {file.error && (
+            <Text color="error.normal">
+              ({file.error.name}：{file.error.message})
+            </Text>
+          )}
+        </Box>
+        <Button
+          shape="text"
+          size="small"
+          iconOnly
+          onClick={() => onRemove(file.id, { data: file })}
+          disabled={disabled}
+        >
+          <Icon type="close" />
+        </Button>
       </Box>
-      <Button shape="text" size="small" iconOnly onClick={() => onRemove(file.id, { data: file })} disabled={disabled}>
-        <Icon type="close" />
-      </Button>
+      {file.percent && <Progress value={file.percent} lineWidth="4px" renderLabel={() => null} />}
     </Box>
   );
 }

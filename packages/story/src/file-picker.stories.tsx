@@ -1,27 +1,29 @@
 import React from 'react';
 import axios from 'axios';
-import { Group, FilePicker, MediaPicker } from '@rexd/core';
+import { Group, FilePicker, FilePickerProps, MediaPicker } from '@rexd/core';
 
 export default { title: 'FilePicker', component: FilePicker };
 
 const files = [
   {
     id: '01',
-    name: 'IMG.png',
+    name: 'IMG1.png',
     url: 'https://img.alicdn.com/tps/TB19O79MVXXXXcZXVXXXXXXXXXX-1024-1024.jpg',
+    downloadUrl: 'https://img.alicdn.com/tps/TB19O79MVXXXXcZXVXXXXXXXXXX-1024-1024.jpg',
+    previewUrl: 'https://img.alicdn.com/tps/TB19O79MVXXXXcZXVXXXXXXXXXX-1024-1024.jpg',
   },
   {
     id: '02',
-    name: 'test.png',
+    name: 'IMG2.png',
     url: 'https://img.alicdn.com/tps/TB19O79MVXXXXcZXVXXXXXXXXXX-1024-1024.jpg',
+    percent: 20,
   },
-
   {
     id: '03',
-    name: 'test.png',
+    name: 'IMG3.png',
     url: 'https://img.alicdn.com/tfs/TB1gjPyp9slXu8jSZFuXXXg7FXa-750-272.png',
   },
-];
+] as FilePickerProps['value'];
 
 const getRequest = (options: any) =>
   axios({
@@ -42,20 +44,26 @@ const getRequest = (options: any) =>
     return ret.data;
   });
 
+const props = {
+  defaultValue: files,
+  request: getRequest,
+  onChange: (...args) => console.log('change:', ...args),
+  onRemove: (...args) => console.log('remove:', ...args),
+} as FilePickerProps;
+
 export const Basic = () => (
   <Group spacingY="l" display="block">
-    <FilePicker defaultValue={files} request={getRequest} onChange={console.log} />
-
-    <FilePicker defaultValue={files} disabled onChange={console.log} />
+    <FilePicker {...props} />
+    <FilePicker {...props} disabled />
   </Group>
 );
 
 export const Media = () => {
   return (
     <Group spacingY="l">
-      <MediaPicker defaultValue={files} request={getRequest} onChange={console.log} />
+      <MediaPicker {...props} />
 
-      <MediaPicker defaultValue={files} request={getRequest} onChange={console.log} disabled />
+      <MediaPicker {...props} disabled />
     </Group>
   );
 };
