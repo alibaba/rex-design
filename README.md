@@ -73,6 +73,12 @@ git commit -m feat(DatePicker): add onChange
 4. 合并修改 `git rebase master`
 5. 发起 MR
 
+## 社区分享
+
+- 2020.12, D2 前端技术大会[《盒马中后台跨端方案探索》](https://mp.weixin.qq.com/s/-1PpjJyKiA63SifRbr5swg)
+- 2021.06, ReX Design 跨端组件测试版发布 [《盒马跨端设计系统 ReX Design For OS》](https://mp.weixin.qq.com/s/aRGiDMAqWMiCWqy0s5be7A) 
+- 2021.07, ReX Design 设计理念分享 [《ReX Design for OS 面向多因子的跨端设计系统》](https://mp.weixin.qq.com/s/Nt3s7NdaH_8rc6JbJpX3_w)
+
 ## 致谢
 
 感谢下述开源项目，部分功能实现参考了这些项目中的代码实现。
