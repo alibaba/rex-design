@@ -148,6 +148,23 @@ export function sizes(token: StringOrNumber, scale: SystemScaleType = 'sizes') {
 }
 
 /**
+ * lineHeights token to css variables
+ * @param token
+ * @returns
+ */
+export function lineHeights(token: StringOrNumber) {
+  if (typeof token === 'number') {
+    return token;
+  }
+
+  if (typeof token === 'string' && SIZE_UNIT_VALUE.test(token)) {
+    return token;
+  }
+
+  return tokenVar(token, 'lineHeights');
+}
+
+/**
  * space token to css variables
  * @param token
  */
