@@ -131,19 +131,19 @@ const SystemInner = observer(() => {
               max: 85,
             }}
           />
-          <Form.ItemGroup label="分辨率" inline controlWidth={148}>
+          <Form.ItemGroup label="分辨率" inline controlWidth={240}>
             <FormItem
               component="input"
               label={null}
               name="width"
-              componentProps={{ placeholder: '宽度', rightElement: <Box fontSize="body">px</Box>, width: 148 }}
+              componentProps={{ placeholder: '宽度', rightElement: <Box fontSize="body">px</Box> }}
               style={{ marginRight: 12 }}
             />
             <FormItem
               component="input"
               label={null}
               name="height"
-              componentProps={{ placeholder: '宽度', rightElement: <Box fontSize="body">px</Box>, width: 148 }}
+              componentProps={{ placeholder: '宽度', rightElement: <Box fontSize="body">px</Box> }}
             />
           </Form.ItemGroup>
           <FormItemView label="主要操作方式">
