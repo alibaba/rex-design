@@ -33,6 +33,7 @@ module.exports = {
       items: [
         { to: 'docs', activeBasePath: 'docs', label: '组件', position: 'left' },
         { to: 'design', activeBasePath: 'design', label: '设计', position: 'left' },
+        { to: 'templates', activeBasePath: 'templates', label: '样板间', position: 'left' },
         {
           href: 'https://github.com/alibaba/rex-design',
           position: 'right',
