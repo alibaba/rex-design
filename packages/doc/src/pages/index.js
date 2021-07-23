@@ -220,6 +220,9 @@ export default function Home() {
               <Link className={styles.linkItem} to={useBaseUrl('design')}>
                 设计
               </Link>
+              <Link className={styles.linkItem} to={useBaseUrl('templates')}>
+                样板间
+              </Link>
             </div>
           </div>
         </div>

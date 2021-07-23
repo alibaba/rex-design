@@ -1,6 +1,15 @@
 import React, { useState, useRef } from 'react';
-import { PageHeader, Box, BaseTable, ActionList, LegacyToolbar, Search } from '@rexd/core';
-// import { SearchForm, FormItem } from '@rexd/form';
+import {
+  PageHeader,
+  Box,
+  BaseTable,
+  ActionList,
+  LegacyToolbar,
+  Search,
+  SearchFormLayout,
+  FormControl,
+  Input,
+} from '@rexd/core';
 import { listData } from './dataset';
 import { Panel } from './panel';
 
@@ -83,22 +92,26 @@ export function SearchList() {
       <PageHeader title="B2C库存信息检索" />
       <Box p="xl">
         <Panel p={0}>
-          {/*<SearchForm onSubmit={onSearch} isCollapsible>*/}
-          {/*  <FormItem label="仓名称" name="warehouseName" component="input" />*/}
-          {/*  <FormItem label="部门" name="deptName" component="input" />*/}
-          {/*  <FormItem label="商品编码" name="skuCode" component="input" />*/}
-          {/*  <FormItem label="商品名称" name="skuName" component="input" />*/}
-          {/*  <FormItem*/}
-          {/*    label="库存类型"*/}
-          {/*    name="inventoryType"*/}
-          {/*    component="select"*/}
-          {/*    dataSource={[*/}
-          {/*      { label: '在库', value: 'in' },*/}
-          {/*      { label: '不在库', value: 'unin' },*/}
-          {/*    ]}*/}
-          {/*  />*/}
-          {/*  <FormItem label="日期" name="date" component="datePicker" />*/}
-          {/*</SearchForm>*/}
+          <SearchFormLayout onSubmit={onSearch} isCollapsible>
+            <FormControl label="订单号" required labelTips="请输入 16 位订单编码">
+              <Input placeholder="请输入" />
+            </FormControl>
+            <FormControl label="仓库" required>
+              <Input placeholder="请输入" />
+            </FormControl>
+            <FormControl label="商家" required>
+              <Input placeholder="请输入" />
+            </FormControl>
+            <FormControl label="门店" required>
+              <Input placeholder="请输入" />
+            </FormControl>
+            <FormControl label="创建人" required>
+              <Input placeholder="请输入" />
+            </FormControl>
+            <FormControl label="更新人" required>
+              <Input placeholder="请选择" />
+            </FormControl>
+          </SearchFormLayout>
         </Panel>
         <Panel mt="l">
           <LegacyToolbar actions={actions} mb="m" />

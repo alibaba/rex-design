@@ -81,7 +81,7 @@ export function ApproveTicket() {
     <Box>
       <PageHeader
         title="景庄发起的阿里巴巴经济体开源管理流程"
-        description="发起人：景庄（阿里集团-盒马事业群-产品技术部-门店数智化&AIoT产品技术-服务体验技术）"
+        description="发起人：景庄（阿里集团-盒马事业群-产品技术部-服务体验技术）"
       >
         <Description items={detailItems} />
       </PageHeader>
