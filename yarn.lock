@@ -4618,7 +4618,7 @@
 
 "@types/react@*", "@types/react@16.9.56", "@types/react@^16", "@types/react@^16.9.49", "@types/react@^16.9.56":
   version "16.9.56"
-  resolved "https://registry.nlark.com/@types/react/download/@types/react-16.9.56.tgz?cache=0&sync_timestamp=1623247499569&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Freact%2Fdownload%2F%40types%2Freact-16.9.56.tgz#ea25847b53c5bec064933095fc366b1462e2adf0"
+  resolved "https://registry.nlark.com/@types/react/download/@types/react-16.9.56.tgz?cache=0&sync_timestamp=1627124654713&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Freact%2Fdownload%2F%40types%2Freact-16.9.56.tgz#ea25847b53c5bec064933095fc366b1462e2adf0"
   integrity sha1-6iWEe1PFvsBkkzCV/DZrFGLirfA=
   dependencies:
     "@types/prop-types" "*"

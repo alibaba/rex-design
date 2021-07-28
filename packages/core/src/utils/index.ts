@@ -5,3 +5,5 @@ export * from './number';
 export * from './object';
 export * from './react-helpers';
 export * from './responsive';
+export * from './raf';
+export * from './dom';
