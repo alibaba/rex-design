@@ -39,7 +39,7 @@ export interface RangeProps {
   marks?: MarkType;
   marksPosition?: 'above' | 'below';
   // todo onProcess
-  // todo tipRender
+  tipRender?: (value: number) => React.ReactNode;
   // todo reverse
   // tooltipVisible
   // handle?: 'single' | 'double'; // todo 添加 Range.Multi 组件
@@ -202,6 +202,7 @@ export function Range({
   onChange: onChangeProp,
   marks,
   marksPosition = 'above',
+  tipRender,
   style,
   className,
   disabled,
@@ -358,7 +359,13 @@ export function Range({
             visible={hasTip && (dragState.moving || visible)}
             onRequestOpen={() => setVisible(true)}
             onRequestClose={() => setVisible(false)}
-            title={<div style={{ minWidth: 16, textAlign: 'center' }}>{movingValue}</div>}
+            title={
+              tipRender ? (
+                tipRender(movingValue)
+              ) : (
+                <Box style={{ minWidth: 16, textAlign: 'center' }}>{movingValue}</Box>
+              )
+            }
             usePortal={false}
             attachOverlayManager={false}
             renderTarget={(arg) => (
