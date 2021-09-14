@@ -84,11 +84,7 @@ export function ColSpan() {
  */
 export function Complex() {
   return (
-    <Grid
-      height="200px"
-      templateRows="repeat(2, 1fr)"
-      templateColumns="repeat(5, 1fr)"
-      gap="4px">
+    <Grid height="200px" templateRows="repeat(2, 1fr)" templateColumns="repeat(5, 1fr)" gap="4px">
       <GridItem rowSpan={2} colSpan={1} bg="black" />
       <GridItem colSpan={2} bg="orange" />
       <GridItem colSpan={2} bg="orange" />

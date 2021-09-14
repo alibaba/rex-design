@@ -42,3 +42,4 @@ export * from './components/steps';
 export * from './components/tabs';
 export * from './components/tag-filter';
 export * from './components/virtual-list';
+export * from './components/rating';
