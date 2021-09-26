@@ -24,7 +24,7 @@ const LoadingDiv = styled.div`
     top: calc(50% - 24px);
   }
 
-  &.rex-median .rex-loading-icon {
+  &.rex-medium .rex-loading-icon {
     width: 32px;
     height: 32px;
     left: calc(50% - 16px);
@@ -55,7 +55,7 @@ export interface LoadingProps extends React.HTMLAttributes<HTMLDivElement> {
   visible?: boolean;
 
   /** 动画尺寸，可选值为 'large' 或 'medium'	 */
-  size?: 'large' | 'median';
+  size?: 'large' | 'medium';
 
   children?: React.ReactNode;
 }
@@ -74,7 +74,7 @@ export const Loading: LoadingType = React.forwardRef<HTMLDivElement, LoadingProp
       className={cx(
         'rex-loading',
         {
-          'rex-median': size === 'median',
+          'rex-medium': size === 'medium',
           'rex-large': size === 'large',
         },
         className,

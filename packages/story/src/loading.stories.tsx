@@ -54,7 +54,7 @@ export function Controlled() {
         尺寸：
         <RadioGroup
           dataSource={[
-            { value: 'median', label: '中尺寸' },
+            { value: 'mediun', label: '中尺寸' },
             { value: 'large', label: '大尺寸' },
           ]}
           value={size}
