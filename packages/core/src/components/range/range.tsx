@@ -1,6 +1,6 @@
 import cx from 'classnames';
 import _ from 'lodash-es';
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { fromEvent } from 'rxjs';
 import * as op from 'rxjs/operators';
 import styled from 'styled-components';
@@ -8,7 +8,7 @@ import { composeHandlers, composeState } from '../../utils';
 import { Tooltip } from '../overlays';
 import { batchedUpdates } from '../overlays/overlay-utils/batchUpdate';
 import { domUtils } from '../virtual-list/dom-utils';
-import { Flex } from '../layout';
+import { Box, Flex } from '../layout';
 
 type MarkType = Record<number, any> | number[] | number;
 
@@ -39,7 +39,7 @@ export interface RangeProps {
   marks?: MarkType;
   marksPosition?: 'above' | 'below';
   // todo onProcess
-  // todo tipRender
+  tipRender?: (value: number) => React.ReactNode;
   // todo reverse
   // tooltipVisible
   // handle?: 'single' | 'double'; // todo 添加 Range.Multi 组件
@@ -98,6 +98,12 @@ const RangeMarks = styled.div`
         top: 0;
         bottom: auto;
       }
+    }
+  }
+
+  &.rex-disabled {
+    .rex-range-mark-text {
+      cursor: not-allowed;
     }
   }
 `;
@@ -196,6 +202,7 @@ export function Range({
   onChange: onChangeProp,
   marks,
   marksPosition = 'above',
+  tipRender,
   style,
   className,
   disabled,
@@ -247,41 +254,70 @@ export function Range({
       });
   };
 
-  const normalizeMarks = (marks: MarkType) => {
-    let result;
+  const normalizeMarks = useCallback(
+    (marks: MarkType) => {
+      let result;
 
-    if (typeof marks === 'number') {
-      result = _.range(0, 101, marks).map((percent) => ({
-        label: percent,
-        value: percent,
-      }));
-    } else if (Array.isArray(marks)) {
-      result = marks.filter(percentChecker).map((percent) => ({
-        label: percent,
-        value: percent,
-      }));
-    } else {
-      result = Object.keys(marks)
-        .map((x) => Number(x))
-        .filter(percentChecker)
-        .map((percent) => ({
-          label: marks[percent],
+      if (typeof marks === 'number') {
+        result = _.range(min, max + 1e-5, marks).map((percent) => ({
+          label: percent,
           value: percent,
         }));
-    }
+      } else if (Array.isArray(marks)) {
+        result = marks.filter(percentChecker).map((percent) => ({
+          label: percent,
+          value: percent,
+        }));
+      } else {
+        result = Object.keys(marks)
+          .map((x) => Number(x))
+          .filter(percentChecker)
+          .map((percent) => ({
+            label: marks[percent],
+            value: percent,
+          }));
+      }
 
-    return result;
-  };
+      return result;
+    },
+    [max, min],
+  );
 
   const normalizedMarks = useMemo(() => {
     if (marks) {
       return normalizeMarks(marks);
     }
     return null;
-  }, [marks]);
+  }, [marks, normalizeMarks]);
 
   const movingValue = dragState.moving ? dragState.tempValue : value;
   const ratio = (movingValue - min) / (max - min);
+
+  const marksWrapperRef = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    if (!window || !marksWrapperRef?.current) {
+      return;
+    }
+
+    /**
+     * 修复由于元素宽度不为正偶数而导致 :after 标记偏移的问题
+     */
+    (marksWrapperRef.current.childNodes as NodeListOf<HTMLButtonElement>).forEach((node) => {
+      const currentWidth = window.getComputedStyle(node).width;
+
+      if (!currentWidth.endsWith('px')) {
+        return;
+      }
+
+      let parsed = parseInt(currentWidth.replace('px', ''));
+      if (parsed % 2 !== 0) {
+        parsed = parsed + 1;
+      }
+
+      node.style.width = `${parsed}px`;
+    });
+  }, [marksWrapperRef]);
 
   return (
     <Flex direction={marksPosition === 'below' ? 'column-reverse' : 'column'} style={style}>
@@ -289,10 +325,13 @@ export function Range({
         <RangeMarks
           className={cx('rex-range-marks', {
             'rex-range-marks-below': marksPosition === 'below',
+            'rex-disabled': disabled,
           })}
+          ref={marksWrapperRef}
         >
           {normalizedMarks.map(({ label, value: percent }) => (
             <button
+              disabled={disabled}
               className={cx('rex-range-mark-text', {
                 active: value >= percent,
               })}
@@ -306,11 +345,11 @@ export function Range({
         </RangeMarks>
       )}
       <RangeDiv className={cx('rex-range', { 'rex-disabled': disabled }, className)}>
-        <div className="rex-range-track" ref={trackRef} onMouseDown={disabled ? null : startDrag}>
-          <div className="rex-range-track-highlight" style={{ left: 0, right: `${(1 - ratio) * 100}%` }} />
-        </div>
+        <Box className="rex-range-track" ref={trackRef} onMouseDown={disabled ? null : startDrag}>
+          <Box className="rex-range-track-highlight" style={{ left: 0, right: `${(1 - ratio) * 100}%` }} />
+        </Box>
 
-        <div
+        <Box
           className={cx('rex-range-handle', {
             'rex-range-handle-moving': dragState.moving,
           })}
@@ -320,11 +359,17 @@ export function Range({
             visible={hasTip && (dragState.moving || visible)}
             onRequestOpen={() => setVisible(true)}
             onRequestClose={() => setVisible(false)}
-            title={<div style={{ minWidth: 16, textAlign: 'center' }}>{movingValue}</div>}
+            title={
+              tipRender ? (
+                tipRender(movingValue)
+              ) : (
+                <Box style={{ minWidth: 16, textAlign: 'center' }}>{movingValue}</Box>
+              )
+            }
             usePortal={false}
             attachOverlayManager={false}
             renderTarget={(arg) => (
-              <div
+              <Box
                 className="rex-range-handle-inner"
                 // todo tabIndex={0} 键盘操作
                 onMouseDown={disabled ? null : startDrag}
@@ -332,7 +377,7 @@ export function Range({
               />
             )}
           />
-        </div>
+        </Box>
       </RangeDiv>
     </Flex>
   );
