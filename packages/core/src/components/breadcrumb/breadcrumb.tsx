@@ -8,7 +8,7 @@ const BreadcrumbSeparator = (props: any) => (
   </Box>
 );
 
-export interface BreadcurmbProps {
+export interface BreadcrumbProps {
   /**
    * 分隔线
    */
@@ -26,7 +26,7 @@ const Wrapper = styled(Box)`
 
 const noop = () => {};
 
-export const Breadcrumb = React.forwardRef<HTMLDivElement, BreadcurmbProps>((props, ref) => {
+export const Breadcrumb = React.forwardRef<HTMLDivElement, BreadcrumbProps>((props, ref) => {
   const { separator = <BreadcrumbSeparator />, onItemClick = noop, children, ...others } = props;
   const total = React.Children.count(children);
 
