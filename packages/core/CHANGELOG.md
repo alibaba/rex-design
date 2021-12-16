@@ -3,6 +3,33 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.5.0](https://github.com/alibaba/rex-design/compare/@rexd/core@0.4.0...@rexd/core@0.5.0) (2021-12-16)
+
+
+### Bug Fixes
+
+* **Breadcrumb:** `BreadcurmbProps` renamed ([feeb858](https://github.com/alibaba/rex-design/commit/feeb858be8f7f7d6f851081217fa4cc6e239fd66))
+* **FilePicker:** enhance file type and file list ([9e5a2ac](https://github.com/alibaba/rex-design/commit/9e5a2ace4535d6dd86a120bb17e35788e062a09e))
+* **Loading:** fix value of `size` ([4310bed](https://github.com/alibaba/rex-design/commit/4310bedad8ba083ca2dc067f23533f55584889ff))
+* **Range:** fix Marks ([474fb8d](https://github.com/alibaba/rex-design/commit/474fb8d2fb42396dfe4c3eea947a380687a60cbc))
+* **System:** fix parse tokens for lineHeights ([65aa1a0](https://github.com/alibaba/rex-design/commit/65aa1a05b2be1cd4872626ff6c43874ab72a7657))
+
+
+### Features
+
+* **Collapse:** collapse component and useCollapse Hook ([d75685a](https://github.com/alibaba/rex-design/commit/d75685a14a0b09d9a5150e8115d7638265f21cfc))
+* **Range:** support marks ([eb45b19](https://github.com/alibaba/rex-design/commit/eb45b19e3cde7d4d6ae9a12b237f61dac1d1ed1b))
+* **Range:** tipRender ([f7248c1](https://github.com/alibaba/rex-design/commit/f7248c15b6d6960c196b2ff51a5d0b7b2699abf3))
+
+
+### BREAKING CHANGES
+
+* **Breadcrumb:** `BreadcurmbProps` is now be renamed `BreadcrumbProps`
+
+
+
+
+
 # [0.4.0](https://github.com/alibaba/rex-design/compare/@rexd/core@0.3.0-alpha.6...@rexd/core@0.4.0) (2021-06-30)
 
 
