@@ -50,7 +50,14 @@ export function BigData() {
 }
 
 export function Status() {
-  return <Select status="error" dataSource={basicSelectDataSource} />;
+  return (
+    <Flex style={{ gap: 12 }}>
+      <Select status="normal" dataSource={basicSelectDataSource} />
+      <Select status="error" dataSource={basicSelectDataSource} />
+      <Select status="warning" dataSource={basicSelectDataSource} />
+      <Select status="success" dataSource={basicSelectDataSource} />
+    </Flex>
+  );
 }
 
 export function Multiple() {
