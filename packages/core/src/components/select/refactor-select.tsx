@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from 'react';
+import React, { ForwardedRef, ReactElement, useState } from 'react';
 import { composeHandlers, composeState } from '../../utils';
 import { SelectView } from './select-view';
 import {
@@ -28,11 +28,13 @@ export interface SelectProps<ValueType, IsMulti extends boolean>
 }
 
 type RefactoredSelect = <ValueType = unknown, IsMulti extends boolean = false>(
-  props: SelectProps<ValueType, IsMulti>,
+  props: SelectProps<ValueType, IsMulti> & {
+    ref?: ForwardedRef<HTMLDivElement>;
+  },
 ) => ReactElement;
 
 export const RefactoredSelect = React.forwardRef(
-  <ValueType, IsMulti extends boolean>(props: SelectProps<ValueType, IsMulti>, ref) => {
+  <ValueType, IsMulti extends boolean>(props: SelectProps<ValueType, IsMulti>, ref: ForwardedRef<HTMLDivElement>) => {
     const {
       dataSource: dataSourceProp,
       value: valueProp,

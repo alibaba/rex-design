@@ -1,5 +1,5 @@
 import cx from 'classnames';
-import React, { useRef } from 'react';
+import React, { ForwardedRef, useRef } from 'react';
 import styled from 'styled-components';
 import { pick } from '../../utils';
 import { Input } from '../input';
@@ -111,13 +111,16 @@ export interface SelectViewProps<ValueType, IsMulti extends boolean>
 
 type SelectView = <ValueType, IsMulti extends boolean>(
   props: SelectViewProps<ValueType, IsMulti> & {
-    ref?: any;
+    ref?: ForwardedRef<HTMLDivElement>;
   },
 ) => React.ReactElement;
 
 // 选择器视图组件，完全受控组件
 export const SelectView = React.forwardRef(
-  <ValueType, IsMulti extends boolean>(props: SelectViewProps<ValueType, IsMulti>, ref: any) => {
+  <ValueType, IsMulti extends boolean>(
+    props: SelectViewProps<ValueType, IsMulti>,
+    ref: ForwardedRef<HTMLDivElement>,
+  ) => {
     const {
       dataSource,
       value,

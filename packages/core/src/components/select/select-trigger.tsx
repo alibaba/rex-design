@@ -1,6 +1,6 @@
 import { Icon } from '@rexd/icon';
 import cx from 'classnames';
-import React, { RefAttributes } from 'react';
+import React, { ForwardedRef } from 'react';
 import styled from 'styled-components';
 import { getToken, useMemoizedMergeRefs } from '../../utils';
 import { PopupTargetRenderArgs } from '../overlays';
@@ -213,11 +213,16 @@ export interface SelectTriggerProps<ValueType, IsMulti extends boolean> extends 
 }
 
 type SelectTrigger = <ValueType, IsMulti extends boolean>(
-  props: SelectTriggerProps<ValueType, IsMulti> & RefAttributes<HTMLDivElement>,
+  props: SelectTriggerProps<ValueType, IsMulti> & {
+    ref?: ForwardedRef<HTMLDivElement>;
+  },
 ) => React.ReactElement;
 
 export const SelectTrigger = React.forwardRef(
-  <ValueType, IsMulti extends boolean>(props: SelectTriggerProps<ValueType, IsMulti>, ref: any) => {
+  <ValueType, IsMulti extends boolean>(
+    props: SelectTriggerProps<ValueType, IsMulti>,
+    ref?: ForwardedRef<HTMLDivElement>,
+  ) => {
     const {
       popupTargetRenderArg,
       visible,

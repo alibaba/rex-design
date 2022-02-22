@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import _ from 'lodash-es';
-import { Button, Flex, RefactoredSelect, Select } from '@rexd/core';
+import { Button, Flex, RefactoredSelect as Select } from '@rexd/core';
 
 export default { title: 'Select / Select' };
-
-const basicSelectDataSource = ['盒马', '淘宝', '天猫', { value: '飞猪', label: '飞猪', disabled: true }];
 
 const standardDataSource = [
   { label: '盒马', value: 'hema' },
@@ -16,20 +14,20 @@ const standardDataSource = [
 export function Basic() {
   const [value, onChange] = useState('');
 
-  return <Select.Single value={value} onChange={onChange} hasClear hasArrow dataSource={basicSelectDataSource} />;
+  return <Select value={value} onChange={onChange} hasClear hasArrow dataSource={standardDataSource} />;
 }
 
 export function Fill() {
-  return <Select.Single fill dataSource={basicSelectDataSource} />;
+  return <Select fill dataSource={standardDataSource} />;
 }
 
 export function Minimum() {
-  return <Select.Single shape="simple" dataSource={basicSelectDataSource} />;
+  return <Select shape="simple" dataSource={standardDataSource} />;
 }
 
 export function Search() {
   return (
-    <Select.Single
+    <Select
       showSearch
       dataSource={[
         { value: '1', label: 'Option 1' },
@@ -53,109 +51,41 @@ export function Search() {
 }
 
 export function BigData() {
-  return <Select.Single dataSource={_.range(0, 20000).map((i) => `选项-${i + 1}`)} />;
+  return (
+    <Select
+      dataSource={_.range(0, 20000).map((i) => ({
+        label: `选项-${i + 1}`,
+        value: i + 1,
+      }))}
+    />
+  );
 }
 
 export function Status() {
   return (
     <Flex style={{ gap: 12 }}>
-      <Select status="normal" dataSource={basicSelectDataSource} />
-      <Select status="error" dataSource={basicSelectDataSource} />
-      <Select status="warning" dataSource={basicSelectDataSource} />
-      <Select status="success" dataSource={basicSelectDataSource} />
+      <Select status="normal" dataSource={standardDataSource} />
+      <Select status="error" dataSource={standardDataSource} />
+      <Select status="warning" dataSource={standardDataSource} />
+      <Select status="success" dataSource={standardDataSource} />
     </Flex>
   );
 }
 
 export function Multiple() {
-  return (
-    <Select.Multi
-      style={{ width: 300 }}
-      hasClear
-      hasArrow
-      dataSource={[
-        '盒马1',
-        '淘宝1',
-        '天猫1',
-        { value: '飞猪1', label: '飞猪1', disabled: true },
-        '盒马2',
-        '淘宝2',
-        '天猫2',
-        { value: '飞猪2', label: '飞猪2', disabled: true },
-      ]}
-    />
-  );
+  return <Select multiple style={{ width: 300 }} hasClear hasArrow dataSource={standardDataSource} />;
 }
 
 export function Disabled() {
-  return (
-    <Select
-      hasClear
-      hasArrow
-      disabled
-      value="淘宝2"
-      dataSource={[
-        '盒马1',
-        '淘宝1',
-        '天猫1',
-        { value: '飞猪1', label: '飞猪1', disabled: true },
-        '盒马2',
-        '淘宝2',
-        '天猫2',
-        { value: '飞猪2', label: '飞猪2', disabled: true },
-      ]}
-    />
-  );
+  return <Select hasClear hasArrow disabled value="淘宝2" dataSource={standardDataSource} />;
 }
 
 export function PlaceWithButtons() {
   return (
     <Flex spacing={8}>
       <Button>left</Button>
-      <Select
-        hasArrow
-        dataSource={[
-          '盒马1',
-          '淘宝1',
-          '天猫1',
-          { value: '飞猪1', label: '飞猪1', disabled: true },
-          '盒马2',
-          '淘宝2',
-          '天猫2',
-          { value: '飞猪2', label: '飞猪2', disabled: true },
-        ]}
-      />
+      <Select hasArrow dataSource={standardDataSource} />
       <Button>right</Button>
     </Flex>
-  );
-}
-
-export function Refactor() {
-  return (
-    <div>
-      <div>
-        <div>单选</div>
-        <RefactoredSelect
-          onChange={(value, detail) => {
-            console.log('single value', value, detail);
-          }}
-          dataSource={standardDataSource}
-        />
-      </div>
-
-      <br />
-      <br />
-
-      <div>
-        <div>多选</div>
-        <RefactoredSelect
-          multiple
-          onChange={(value, detail) => {
-            console.log('multiple value', value, detail);
-          }}
-          dataSource={standardDataSource}
-        />
-      </div>
-    </div>
   );
 }
