@@ -1,10 +1,17 @@
-import { Button, Flex, Select } from '@rexd/core';
-import _ from 'lodash-es';
 import React, { useState } from 'react';
+import _ from 'lodash-es';
+import { Button, Flex, RefactoredSelect, Select } from '@rexd/core';
 
 export default { title: 'Select / Select' };
 
 const basicSelectDataSource = ['盒马', '淘宝', '天猫', { value: '飞猪', label: '飞猪', disabled: true }];
+
+const standardDataSource = [
+  { label: '盒马', value: 'hema' },
+  { label: '飞猪', value: 'feizhu' },
+  { label: '天猫', value: 'tianmao' },
+  { label: '淘宝', value: 'taobao', disabled: true },
+];
 
 export function Basic() {
   const [value, onChange] = useState('');
@@ -120,5 +127,35 @@ export function PlaceWithButtons() {
       />
       <Button>right</Button>
     </Flex>
+  );
+}
+
+export function Refactor() {
+  return (
+    <div>
+      <div>
+        <div>单选</div>
+        <RefactoredSelect
+          onChange={(value, detail) => {
+            console.log('single value', value, detail);
+          }}
+          dataSource={standardDataSource}
+        />
+      </div>
+
+      <br />
+      <br />
+
+      <div>
+        <div>多选</div>
+        <RefactoredSelect
+          multiple
+          onChange={(value, detail) => {
+            console.log('multiple value', value, detail);
+          }}
+          dataSource={standardDataSource}
+        />
+      </div>
+    </div>
   );
 }

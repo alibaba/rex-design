@@ -1,6 +1,25 @@
 import React from 'react';
 import { PopupProps } from '../overlays';
 
+// ===================== Types ===================== //
+
+export type SingleValue<ValueType> = ValueType | null;
+export type MultiValue<ValueType> = readonly ValueType[];
+
+export type PropsValue<ValueType> = MultiValue<ValueType> | SingleValue<ValueType>;
+
+export type OnChangeValue<ValueType, IsMulti extends boolean> = IsMulti extends true
+  ? MultiValue<ValueType>
+  : SingleValue<ValueType>;
+
+// ===================== Interfaces ===================== //
+
+export interface BaseSelectRef {
+  focus: () => void;
+  blur: () => void;
+  scrollTo: any;
+}
+
 export interface TreeSelectItem {
   value: string;
   label?: React.ReactNode;
@@ -17,8 +36,8 @@ export interface TreeSelectItem {
 
 export type CascaderSelectItem = TreeSelectItem;
 
-export interface SelectItem {
-  value: string;
+export interface SelectItem<ValueType> {
+  value: ValueType;
   label?: React.ReactNode;
 
   /** 是否禁用交互 */
@@ -76,6 +95,12 @@ export interface ISelectAppearanceProps {
    * @category 外观
    * */
   hasClear?: boolean;
+
+  /**
+   * 是否处于加载态
+   * @category 外观
+   */
+  loading?: boolean;
 }
 
 export const selectAppearancePropKeys: (keyof ISelectAppearanceProps)[] = [
@@ -89,6 +114,7 @@ export const selectAppearancePropKeys: (keyof ISelectAppearanceProps)[] = [
   'shape',
   'hasArrow',
   'hasClear',
+  'loading',
 ];
 
 export interface ISelectSearchProps {
@@ -123,6 +149,10 @@ export interface ISelectSearchProps {
    * @category 搜索
    * */
   notFoundContent?: React.ReactNode;
+}
+
+export interface ISelectAsyncProps {
+  loadDataSource: (searchValue: string) => Promise<any[]>;
 }
 
 export interface ISelectPopupProps {

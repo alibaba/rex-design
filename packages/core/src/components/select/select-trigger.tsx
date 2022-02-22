@@ -1,12 +1,13 @@
 import { Icon } from '@rexd/icon';
 import cx from 'classnames';
-import React from 'react';
+import React, { RefAttributes } from 'react';
 import styled from 'styled-components';
 import { getToken, useMemoizedMergeRefs } from '../../utils';
 import { PopupTargetRenderArgs } from '../overlays';
 import { CaretDownIcon, ClearIcon } from './icons';
-import { ISelectAppearanceProps, SelectItem } from './types';
+import { ISelectAppearanceProps, MultiValue, SelectItem } from './types';
 import { toggleValue } from './utils/select-utils';
+import { LoadingIndicator } from './components/indicators';
 
 const ValueTagDiv = styled.div.withConfig({ componentId: 'rex-select-value-tag' })`
   display: inline-flex;
@@ -28,20 +29,22 @@ const ValueTagDiv = styled.div.withConfig({ componentId: 'rex-select-value-tag' 
     display: flex;
     align-items: center;
     cursor: pointer;
+
     &:hover {
       color: var(--rex-colors-emphasis-60);
     }
   }
 `;
 
-interface ValueTagProps {
-  value: string;
+interface ValueTagProps<ValueType> {
+  value: ValueType;
   label: React.ReactNode;
   showDelete: boolean;
-  onDelete(v: string, event: any): void;
+
+  onDelete(v: ValueType, event: any): void;
 }
 
-const ValueTag = React.memo(({ value, label, onDelete, showDelete }: ValueTagProps) => (
+const ValueTag = <ValueType extends unknown>({ value, label, onDelete, showDelete }: ValueTagProps<ValueType>) => (
   <ValueTagDiv>
     {label}
     {showDelete && (
@@ -56,7 +59,7 @@ const ValueTag = React.memo(({ value, label, onDelete, showDelete }: ValueTagPro
       </span>
     )}
   </ValueTagDiv>
-));
+);
 
 const SelectTriggerDiv = styled.div`
   cursor: pointer;
@@ -161,7 +164,7 @@ const SelectTriggerDiv = styled.div`
     bottom: 0;
     display: flex;
     align-items: center;
-    padding: 4px 4px 4px 12px;
+    padding: 8px;
     background: var(--rex-colors-emphasis-0);
     position: absolute;
   }
@@ -187,119 +190,139 @@ const SelectTriggerDiv = styled.div`
   }
 `;
 
-export interface SelectTriggerProps extends ISelectAppearanceProps {
+export interface SelectTriggerProps<ValueType, IsMulti extends boolean> extends ISelectAppearanceProps {
   visible: boolean;
 
-  value: string[];
-  dataSource: SelectItem[];
+  value: MultiValue<ValueType>;
+  dataSource: SelectItem<ValueType>[];
+
   onChange(
-    nextValue: string[],
+    nextValue: MultiValue<ValueType>,
     detail: {
       event: React.MouseEvent;
       reason?: any; // TODO 规范 reason
     },
   ): void;
-  disabled?: boolean;
-  selectMode: 'single' | 'multiple';
 
+  disabled?: boolean;
+  multiple?: IsMulti;
   popupTargetRenderArg: PopupTargetRenderArgs[0];
-  getLabelByValue(value: string): React.ReactNode;
+
+  // TODO 这里如果 value 类型不为 value, 怎么去搜索到 value
+  getLabelByValue(value: ValueType): React.ReactNode;
 }
 
-export const SelectTrigger = React.forwardRef<HTMLDivElement, SelectTriggerProps>((props, ref) => {
-  const {
-    popupTargetRenderArg,
-    visible,
-    value,
-    dataSource,
-    onChange,
-    containerProps,
-    shape = 'solid',
-    className,
-    style,
-    hasClear,
-    selectMode,
-    placeholder = '请选择',
-    hasArrow = true,
-    status = 'normal',
-    disabled,
-    size, // todo
-    fill,
-    getLabelByValue,
-  } = props;
+type SelectTrigger = <ValueType, IsMulti extends boolean>(
+  props: SelectTriggerProps<ValueType, IsMulti> & RefAttributes<HTMLDivElement>,
+) => React.ReactElement;
 
-  const mergeRefs = useMemoizedMergeRefs();
+export const SelectTrigger = React.forwardRef(
+  <ValueType, IsMulti extends boolean>(props: SelectTriggerProps<ValueType, IsMulti>, ref: any) => {
+    const {
+      popupTargetRenderArg,
+      visible,
+      value,
+      multiple,
+      onChange,
+      containerProps,
+      shape = 'solid',
+      className,
+      style,
+      hasClear,
+      placeholder = '请选择',
+      hasArrow = true,
+      status = 'normal',
+      disabled,
+      loading,
+      fill,
+      getLabelByValue,
+    } = props;
 
-  const onClear = (event: React.MouseEvent) => {
-    event.stopPropagation();
-    onChange([], { event });
-  };
+    console.log('value111', value);
 
-  return (
-    <SelectTriggerDiv
-      ref={mergeRefs(popupTargetRenderArg.ref, ref)}
-      {...containerProps}
-      className={cx(
-        {
-          'rex-solid': shape === 'solid',
-          'rex-simple': shape === 'simple',
-          'rex-error': status === 'error',
-          'rex-warning': status === 'warning',
-          'rex-success': status === 'success',
-          'rex-disabled': disabled,
-          'rex-fill': fill,
-        },
-        className,
-      )}
-      style={style}
-      onClick={(event) => {
-        if (!disabled) {
-          popupTargetRenderArg.onClick(event);
-        }
-        containerProps?.onClick(event);
-      }}
-      tabIndex={0}
-    >
-      {value.length === 0 ? (
-        <span className="rex-select-placeholder">{placeholder}</span>
-      ) : selectMode === 'single' ? (
-        <span className="rex-select-value-preview">{getLabelByValue(value[0])}</span>
-      ) : (
-        <span className="rex-select-value-group">
-          {value.map((v) => (
-            <ValueTag
-              key={v}
-              value={v}
-              label={getLabelByValue(v)}
-              showDelete={!disabled}
-              onDelete={(v, event) => {
-                onChange(toggleValue(value, v), { event, reason: 'tag-close' });
-              }}
-            />
-          ))}
-        </span>
-      )}
+    const mergeRefs = useMemoizedMergeRefs();
 
-      {renderTriggerControls()}
-    </SelectTriggerDiv>
-  );
+    const onClear = (event: React.MouseEvent) => {
+      event.stopPropagation();
+      onChange([], { event });
+    };
 
-  function renderTriggerControls() {
-    const controls: React.ReactNode[] = [];
-    if (selectMode === 'multiple' && value.length > 0) {
-      controls.push(
-        <span key="count" style={{ marginRight: 4 }}>
-          共 {value.length} 项
-        </span>,
-      );
+    return (
+      <SelectTriggerDiv
+        ref={mergeRefs(popupTargetRenderArg.ref, ref)}
+        {...containerProps}
+        className={cx(
+          {
+            'rex-solid': shape === 'solid',
+            'rex-simple': shape === 'simple',
+            'rex-error': status === 'error',
+            'rex-warning': status === 'warning',
+            'rex-success': status === 'success',
+            'rex-disabled': disabled,
+            'rex-fill': fill,
+          },
+          className,
+        )}
+        style={style}
+        onClick={(event) => {
+          if (!disabled) {
+            popupTargetRenderArg.onClick(event);
+          }
+          containerProps?.onClick(event);
+        }}
+        tabIndex={0}
+      >
+        {value.length === 0 ? (
+          <span className="rex-select-placeholder">{placeholder}</span>
+        ) : multiple ? (
+          // 多选
+          <span className="rex-select-value-group">
+            {
+              // TODO fix type here
+              value.map((v: any) => (
+                <ValueTag
+                  key={v}
+                  value={v}
+                  label={getLabelByValue(v)}
+                  showDelete={!disabled}
+                  onDelete={(v, event) => {
+                    onChange(toggleValue(value, v), { event, reason: 'tag-close' });
+                  }}
+                />
+              ))
+            }
+          </span>
+        ) : (
+          // 单选
+          <span className="rex-select-value-preview">{getLabelByValue(value[0])}</span>
+        )}
+
+        {renderTriggerControls()}
+      </SelectTriggerDiv>
+    );
+
+    function renderTriggerControls() {
+      const controls: React.ReactNode[] = [];
+      if (multiple && value.length > 0) {
+        controls.push(
+          <span key="count" style={{ marginRight: 4 }}>
+            共 {value.length} 项
+          </span>,
+        );
+      }
+      if (hasClear && value.length > 0) {
+        controls.push(<ClearIcon key="select-clear" className="rex-select-clear" onClick={onClear} />);
+      }
+
+      if (hasArrow && !loading) {
+        controls.push(<CaretDownIcon key="select-arrow" className={cx('rex-select-arrow', { expanded: visible })} />);
+      }
+
+      if (loading) {
+        controls.push(<LoadingIndicator />);
+      }
+
+      return <div className="rex-select-trigger-controls">{controls}</div>;
     }
-    if (hasClear && value.length > 0) {
-      controls.push(<ClearIcon key="select-clear" className="rex-select-clear" onClick={onClear} />);
-    }
-    if (hasArrow) {
-      controls.push(<CaretDownIcon key="select-arrow" className={cx('rex-select-arrow', { expanded: visible })} />);
-    }
-
-    return <div className="rex-select-trigger-controls">{controls}</div>;
-  }
-});
+  },
+) as SelectTrigger;

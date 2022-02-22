@@ -1,6 +1,8 @@
 import { AbstractTreeNode, isLeafNode } from 'ali-react-table';
 import React from 'react';
-import { SelectItem } from '../types';
+import { devWarning } from '../../../utils/log';
+
+import type { MultiValue, OnChangeValue, SelectItem, SingleValue } from '../types';
 
 // todo 先暂时移除
 // export const rexLightScrollbarStyleMixin = css`
@@ -23,29 +25,49 @@ import { SelectItem } from '../types';
 //   }
 // `;
 
-export function toggleValue(value: string[], targetValue: string) {
+export function toggleValue<ValueType>(value: MultiValue<ValueType>, targetValue: ValueType) {
   return value.includes(targetValue) ? value.filter((v) => v !== targetValue) : [...value, targetValue];
 }
 
-export function filterDataSourceBySearchValue(trimmedSearchValue: string, dataSource: SelectItem[]) {
+export function filterDataSourceBySearchValue<ValueType>(
+  trimmedSearchValue: string,
+  dataSource: SelectItem<ValueType>[],
+) {
   const lowerCaseTrimmed = trimmedSearchValue.toLowerCase();
   if (!lowerCaseTrimmed) {
     return dataSource;
   }
 
-  return dataSource.filter(
-    (row) =>
-      row.value.toLowerCase().includes(lowerCaseTrimmed) ||
-      (typeof row.label === 'string' && row.label.toLowerCase().includes(lowerCaseTrimmed)),
-  );
+  // TODO 支持自定义搜索
+  return dataSource.filter((row) => {
+    if (typeof row.value === 'string') {
+      return (
+        row.value.toLowerCase().includes(lowerCaseTrimmed) ||
+        (typeof row.label === 'string' && row.label.toLowerCase().includes(lowerCaseTrimmed))
+      );
+    }
+
+    devWarning('如果选项 value 的类型不是 string, 请传入自定义搜索函数');
+  });
 }
 
 export const DefaultNotFoundContent = React.memo(() => (
   <div style={{ color: '#999', lineHeight: '32px', padding: 8 }}>无选项</div>
 ));
 
-export function getLast(value: string[]) {
+export function getLast<ValueType>(value: MultiValue<ValueType>): SingleValue<ValueType> {
   return value.length === 0 ? null : value[value.length - 1];
+}
+
+/**
+ * 三元操作, 取对应的 value
+ */
+export function valueTernary<Option, IsMulti extends boolean>(
+  isMulti: IsMulti | undefined,
+  multiValue: MultiValue<Option>,
+  singleValue: SingleValue<Option>,
+): OnChangeValue<Option, IsMulti> {
+  return (isMulti ? multiValue : singleValue) as OnChangeValue<Option, IsMulti>;
 }
 
 export const arrayUtils = {

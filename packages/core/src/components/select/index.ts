@@ -1,4 +1,4 @@
-export { Select, SelectProps } from './select';
+export { Select, SelectProps, RefactoredSelect } from './select';
 export { SingleSelectProps } from './single-select';
 export { MultiSelectProps } from './multi-select';
 

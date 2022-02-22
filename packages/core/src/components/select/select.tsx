@@ -1,5 +1,6 @@
 import React from 'react';
 import { MultiSelect, MultiSelectProps } from './multi-select';
+import { RefactoredSelect } from './refactor-select';
 import { SingleSelect, SingleSelectProps } from './single-select';
 
 export interface SelectProps extends Omit<MultiSelectProps, 'defaultValue' | 'value' | 'onChange'> {
@@ -27,3 +28,5 @@ export const Select: SelectType = React.forwardRef<HTMLDivElement, SelectProps>(
 
 Select.Single = SingleSelect;
 Select.Multi = MultiSelect;
+
+export { RefactoredSelect };

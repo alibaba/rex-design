@@ -12,6 +12,7 @@ import {
   ISelectAppearanceProps,
   ISelectPopupProps,
   ISelectSearchProps,
+  MultiValue,
   selectAppearancePropKeys,
   SelectItem,
 } from './types';
@@ -68,6 +69,7 @@ const SelectItemDiv = styled.div`
 
   &:not(.disabled) {
     cursor: pointer;
+
     &:hover {
       background: var(--rex-colors-emphasis-10);
     }
@@ -84,160 +86,176 @@ const SelectItemDiv = styled.div`
 
 // todo 支持键盘导航， focus tabIndex 也需要仔细设计一下
 
-function toggleValue(value: string[], targetValue: string) {
+function toggleValue<ValueType>(value: MultiValue<ValueType>, targetValue: ValueType) {
   return value.includes(targetValue) ? value.filter((v) => v !== targetValue) : [...value, targetValue];
 }
 
-export interface SelectViewProps extends ISelectAppearanceProps, ISelectSearchProps, ISelectPopupProps {
-  value: string[];
-  onChange(
-    nextValue: string[],
+export interface SelectViewProps<ValueType, IsMulti extends boolean>
+  extends ISelectAppearanceProps,
+    ISelectSearchProps,
+    ISelectPopupProps {
+  value: MultiValue<ValueType>;
+
+  onChange: (
+    nextValue: MultiValue<ValueType>,
     detail: {
       event: React.MouseEvent;
       reason?: any; // TODO 规范 reason
     },
-  ): void;
+  ) => void;
+
   disabled?: boolean;
-  dataSource: SelectItem[];
-  selectMode: 'single' | 'multiple';
+  dataSource: SelectItem<ValueType>[];
+  multiple: IsMulti;
 }
 
+type SelectView = <ValueType, IsMulti extends boolean>(
+  props: SelectViewProps<ValueType, IsMulti> & {
+    ref?: any;
+  },
+) => React.ReactElement;
+
 // 选择器视图组件，完全受控组件
-export const SelectView = React.forwardRef<HTMLDivElement, SelectViewProps>((props, ref) => {
-  const {
-    dataSource,
-    value,
-    onChange,
-    selectMode,
-    showSearch,
-    autoWidth = true,
-    autoHeight = true,
-    searchValue,
-    onSearch,
-    notFoundContent = <DefaultNotFoundContent />,
-    onRequestOpen,
-    onRequestClose,
-    visible,
-    popupProps,
-    disabled,
-    autoScrollToFirstItemWhenOpen = true,
-    autoCloseAfterSelect = selectMode === 'single',
-  } = props;
+export const SelectView = React.forwardRef(
+  <ValueType, IsMulti extends boolean>(props: SelectViewProps<ValueType, IsMulti>, ref: any) => {
+    const {
+      dataSource,
+      value,
+      onChange,
+      multiple,
+      showSearch,
+      autoWidth = true,
+      autoHeight = true,
+      searchValue,
+      onSearch,
+      notFoundContent = <DefaultNotFoundContent />,
+      onRequestOpen,
+      onRequestClose,
+      visible,
+      popupProps,
+      disabled,
+      autoScrollToFirstItemWhenOpen = true,
+      autoCloseAfterSelect = !multiple,
+    } = props;
 
-  const virtualListRef = useRef<VirtualList<SelectItem>>();
-  const searchInputWrapperRef = useRef<HTMLDivElement>(null);
+    const virtualListRef = useRef<VirtualList<SelectItem<ValueType>>>();
+    const searchInputWrapperRef = useRef<HTMLDivElement>(null);
 
-  const valueSet = new Set(value);
-  const trimmedSearchValue = searchValue.trim();
-  const searchActive = showSearch && trimmedSearchValue;
-  const filteredDataSource = searchActive ? filterDataSourceBySearchValue(trimmedSearchValue, dataSource) : dataSource;
+    const valueSet = new Set(value);
+    const trimmedSearchValue = searchValue.trim();
+    const searchActive = showSearch && trimmedSearchValue;
+    // TODO 支持自定义搜索
+    const filteredDataSource = searchActive
+      ? filterDataSourceBySearchValue(trimmedSearchValue, dataSource)
+      : dataSource;
 
-  const isNotFound = dataSource.length > 0 && filteredDataSource.length === 0;
-  const appearance: ISelectAppearanceProps = pick(props, selectAppearancePropKeys);
+    const isNotFound = dataSource.length > 0 && filteredDataSource.length === 0;
+    const appearance: ISelectAppearanceProps = pick(props, selectAppearancePropKeys);
 
-  const valueMap = new Map(dataSource.map((item) => [item.value, item]));
-  const getLabelByValue = (v: string) => valueMap.get(v)?.label ?? v;
+    const valueMap = new Map(dataSource.map((item) => [item.value, item]));
+    const getLabelByValue = (v: ValueType) => valueMap.get(v)?.label ?? v;
 
-  return (
-    <AdaptivePopup
-      visible={visible}
-      onRequestOpen={onRequestOpen}
-      onRequestClose={onRequestClose}
-      autoWidth={autoWidth}
-      autoHeight={autoHeight}
-      offset={[0, 4]}
-      interactionKind="click"
-      onOpen={() => {
-        if (autoScrollToFirstItemWhenOpen) {
-          const list = virtualListRef.current;
-          const index = list.props.rows.findIndex((row) => valueSet.has(row.value));
-          if (index !== -1) {
-            list.scrollToRow(index, VirtualListAlign.center);
-          }
-          const input = searchInputWrapperRef.current?.querySelector('input');
-          input?.focus();
-        }
-      }}
-      renderTarget={(arg: unknown) => (
-        <SelectTrigger
-          ref={ref}
-          visible={visible}
-          value={value}
-          dataSource={dataSource}
-          onChange={onChange}
-          popupTargetRenderArg={arg as PopupTargetRenderArgs[0]}
-          selectMode={selectMode}
-          getLabelByValue={getLabelByValue}
-          disabled={disabled}
-          {...appearance}
-        />
-      )}
-      renderChildren={renderSelectPanel}
-      {...popupProps}
-    />
-  );
-
-  function renderSelectPanel(arg: PopupChildrenRenderArg) {
     return (
-      <SelectPanelDiv
-        className="rex-select-panel"
-        ref={arg.ref as React.RefObject<HTMLDivElement>}
-        // @ts-ignore
-        $showSearch={showSearch}
-      >
-        {showSearch && (
-          <Input
-            className="rex-select-search"
-            ref={searchInputWrapperRef}
-            placeholder="搜索"
-            hasClear
-            value={searchValue}
-            onChange={(nextSearchValue) => {
-              if (showSearch) {
-                onSearch(nextSearchValue, { event: null });
-              }
-              if (!visible) {
-                onRequestOpen('search');
-              }
-            }}
+      <AdaptivePopup
+        visible={visible}
+        onRequestOpen={onRequestOpen}
+        onRequestClose={onRequestClose}
+        autoWidth={autoWidth}
+        autoHeight={autoHeight}
+        offset={[0, 4]}
+        interactionKind="click"
+        onOpen={() => {
+          if (autoScrollToFirstItemWhenOpen) {
+            const list = virtualListRef.current;
+            const index = list.props.rows.findIndex((row) => valueSet.has(row.value));
+            if (index !== -1) {
+              list.scrollToRow(index, VirtualListAlign.center);
+            }
+            const input = searchInputWrapperRef.current?.querySelector('input');
+            input?.focus();
+          }
+        }}
+        renderTarget={(arg: unknown) => (
+          <SelectTrigger
+            ref={ref}
+            visible={visible}
+            value={value}
+            dataSource={dataSource}
+            onChange={onChange}
+            popupTargetRenderArg={arg as PopupTargetRenderArgs[0]}
+            multiple={multiple}
+            getLabelByValue={getLabelByValue}
+            disabled={disabled}
+            {...appearance}
           />
         )}
-        {isNotFound && notFoundContent}
-
-        <div className={cx('rex-select-item-list-wrapper', { 'rex-empty': isNotFound })}>
-          <VirtualList
-            estimatedRowHeight={28}
-            ref={virtualListRef}
-            rows={filteredDataSource}
-            renderRow={(row, rowIndex, listRowDataset) => {
-              const selected = valueSet.has(row.value);
-
-              return (
-                <SelectItemDiv
-                  key={row.value}
-                  className={cx('rex-select-item', {
-                    selected: selected,
-                    disabled: row.disabled,
-                  })}
-                  {...listRowDataset}
-                  onClick={(event) => {
-                    if (row.disabled) {
-                      return;
-                    }
-                    onChange(toggleValue(value, row.value), { event });
-                    if (autoCloseAfterSelect) {
-                      onRequestClose();
-                    }
-                  }}
-                >
-                  <span className="rex-select-item-label">{row.label}</span>
-                  {selected && <TickIcon className="rex-select-item-tick" />}
-                </SelectItemDiv>
-              );
-            }}
-          />
-        </div>
-      </SelectPanelDiv>
+        renderChildren={renderSelectPanel}
+        {...popupProps}
+      />
     );
-  }
-});
+
+    function renderSelectPanel(arg: PopupChildrenRenderArg) {
+      return (
+        <SelectPanelDiv
+          className="rex-select-panel"
+          ref={arg.ref as React.RefObject<HTMLDivElement>}
+          // @ts-ignore
+          $showSearch={showSearch}
+        >
+          {showSearch && (
+            <Input
+              className="rex-select-search"
+              ref={searchInputWrapperRef}
+              placeholder="搜索"
+              hasClear
+              value={searchValue}
+              onChange={(nextSearchValue) => {
+                if (showSearch) {
+                  onSearch(nextSearchValue, { event: null });
+                }
+                if (!visible) {
+                  onRequestOpen('search');
+                }
+              }}
+            />
+          )}
+          {isNotFound && notFoundContent}
+
+          <div className={cx('rex-select-item-list-wrapper', { 'rex-empty': isNotFound })}>
+            <VirtualList
+              estimatedRowHeight={28}
+              ref={virtualListRef}
+              rows={filteredDataSource}
+              renderRow={(row, rowIndex, listRowDataset) => {
+                const selected = valueSet.has(row.value);
+
+                return (
+                  <SelectItemDiv
+                    key={row.value}
+                    className={cx('rex-select-item', {
+                      selected: selected,
+                      disabled: row.disabled,
+                    })}
+                    {...listRowDataset}
+                    onClick={(event) => {
+                      if (row.disabled) {
+                        return;
+                      }
+                      onChange(toggleValue(value, row.value), { event });
+                      if (autoCloseAfterSelect) {
+                        onRequestClose();
+                      }
+                    }}
+                  >
+                    <span className="rex-select-item-label">{row.label}</span>
+                    {selected && <TickIcon className="rex-select-item-tick" />}
+                  </SelectItemDiv>
+                );
+              }}
+            />
+          </div>
+        </SelectPanelDiv>
+      );
+    }
+  },
+) as SelectView;
