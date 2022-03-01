@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import _ from 'lodash-es';
-import { Button, Flex, RefactoredSelect as Select } from '@rexd/core';
+import { AsyncSelect, Button, Flex, Select } from '@rexd/core';
+import fetchJsonp from 'fetch-jsonp';
 
 export default { title: 'Select / Select' };
 
@@ -13,8 +14,11 @@ const standardDataSource = [
 
 export function Basic() {
   const [value, onChange] = useState('');
-
   return <Select value={value} onChange={onChange} hasClear hasArrow dataSource={standardDataSource} />;
+}
+
+export function Multiple() {
+  return <Select multiple style={{ width: 300 }} hasClear hasArrow dataSource={standardDataSource} />;
 }
 
 export function Fill() {
@@ -72,10 +76,6 @@ export function Status() {
   );
 }
 
-export function Multiple() {
-  return <Select multiple style={{ width: 300 }} hasClear hasArrow dataSource={standardDataSource} />;
-}
-
 export function Disabled() {
   return <Select hasClear hasArrow disabled value="淘宝2" dataSource={standardDataSource} />;
 }
@@ -88,4 +88,19 @@ export function PlaceWithButtons() {
       <Button>right</Button>
     </Flex>
   );
+}
+
+export function Async() {
+  const fetchItems = (inputValue: string): Promise<Array<{ label: string; value: string }>> => {
+    return fetchJsonp(`https://suggest.taobao.com/sug?code=utf-8&q=${inputValue}`)
+      .then((response) => response.json())
+      .then((data) => {
+        return data.result.map(([name, code]: any) => ({
+          label: name,
+          value: code,
+        }));
+      });
+  };
+
+  return <AsyncSelect multiple loadDataSource={fetchItems} />;
 }

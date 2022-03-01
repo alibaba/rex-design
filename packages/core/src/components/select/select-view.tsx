@@ -7,7 +7,7 @@ import { AdaptivePopup, PopupChildrenRenderArg, PopupTargetRenderArgs } from '..
 import { VirtualList, VirtualListAlign } from '../virtual-list';
 import { TickIcon } from './icons';
 import { SelectTrigger } from './select-trigger';
-import { DefaultNotFoundContent, filterDataSourceBySearchValue } from './utils/select-utils';
+import { DefaultNotFoundContent } from './utils/select-utils';
 import {
   ISelectAppearanceProps,
   ISelectPopupProps,
@@ -16,6 +16,7 @@ import {
   selectAppearancePropKeys,
   SelectItem,
 } from './types';
+import { buildInFilter } from './utils/filters';
 
 export const SelectPanelDiv = styled(AdaptivePopup.Panel)`
   max-height: 350px;
@@ -92,7 +93,7 @@ function toggleValue<ValueType>(value: MultiValue<ValueType>, targetValue: Value
 
 export interface SelectViewProps<ValueType, IsMulti extends boolean>
   extends ISelectAppearanceProps,
-    ISelectSearchProps,
+    ISelectSearchProps<ValueType>,
     ISelectPopupProps {
   value: MultiValue<ValueType>;
 
@@ -131,6 +132,7 @@ export const SelectView = React.forwardRef(
       autoHeight = true,
       searchValue,
       onSearch,
+      filterOption = buildInFilter,
       notFoundContent = <DefaultNotFoundContent />,
       onRequestOpen,
       onRequestClose,
@@ -146,17 +148,19 @@ export const SelectView = React.forwardRef(
 
     const valueSet = new Set(value);
     const trimmedSearchValue = searchValue.trim();
-    const searchActive = showSearch && trimmedSearchValue;
-    // TODO 支持自定义搜索
-    const filteredDataSource = searchActive
-      ? filterDataSourceBySearchValue(trimmedSearchValue, dataSource)
-      : dataSource;
+    const searchActive = showSearch && trimmedSearchValue && filterOption;
 
+    // 自定义搜索函数
+    const filteredDataSource = dataSource.filter((option) => {
+      return searchActive ? filterOption(trimmedSearchValue, option) : true;
+    });
+
+    // TODO NOTFOUND when async mode
     const isNotFound = dataSource.length > 0 && filteredDataSource.length === 0;
     const appearance: ISelectAppearanceProps = pick(props, selectAppearancePropKeys);
 
-    const valueMap = new Map(dataSource.map((item) => [item.value, item]));
-    const getLabelByValue = (v: ValueType) => valueMap.get(v)?.label ?? v;
+    const optionMap = new Map(dataSource.map((item) => [item.value, item]));
+    const getLabelByValue = (value: ValueType) => optionMap.get(value)?.label ?? value;
 
     return (
       <AdaptivePopup
@@ -174,6 +178,8 @@ export const SelectView = React.forwardRef(
             if (index !== -1) {
               list.scrollToRow(index, VirtualListAlign.center);
             }
+
+            // auto focus to search input
             const input = searchInputWrapperRef.current?.querySelector('input');
             input?.focus();
           }

@@ -243,8 +243,6 @@ export const SelectTrigger = React.forwardRef(
       getLabelByValue,
     } = props;
 
-    console.log('value111', value);
-
     const mergeRefs = useMemoizedMergeRefs();
 
     const onClear = (event: React.MouseEvent) => {

@@ -1,8 +1,7 @@
 import { AbstractTreeNode, isLeafNode } from 'ali-react-table';
 import React from 'react';
-import { devWarning } from '../../../utils/log';
 
-import type { MultiValue, OnChangeValue, SelectItem, SingleValue } from '../types';
+import type { MultiValue, OnChangeValue, SingleValue } from '../types';
 
 // todo 先暂时移除
 // export const rexLightScrollbarStyleMixin = css`
@@ -27,28 +26,6 @@ import type { MultiValue, OnChangeValue, SelectItem, SingleValue } from '../type
 
 export function toggleValue<ValueType>(value: MultiValue<ValueType>, targetValue: ValueType) {
   return value.includes(targetValue) ? value.filter((v) => v !== targetValue) : [...value, targetValue];
-}
-
-export function filterDataSourceBySearchValue<ValueType>(
-  trimmedSearchValue: string,
-  dataSource: SelectItem<ValueType>[],
-) {
-  const lowerCaseTrimmed = trimmedSearchValue.toLowerCase();
-  if (!lowerCaseTrimmed) {
-    return dataSource;
-  }
-
-  // TODO 支持自定义搜索
-  return dataSource.filter((row) => {
-    if (typeof row.value === 'string') {
-      return (
-        row.value.toLowerCase().includes(lowerCaseTrimmed) ||
-        (typeof row.label === 'string' && row.label.toLowerCase().includes(lowerCaseTrimmed))
-      );
-    }
-
-    devWarning('如果选项 value 的类型不是 string, 请传入自定义搜索函数');
-  });
 }
 
 export const DefaultNotFoundContent = React.memo(() => (

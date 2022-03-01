@@ -1,6 +1,5 @@
-export { Select, SelectProps, RefactoredSelect } from './select';
-export { SingleSelectProps } from './single-select';
-export { MultiSelectProps } from './multi-select';
+export { Select, SelectProps } from './select';
+export { AsyncSelect, AsyncSelectProps } from './async-select';
 
 export { TreeSelect, TreeSelectProps } from './tree-select';
 export { SingleTreeSelectProps } from './single-tree-select';

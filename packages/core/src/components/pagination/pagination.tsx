@@ -244,8 +244,8 @@ export function Pagination({
     nodes.push(
       <div key="page-size-select" className="rex-pagination-page-size-select">
         <span className="rex-pagination-page-size-select-label">每页显示</span>
-        <Select.Single
-          dataSource={pageSizeList.map(String)}
+        <Select
+          dataSource={pageSizeList.map((item) => ({ value: String(item), label: String(item) }))}
           value={String(pageSize)}
           onChange={(value: string) => onPageSizeChange(Number(value))}
           size={size}

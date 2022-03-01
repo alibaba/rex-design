@@ -14,12 +14,6 @@ export type OnChangeValue<ValueType, IsMulti extends boolean> = IsMulti extends 
 
 // ===================== Interfaces ===================== //
 
-export interface BaseSelectRef {
-  focus: () => void;
-  blur: () => void;
-  scrollTo: any;
-}
-
 export interface TreeSelectItem {
   value: string;
   label?: React.ReactNode;
@@ -117,7 +111,7 @@ export const selectAppearancePropKeys: (keyof ISelectAppearanceProps)[] = [
   'loading',
 ];
 
-export interface ISelectSearchProps {
+export interface ISelectSearchProps<ValueType> {
   /**
    * 是否支持搜索功能
    * @category 搜索
@@ -142,7 +136,8 @@ export interface ISelectSearchProps {
    * */
   onSearch(nextSearchValue: string, detail: { event: any /* todo */ }): void;
 
-  // TODO searchMode local | remote ? filterLocal
+  // TODO SelectItem<ValueType>
+  filterOption: ((inputValue: string, option: SelectItem<ValueType>) => boolean) | null;
 
   /**
    * 搜索结果为空时的展示内容
@@ -152,7 +147,15 @@ export interface ISelectSearchProps {
 }
 
 export interface ISelectAsyncProps {
-  loadDataSource: (searchValue: string) => Promise<any[]>;
+  /**
+   * 是否处于加载态
+   * 如果设置为 `false`, 则不会进入加载态, 即使 loadDataSource 尚未 resolve
+   */
+  loading?: boolean;
+  /**
+   * 加载异步数据源
+   */
+  loadDataSource?: (searchValue: string) => Promise<any[]>;
 }
 
 export interface ISelectPopupProps {
