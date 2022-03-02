@@ -1,5 +1,5 @@
 import { SelectItem } from '../types';
-import { devWarning } from '../../../utils/log';
+import { warn } from '../../../utils';
 
 /**
  * inspired by react-select
@@ -34,5 +34,5 @@ export function buildInFilter<ValueType>(searchValue: string, option: SelectItem
     );
   }
 
-  devWarning('如果选项 value 的类型不是 string, 请传入自定义搜索函数');
+  warn({ message: '如果选项 value 的类型不是 string, 请传入自定义搜索函数' });
 }
