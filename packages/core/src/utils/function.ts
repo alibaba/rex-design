@@ -28,12 +28,15 @@ export function callAll(...fns: any[]) {
 export function noop(...args: any[]) {}
 
 interface MessageOptions {
-  condition: boolean;
+  /**
+   * @default true
+   */
+  condition?: boolean;
   message: string;
 }
 
 export const warn = (options: MessageOptions) => {
-  const { condition, message } = options;
+  const { condition = true, message } = options;
   if (condition) {
     console.warn(message);
   }
