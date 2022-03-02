@@ -322,7 +322,7 @@ export const SelectTrigger = React.forwardRef(
       }
 
       if (loading) {
-        controls.push(<LoadingIndicator />);
+        controls.push(<LoadingIndicator key="select-loading-indicator" />);
       }
 
       return <div className="rex-select-trigger-controls">{controls}</div>;
