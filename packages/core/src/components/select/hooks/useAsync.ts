@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import type { SelectProps } from '../select';
-import type { ISelectAsyncProps } from '../types';
 import { useControllableState } from '../../../hooks';
+import type { SelectProps } from '../select';
+import type { ISelectAsyncProps, SelectItem } from '../types';
 
 export type AsyncSelectProps<ValueType, IsMulti extends boolean> = SelectProps<ValueType, IsMulti> & ISelectAsyncProps;
 
@@ -10,6 +10,7 @@ export function useSelectAsync<ValueType, IsMulti extends boolean>({
   loading: loadingProp,
   dataSource: dataSourceProp,
   onSearch: onSearchProp,
+  cacheOptions = true,
 
   // Async Presets
   showSearch = true,
@@ -34,6 +35,13 @@ export function useSelectAsync<ValueType, IsMulti extends boolean>({
   // Defaults to loading state if `loadDataSource` is a function
   const [isLoading, setIsLoading] = useState(typeof loadDataSource === 'function');
   const [loadedDataSource, setLoadedDataSource] = useState([]);
+  const [optionsCache, setOptionsCache] = useState<Record<string, Array<SelectItem<ValueType>>>>({});
+  const [prevCacheOptions, setPrevCacheOptions] = useState(undefined);
+
+  if (cacheOptions !== prevCacheOptions) {
+    setOptionsCache({});
+    setPrevCacheOptions(cacheOptions);
+  }
 
   useEffect(() => {
     mounted.current = true;
@@ -52,7 +60,7 @@ export function useSelectAsync<ValueType, IsMulti extends boolean>({
   }, []);
 
   const onSearch = useCallback(
-    (nextSearchValue: string, detail: any) => {
+    (nextSearchValue: string) => {
       if (!nextSearchValue) {
         lastRequest.current = undefined;
         setSearchValue('');
@@ -61,29 +69,31 @@ export function useSelectAsync<ValueType, IsMulti extends boolean>({
         return;
       }
 
-      const request = (lastRequest.current = {});
-      setSearchValue(nextSearchValue);
-      setIsLoading(true);
-
-      loadDataSource(nextSearchValue).then((nextDataSource) => {
-        if (!mounted) return;
-        if (request !== lastRequest.current) return;
-
-        lastRequest.current = undefined;
+      // 如果当前命中缓存, 直接读
+      if (cacheOptions && optionsCache[nextSearchValue]) {
+        setSearchValue(nextSearchValue);
+        setLoadedDataSource(optionsCache[nextSearchValue]);
         setIsLoading(false);
-        setLoadedDataSource(nextDataSource);
-      });
+      } else {
+        const request = (lastRequest.current = {});
+        setSearchValue(nextSearchValue);
+        setIsLoading(true);
+
+        loadDataSource(nextSearchValue).then((nextDataSource) => {
+          if (!mounted) return;
+          if (request !== lastRequest.current) return;
+
+          lastRequest.current = undefined;
+          setIsLoading(false);
+          setLoadedDataSource(nextDataSource);
+          setOptionsCache(nextDataSource ? { ...optionsCache, [nextSearchValue]: nextDataSource } : optionsCache);
+        });
+      }
     },
-    [loadDataSource, setSearchValue],
+    [cacheOptions, loadDataSource, optionsCache, setSearchValue],
   );
 
-  const dataSource = loadDataSource
-    ? // 开启远程搜索
-      isLoading
-      ? []
-      : loadedDataSource
-    : // 不开启远程搜索
-      dataSourceProp;
+  const dataSource = loadDataSource ? loadedDataSource : [];
 
   return {
     ...restSelectProps,

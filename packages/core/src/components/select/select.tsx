@@ -16,10 +16,11 @@ export interface SelectProps<ValueType, IsMulti extends boolean>
   extends ISelectAppearanceProps,
     Partial<ISelectSearchProps<ValueType>>,
     Partial<ISelectPopupProps> {
+  disabled?: boolean;
+
   multiple?: IsMulti;
   defaultValue?: PropsValue<ValueType>;
   value?: PropsValue<ValueType>;
-  disabled?: boolean;
   dataSource?: SelectItem<ValueType>[];
   onChange?(nextValue: OnChangeValue<ValueType, IsMulti>, detail: { event: React.MouseEvent }): void;
 }

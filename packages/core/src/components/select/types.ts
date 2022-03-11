@@ -38,6 +38,22 @@ export interface SelectItem<ValueType> {
   disabled?: boolean;
 }
 
+export const selectAppearancePropKeys: (keyof ISelectAppearanceProps)[] = [
+  'className',
+  'style',
+  'containerProps',
+  'size',
+  'fill',
+  'status',
+  'placeholder',
+  'shape',
+  'hasArrow',
+  'hasClear',
+  'loading',
+];
+
+// ============== Select Interfaces ==============
+
 export interface ISelectAppearanceProps {
   /** @category 外观 */
   className?: string;
@@ -97,20 +113,6 @@ export interface ISelectAppearanceProps {
   loading?: boolean;
 }
 
-export const selectAppearancePropKeys: (keyof ISelectAppearanceProps)[] = [
-  'className',
-  'style',
-  'containerProps',
-  'size',
-  'fill',
-  'status',
-  'placeholder',
-  'shape',
-  'hasArrow',
-  'hasClear',
-  'loading',
-];
-
 export interface ISelectSearchProps<ValueType> {
   /**
    * 是否支持搜索功能
@@ -134,10 +136,14 @@ export interface ISelectSearchProps<ValueType> {
    * 关键字修改回调
    * @category 搜索
    * */
-  onSearch(nextSearchValue: string, detail: { event: any /* todo */ }): void;
+  onSearch?(nextSearchValue: string, detail: { event: any /* todo */ }): void;
 
-  // TODO SelectItem<ValueType>
-  filterOption: ((inputValue: string, option: SelectItem<ValueType>) => boolean) | null;
+  filterOption?: ((inputValue: string, option: SelectItem<ValueType>) => boolean) | null;
+
+  /**
+   * 是否缓存选项
+   */
+  cacheOptions?: boolean;
 
   /**
    * 搜索结果为空时的展示内容
