@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Observable } from 'rxjs';
 
 export interface Disposable {
   dispose(): void;
@@ -52,3 +53,18 @@ export function startAnimate(
 
   return { dispose };
 }
+
+export const animationFrame$ = new Observable<number>((subscriber) => {
+  let handle: number;
+
+  const callback = (arg: number) => {
+    subscriber.next(arg);
+    handle = requestAnimationFrame(callback);
+  };
+
+  callback(performance.now());
+
+  return () => {
+    cancelAnimationFrame(handle);
+  };
+});
