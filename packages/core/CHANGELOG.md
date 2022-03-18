@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.2](https://github.com/alibaba/rex-design/compare/@rexd/core@0.5.0...@rexd/core@0.5.2) (2022-03-18)
+
+
+### Bug Fixes
+
+* **Overlay:** export animationFrame$ ([2379f57](https://github.com/alibaba/rex-design/commit/2379f572bdb6dba9d65170aa8677b02188056777))
+* **Overlay:** stabilize animate id ([283eee6](https://github.com/alibaba/rex-design/commit/283eee6880589add9fd02a75d46df8e6ae26e722))
+
+
+
+
+
 # [0.5.0](https://github.com/alibaba/rex-design/compare/@rexd/core@0.4.0...@rexd/core@0.5.0) (2021-12-16)
 
 
