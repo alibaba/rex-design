@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.6.0](https://github.com/alibaba/rex-design/compare/@rexd/core@0.5.2...@rexd/core@0.6.0) (2022-03-28)
+
+
+### Bug Fixes
+
+* **ActionList:** `onSelect` second param changed ([2d316b7](https://github.com/alibaba/rex-design/commit/2d316b7d611bc0635b1b4dd3868f34290967583a))
+
+
+### BREAKING CHANGES
+
+* **ActionList:** `onSelect` use item as second param directly
+
+
+
+
+
 ## [0.5.2](https://github.com/alibaba/rex-design/compare/@rexd/core@0.5.0...@rexd/core@0.5.2) (2022-03-18)
 
 

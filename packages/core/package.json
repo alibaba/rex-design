@@ -1,6 +1,6 @@
 {
   "name": "@rexd/core",
-  "version": "0.5.2",
+  "version": "0.6.0",
   "description": "A responsive and adaptive components library, with ability to config theme and color mode.",
   "module": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
