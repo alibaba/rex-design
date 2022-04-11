@@ -43,7 +43,7 @@ export function useActionList(props: UseActionListProps) {
       const hasSeparator = hasSeparatorProp && index !== lastIndex;
       const handleSelect = () => {
         if (typeof onSelect === 'function') {
-          onSelect(key, { item });
+          onSelect(key, item);
         }
       };
 

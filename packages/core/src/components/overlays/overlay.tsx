@@ -249,13 +249,14 @@ export class Overlay extends React.Component<OverlayProps, OverlayState> {
     }
   }
 
-  private resolveEnterAnimation(instruction: IOverlayAnimationProps): null | string | Keyframes {
+  private resolveEnterAnimation(instruction: IOverlayAnimationProps): null | string {
     const { animation: animationProp } = this.props;
     if (animationProp === false || instruction?.animation === false) {
       return null;
     }
 
-    return instruction?.animation?.in ?? animationProp?.in ?? null;
+    const animation = instruction?.animation?.in ?? animationProp?.in ?? null;
+    return typeof animation === 'string' ? animation : animation.getName();
   }
 
   // 处理打开浮层的动画
@@ -275,6 +276,8 @@ export class Overlay extends React.Component<OverlayProps, OverlayState> {
 
     const overlayOpenInstruction = await beforeOpen?.();
 
+    console.log('overlayOpenInstruction', overlayOpenInstruction);
+
     this.overlayAnimateInst?.dispose();
     this.overlayAnimateInst = startAnimate(inner, this.resolveEnterAnimation(overlayOpenInstruction), () => {
       afterOpen?.();
@@ -284,13 +287,14 @@ export class Overlay extends React.Component<OverlayProps, OverlayState> {
     onOpen?.();
   }
 
-  private resolveExitAnimation(instruction: IOverlayAnimationProps): null | string | Keyframes {
+  private resolveExitAnimation(instruction: IOverlayAnimationProps) {
     const { animation: animationProp } = this.props;
     if (animationProp === false || instruction?.animation === false) {
       return null;
     }
 
-    return instruction?.animation?.out ?? animationProp?.out ?? null;
+    const animation = instruction?.animation?.out ?? animationProp?.out ?? null;
+    return typeof animation === 'string' ? animation : animation.getName();
   }
 
   private async doCloseOverlay(force = false) {

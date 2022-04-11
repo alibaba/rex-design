@@ -202,7 +202,7 @@ export class Toast extends React.Component<ToastProps, ToastState> {
   componentDidUpdate(prevProps: unknown, prevState: Readonly<ToastState>) {
     const { shrinking } = this.state;
     if (!prevState.shrinking && shrinking) {
-      const disposable = startAnimate(this.shrinkingRef.current, Overlay.animations.zeroHeight, () => {
+      const disposable = startAnimate(this.shrinkingRef.current, Overlay.animations.zeroHeight.getName(), () => {
         this.clear();
       });
       this.subscription.add(() => disposable.dispose());

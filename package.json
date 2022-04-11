@@ -11,7 +11,9 @@
     "build:doc": "yarn workspace doc build",
     "test": "yarn workspace @rexd/core test",
     "test:watch": "yarn workspace @rexd/core test:watch",
-    "postinstall": "is-ci || husky install"
+    "postinstall": "is-ci || husky install",
+    "version": "lerna version --conventional-commits",
+    "clean": "lerna clean && rr node_modules && yarn clean"
   },
   "workspaces": [
     "packages/*"
