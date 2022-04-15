@@ -9,18 +9,19 @@
     "build:core": "yarn workspace @rexd/core build",
     "build:story": "yarn workspace story build",
     "build:doc": "yarn workspace doc build",
-    "test": "yarn workspace @rexd/core test",
+    "test": "jest",
     "test:watch": "yarn workspace @rexd/core test:watch",
     "postinstall": "is-ci || husky install",
     "version": "lerna version --conventional-commits",
-    "clean": "lerna clean && rr node_modules && yarn clean"
+    "clean": "lerna clean && rm -rf node_modules",
+    "update": "yarn run clean && yarn"
   },
   "workspaces": [
     "packages/*"
   ],
   "resolutions": {
-    "@types/react": "16.9.56",
-    "terser": "4.8.0"
+    "@types/react": "17.0.43",
+    "terser": "5.12.1"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
@@ -29,9 +30,21 @@
     ]
   },
   "devDependencies": {
+    "@babel/core": "^7.17.9",
+    "@babel/plugin-proposal-class-properties": "^7.16.7",
+    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-react": "^7.16.7",
+    "@babel/preset-typescript": "^7.16.7",
     "@commitlint/cli": "^12.1.1",
     "@commitlint/config-conventional": "^12.1.1",
-    "@types/jest": "^26.0.13",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^12.1.5",
+    "@testing-library/react-hooks": "^8.0.0",
+    "@testing-library/user-event": "^14.1.0",
+    "@types/jest": "^27.4.1",
+    "@types/react": "^17.0.43",
+    "@types/react-dom": "^17.0.15",
+    "@types/react-is": "^17.0.3",
     "@typescript-eslint/eslint-plugin": "^4.14.2",
     "@typescript-eslint/parser": "^4.14.2",
     "copyfiles": "^2.4.1",
@@ -46,15 +59,16 @@
     "eslint-plugin-testing-library": "^3.10.1",
     "husky": "^6.0.0",
     "is-ci": "^3.0.0",
-    "jest": "^26.4.2",
+    "jest": "^27.5.1",
+    "jest-styled-components": "^7.0.8",
     "lerna": "^4.0.0",
     "lint-staged": "^10.5.3",
     "prettier": "^2.1.1",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
     "rimraf": "^3.0.2",
-    "ts-jest": "^26.3.0",
-    "typescript": "~4.2",
+    "ts-jest": "^27.1.4",
+    "typescript": "^4.6.3",
     "yarn": "^1.22.10"
   },
   "dependencies": {}
