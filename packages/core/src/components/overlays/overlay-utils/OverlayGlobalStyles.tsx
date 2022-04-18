@@ -281,7 +281,7 @@ export const OverlayGlobalStyles = createGlobalStyle<{ colorMode: ColorMode }>`
   }
 
   .rex-fullscreen-popup-panel {
-    min-width: 30%;
+    min-width: 70%;
     max-width: 90%;
   }
 
