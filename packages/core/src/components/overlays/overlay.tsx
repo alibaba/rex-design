@@ -276,8 +276,6 @@ export class Overlay extends React.Component<OverlayProps, OverlayState> {
 
     const overlayOpenInstruction = await beforeOpen?.();
 
-    console.log('overlayOpenInstruction', overlayOpenInstruction);
-
     this.overlayAnimateInst?.dispose();
     this.overlayAnimateInst = startAnimate(inner, this.resolveEnterAnimation(overlayOpenInstruction), () => {
       afterOpen?.();
