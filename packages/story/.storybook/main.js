@@ -35,6 +35,13 @@ module.exports = {
     },
   ],
 
+  framework: '@storybook/react',
+
+  core: {
+    builder: 'webpack5',
+    disableTelemetry: true, // 👈 Disables telemetry
+  },
+
   webpack: async (config) => {
     if (config.mode === 'production') {
       // 在生产环境下关闭 devtool

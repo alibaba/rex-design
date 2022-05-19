@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@types/lodash-es": "^4.17.4",
-    "@types/react": "^16.9.49",
+    "@types/react": "^17.0.43",
     "@types/react-color": "^3.0.4",
     "axios": "^0.21.1",
     "fetch-jsonp": "^1.2.1",
@@ -21,11 +21,13 @@
     "react-json-view": "^1.21.3"
   },
   "devDependencies": {
-    "@storybook/addon-essentials": "6.4.13",
+    "@storybook/addon-essentials": "6.5.0",
     "@storybook/addon-knobs": "6.1.21",
-    "@storybook/addons": "6.4.13",
-    "@storybook/react": "6.4.13",
-    "@storybook/theming": "6.4.13",
+    "@storybook/addons": "6.5.0",
+    "@storybook/builder-webpack5": "6.5.0",
+    "@storybook/manager-webpack5": "6.5.0",
+    "@storybook/react": "6.5.0",
+    "@storybook/theming": "6.5.0",
     "rimraf": "^3.0.2"
   }
 }
