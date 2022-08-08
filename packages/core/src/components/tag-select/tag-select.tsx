@@ -2,21 +2,11 @@ import cx from 'classnames';
 import React from 'react';
 import { useSelectableList, UseSelectableListProps } from '../../hooks';
 import { ListNode } from '../../types';
-import { createContext } from '../../utils';
-import { Group, GroupProps } from '../layout';
+import { Box, Flex, FlexProps, Grid, GridProps } from '../layout';
+import { TagSelectProvider, useTagSelectContext } from './context';
 import { CheckableTag, CheckableTagProps } from './tag';
 
-interface TagFilterContext {
-  value?: string | string[];
-  onSelect?: (value: string, checked: boolean) => void;
-}
-
-const [TagFilterProvider, useTagFilter] = createContext<TagFilterContext>({
-  name: 'ToggleButtonGroupContext',
-  strict: false,
-});
-
-export interface TagFilterProps extends Omit<UseSelectableListProps<string | string[]>, 'component'> {
+export interface TagSelectProps extends Omit<UseSelectableListProps<string | string[]>, 'component'> {
   /**
    * 数据源
    */
@@ -26,13 +16,17 @@ export interface TagFilterProps extends Omit<UseSelectableListProps<string | str
    */
   size?: CheckableTagProps['size'];
   /**
+   * 列数
+   */
+  columns?: number;
+  /**
    * 布局属性
    */
-  layoutProps?: GroupProps;
+  layoutProps?: Omit<GridProps, 'columns'> | FlexProps;
   className?: string;
 }
 
-export function TagFilter(props: TagFilterProps) {
+export function TagSelect(props: TagSelectProps) {
   const {
     size = 'medium',
     dataSource = [],
@@ -40,9 +34,11 @@ export function TagFilter(props: TagFilterProps) {
     value: valueProp,
     defaultValue,
     onChange,
-    layoutProps,
+    layoutProps = {
+      spacing: 'm',
+    },
     className,
-    ...rest
+    columns,
   } = props;
 
   const { value, onSelect } = useSelectableList({
@@ -59,16 +55,26 @@ export function TagFilter(props: TagFilterProps) {
     onSelect,
   };
 
+  const items = dataSource.map(({ label, value, ...others }) => (
+    <TagFilterItem size={size} key={value} value={value} {...others}>
+      {label}
+    </TagFilterItem>
+  ));
+
   return (
-    <TagFilterProvider value={group}>
-      <Group className={clazz} {...layoutProps} {...rest}>
-        {dataSource.map(({ label, value, ...others }) => (
-          <TagFilterItem size={size} key={value} value={value} {...others}>
-            {label}
-          </TagFilterItem>
-        ))}
-      </Group>
-    </TagFilterProvider>
+    <TagSelectProvider value={group}>
+      <Box className="rex-tag-select">
+        {columns ? (
+          <Grid className={clazz} columns={columns} {...layoutProps}>
+            {items}
+          </Grid>
+        ) : (
+          <Flex className={clazz} flexWrap="wrap" {...layoutProps}>
+            {items}
+          </Flex>
+        )}
+      </Box>
+    </TagSelectProvider>
   );
 }
 
@@ -78,7 +84,7 @@ interface TagFilterItemProps extends CheckableTagProps {
 
 function TagFilterItem(props: TagFilterItemProps) {
   const { value, selected: selectedProp, children, ...rest } = props;
-  const group = useTagFilter();
+  const group = useTagSelectContext();
 
   let selected = selectedProp;
   if (group?.value !== undefined && value) {
