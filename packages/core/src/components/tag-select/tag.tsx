@@ -1,4 +1,3 @@
-import { Icon } from '@rexd/icon';
 import React from 'react';
 import styled from 'styled-components';
 import { Box, BoxProps } from '../layout';
@@ -48,11 +47,9 @@ export const CheckableTag = (props: CheckableTagProps) => {
       };
 
   const sizeStyles = sizeMap[size];
-  const icon = selected ? <Icon type="select-bold" /> : null;
 
   return (
     <StyledTag border="solid" px="xl" borderRadius="s" {...colorStyles} {...sizeStyles} {...others}>
-      {icon}
       {children}
     </StyledTag>
   );
