@@ -25,9 +25,12 @@ const attachedStyle = css`
 `;
 
 const normalStyle = css<any>`
-  > *:not(:last-child) {
-    margin-right: ${(props) => props.$spacingX};
+  > * {
     margin-bottom: ${(props) => props.$spacingY};
+
+    &:not(:last-child) {
+      margin-right: ${(props) => props.$spacingX};
+    }
   }
 `;
 
