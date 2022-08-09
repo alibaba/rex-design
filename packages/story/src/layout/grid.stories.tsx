@@ -72,7 +72,7 @@ export function Spacing() {
  */
 export function ColSpan() {
   return (
-    <Grid height="100px" templateColumns="repeat(12, 1fr)" gap="4px">
+    <Grid height="100px" templateColumns="repeat(12, 1fr)" gridGap="4px">
       <GridItem colSpan={4} bg="blue" />
       <GridItem colSpan={8} bg="orange" />
     </Grid>
@@ -84,11 +84,7 @@ export function ColSpan() {
  */
 export function Complex() {
   return (
-    <Grid
-      height="200px"
-      templateRows="repeat(2, 1fr)"
-      templateColumns="repeat(5, 1fr)"
-      gap="4px">
+    <Grid height="200px" templateRows="repeat(2, 1fr)" templateColumns="repeat(5, 1fr)" gridGap="4px">
       <GridItem rowSpan={2} colSpan={1} bg="black" />
       <GridItem colSpan={2} bg="orange" />
       <GridItem colSpan={2} bg="orange" />
@@ -99,7 +95,7 @@ export function Complex() {
 
 export function StartEnd() {
   return (
-    <Grid templateColumns="repeat(5, 1fr)" gap="4px">
+    <Grid templateColumns="repeat(5, 1fr)" gridGap="4px">
       <GridItem colSpan={2} height="40px" bg="tomato" />
       <GridItem colStart={4} colEnd={6} height="40px" bg="papayawhip" />
     </Grid>
