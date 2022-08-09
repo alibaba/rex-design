@@ -14,9 +14,9 @@ test('ui', () => {
   expect(container.firstChild).toMatchSnapshot();
 });
 
-test('onClick', () => {
+test('onClick', async () => {
   const onClick = jest.fn();
-  render(<Button onClick={onClick}>submit</Button>);
-  userEvent.click(screen.getByRole('button'));
+  render(<button onClick={onClick}>submit</button>);
+  await userEvent.click(screen.getByRole('button'));
   expect(onClick).toHaveBeenCalledTimes(1);
 });
