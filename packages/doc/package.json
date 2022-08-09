@@ -63,7 +63,7 @@
     "klaw": "^3.0.0",
     "micromatch": "^4.0.2",
     "raw-loader": "^4.0.2",
-    "react-docgen-typescript-plugin": "^0.7.0",
+    "react-docgen-typescript-plugin": "^1.0.1",
     "remark": "^13.0.0",
     "remark-frontmatter": "^3.0.0",
     "remark-parse": "^9.0.0",
