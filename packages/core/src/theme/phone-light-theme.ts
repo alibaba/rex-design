@@ -6,7 +6,6 @@ export const phoneLightTheme = extendTheme(base, {
   fontSizes: {
     note: '10px',
     body: '14px',
-
     subtitle: '16px',
     title: '18px',
     subheader: '19px',

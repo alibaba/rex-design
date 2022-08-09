@@ -46,21 +46,5 @@ export const Size = () => (
 );
 
 export const Columns = () => (
-  <Group>
-    <TagSelect
-      columns={2}
-      selectMode="multiple"
-      dataSource={list}
-      defaultValue={['front-end']}
-      onChange={console.log}
-    />
-    <br />
-    <TagSelect
-      columns={3}
-      selectMode="multiple"
-      dataSource={list}
-      defaultValue={['front-end']}
-      onChange={console.log}
-    />
-  </Group>
+  <TagSelect columns={3} selectMode="multiple" dataSource={list} defaultValue={['front-end']} onChange={console.log} />
 );

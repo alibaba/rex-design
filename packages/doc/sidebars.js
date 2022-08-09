@@ -62,6 +62,7 @@ module.exports = {
             'textarea',
             'search',
             'select',
+            'tag-select',
             'tree-select',
             'cascader-select',
           ],

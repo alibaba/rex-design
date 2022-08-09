@@ -2,7 +2,7 @@ import cx from 'classnames';
 import React from 'react';
 import { useSelectableList, UseSelectableListProps } from '../../hooks';
 import { ListNode } from '../../types';
-import { Box, Flex, FlexProps, Grid, GridProps } from '../layout';
+import { Box, FlexProps, Grid, GridProps, Group } from '../layout';
 import { TagSelectProvider, useTagSelectContext } from './context';
 import { CheckableTag, CheckableTagProps } from './tag';
 
@@ -35,7 +35,8 @@ export function TagSelect(props: TagSelectProps) {
     defaultValue,
     onChange,
     layoutProps = {
-      spacing: 'm',
+      spacingX: 'm',
+      spacingY: 'm',
     },
     className,
     columns,
@@ -69,9 +70,9 @@ export function TagSelect(props: TagSelectProps) {
             {items}
           </Grid>
         ) : (
-          <Flex className={clazz} flexWrap="wrap" {...layoutProps}>
+          <Group className={clazz} flexWrap="wrap" {...layoutProps}>
             {items}
-          </Flex>
+          </Group>
         )}
       </Box>
     </TagSelectProvider>

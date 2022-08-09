@@ -7,10 +7,6 @@ const StyledTag = styled(Box)`
   display: inline-flex;
   align-items: center;
   vertical-align: middle;
-
-  svg {
-    margin-right: var(--rex-space-m);
-  }
 `;
 
 const sizeMap: Record<string, BoxProps> = {
@@ -40,6 +36,7 @@ export const CheckableTag = (props: CheckableTagProps) => {
     ? {
         borderColor: 'brand.normal',
         color: 'brand.normal',
+        backgroundColor: 'rgba(56, 98, 207, .05)',
       }
     : {
         borderColor: 'line.border',
