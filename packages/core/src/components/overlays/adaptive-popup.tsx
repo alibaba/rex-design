@@ -3,10 +3,12 @@ import React, { useState } from 'react';
 import { useDevice } from '../../providers';
 import { composeHandlers, composeState, pick } from '../../utils';
 import { Panel, PanelProps } from '../layout';
-import { Dialog, DialogProps } from './dialog';
 import { Popup, PopupProps, PopupTargetRenderArgs } from './popup';
+import { DrawerProps } from './drawer';
+import { Dialog } from './dialog';
+import { animations } from './overlay-utils/animations';
 
-export interface FullscreenPopupProps
+export interface PickerPopupProps
   extends Omit<
       PopupProps,
       | 'renderTarget'
@@ -21,7 +23,7 @@ export interface FullscreenPopupProps
       | 'hasArrow'
       | 'children'
     >,
-    Pick<DialogProps, 'placement'> {
+    Pick<DrawerProps, 'placement'> {
   renderTarget?(arg0: Partial<PopupTargetRenderArgs[0]>, arg1: PopupTargetRenderArgs[1]): React.ReactNode;
   renderChildren?(arg: { ref: React.Ref<Element>; children?: React.ReactNode }): React.ReactNode;
   style?: React.CSSProperties;
@@ -29,14 +31,14 @@ export interface FullscreenPopupProps
 }
 
 /**
- * 全屏弹层组件；表现与 PC Dialog 类似，用法参考 PC Popup.
+ * 移动端 Picker 弹出组件；表现与 PC Drawer 类似，用法参考 PC Popup.
  *
  * `<FullscreenPopup />` 包含以下限制：
- * - 无法指定 placement，目前总是居中对齐
+ * - 无法指定 placement，目前总是从下方弹出
  * - 无法指定弹层的高级参数（例如 flip/offset/autoHeight/autoWidth...）
  * - 弹层触发类型只支持 click
  * */
-export function FullscreenPopup(props: FullscreenPopupProps) {
+export function PickerPopup(props: PickerPopupProps) {
   const [_visible, _setVisible] = useState(Boolean(props.defaultVisible));
   const visible = composeState(props.visible, _visible);
   const onRequestClose = composeHandlers(props.onRequestClose, () => _setVisible(false));
@@ -50,13 +52,13 @@ export function FullscreenPopup(props: FullscreenPopupProps) {
     renderChildren,
     canCloseByOutSideClick = true,
     canCloseByEsc = true,
-    animation,
+    animation = { in: animations.slideInBottom, out: animations.slideOutBottom },
     portalContainer,
     usePortal,
     hasBackdrop = true,
     backdropStyle,
     backdropClassName,
-    placement,
+    placement = 'bottom',
   } = props;
 
   const overlayLifecycles = pick(props, ['beforeOpen', 'onOpen', 'afterOpen', 'beforeClose', 'onClose', 'afterClose']);
@@ -90,13 +92,16 @@ export function FullscreenPopup(props: FullscreenPopupProps) {
 export function AdaptivePopup({
   fullscreenProps,
   ...others
-}: (PopupProps | FullscreenPopupProps) & {
-  fullscreenProps?: Partial<FullscreenPopupProps>;
-  children?: never; // AdaptivePopup 不支持 children，这里显式的用 TS 声明
+}: (PopupProps | PickerPopupProps) & {
+  fullscreenProps?: Partial<PickerPopupProps>;
+  /** AdaptivePopup 不支持 children，这里显式地用 TS 声明 */
+  children?: never;
 }) {
   const device = useDevice();
-  const isFullscreen = ['tablet', 'phone'].includes(device.name);
-  const PopupComponent = isFullscreen ? FullscreenPopup : Popup;
+  const isFullscreen = 'tablet' === device.name;
+  const isDrawer = 'phone' === device.name;
+
+  const PopupComponent = isFullscreen ? PickerPopup : isDrawer ? PickerPopup : Popup;
   const props: any = {
     ...others,
     ...(isFullscreen ? fullscreenProps : null),
@@ -104,7 +109,9 @@ export function AdaptivePopup({
   return <PopupComponent {...props} />;
 }
 
-/** 和 AdaptivePopup 搭配使用的 Panel 组件，在 phone 端下会追加额外的样式 */
+/**
+ * 和 AdaptivePopup 搭配使用的 Panel 组件，在 phone 端下会追加额外的样式
+ */
 AdaptivePopup.Panel = React.forwardRef<HTMLElement, PanelProps>((props, ref) => {
   const { className, children, ...rest } = props;
 

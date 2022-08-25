@@ -15,7 +15,7 @@ export {
   PopupTargetRenderArgs,
   PopupChildrenRenderArg,
 } from './popup';
-export { FullscreenPopupProps, FullscreenPopup, AdaptivePopup } from './adaptive-popup';
+export { PickerPopupProps, PickerPopup, AdaptivePopup } from './adaptive-popup';
 export { Tooltip, TooltipProps } from './tooltip';
 export { Dialog, DialogProps } from './dialog';
 export { FullscreenDialog, FullscreenDialogProps, AdaptiveDialog } from './adaptive-dialog';
