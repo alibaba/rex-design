@@ -1,7 +1,7 @@
 import { Icon } from '@rexd/icon';
 import cx from 'classnames';
 import React, { useMemo } from 'react';
-import { useGesture } from 'react-use-gesture';
+import { useGesture } from '@use-gesture/react';
 import { Dayjs } from '../../dayjs';
 import { Button } from '../button';
 import { Box, Flex } from '../layout';
@@ -86,7 +86,7 @@ export function DateTable(props: DateTableProps) {
 
   const bind = useGesture(
     {
-      onDrag: ({ vxvy: [vx, vy], last }) => {
+      onDrag: ({ velocity: [vx, vy], last }) => {
         if (last && vy > 0) {
           ctx.onSelectMonth(visibleMonth.add(-1, 'month'));
         } else if (last && vy < 0) {

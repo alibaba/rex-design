@@ -3275,6 +3275,52 @@
     prop-types "^15.6.1"
     react-lifecycles-compat "^3.0.4"
 
+"@react-spring/animated@~9.5.3":
+  version "9.5.3"
+  resolved "https://registry.npmmirror.com/@react-spring/animated/download/@react-spring/animated-9.5.3.tgz#776467b0da017e3b870e5f5d7f8ffbe78eacf50c"
+  integrity sha512-szc9p8/Krt4snU3lQvCt+p9lV8dc8GZEhQ3+MLhUHIvtNk+ppF97X0RmuRFFF7sbzKsqCKh5k37CzLjc4hP/7Q==
+  dependencies:
+    "@react-spring/shared" "~9.5.3"
+    "@react-spring/types" "~9.5.3"
+
+"@react-spring/core@~9.5.3":
+  version "9.5.3"
+  resolved "https://registry.npmmirror.com/@react-spring/core/download/@react-spring/core-9.5.3.tgz#b9eea5f5c68b07073adae589ad0483b4743caffe"
+  integrity sha512-j4jsgOcBX+jjqEcKq31C7K/gEqoSVg7HbeN4jNiyyxZNlZIUV+UKMC3U68SzpisPjccRT4zuauvgLz/9aesxCg==
+  dependencies:
+    "@react-spring/animated" "~9.5.3"
+    "@react-spring/rafz" "~9.5.3"
+    "@react-spring/shared" "~9.5.3"
+    "@react-spring/types" "~9.5.3"
+
+"@react-spring/rafz@~9.5.3":
+  version "9.5.3"
+  resolved "https://registry.npmmirror.com/@react-spring/rafz/download/@react-spring/rafz-9.5.3.tgz#adcc2be902bb7a7da5c14405cf54b36ce1886a94"
+  integrity sha512-F2YOfyph8lTDcfu0cRvg8+N/rtq7xghx25fE5v6mkn2b0Rw4ZitXdTsjzTDTc6raJl8juGSSAyEALCPBFHpHHw==
+
+"@react-spring/shared@~9.5.3":
+  version "9.5.3"
+  resolved "https://registry.npmmirror.com/@react-spring/shared/download/@react-spring/shared-9.5.3.tgz#032328be53f176e7898353989bbb003481b6f8db"
+  integrity sha512-nxXJRhbmER6XSBkmKsBpFcDgtGiupioOC00ZP8eqcE1wNqVILo30UCn6Dm9HGW1QNt9S6oEqF7JxiO4xMq/9eQ==
+  dependencies:
+    "@react-spring/rafz" "~9.5.3"
+    "@react-spring/types" "~9.5.3"
+
+"@react-spring/types@~9.5.3":
+  version "9.5.3"
+  resolved "https://registry.npmmirror.com/@react-spring/types/download/@react-spring/types-9.5.3.tgz#3c39221395cb72f495f848bf807134a42236ebee"
+  integrity sha512-4ljjcVAOIzFdHhmXPag/9yvd7sX4Lf0p8DYFU8ITuEUXDIi4aQbMKgbylQrweEXKeWNrSyAg6UoBCYrwQdolPg==
+
+"@react-spring/web@^9.5.3":
+  version "9.5.3"
+  resolved "https://registry.npmmirror.com/@react-spring/web/download/@react-spring/web-9.5.3.tgz#08df37569d4f36caf31851352d5a6d5fed745c5c"
+  integrity sha512-eLHwLjzISaQ6uOrpn36uSrm8sG00VnQiU1txz8Gt/OXxj6mh+xslV4ezBM5oEnVBgjQX9kLpcIl9/5IuPV8Jbw==
+  dependencies:
+    "@react-spring/animated" "~9.5.3"
+    "@react-spring/core" "~9.5.3"
+    "@react-spring/shared" "~9.5.3"
+    "@react-spring/types" "~9.5.3"
+
 "@sideway/address@^4.1.3":
   version "4.1.4"
   resolved "https://registry.npmmirror.com/@sideway/address/-/address-4.1.4.tgz#03dccebc6ea47fdc226f7d3d1ad512955d4783f0"
@@ -5380,7 +5426,7 @@
 
 "@types/react@*", "@types/react@17.0.43", "@types/react@^17", "@types/react@^17.0.43":
   version "17.0.43"
-  resolved "https://registry.npmmirror.com/@types/react/-/react-17.0.43.tgz#4adc142887dd4a2601ce730bc56c3436fdb07a55"
+  resolved "https://registry.npmmirror.com/@types/react/download/@types/react-17.0.43.tgz#4adc142887dd4a2601ce730bc56c3436fdb07a55"
   integrity sha512-8Q+LNpdxf057brvPu1lMtC5Vn7J119xrP1aq4qiaefNioQUYANF/CYeK4NsKorSZyUGJ66g0IM+4bbjwx45o2A==
   dependencies:
     "@types/prop-types" "*"
@@ -5600,6 +5646,18 @@
   dependencies:
     "@typescript-eslint/types" "4.33.0"
     eslint-visitor-keys "^2.0.0"
+
+"@use-gesture/core@10.2.19":
+  version "10.2.19"
+  resolved "https://registry.npmmirror.com/@use-gesture/core/download/@use-gesture/core-10.2.19.tgz#cbb249ef714a554564518fcac2c9ed3eb15ba89e"
+  integrity sha512-fsvuWmEfDDVgCEChLZuJFO8ZgBQLsEsL40ncv+HWYbkF90SwrLo2lkCu+O9TZa9ipqWC2KBXl27pRODY5ogr4w==
+
+"@use-gesture/react@^10.2.19":
+  version "10.2.19"
+  resolved "https://registry.npmmirror.com/@use-gesture/react/download/@use-gesture/react-10.2.19.tgz#3e5d4757aaad9efe0e40ef17a952e9d5e10e97aa"
+  integrity sha512-pzRBEHehKKaM0T1bRlvLACfUlFetfaTrNH3mduJlRTsWvgKV+SNhoGxZzIavqyZW1kcIacYeXPr3XfvutpoN2w==
+  dependencies:
+    "@use-gesture/core" "10.2.19"
 
 "@webassemblyjs/ast@1.11.1":
   version "1.11.1"
@@ -16892,7 +16950,7 @@ react-docgen-typescript-plugin@^1.0.1:
 
 react-docgen-typescript@2.2.2, react-docgen-typescript@^1.22.0, react-docgen-typescript@^2.1.1:
   version "2.2.2"
-  resolved "https://registry.npmmirror.com/react-docgen-typescript/-/react-docgen-typescript-2.2.2.tgz#4611055e569edc071204aadb20e1c93e1ab1659c"
+  resolved "https://registry.npmmirror.com/react-docgen-typescript/download/react-docgen-typescript-2.2.2.tgz#4611055e569edc071204aadb20e1c93e1ab1659c"
   integrity sha512-tvg2ZtOpOi6QDwsb3GZhOjDkkX0h8Z2gipvTg6OVMUyoYoURhEiRNePT8NZItTVCDh39JJHnLdfCOkzoLbFnTg==
 
 react-docgen@^5.0.0:
@@ -17153,11 +17211,6 @@ react-transition-group@^4.3.0:
     dom-helpers "^5.0.1"
     loose-envify "^1.4.0"
     prop-types "^15.6.2"
-
-react-use-gesture@^9.1.3:
-  version "9.1.3"
-  resolved "https://registry.npmmirror.com/react-use-gesture/-/react-use-gesture-9.1.3.tgz#92bd143e4f58e69bd424514a5bfccba2a1d62ec0"
-  integrity sha512-CdqA2SmS/fj3kkS2W8ZU8wjTbVBAIwDWaRprX7OKaj7HlGwBasGEFggmk5qNklknqk9zK/h8D355bEJFTpqEMg==
 
 react@^16.14.0:
   version "16.14.0"
@@ -19363,7 +19416,7 @@ terser-webpack-plugin@^5.0.3, terser-webpack-plugin@^5.1.3:
 
 terser@5.12.1, terser@^4.1.2, terser@^4.6.3, terser@^5.10.0, terser@^5.3.4, terser@^5.7.2:
   version "5.12.1"
-  resolved "https://registry.npmmirror.com/terser/-/terser-5.12.1.tgz#4cf2ebed1f5bceef5c83b9f60104ac4a78b49e9c"
+  resolved "https://registry.npmmirror.com/terser/download/terser-5.12.1.tgz#4cf2ebed1f5bceef5c83b9f60104ac4a78b49e9c"
   integrity sha512-NXbs+7nisos5E+yXwAD+y7zrcTkMqb0dEJxIGtSKPdCBzopf7ni4odPul2aechpV7EXNvOudYOX2bb5tln1jbQ==
   dependencies:
     acorn "^8.5.0"
