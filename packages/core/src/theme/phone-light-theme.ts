@@ -43,8 +43,8 @@ export const phoneLightTheme = extendTheme(base, {
 
     TimePicker: {
       triggerWidth: '100%',
-      normalPanelWidth: '90vw',
-      simplePanelWidth: '90vw',
+      normalPanelWidth: '100vw',
+      simplePanelWidth: '100vw',
       panelMenuItemHeight: '40px', // 需要保持和日期组件的格子一样大
     },
 

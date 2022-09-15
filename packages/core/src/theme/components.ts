@@ -156,7 +156,8 @@ const components = {
     normalPanelWidth: '200px',
     simplePanelWidth: '200px',
     panelMenuItemHeight: '28px', // 需要保持和日期组件的格子一样大
-
+    listStartMaskBg:
+      'linear-gradient(0deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.65) 35%, rgba(255, 255, 255, 0.95) 100%)',
     listEndMaskBg:
       'linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.65) 35%, rgba(255, 255, 255, 0.95) 100%)',
   },
