@@ -48,10 +48,10 @@ export const ScrollWheelWrapper = styled(Box)`
   position: relative;
   text-align: center;
   user-select: none;
-  touch-action: none;
   color: var(--rex-colors-text-body);
 
   .${classPrefix}-column-wheel {
+    touch-action: none;
     width: 100%;
     cursor: grab;
     position: absolute;
