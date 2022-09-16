@@ -1,5 +1,5 @@
-import React from 'react';
-import { PickerView } from '@rexd/core';
+import React, { useState } from 'react';
+import { Button, Picker, PickerView } from '@rexd/core';
 
 export default { title: 'PickerView', component: PickerView };
 
@@ -17,13 +17,38 @@ const basicColumns = [
   ],
 ];
 
+export function Basic() {
+  const [visible, setVisible] = useState(false);
+  const [value, setValue] = useState<string[]>([]);
+  return (
+    <>
+      <Button
+        onClick={() => {
+          setVisible(true);
+        }}
+      >
+        选择
+      </Button>
+      <Picker
+        columns={basicColumns}
+        visible={visible}
+        onRequestClose={() => {
+          setVisible(false);
+        }}
+        value={value}
+        onConfirm={(value, detail) => {
+          setValue(value);
+          console.log('onChange', value, detail);
+        }}
+      />
+    </>
+  );
+}
+
 export function PickerViewBasic() {
   return (
     <div style={{ marginTop: 200 }}>
       <PickerView
-        // onClose={() => setVisible(false)}
-        // onCancel={() => setVisible(false)}
-        // onOk={() => setVisible(false)}
         value={['Tues', 'am']}
         columns={basicColumns}
         onChange={(...args) => console.log('change:', ...args)}
