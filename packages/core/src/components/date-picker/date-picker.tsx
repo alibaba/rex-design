@@ -62,7 +62,6 @@ export function DatePicker(props: DatePickerProps) {
 
   const { visible, onClose, onOpen } = useVisible({});
   const [value, updateValue] = useControllableState<Dayjs>({
-    name: 'DatePicker',
     value: formatDateValue(valueProp, format),
     defaultValue: formatDateValue(defaultValue, format),
     onChange: (date: Dayjs) => {
