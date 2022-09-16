@@ -22,8 +22,9 @@ export interface PickerPopupProps
       | 'autoWidth'
       | 'hasArrow'
       | 'children'
+      | 'onRequestClose'
     >,
-    Pick<DrawerProps, 'placement'> {
+    Pick<DrawerProps, 'placement' | 'onRequestClose' | 'onClose' | 'onOpen'> {
   renderTarget?(arg0: Partial<PopupTargetRenderArgs[0]>, arg1: PopupTargetRenderArgs[1]): React.ReactNode;
   renderChildren?(arg: { ref: React.Ref<Element>; children?: React.ReactNode }): React.ReactNode;
   style?: React.CSSProperties;
