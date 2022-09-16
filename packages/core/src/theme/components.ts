@@ -151,6 +151,10 @@ const components = {
     elementFontSize: '16px', // body * 1.5
   },
 
+  Picker: {
+    itemHeight: '40px',
+  },
+
   TimePicker: {
     triggerWidth: '200px',
     normalPanelWidth: '200px',

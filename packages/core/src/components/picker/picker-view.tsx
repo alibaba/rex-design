@@ -3,7 +3,7 @@ import { mergeProps } from '../../utils/prop-utils';
 import { useControllableState } from '../../hooks';
 import { useColumnsDetail } from './columns-extend';
 import { ScrollWheel } from './scroll-wheel';
-import { classPrefix, PickerViewContainer, PickerViewMask } from './styled';
+import { pickerViewClassPrefix, PickerViewContainer, PickerViewMask } from './styled';
 import { Box } from '../layout/index';
 
 export type PickerValue = string | null;
@@ -68,9 +68,9 @@ export const PickerView = memo<PickerViewProps>((_props) => {
         />
       ))}
       <PickerViewMask>
-        <Box className={`${classPrefix}-mask-top`} />
-        <Box className={`${classPrefix}-mask-middle`} />
-        <Box className={`${classPrefix}-mask-bottom`} />
+        <Box className={`${pickerViewClassPrefix}-mask-top`} />
+        <Box className={`${pickerViewClassPrefix}-mask-middle`} />
+        <Box className={`${pickerViewClassPrefix}-mask-bottom`} />
       </PickerViewMask>
     </PickerViewContainer>
   );

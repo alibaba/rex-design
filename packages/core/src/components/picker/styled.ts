@@ -2,7 +2,8 @@ import styled from 'styled-components';
 import { Box } from '../layout/index';
 import { getToken } from '../../utils/index';
 
-export const classPrefix = `rex-picker-view`;
+export const pickerClassPrefix = 'rex-picker';
+export const pickerViewClassPrefix = 'rex-picker-view';
 
 export const PickerViewContainer = styled(Box)`
   --height: 240px;
@@ -11,7 +12,16 @@ export const PickerViewContainer = styled(Box)`
   display: flex;
   position: relative;
   overflow: hidden;
-  background: var(--adm-color-background);
+`;
+
+export const PickerHeader = styled(Box)`
+  height: 52px;
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--rex-colors-emphasis-30);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px;
 `;
 
 export const PickerViewMask = styled(Box)`
@@ -24,20 +34,20 @@ export const PickerViewMask = styled(Box)`
   display: flex;
   flex-direction: column;
   pointer-events: none;
-  > .${classPrefix}-mask-top, > .${classPrefix}-mask-bottom {
+  > .${pickerViewClassPrefix}-mask-top, > .${pickerViewClassPrefix}-mask-bottom {
     flex: auto;
   }
-  > .${classPrefix}-mask-middle {
+  > .${pickerViewClassPrefix}-mask-middle {
     height: ${getToken('TimePicker.panelMenuItemHeight')};
     box-sizing: border-box;
     flex: none;
     border-top: solid 1px var(--rex-colors-emphasis-20);
     border-bottom: solid 1px var(--rex-colors-emphasis-20);
   }
-  > .${classPrefix}-mask-top {
+  > .${pickerViewClassPrefix}-mask-top {
     background: var(--rex-components-TimePicker-listStartMaskBg);
   }
-  > .${classPrefix}-mask-bottom {
+  > .${pickerViewClassPrefix}-mask-bottom {
     background: var(--rex-components-TimePicker-listEndMaskBg);
   }
 `;
@@ -50,12 +60,12 @@ export const ScrollWheelWrapper = styled(Box)`
   user-select: none;
   color: var(--rex-colors-text-body);
 
-  .${classPrefix}-column-wheel {
+  .${pickerViewClassPrefix}-column-wheel {
     touch-action: none;
     width: 100%;
     cursor: grab;
     position: absolute;
-    top: calc(50% - ${getToken('TimePicker.panelMenuItemHeight')} / 2);
+    top: calc(50% - ${getToken('Picker.itemHeight')} / 2);
     left: 0;
     &::before {
       content: ' ';
@@ -78,7 +88,7 @@ export const ScrollWheelWrapper = styled(Box)`
 
 export const ScrollWheelItem = styled(Box)`
   padding: 0 6px;
-  height: ${getToken('TimePicker.panelMenuItemHeight')};
+  height: ${getToken('Picker.itemHeight')};
   display: flex;
   justify-content: center;
   align-items: center;

@@ -10,7 +10,7 @@ import { supportsPassive } from '../../utils/support-passive';
 import { bound } from '../../utils/bound';
 import { rubberbandIfOutOfBounds } from '../../utils/rubberband';
 import { useIsomorphicLayoutEffect } from '../../hooks';
-import { classPrefix, ScrollWheelItem, ScrollWheelWrapper } from './styled';
+import { pickerViewClassPrefix, ScrollWheelItem, ScrollWheelWrapper } from './styled';
 
 interface Props {
   index: number;
@@ -136,8 +136,8 @@ export const ScrollWheel = memo<Props>(
     let selectedIndex: number | null = null;
 
     return (
-      <ScrollWheelWrapper className={`${classPrefix}-column`}>
-        <animated.div ref={rootRef} style={{ translateY: y }} className={`${classPrefix}-column-wheel`}>
+      <ScrollWheelWrapper className={`${pickerViewClassPrefix}-column`}>
+        <animated.div ref={rootRef} style={{ translateY: y }} className={`${pickerViewClassPrefix}-column-wheel`}>
           {column.map((item, index) => {
             const selected = valueProp === item.value;
             if (selected) {
@@ -153,10 +153,10 @@ export const ScrollWheel = memo<Props>(
               <ScrollWheelItem
                 key={item.key ?? item.value}
                 data-selected={item.value === valueProp}
-                className={`${classPrefix}-column-item`}
+                className={`${pickerViewClassPrefix}-column-item`}
                 onClick={handleClick}
               >
-                <Box className={`${classPrefix}-column-item-label`}>{renderLabel(item)}</Box>
+                <Box className={`${pickerViewClassPrefix}-column-item-label`}>{renderLabel(item)}</Box>
               </ScrollWheelItem>
             );
           })}

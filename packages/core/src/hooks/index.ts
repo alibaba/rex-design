@@ -1,4 +1,5 @@
-export { useControllableProp, UseControllableProps, useControllableState } from './use-controllable';
+export { useControllableProp, UseControllableStateProps, useControllableState } from './use-controllable';
+export { useCallbackRef } from './use-callback-ref';
 export { useEventListener } from './use-event-listener';
 export { useBoolean } from './use-boolean';
 export { useId } from './use-id';
