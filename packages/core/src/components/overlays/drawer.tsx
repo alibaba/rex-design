@@ -47,7 +47,7 @@ export interface DrawerProps
   visible?: boolean;
 
   /** 抽屉被关闭时的回调 */
-  onRequestClose?(reason: any): void;
+  onRequestClose?(reason?: any): void;
 
   /** 抽屉出现的位置 */
   placement?: 'left' | 'right' | 'top' | 'bottom';

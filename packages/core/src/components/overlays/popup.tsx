@@ -136,10 +136,10 @@ export interface PopupProps
   defaultVisible?: boolean;
 
   /** 弹层请求关闭时触发事件的回调函数 */
-  onRequestClose?(reason: any): void;
+  onRequestClose?(reason?: any): void;
 
   /** 弹层请求打开时触发事件的回调函数 */
-  onRequestOpen?(reason: any): void;
+  onRequestOpen?(reason?: any): void;
 
   /** 弹层方向 */
   placement?: PopupPlacement;
